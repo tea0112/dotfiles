@@ -113,4 +113,6 @@ alias apti="sudo apt install"
 alias nvcfg="nvim ~/dot/.config/nvim"
 
 export GOPATH=$HOME/go
-export PATH=$PATH:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$GOROOT/bin:$GOPATH/bin
+export PATH=$PATH:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$GOROOT/bin:$GOPATH/bin:/home/thai/lua-language-server/bin
+
+alias luamake=/home/thai/lua-language-server/3rd/luamake/luamake

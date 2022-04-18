@@ -35,6 +35,7 @@ local on_attach = function(client, bufnr)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
 local lspconfig = require("lspconfig")
@@ -102,4 +103,35 @@ lspconfig.rust_analyzer.setup({
 lspconfig.gopls.setup({
   on_attach = on_attach,
   capabilities = capabilities,
+})
+
+----------------------------------
+----------------------------------
+----------------------------------
+------------ null-ls -------------
+----------------------------------
+----------------------------------
+----------------------------------
+
+local null_ls = require("null-ls")
+
+local formatting = null_ls.builtins.formatting
+local diagnostics = null_ls.builtins.diagnostics
+local completion = null_ls.builtins.completion
+
+null_ls.setup({
+	sources = {
+		formatting.autopep8,
+		formatting.clang_format.with({
+			extra_args = {
+				"--style=Google",
+			},
+		}),
+		diagnostics.eslint,
+		diagnostics.flake8,
+		diagnostics.cppcheck,
+		completion.spell,
+    capabilities = capabilities,
+    on_attach = on_attach,
+	},
 })
