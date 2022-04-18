@@ -116,3 +116,7 @@ export GOPATH=$HOME/go
 export PATH=$PATH:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$GOROOT/bin:$GOPATH/bin:/home/thai/lua-language-server/bin
 
 alias luamake=/home/thai/lua-language-server/3rd/luamake/luamake
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
