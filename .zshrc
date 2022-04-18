@@ -109,3 +109,6 @@ export LANG=en_US.UTF-8
 alias zshconfig="nvim ~/.zshrc"
 alias srcz="source ~/.zshrc"
 alias nv="nvim"
+alias apti="sudo apt install"
+
+export PATH=$PATH:~/.local/bin
