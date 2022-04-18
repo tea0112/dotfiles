@@ -15,9 +15,6 @@ local ns_opts = { noremap = true, silent = true }
 ------------------------------------------
 ------------------------------------------
 
--- format file
--- utils.map("n", "<space>f", ":lua vim.lsp.buf.formatting()<CR>", ns_opts)
-
 -- turn off highlight
 utils.map("n", "<Esc>", ":noh<CR><Esc>", ns_opts)
 
@@ -81,8 +78,6 @@ utils.map("v", "F", "<leader><leader>F", {})
 utils.map("v", "f", "<leader><leader>f", {})
 
 ------------------------------------------
-------------------------------------------
-------------- terminal mode --------------
 ------------------------------------------
 ------------------------------------------
 
