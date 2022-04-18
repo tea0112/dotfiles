@@ -91,4 +91,15 @@ lspconfig.clangd.setup({
 	capabilities = capabilities,
 })
 
+-- rust -- 
+lspconfig.rust_analyzer.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
 
+
+-- rust -- 
+lspconfig.gopls.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})

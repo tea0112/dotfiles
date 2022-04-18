@@ -106,9 +106,11 @@ export LANG=en_US.UTF-8
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-alias zshconfig="nvim ~/.zshrc"
+alias zshconfig="nvim ~/dot/.zshrc"
 alias srcz="source ~/.zshrc"
 alias nv="nvim"
 alias apti="sudo apt install"
+alias nvcfg="nvim ~/dot/.config/nvim"
 
-export PATH=$PATH:~/.local/bin
+export GOPATH=$HOME/go
+export PATH=$PATH:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$GOROOT/bin:$GOPATH/bin

@@ -33,8 +33,12 @@ utils.map("n", "<A-l>", ":wincmd l<CR>", ns_opts)
 utils.map("n", "F", "<leader><leader>F", {})
 utils.map("n", "f", "<leader><leader>f", {})
 
+-- toggle terminal
+--utils.map("n", "<Leader>t", ":FloatermToggle --height=0.6 --width=0.4<CR>", ns_opts)
+utils.map("n", "<Leader>t", ":FloatermShow<CR>", ns_opts)
+
 -- open terminal
-utils.map("n", "<Leader>t", ":FloatermToggle --height=0.6 --width=0.4<CR>", ns_opts)
+utils.map("n", "<F1>", ":FloatermNew! --height=0.6 --width=0.4 cd %:p:h<CR>", ns_opts)
 
 -- telescope
 utils.map("n", "<Leader>ff", "<cmd>Telescope find_files<cr>", ns_opts)
