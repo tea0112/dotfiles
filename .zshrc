@@ -111,6 +111,7 @@ alias srcz="source ~/.zshrc"
 alias nv="nvim"
 alias apti="sudo apt install"
 alias nvcfg="nvim ~/dot/.config/nvim"
+alias lk="zdict -dt oxford"
 
 export GOPATH=$HOME/go
 export PATH=$PATH:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$GOROOT/bin:$GOPATH/bin:/home/thai/lua-language-server/bin
