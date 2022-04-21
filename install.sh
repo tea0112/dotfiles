@@ -9,6 +9,7 @@ config_dir="${dir}/.config"
 
 #i3_config_dir="${config_dir}/i3"
 alacritty_config_dir="${config_dir}/alacritty"
+polybar_config_dir="${config_dir}/polybar"
 nvim_config_dir="${config_dir}/nvim"
 zathura_config_dir="${config_dir}/zathura"
 
@@ -38,10 +39,16 @@ if [ -d "$zathura_config_dir" ]; then
     rm -rf "${zathura_config_dir}"
 fi
 
+if [ -d "$polybar_config_dir" ]; then
+    rm -rf "${polybar_config_dir}"
+fi
+
 dotfiles_dir=$(pwd)
 
 # create symbolic link of alacritty
 ln -sf ${dotfiles_dir}/.config/i3 ${config_dir}
+# create symbolic link of polybar
+ln -sf ${dotfiles_dir}/.config/polybar ${config_dir}
 # create symbolic link of alacritty
 ln -sf ${dotfiles_dir}/.config/alacritty ${config_dir}
 # create symbolic link of neovim
