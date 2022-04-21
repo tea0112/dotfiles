@@ -116,6 +116,7 @@ alias lk="zdict -dt oxford"
 alias gi3="cd ~/dotfiles/.config/i3"
 alias gply="cd ~/.config/polybar"
 alias luamake=/home/thai/lua-language-server/3rd/luamake/luamake
+alias pdotfiles='git add . && git commit -m "update" && git push -u origin master'
 
 export EDITOR=nvim
 export GOPATH=$HOME/go
