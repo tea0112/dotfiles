@@ -114,6 +114,7 @@ alias pi="sudo pacman -S"
 alias envim="nvim ~/dotfiles/.config/nvim"
 alias lk="zdict -dt oxford"
 alias ei3="nvim ~/dotfiles/.config/i3/config"
+alias ealacritty="nvim ~/dotfiles/.config/alacritty/alacritty.yml"
 alias epolybar="nvim ~/.config/polybar"
 alias luamake=/home/thai/lua-language-server/3rd/luamake/luamake
 alias pdotfiles='git add . && git commit -m "update" && git push -u origin master'
