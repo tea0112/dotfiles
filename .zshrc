@@ -107,14 +107,14 @@ export LANG=en_US.UTF-8
 #
 # Example aliases
 alias zshconfig="nvim ~/dotfiles/.zshrc"
-alias srcz="source ~/.zshrc"
+alias szsh="source ~/.zshrc"
 alias nv="nvim"
 alias apti="sudo apt install"
 alias pi="sudo pacman -S"
-alias nvcfg="nvim ~/dotfiles/.config/nvim"
+alias envim="nvim ~/dotfiles/.config/nvim"
 alias lk="zdict -dt oxford"
-alias gi3="cd ~/dotfiles/.config/i3"
-alias gply="cd ~/.config/polybar"
+alias ei3="nvim ~/dotfiles/.config/i3/config"
+alias epolybar="nvim ~/.config/polybar"
 alias luamake=/home/thai/lua-language-server/3rd/luamake/luamake
 alias pdotfiles='git add . && git commit -m "update" && git push -u origin master'
 alias se="sudoedit"
