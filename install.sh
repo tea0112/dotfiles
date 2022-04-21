@@ -41,6 +41,8 @@ fi
 dotfiles_dir=$(pwd)
 
 # create symbolic link of alacritty
+ln -sf ${dotfiles_dir}/.config/i3 ${config_dir}
+# create symbolic link of alacritty
 ln -sf ${dotfiles_dir}/.config/alacritty ${config_dir}
 # create symbolic link of neovim
 ln -sf ${dotfiles_dir}/.config/nvim ${config_dir}
