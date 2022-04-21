@@ -115,12 +115,12 @@ alias nvcfg="nvim ~/dotfiles/.config/nvim"
 alias lk="zdict -dt oxford"
 alias gi3="cd ~/dotfiles/.config/i3"
 alias gply="cd ~/.config/polybar"
+alias luamake=/home/thai/lua-language-server/3rd/luamake/luamake
 
 export EDITOR=nvim
 export GOPATH=$HOME/go
 export PATH=$PATH:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$GOROOT/bin:$GOPATH/bin:/home/thai/lua-language-server/bin
-
-alias luamake=/home/thai/lua-language-server/3rd/luamake/luamake
+export PATH=$PATH:/opt/cmake-3.23.1-linux-x86_64/bin
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
