@@ -117,6 +117,11 @@ alias gi3="cd ~/dotfiles/.config/i3"
 alias gply="cd ~/.config/polybar"
 alias luamake=/home/thai/lua-language-server/3rd/luamake/luamake
 alias pdotfiles='git add . && git commit -m "update" && git push -u origin master'
+alias se="sudoedit"
+# check what wakeup
+alias wkd="cat /sys/bus/usb/devices/*/power/wakeup"
+# check what wakeup name
+alias wkn="ll /sys/bus/usb/devices/*/power/wakeup"
 
 export EDITOR=nvim
 export GOPATH=$HOME/go
