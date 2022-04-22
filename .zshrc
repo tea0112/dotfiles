@@ -123,6 +123,7 @@ alias se="sudoedit"
 alias wkd="cat /sys/bus/usb/devices/*/power/wakeup"
 # check what wakeup name
 alias wkn="ll /sys/bus/usb/devices/*/power/wakeup"
+alias cdotfiles="cd ~/dotfiles"
 
 export EDITOR=nvim
 export GOPATH=$HOME/go

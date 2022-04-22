@@ -1,3 +1,7 @@
+function Ra()
+  vim.cmd "%s//*/g"
+end
+
 local utils = {}
 
 function utils.map(mode, left, right, opts)
