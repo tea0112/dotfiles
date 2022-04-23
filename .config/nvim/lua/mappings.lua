@@ -21,8 +21,14 @@ utils.map("n", "dd", "\"_dd", ns_opts)
 -- paste from y
 utils.map("n", "p", "\"yp", ns_opts)
 
+-- paste from y using leader
+utils.map("n", "<Leader>p", "\"+p", ns_opts)
+
 -- copy to y
 utils.map("n", "yy", "\"yyy", ns_opts)
+
+-- copy to plus register
+utils.map("n", "<Leader>y", "\"+y", ns_opts)
 
 -- turn off highlight
 utils.map("n", "<Esc>", ":noh<CR><Esc>", ns_opts)
@@ -83,6 +89,9 @@ utils.map("i", "jk", "<Esc>", ns_opts)
 ------------------------------------------
 ------------------------------------------
 
+-- copy to y
+utils.map("v", "y", "\"yy", ns_opts)
+
 utils.map("v", "F", "<leader><leader>F", {})
 utils.map("v", "f", "<leader><leader>f", {})
 
@@ -91,6 +100,12 @@ utils.map("v", "d", "\"_d", ns_opts)
 
 -- paste from y
 utils.map("v", "p", "\"yp", ns_opts)
+
+-- paste from y using leader
+utils.map("v", "<Leader>p", "\"+p", ns_opts)
+
+-- copy to plus register
+utils.map("v", "<Leader>y", "\"+y", ns_opts)
 
 ------------------------------------------
 ------------------------------------------
