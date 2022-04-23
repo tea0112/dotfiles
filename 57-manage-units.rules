@@ -1,0 +1,11 @@
+// create a new rule in Polkit to allow your user.
+// sudo vim /etc/polkit-1/rules.d/57-manage-units.rules
+
+// Allow thai user to manage systemd;
+// fall back to implicit authorization otherwise.
+polkit.addRule(function(action, subject) {
+    if (action.id == "org.freedesktop.systemd1.manage-units"
+        && subject.user == "thai") {
+        return polkit.Result.YES;
+    }
+});

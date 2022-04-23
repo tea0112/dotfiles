@@ -125,6 +125,9 @@ alias wkd="cat /sys/bus/usb/devices/*/power/wakeup"
 alias wkn="ll /sys/bus/usb/devices/*/power/wakeup"
 alias cdotfiles="cd ~/dotfiles"
 
+export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+export QT_IM_MODULE=ibus
 export EDITOR=nvim
 export GOPATH=$HOME/go
 export PATH=$PATH:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$GOROOT/bin:$GOPATH/bin:/home/thai/lua-language-server/bin
