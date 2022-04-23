@@ -61,7 +61,8 @@ utils.map("n", "<Leader>fg", "<cmd>Telescope live_grep<cr>", ns_opts)
 utils.map("n", "<Leader>fb", "<cmd>Telescope buffers<cr>", ns_opts)
 utils.map("n", "<Leader>fh", "<cmd>Telescope help_tags<cr>", ns_opts)
 
--- delete to hole register
+-- lsp
+utils.map("n", "<Leader>lf", ":lua vim.lsp.buf.formatting()<CR>", ns_opts)
 
 ------------------------------------------
 ------------------------------------------
