@@ -124,6 +124,7 @@ alias wkd="cat /sys/bus/usb/devices/*/power/wakeup"
 # check what wakeup name
 alias wkn="ll /sys/bus/usb/devices/*/power/wakeup"
 alias cdotfiles="cd ~/dotfiles"
+alias ctm="setxkbmap -option caps:super"
 
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
