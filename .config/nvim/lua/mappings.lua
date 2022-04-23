@@ -15,6 +15,15 @@ local ns_opts = { noremap = true, silent = true }
 ------------------------------------------
 ------------------------------------------
 
+-- delete to hole
+utils.map("n", "dd", "\"_dd", ns_opts)
+
+-- paste from y
+utils.map("n", "p", "\"yp", ns_opts)
+
+-- copy to y
+utils.map("n", "yy", "\"yyy", ns_opts)
+
 -- turn off highlight
 utils.map("n", "<Esc>", ":noh<CR><Esc>", ns_opts)
 
@@ -76,6 +85,12 @@ utils.map("i", "jk", "<Esc>", ns_opts)
 
 utils.map("v", "F", "<leader><leader>F", {})
 utils.map("v", "f", "<leader><leader>f", {})
+
+-- delete to hole
+utils.map("v", "d", "\"_d", ns_opts)
+
+-- paste from y
+utils.map("v", "p", "\"yp", ns_opts)
 
 ------------------------------------------
 ------------------------------------------
