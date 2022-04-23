@@ -111,19 +111,16 @@
 font:
   # Normal (roman) font face
   normal:
-    #family: DejaVuSansMono Nerd Font
     family: monospace
     style: Regular
 
   # Bold font face
   bold:
-    #family: DejaVuSansMono Nerd Font
     family: monospace
     style: Bold
 
   # Italic font face
   italic:
-    #family: DejaVuSansMono Nerd Font
     family: monospace
     style: Italic
 
