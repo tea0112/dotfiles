@@ -1,5 +1,5 @@
 setxkbmap -option caps:super
-flameshot &
+~/.scripts/flameshot-exec.sh
 #ibus-daemon -drxR
 
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
