@@ -210,5 +210,6 @@ for_window [class="Pavucontrol"] floating enable, resize set 700 700, move posit
 exec --no-startup-id discord --start-minimized
 exec --no-startup-id telegram-desktop -startintray 
 exec --no-startup-id flameshot
+exec --no-startup-id skypeforlinux
 #exec --no-startup-id ibus-daemon -drxR
 exec setxkbmap -option caps:super
