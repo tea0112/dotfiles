@@ -87,7 +87,7 @@ lspconfig.sumneko_lua.setup({
 })
 
 -- cpp --
-lspconfig.ccls.setup({
+lspconfig.clangd.setup({
   on_attach = on_attach,
   capabilities = capabilities,
 })
