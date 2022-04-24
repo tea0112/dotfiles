@@ -49,7 +49,7 @@ utils.map("n", "<A-k>", ":wincmd k<CR>", ns_opts)
 utils.map("n", "<A-l>", ":wincmd l<CR>", ns_opts)
 
 -- easymotion
-utils.map("n", "F", "<leader><leader>F", {})
+utils.map("n", "z", "<leader><leader>F", {})
 utils.map("n", "f", "<leader><leader>f", {})
 
 -- toggle terminal
