@@ -87,7 +87,7 @@ lspconfig.sumneko_lua.setup({
 })
 
 -- cpp --
-lspconfig.clangd.setup({
+lspconfig.ccls.setup({
   on_attach = on_attach,
   capabilities = capabilities,
 })
@@ -112,7 +112,10 @@ lspconfig.tsserver.setup({
 })
 
 -- bash --
-lspconfig.bashls.setup {}
+lspconfig.bashls.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
 
 -----------------------------------------------------------
 -----------------------------------------------------------
