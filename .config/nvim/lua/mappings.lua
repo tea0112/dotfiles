@@ -111,6 +111,9 @@ utils.map("v", "<Leader>p", "\"+p", ns_opts)
 -- copy to plus register
 utils.map("v", "<Leader>y", "\"+y", ns_opts)
 
+-- cut to plus register
+utils.map("v", "<Leader>x", "\"+x", ns_opts)
+
 -- cut to y
 utils.map("v", "x", "\"yx", ns_opts)
 
