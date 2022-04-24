@@ -203,3 +203,6 @@ gaps outer 0
 # Floating programs
 for_window [class="Pavucontrol"] floating enable
 for_window [class="Pavucontrol"] resize shrink left 100, resize shrink right 100, resize shrink down 50, resize shrink up 50
+
+exec --no-startup-id discord --start-minimized
+exec --no-startup-id telegram-desktop -startintray 
