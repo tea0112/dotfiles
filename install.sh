@@ -12,6 +12,7 @@ alacritty_config_dir="${config_dir}/alacritty"
 polybar_config_dir="${config_dir}/polybar"
 nvim_config_dir="${config_dir}/nvim"
 zathura_config_dir="${config_dir}/zathura"
+rofi_config_dir="${config_dir}/rofi"
 
 # Home
 if [ -f "${tmux_conf_dir}" ]; then
@@ -29,6 +30,10 @@ fi
 # XDG config
 if [ -d "${alacritty_config_dir}" ]; then
     rm -rf "${alacritty_config_dir}"
+fi
+
+if [ -d "${rofi_config_dir}" ]; then
+    rm -rf "${rofi_config_dir}"
 fi
 
 if [ -d "${nvim_config_dir}" ]; then
@@ -55,6 +60,8 @@ ln -sf ${dotfiles_dir}/.config/alacritty ${config_dir}
 ln -sf ${dotfiles_dir}/.config/nvim ${config_dir}
 # create symbolic link of zathura
 ln -sf ${dotfiles_dir}/.config/zathura ${config_dir}
+# create symbolic link of rofi
+ln -sf ${dotfiles_dir}/.config/rofi ${config_dir}
 
 # create symbolic link of zshrc
 ln -sf ${dotfiles_dir}/.zshrc ${dir}
