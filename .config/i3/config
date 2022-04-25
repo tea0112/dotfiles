@@ -220,6 +220,7 @@ exec --no-startup-id telegram-desktop -startintray
 exec --no-startup-id flameshot
 exec --no-startup-id skypeforlinux
 exec --no-startup-id goldendict
+exec --no-startup-id qbbittorrent
 
 exec setxkbmap -option caps:super
 
