@@ -209,6 +209,9 @@ gaps outer 0
 # Floating programs
 for_window [class="Pavucontrol"] floating enable, resize set 700 700, move position center
 
+# border color
+client.focused #555555 #555555 #ffffff #2e9ef4     #CC0000
+
 exec --no-startup-id discord --start-minimized
 exec --no-startup-id telegram-desktop -startintray 
 exec --no-startup-id flameshot
@@ -216,3 +219,4 @@ exec --no-startup-id skypeforlinux
 exec --no-startup-id goldendict
 
 exec setxkbmap -option caps:super
+
