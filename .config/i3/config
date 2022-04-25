@@ -193,6 +193,9 @@ exec --no-startup-id feh --bg-scale ~/dotfiles/wallpapers/marmotamaps-berchtesga
 # run polybar
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
+# thunar as default
+exec  xdg-mime default thunar.desktop inode/directory
+
 # window border
 for_window [class="^.*"] border pixel 7
 
