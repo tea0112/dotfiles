@@ -1,3 +1,7 @@
+function Trim(s)
+  return (string.gsub(s, "^%s*(.-)%s*$", "%1"))
+end
+
 function Dump(tb)
   print('-----------------')
   if (type(tb) == "table") then
@@ -8,24 +12,28 @@ function Dump(tb)
   print('-----------------')
 end
 
+function Substitute(contents, result, key, value, ch, new)
+  -- have special character
+  if string.find(value, ch) then
+    -- replace specific character
+    value = string.gsub(value, ch, new)
+    if (#result > 0 and result[#result] == new) then
+      result[#result] = result[#result] .. " " .. Trim(contents[key])
+    else
+      table.insert(result, Trim(value))
+    end
+  else
+    result[#result] = result[#result] .. " " .. Trim(value)
+  end
+end
+
 function Ra()
   local contents = vim.api.nvim_buf_get_lines(0, 0, -1, false)
 
   local result = {}
 
   for key, value in ipairs(contents) do
-    -- have special character
-    if string.find(value, "") then
-      -- replace specific character
-      value = string.gsub(value, "", "*")
-      if (#result > 0 and result[#result] == "*") then
-        result[#result] = result[#result] .. " " .. contents[key]
-      else
-        table.insert(result, value)
-      end
-    else
-      result[#result] = result[#result] .. " " .. value
-    end
+    Substitute(contents, result, key, value, "", "*")
   end
   vim.api.nvim_buf_set_lines(0, 0, -1, true, result)
 end
