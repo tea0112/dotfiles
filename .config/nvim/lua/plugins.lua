@@ -57,4 +57,6 @@ return require("packer").startup(function(use)
 	})
   -- fugitive
 	use({"tpope/vim-fugitive"})
+  -- onedark
+  use 'navarasu/onedark.nvim'
 end)

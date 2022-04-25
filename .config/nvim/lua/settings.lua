@@ -13,7 +13,6 @@ set.shiftwidth = 2
 set.softtabstop = 2
 set.expandtab = true
 set.mouse = 'a'
---set.clipboard = 
 
 vim.api.nvim_command([[
 ]])

@@ -15,6 +15,16 @@ local ns_opts = { noremap = true, silent = true }
 ------------------------------------------
 ------------------------------------------
 
+-- new line without enable insert mode
+utils.map("n", "<Leader>o", "o<ESC>", ns_opts)
+utils.map("n", "<Leader>O", "O<ESC>", ns_opts)
+
+-- source lua neovim
+utils.map("n", "<Leader>sv", ":luafile $MYVIMRC<CR>", ns_opts)
+
+-- run custom function
+utils.map("n", "<Leader>ra", ":lua Ra()<CR>", ns_opts)
+
 -- delete to hole
 utils.map("n", "dd", "\"_dd", ns_opts)
 

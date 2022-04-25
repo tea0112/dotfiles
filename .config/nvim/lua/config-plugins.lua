@@ -39,3 +39,7 @@ require("nvim-treesitter.configs").setup({
   },
 })
 
+require('onedark').setup {
+    style = 'darker'
+}
+require('onedark').load()
