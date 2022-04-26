@@ -126,6 +126,10 @@ alias wkd="cat /sys/bus/usb/devices/*/power/wakeup"
 alias wkn="ll /sys/bus/usb/devices/*/power/wakeup"
 alias cdotfiles="cd ~/dotfiles"
 alias ctm="setxkbmap -option caps:super"
+alias blcs="bluetoothctl scan on"
+alias blcc="bluetoothctl connect"
+alias blct="bluetoothctl trust"
+alias blcp="bluetoothctl pair"
 
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
