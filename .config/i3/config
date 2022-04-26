@@ -218,7 +218,6 @@ client.focused #555555 #555555 #ffffff #2e9ef4     #CC0000
 exec --no-startup-id discord --start-minimized
 exec --no-startup-id telegram-desktop -startintray 
 exec --no-startup-id flameshot
-exec --no-startup-id skypeforlinux
 exec --no-startup-id goldendict
 exec --no-startup-id qbbittorrent
 
