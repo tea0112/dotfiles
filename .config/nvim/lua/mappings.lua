@@ -106,7 +106,7 @@ utils.map("i", "jk", "<Esc>", ns_opts)
 -- copy to y
 utils.map("v", "y", "\"yy", ns_opts)
 
-utils.map("v", "F", "<leader><leader>F", {})
+utils.map("v", "z", "<leader><leader>F", {})
 utils.map("v", "f", "<leader><leader>f", {})
 
 -- delete to hole
