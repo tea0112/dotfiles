@@ -155,6 +155,8 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
+bindcode Mod4+49 exec setxkbmap -option caps:super
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
@@ -219,7 +221,7 @@ exec --no-startup-id discord --start-minimized
 exec --no-startup-id telegram-desktop -startintray 
 exec --no-startup-id flameshot
 exec --no-startup-id goldendict
-exec --no-startup-id qbbittorrent
+exec --no-startup-id qbittorrent
 
 exec setxkbmap -option caps:super
 
