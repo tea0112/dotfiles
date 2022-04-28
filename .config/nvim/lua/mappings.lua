@@ -15,6 +15,9 @@ local ns_opts = { noremap = true, silent = true }
 ------------------------------------------
 ------------------------------------------
 
+-- run lua command fast
+utils.map("n", "<C-l>", ":lua ", {noremap = true, silent = false})
+
 -- glow
 utils.map("n", "<Leader>m", ":w <CR>:Glow <CR>", ns_opts)
 
