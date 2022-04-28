@@ -38,6 +38,11 @@ function Ra()
   vim.api.nvim_buf_set_lines(0, 0, -1, true, result)
 end
 
+function Indent(number)
+  vim.opt.tabstop = number
+  vim.opt.shiftwidth = number
+  vim.opt.softtabstop = number
+end
 
 local utils = {}
 
