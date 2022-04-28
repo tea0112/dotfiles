@@ -59,4 +59,8 @@ return require("packer").startup(function(use)
 	use({"tpope/vim-fugitive"})
   -- onedark
   use 'navarasu/onedark.nvim'
+  -- markdown glow
+  use {"ellisonleao/glow.nvim", branch = 'main'}
+  -- css color
+  use {"norcalli/nvim-colorizer.lua"}
 end)

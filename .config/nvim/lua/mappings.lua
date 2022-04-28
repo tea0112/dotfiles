@@ -15,6 +15,9 @@ local ns_opts = { noremap = true, silent = true }
 ------------------------------------------
 ------------------------------------------
 
+-- glow
+utils.map("n", "<Leader>m", ":w <CR>:Glow <CR>", ns_opts)
+
 -- new line without enable insert mode
 utils.map("n", "<Leader>o", "o<ESC>", ns_opts)
 utils.map("n", "<Leader>O", "O<ESC>", ns_opts)

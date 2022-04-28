@@ -42,4 +42,8 @@ require("nvim-treesitter.configs").setup({
 require('onedark').setup {
     style = 'darker'
 }
+
 require('onedark').load()
+
+-- Attaches to every FileType mode
+require 'colorizer'.setup()
