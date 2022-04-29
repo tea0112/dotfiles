@@ -226,5 +226,5 @@ exec --no-startup-id flameshot
 exec --no-startup-id goldendict
 exec --no-startup-id qbittorrent
 
-exec setxkbmap -option caps:super
+#exec setxkbmap -option caps:super
 
