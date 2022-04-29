@@ -131,6 +131,7 @@ alias blcs="bluetoothctl scan on"
 alias blcc="bluetoothctl connect"
 alias blct="bluetoothctl trust"
 alias blcp="bluetoothctl pair"
+alias blcr="bluetoothctl remove"
 
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
