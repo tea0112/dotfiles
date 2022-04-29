@@ -126,6 +126,7 @@ alias wkd="cat /sys/bus/usb/devices/*/power/wakeup"
 alias wkn="ll /sys/bus/usb/devices/*/power/wakeup"
 alias cdotfiles="cd ~/dotfiles"
 alias ctm="setxkbmap -option caps:super"
+alias blcpo="bluetoothctl power on"
 alias blcs="bluetoothctl scan on"
 alias blcc="bluetoothctl connect"
 alias blct="bluetoothctl trust"
@@ -143,6 +144,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# ibus bamboo
-env DCONF_PROFILE=ibus dconf write /desktop/ibus/general/preload-engines "['BambooUs', 'Bamboo']" && gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('ibus', 'Bamboo')]"
-
+eval "$(atuin init zsh)"
