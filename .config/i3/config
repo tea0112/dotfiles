@@ -189,6 +189,9 @@ bindsym $mod+Prior exec pactl -- set-sink-volume @DEFAULT_SINK@ +5%
 bindsym $mod+Next exec pactl -- set-sink-volume @DEFAULT_SINK@ -5%
 bindsym $mod+End exec pactl -- set-sink-mute @DEFAULT_SINK@ toggle
 
+# map key
+#bindsym $mod+x exec xdotool key --clearmodifiers Page_Down
+
 # restore wallpaper
 exec --no-startup-id feh --bg-scale ~/dotfiles/wallpapers/marmotamaps-berchtesgaden-fullhd.jpg
 
