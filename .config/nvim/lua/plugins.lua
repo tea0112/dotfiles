@@ -13,8 +13,6 @@ return require("packer").startup(function(use)
 	use("easymotion/vim-easymotion")
 	-- fzf
 	use("junegunn/fzf")
-	-- vim floaterm
-	use("voldikss/vim-floaterm")
 	-- telescope
 	use({
 		"nvim-telescope/telescope.nvim",

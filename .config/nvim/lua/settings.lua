@@ -15,5 +15,9 @@ set.softtabstop = tab_number
 set.expandtab = true
 set.mouse = 'a'
 
-vim.api.nvim_command([[
-]])
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "cpp" },
+    callback = function()
+        SetIndent(2)
+    end
+})

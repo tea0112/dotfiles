@@ -13,7 +13,7 @@ function Dump(tb)
 end
 
 -- set indent
-function I(number)
+function SetIndent(number)
   vim.opt.tabstop = number
   vim.opt.shiftwidth = number
   vim.opt.softtabstop = number
