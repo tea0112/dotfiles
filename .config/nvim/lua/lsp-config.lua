@@ -153,8 +153,8 @@ null_ls.setup({
     -- diagnostic
     diagnostics.eslint,
     diagnostics.flake8,
-    diagnostics.cppcheck,
-    diagnostics.shellcheck,
+    --diagnostics.cppcheck,
+    --diagnostics.shellcheck,
     -- completion
     completion.spell,
     -- nvim
