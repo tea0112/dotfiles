@@ -63,4 +63,6 @@ return require("packer").startup(function(use)
   use {"ellisonleao/glow.nvim", branch = 'main'}
   -- css color
   use {"norcalli/nvim-colorizer.lua"}
+  -- Fterm
+  use "numToStr/FTerm.nvim"
 end)
