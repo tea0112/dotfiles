@@ -147,6 +147,9 @@ null_ls.setup({
       },
     }),
     formatting.shfmt,
+    formatting.goimports,
+    formatting.golines,
+    formatting.gofumpt,
     -- diagnostic
     diagnostics.eslint,
     diagnostics.flake8,
