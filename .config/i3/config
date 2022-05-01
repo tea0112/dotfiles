@@ -56,6 +56,7 @@ bindsym $mod+Shift+q kill
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show dru
 bindsym $mod+d exec $HOME/.config/rofi/bin/launcher_colorful
+bindsym $mod+Shift+d exec rofi -show emoji -modi emoji
 #bindsym $mod+Escape exec $HOME/.config/rofi/bin/powermenu
 bindsym $mod+Escape exec ~/.config/rofi/bin/powermenu
 # There also is i3-dmenu-desktop which only displays applications shipping a
