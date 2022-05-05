@@ -21,3 +21,6 @@ vim.api.nvim_create_autocmd("FileType", {
         SetIndent(2)
     end
 })
+
+vim.g['leetcode_browser'] = 'firefox'
+vim.g['leetcode_solution_filetype'] = 'cpp'
