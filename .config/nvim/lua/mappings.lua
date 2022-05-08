@@ -26,7 +26,7 @@ utils.map("n", "<Leader>m", ":w <CR>:Glow <CR>", ns_opts)
 
 -- new line without enable insert mode
 utils.map("n", "<Leader>o", "o<ESC>", ns_opts)
-utils.map("n", "<Leader>O", "O<ESC>", ns_opts)
+utils.map("n", "<Leader>0", "O<ESC>", ns_opts)
 
 -- source lua neovim
 utils.map("n", "<Leader>sv", ":luafile $MYVIMRC<CR>", ns_opts)
