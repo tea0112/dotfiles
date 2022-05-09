@@ -49,3 +49,5 @@ require('onedark').load()
 require 'colorizer'.setup()
 
 require 'FTerm'.setup({})
+
+require'nvim-tree'.setup()

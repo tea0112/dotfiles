@@ -6,7 +6,14 @@ return require("packer").startup(function(use)
         "max397574/better-escape.nvim",
     })
     -- nerdtree
-    use("preservim/nerdtree")
+    --use("preservim/nerdtree")
+    use {
+        'kyazdani42/nvim-tree.lua',
+        requires = {
+            'kyazdani42/nvim-web-devicons', -- optional, for file icon
+        },
+        tag = 'nightly' -- optional, updated every week. (see issue #1193)
+    }
     -- vim surround
     use("tpope/vim-surround")
     -- easymotion

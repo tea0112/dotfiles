@@ -58,8 +58,9 @@ utils.map("n", "<Esc>", ":noh<CR><Esc>", ns_opts)
 -- show and select buffer
 utils.map("n", "<Leader>l", ":ls<CR>:b ", ns_opts)
 
--- NERDTree toggle
-utils.map("n", "<C-t>", ":NERDTreeToggle<CR>", ns_opts)
+-- nvim-tree toggle
+utils.map("n", "<C-n>", ":NvimTreeToggle<CR>", ns_opts)
+utils.map("n", "<Leader>r", ":NvimTreeRefresh<CR> ", ns_opts)
 
 -- move between window
 utils.map("n", "<A-h>", ":wincmd h<CR>", ns_opts)
@@ -77,7 +78,7 @@ utils.map("n", "<A-g>", "<cmd>Telescope live_grep<cr>", ns_opts)
 utils.map("n", "<A-b>", "<cmd>Telescope buffers<cr>", ns_opts)
 
 -- lsp
-utils.map("n", "<Leader>lf", ":lua vim.lsp.buf.formatting()<CR>", ns_opts)
+utils.map("n", "<Leader>lf", ":lua vim.lsp.buf.format()<CR>", ns_opts)
 
 ------------------------------------------
 ------------------------------------------
