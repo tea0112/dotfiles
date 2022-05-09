@@ -69,8 +69,7 @@ utils.map("n", "<A-k>", ":wincmd k<CR>", ns_opts)
 utils.map("n", "<A-l>", ":wincmd l<CR>", ns_opts)
 
 -- easymotion
-utils.map("n", "z", "<leader><leader>F", {})
-utils.map("n", "f", "<leader><leader>f", {})
+utils.map("n", "f", "<leader><leader>F", {})
 
 -- telescope
 utils.map("n", "<A-f>", "<cmd>Telescope find_files<cr>", ns_opts)
