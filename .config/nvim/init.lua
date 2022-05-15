@@ -1,10 +1,11 @@
 local home_dir = os.getenv("HOME")
 package.path = home_dir .. "/.config/nvim/lua/?.lua;" .. package.path
 
+require("utils")
+require("bootstrap")
 require('onedark').load()
-require("plugins")
 require("settings")
 require("mappings")
-require("lsp-config")
-require("config-plugins")
+require("lsps")
+require("plugins")
 require("nvim-cmp")

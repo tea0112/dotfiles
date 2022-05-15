@@ -141,6 +141,7 @@ export EDITOR=nvim
 export GOPATH=$HOME/go
 export PATH=$PATH:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$GOROOT/bin:$GOPATH/bin:/home/thai/lua-language-server/bin
 export PATH=$PATH:/opt/cmake-3.23.1-linux-x86_64/bin
+export PATH=$PATH:~/dotfiles/bin
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
