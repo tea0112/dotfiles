@@ -7,7 +7,7 @@ tmux_conf_dir="${dir}/.tmux.conf"
 
 config_dir="${dir}/.config"
 
-#i3_config_dir="${config_dir}/i3"
+i3_config_dir="${config_dir}/i3"
 alacritty_config_dir="${config_dir}/alacritty"
 polybar_config_dir="${config_dir}/polybar"
 nvim_config_dir="${config_dir}/nvim"
