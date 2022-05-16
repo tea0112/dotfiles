@@ -59,13 +59,6 @@ return require('packer').startup(function(use)
         end,
         requires = { "nvim-lua/plenary.nvim" },
     })
-    -- autopairs
-    use({
-        "windwp/nvim-autopairs",
-        config = function()
-            require("nvim-autopairs").setup()
-        end,
-    })
     -- fugitive
     use({ "tpope/vim-fugitive" })
     -- onedark

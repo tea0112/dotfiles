@@ -1,9 +1,9 @@
-[10:43:51.117][info] [#0:/home/thai/dotfiles/language-server/lua-language-server/main.lua:65]: Lua Lsp startup, root: 	/home/thai/dotfiles/language-server/lua-language-server
-[10:43:51.118][info] [#0:/home/thai/dotfiles/language-server/lua-language-server/main.lua:66]: ROOT:	/home/thai/dotfiles/language-server/lua-language-server
-[10:43:51.118][info] [#0:/home/thai/dotfiles/language-server/lua-language-server/main.lua:67]: LOGPATH:	/home/thai/dotfiles/language-server/lua-language-server/log
-[10:43:51.118][info] [#0:/home/thai/dotfiles/language-server/lua-language-server/main.lua:68]: METAPATH:	/home/thai/dotfiles/language-server/lua-language-server/meta
-[10:43:51.118][info] [#0:/home/thai/dotfiles/language-server/lua-language-server/main.lua:69]: VERSION:	3.2.2
-[10:43:51.181][info] [#0:script/service/service.lua:141]: 
+[08:43:14.231][info] [#0:/home/thai/dotfiles/language-server/lua-language-server/main.lua:65]: Lua Lsp startup, root: 	/home/thai/dotfiles/language-server/lua-language-server
+[08:43:14.231][info] [#0:/home/thai/dotfiles/language-server/lua-language-server/main.lua:66]: ROOT:	/home/thai/dotfiles/language-server/lua-language-server
+[08:43:14.231][info] [#0:/home/thai/dotfiles/language-server/lua-language-server/main.lua:67]: LOGPATH:	/home/thai/dotfiles/language-server/lua-language-server/log
+[08:43:14.231][info] [#0:/home/thai/dotfiles/language-server/lua-language-server/main.lua:68]: METAPATH:	/home/thai/dotfiles/language-server/lua-language-server/meta
+[08:43:14.231][info] [#0:/home/thai/dotfiles/language-server/lua-language-server/main.lua:69]: VERSION:	3.2.2
+[08:43:14.286][info] [#0:script/service/service.lua:141]: 
 ========= Medical Examination Report =========
     --------------- Memory ---------------
         Total: 1.433 MB
@@ -25,199 +25,106 @@
         Holdon:   0
         Waiting:  0
 ==============================================
-[10:43:51.288][info] [#0:script/language.lua:137]: VSC language: nil
-[10:43:51.288][info] [#0:script/language.lua:138]: LS  language: en-us
-[10:43:51.288][info] [#0:script/workspace/workspace.lua:38]: Workspace init root: 	file:///home/thai/dotfiles
-[10:43:51.288][info] [#0:script/workspace/workspace.lua:42]: Log path: 	/home/thai/dotfiles/language-server/lua-language-server/log/file_home_thai_dotfiles.log
-[10:43:51.288][info] [#0:script/workspace/workspace.lua:48]: Workspace create: 	file:///home/thai/dotfiles
-[10:43:51.490][info] [#0:script/provider/provider.lua:40]: Load config from client	file:///home/thai/dotfiles
-[10:43:51.491][info] [#0:script/provider/provider.lua:46]: Load config from luarc.json	file:///home/thai/dotfiles
-[10:43:51.491][info] [#0:script/provider/provider.lua:40]: Load config from client	file:///home/thai/dotfiles
-[10:43:51.492][info] [#0:script/provider/provider.lua:46]: Load config from luarc.json	file:///home/thai/dotfiles
-[10:43:51.493][info] [#0:script/provider/provider.lua:54]: Load config from client	fallback
-[10:43:51.493][info] [#0:script/library.lua:207]: Init builtin library at:	nil
-[10:43:51.506][info] [#0:script/library.lua:207]: Init builtin library at:	file:///home/thai/dotfiles
-[10:43:51.525][info] [#0:script/plugin.lua:80]: plugin path:	nil
-[10:43:51.525][info] [#0:script/plugin.lua:80]: plugin path:	nil
-[10:43:51.525][info] [#0:script/provider/provider.lua:54]: Load config from client	fallback
-[10:43:51.527][info] [#0:script/workspace/workspace.lua:278]: Preload start:	file:///home/thai/dotfiles
-[10:43:51.533][info] [#0:script/workspace/workspace.lua:284]: Scan files at:	file:///home/thai/dotfiles
-[10:43:51.534][info] [#0:script/workspace/workspace.lua:278]: Preload start:	<fallback>
-[10:43:51.538][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/FTerm.nvim
-[10:43:51.540][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/bin/lua-language-server -> file:///home/thai/dotfiles/language-server/lua-language-server/bin/lua-language-server
-[10:43:51.541][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/rofi/bin/launcher_colorful -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/launcher.sh
-[10:43:51.542][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/rofi/bin/powermenu -> file:///home/thai/dotfiles/.config/rofi/powermenu/powermenu.sh
-[10:43:51.549][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-web-devicons
-[10:43:51.552][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/polybar/config.ini -> file:///home/thai/dotfiles/.config/polybar/config.ini
-[10:43:51.552][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/polybar/launch.sh -> file:///home/thai/dotfiles/.config/polybar/launch.sh
-[10:43:51.554][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/config.rasi -> file:///home/thai/dotfiles/.config/rofi/config.rasi
-[10:43:51.555][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/confirm.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/confirm.rasi
-[10:43:51.555][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/message.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/message.rasi
-[10:43:51.555][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/card_square.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/card_square.rasi
-[10:43:51.556][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/gotham.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/gotham.rasi
-[10:43:51.557][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/bluish.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/bluish.rasi
-[10:43:51.557][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/mask.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/mask.rasi
-[10:43:51.557][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/berry.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/berry.rasi
-[10:43:51.557][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/cocoa.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/cocoa.rasi
-[10:43:51.558][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/nordic.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/nordic.rasi
-[10:43:51.558][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/colors.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/colors.rasi
-[10:43:51.558][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/nightly.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/nightly.rasi
-[10:43:51.559][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/faded.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/faded.rasi
-[10:43:51.560][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_11.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_11.rasi
-[10:43:51.560][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_5.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_5.rasi
-[10:43:51.561][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_9.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_9.rasi
-[10:43:51.561][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_1.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_1.rasi
-[10:43:51.561][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_6.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_6.rasi
-[10:43:51.561][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_3.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_3.rasi
-[10:43:51.562][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_12.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_12.rasi
-[10:43:51.566][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/colors.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/colors.rasi
-[10:43:51.566][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_4.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_4.rasi
-[10:43:51.566][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_8.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_8.rasi
-[10:43:51.567][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_2.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_2.rasi
-[10:43:51.567][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_10.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_10.rasi
-[10:43:51.567][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_7.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_7.rasi
-[10:43:51.568][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/nvim/init.lua -> file:///home/thai/dotfiles/.config/nvim/init.lua
-[10:43:51.569][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/nvim/lua/plugins.lua -> file:///home/thai/dotfiles/.config/nvim/lua/plugins.lua
-[10:43:51.569][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/nvim/lua/nvim-autopairs.lua -> file:///home/thai/dotfiles/.config/nvim/lua/nvim-autopairs.lua
-[10:43:51.569][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/nvim/lua/nvim-cmp.lua -> file:///home/thai/dotfiles/.config/nvim/lua/nvim-cmp.lua
-[10:43:51.569][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/nvim/lua/lsps.lua -> file:///home/thai/dotfiles/.config/nvim/lua/lsps.lua
-[10:43:51.570][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/nvim/lua/utils.lua -> file:///home/thai/dotfiles/.config/nvim/lua/utils.lua
-[10:43:51.570][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/nvim/lua/settings.lua -> file:///home/thai/dotfiles/.config/nvim/lua/settings.lua
-[10:43:51.570][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/nvim/lua/bootstrap.lua -> file:///home/thai/dotfiles/.config/nvim/lua/bootstrap.lua
-[10:43:51.570][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/nvim/lua/mappings.lua -> file:///home/thai/dotfiles/.config/nvim/lua/mappings.lua
-[10:43:51.571][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/zathura/zathurarc -> file:///home/thai/dotfiles/.config/zathura/zathurarc
-[10:43:51.571][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/alacritty/alacritty.yml -> file:///home/thai/dotfiles/.config/alacritty/alacritty.yml
-[10:43:51.575][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp/after
-[10:43:51.579][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-cmdline
-[10:43:51.590][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-buffer
-[10:43:51.602][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/telescope.nvim
-[10:43:51.634][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///usr/lib/x86_64-linux-gnu/nvim
-[10:43:51.634][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/plenary.nvim
-[10:43:51.669][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-lspconfig
-[10:43:51.722][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///usr/share/nvim/runtime
-[10:43:51.939][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/FTerm.nvim
-[10:43:51.952][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-web-devicons
-[10:43:51.971][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp/after
-[10:43:51.971][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-cmdline
-[10:43:51.982][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-buffer
-[10:43:51.997][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/telescope.nvim
-[10:43:52.030][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///usr/lib/x86_64-linux-gnu/nvim
-[10:43:52.031][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/plenary.nvim
-[10:43:52.052][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site
-[10:43:52.075][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-lspconfig
-[10:43:52.153][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///usr/share/nvim/runtime
-[10:43:52.499][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/dotfiles/language-server/lua-language-server/meta/3rd/love2d/library
-[10:43:52.503][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site
-[10:43:52.952][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-cmp
-[10:43:52.983][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp_luasnip
-[10:43:53.008][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/vim-easymotion
-[10:43:53.032][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/onedark.nvim
-[10:43:53.057][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.config/nvim
-[10:43:53.059][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/packer.nvim
-[10:43:53.098][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-path/after
-[10:43:53.099][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp_luasnip/after
-[10:43:53.099][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-buffer/after
-[10:43:53.099][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-path
-[10:43:53.121][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/better-escape.nvim
-[10:43:53.139][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-cmdline/after
-[10:43:53.140][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/dotfiles/language-server/lua-language-server/meta/LuaJIT%20en-us%20utf8
-[10:43:53.144][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-autopairs
-[10:43:53.218][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-tree.lua
-[10:43:53.253][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/lualine.nvim
-[10:43:53.297][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/glow.nvim
-[10:43:53.324][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/vim-fugitive
-[10:43:53.342][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/vim-surround
-[10:43:53.371][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-treesitter
-[10:43:53.606][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/fzf
-[10:43:53.639][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp
-[10:43:53.642][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-cmp
-[10:43:53.655][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua
-[10:43:53.683][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp_luasnip
-[10:43:53.703][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/vim-go
-[10:43:53.709][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/vim-easymotion
-[10:43:53.741][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/onedark.nvim
-[10:43:53.781][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-cmdline/after
-[10:43:53.781][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/packer.nvim
-[10:43:53.799][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/null-ls.nvim
-[10:43:53.823][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-path/after
-[10:43:53.824][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp_luasnip/after
-[10:43:53.824][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-buffer/after
-[10:43:53.825][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-path
-[10:43:53.835][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/better-escape.nvim
-[10:43:53.850][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/null-ls.nvim
-[10:43:53.895][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/LuaSnip
-[10:43:53.931][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/dotfiles/language-server/lua-language-server/meta/LuaJIT%20en-us%20utf8
-[10:43:53.933][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-autopairs
-[10:43:53.956][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-tree.lua
-[10:43:53.970][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/lualine.nvim
-[10:43:53.991][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/vim-fugitive
-[10:43:53.998][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp
-[10:43:54.007][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/vim-surround
-[10:43:54.022][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/fzf
-[10:43:54.040][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-treesitter
-[10:43:54.141][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.config/nvim
-[10:43:54.142][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua
-[10:43:54.168][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/vim-go
-[10:43:54.215][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/glow.nvim
-[10:43:54.233][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/LuaSnip
-[10:43:54.250][info] [#0:script/workspace/workspace.lua:308]: Found 2091 files at:	<fallback>
-[10:43:54.250][info] [#0:script/workspace/loading.lua:152]: Load files from disk:	<fallback>
-[10:43:54.250][info] [#0:script/workspace/workspace.lua:308]: Found 2941 files at:	file:///home/thai/dotfiles
-[10:43:54.250][info] [#0:script/workspace/loading.lua:152]: Load files from disk:	file:///home/thai/dotfiles
-[10:43:58.028][warn] [#0:script/files.lua:496]: Compile [file:///home/thai/.local/share/nvim/site/pack/packer/start/packer.nvim/lua/packer/plugin_types/git.lua] takes [0.122] sec, size [18.391] kb.
-[10:43:59.405][warn] [#0:script/files.lua:496]: Compile [file:///home/thai/.local/share/nvim/site/pack/packer/start/plenary.nvim/lua/plenary/path.lua] takes [0.176] sec, size [22.141] kb.
-[10:44:01.432][warn] [#0:script/files.lua:496]: Compile [file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-lspconfig/lua/lspconfig/ui/lspinfo.lua] takes [0.239] sec, size [6.924] kb.
-[10:44:02.367][info] [#0:script/workspace/loading.lua:164]: Loaded files takes [8.376] sec: <fallback>
-[10:44:02.367][info] [#0:script/workspace/loading.lua:173]: Compile files takes [0.000] sec: <fallback>
-[10:44:02.367][info] [#0:script/workspace/loading.lua:174]: Loaded finish:	<fallback>
-[10:44:02.367][info] [#0:script/workspace/workspace.lua:310]: Preload finish at:	<fallback>
-[10:44:03.466][warn] [#0:script/files.lua:496]: Compile [file:///home/thai/dotfiles/language-server/lua-language-server/script/core/semantic-tokens.lua] takes [0.273] sec, size [28.301] kb.
-[10:44:05.897][warn] [#0:script/files.lua:507]: Parse LuaDoc of [file:///home/thai/dotfiles/language-server/lua-language-server/meta/3rd/Jass/library/jass/common.lua] takes [0.215] sec, size [448.808] kb.
-[10:44:06.757][warn] [#0:script/files.lua:496]: Compile [file:///home/thai/dotfiles/language-server/lua-language-server/meta/3rd/lovr/library/lovr.math.lua] takes [0.467] sec, size [40.147] kb.
-[10:44:08.234][info] [#0:script/workspace/loading.lua:164]: Loaded files takes [13.316] sec: file:///home/thai/dotfiles
-[10:44:08.235][info] [#0:script/workspace/loading.lua:173]: Compile files takes [0.000] sec: file:///home/thai/dotfiles
-[10:44:08.235][info] [#0:script/workspace/loading.lua:174]: Loaded finish:	file:///home/thai/dotfiles
-[10:44:08.235][info] [#0:script/workspace/workspace.lua:310]: Preload finish at:	file:///home/thai/dotfiles
-[10:44:08.235][info] [#0:script/workspace/workspace.lua:242]: Scan files at:	file:///home/thai/dotfiles/.git/index
-[10:44:08.235][warn] [#0:script/proto/proto.lua:171]: Method [textDocument/didOpen] takes [16.532]sec. {
-  jsonrpc = "2.0",
-  method = "textDocument/didOpen",
-  params = {
-    textDocument = {
-      languageId = "lua",
-      text = '"***"',
-      uri = "file:///home/thai/dotfiles/.config/nvim/lua/mappings.lua",
-      version = 0
-    }
-  }
-}
-[10:44:08.235][info] [#0:script/workspace/loading.lua:152]: Load files from disk:	file:///home/thai/dotfiles
-[10:44:08.236][info] [#0:script/workspace/loading.lua:164]: Loaded files takes [0.000] sec: file:///home/thai/dotfiles
-[10:44:08.236][info] [#0:script/workspace/loading.lua:173]: Compile files takes [0.000] sec: file:///home/thai/dotfiles
-[10:44:08.236][info] [#0:script/workspace/loading.lua:174]: Loaded finish:	file:///home/thai/dotfiles
-[10:44:08.236][warn] [#0:script/proto/proto.lua:171]: Method [textDocument/didOpen] takes [1.259]sec. {
-  jsonrpc = "2.0",
-  method = "textDocument/didOpen",
-  params = {
-    textDocument = {
-      languageId = "lua",
-      text = '"***"',
-      uri = "file:///home/thai/dotfiles/.config/nvim/lua/lsps.lua",
-      version = 0
-    }
-  }
-}
-[10:44:10.242][info] [#0:script/provider/diagnostic.lua:385]: Diagnostics scope [file:///home/thai/dotfiles], files count:[1881]
-[10:44:10.245][info] [#0:script/provider/diagnostic.lua:385]: Diagnostics scope [<fallback>], files count:[1881]
-[10:44:12.885][info] [#0:script/provider/diagnostic.lua:402]: Diagnostics scope [file:///home/thai/dotfiles] finished, takes [2.710] sec.
-[10:44:12.885][info] [#0:script/provider/diagnostic.lua:402]: Diagnostics scope [<fallback>] finished, takes [2.702] sec.
-[10:44:18.244][info] [#0:script/provider/diagnostic.lua:385]: Diagnostics scope [file:///home/thai/dotfiles], files count:[1881]
-[10:44:19.626][info] [#0:script/provider/diagnostic.lua:402]: Diagnostics scope [file:///home/thai/dotfiles] finished, takes [1.400] sec.
-[10:44:42.254][info] [#0:script/provider/diagnostic.lua:145]: clearDiagnostics	file:///home/thai/dotfiles/.config/i3/nvim/lua/lsps.lua
-[10:44:42.269][info] [#0:script/provider/diagnostic.lua:385]: Diagnostics scope [file:///home/thai/dotfiles], files count:[1880]
-[10:44:43.701][info] [#0:script/provider/diagnostic.lua:402]: Diagnostics scope [file:///home/thai/dotfiles] finished, takes [1.461] sec.
-[10:44:43.710][info] [#0:script/provider/diagnostic.lua:385]: Diagnostics scope [file:///home/thai/dotfiles], files count:[1880]
-[10:44:44.979][info] [#0:script/provider/diagnostic.lua:402]: Diagnostics scope [file:///home/thai/dotfiles] finished, takes [1.278] sec.
-[10:45:10.253][info] [#0:script/provider/diagnostic.lua:385]: Diagnostics scope [file:///home/thai/dotfiles], files count:[1880]
-[10:45:10.961][info] [#0:script/provider/provider.lua:158]: Server shutdown.
-[10:45:10.961][info] [#0:script/provider/provider.lua:151]: Server exited.
+[08:43:14.392][info] [#0:script/language.lua:137]: VSC language: nil
+[08:43:14.392][info] [#0:script/language.lua:138]: LS  language: en-us
+[08:43:14.392][info] [#0:script/workspace/workspace.lua:38]: Workspace init root: 	file:///home/thai/dotfiles
+[08:43:14.392][info] [#0:script/workspace/workspace.lua:42]: Log path: 	/home/thai/dotfiles/language-server/lua-language-server/log/file_home_thai_dotfiles.log
+[08:43:14.393][info] [#0:script/workspace/workspace.lua:48]: Workspace create: 	file:///home/thai/dotfiles
+[08:43:14.596][info] [#0:script/provider/provider.lua:40]: Load config from client	file:///home/thai/dotfiles
+[08:43:14.598][info] [#0:script/provider/provider.lua:46]: Load config from luarc.json	file:///home/thai/dotfiles
+[08:43:14.599][info] [#0:script/provider/provider.lua:40]: Load config from client	file:///home/thai/dotfiles
+[08:43:14.601][info] [#0:script/provider/provider.lua:46]: Load config from luarc.json	file:///home/thai/dotfiles
+[08:43:14.603][info] [#0:script/provider/provider.lua:54]: Load config from client	fallback
+[08:43:14.604][info] [#0:script/library.lua:207]: Init builtin library at:	nil
+[08:43:14.632][info] [#0:script/library.lua:207]: Init builtin library at:	file:///home/thai/dotfiles
+[08:43:14.652][info] [#0:script/plugin.lua:80]: plugin path:	nil
+[08:43:14.652][info] [#0:script/plugin.lua:80]: plugin path:	nil
+[08:43:14.652][info] [#0:script/provider/provider.lua:54]: Load config from client	fallback
+[08:43:14.653][info] [#0:script/workspace/workspace.lua:278]: Preload start:	file:///home/thai/dotfiles
+[08:43:14.657][info] [#0:script/workspace/workspace.lua:284]: Scan files at:	file:///home/thai/dotfiles
+[08:43:14.657][info] [#0:script/workspace/workspace.lua:278]: Preload start:	<fallback>
+[08:43:14.662][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/FTerm.nvim
+[08:43:14.664][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/bin/lua-language-server -> file:///home/thai/dotfiles/language-server/lua-language-server/bin/lua-language-server
+[08:43:14.666][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/rofi/bin/launcher_colorful -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/launcher.sh
+[08:43:14.667][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/rofi/bin/powermenu -> file:///home/thai/dotfiles/.config/rofi/powermenu/powermenu.sh
+[08:43:14.674][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-web-devicons
+[08:43:14.677][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/polybar/config.ini -> file:///home/thai/dotfiles/.config/polybar/config.ini
+[08:43:14.677][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/polybar/launch.sh -> file:///home/thai/dotfiles/.config/polybar/launch.sh
+[08:43:14.679][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/config.rasi -> file:///home/thai/dotfiles/.config/rofi/config.rasi
+[08:43:14.679][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/confirm.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/confirm.rasi
+[08:43:14.680][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/message.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/message.rasi
+[08:43:14.680][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/card_square.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/card_square.rasi
+[08:43:14.681][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/gotham.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/gotham.rasi
+[08:43:14.681][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/bluish.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/bluish.rasi
+[08:43:14.681][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/mask.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/mask.rasi
+[08:43:14.681][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/berry.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/berry.rasi
+[08:43:14.682][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/cocoa.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/cocoa.rasi
+[08:43:14.682][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/nordic.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/nordic.rasi
+[08:43:14.682][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/colors.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/colors.rasi
+[08:43:14.683][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/nightly.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/nightly.rasi
+[08:43:14.683][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/powermenu/styles/faded.rasi -> file:///home/thai/dotfiles/.config/rofi/powermenu/styles/faded.rasi
+[08:43:14.684][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_11.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_11.rasi
+[08:43:14.684][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_5.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_5.rasi
+[08:43:14.684][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_9.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_9.rasi
+[08:43:14.685][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_1.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_1.rasi
+[08:43:14.685][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_6.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_6.rasi
+[08:43:14.686][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_3.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_3.rasi
+[08:43:14.686][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_12.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_12.rasi
+[08:43:14.686][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/colors.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/colors.rasi
+[08:43:14.686][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_4.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_4.rasi
+[08:43:14.687][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_8.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_8.rasi
+[08:43:14.687][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_2.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_2.rasi
+[08:43:14.691][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_10.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_10.rasi
+[08:43:14.691][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/rofi/launchers/colorful/style_7.rasi -> file:///home/thai/dotfiles/.config/rofi/launchers/colorful/style_7.rasi
+[08:43:14.692][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/nvim/init.lua -> file:///home/thai/dotfiles/.config/nvim/init.lua
+[08:43:14.693][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/nvim/lua/plugins.lua -> file:///home/thai/dotfiles/.config/nvim/lua/plugins.lua
+[08:43:14.693][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/nvim/lua/nvim-cmp.lua -> file:///home/thai/dotfiles/.config/nvim/lua/nvim-cmp.lua
+[08:43:14.693][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/nvim/lua/lsps.lua -> file:///home/thai/dotfiles/.config/nvim/lua/lsps.lua
+[08:43:14.693][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/nvim/lua/utils.lua -> file:///home/thai/dotfiles/.config/nvim/lua/utils.lua
+[08:43:14.694][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/nvim/lua/settings.lua -> file:///home/thai/dotfiles/.config/nvim/lua/settings.lua
+[08:43:14.694][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/nvim/lua/bootstrap.lua -> file:///home/thai/dotfiles/.config/nvim/lua/bootstrap.lua
+[08:43:14.694][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/nvim/lua/mappings.lua -> file:///home/thai/dotfiles/.config/nvim/lua/mappings.lua
+[08:43:14.695][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/zathura/zathurarc -> file:///home/thai/dotfiles/.config/zathura/zathurarc
+[08:43:14.695][warn] [#0:script/files.lua:60]: Fix real file uri: file:///home/thai/dotfiles/.config/i3/alacritty/alacritty.yml -> file:///home/thai/dotfiles/.config/alacritty/alacritty.yml
+[08:43:14.701][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp/after
+[08:43:14.701][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-cmdline
+[08:43:14.711][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-buffer
+[08:43:14.723][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/telescope.nvim
+[08:43:14.760][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///usr/lib/x86_64-linux-gnu/nvim
+[08:43:14.760][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/plenary.nvim
+[08:43:14.795][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-lspconfig
+[08:43:14.848][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///usr/share/nvim/runtime
+[08:43:15.046][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/FTerm.nvim
+[08:43:15.056][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-web-devicons
+[08:43:15.073][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp/after
+[08:43:15.074][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-cmdline
+[08:43:15.083][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-buffer
+[08:43:15.106][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/telescope.nvim
+[08:43:15.142][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///usr/lib/x86_64-linux-gnu/nvim
+[08:43:15.143][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/plenary.nvim
+[08:43:15.160][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site
+[08:43:15.180][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-lspconfig
+[08:43:15.250][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///usr/share/nvim/runtime
+[08:43:15.582][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/dotfiles/language-server/lua-language-server/meta/3rd/love2d/library
+[08:43:15.585][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site
+[08:43:16.004][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-cmp
+[08:43:16.032][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp
+[08:43:16.044][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/vim-easymotion
+[08:43:16.079][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/onedark.nvim
+[08:43:16.104][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-cmdline/after
+[08:43:16.105][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/packer.nvim
+[08:43:16.137][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-path/after
+[08:43:16.137][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp_luasnip/after
+[08:43:16.137][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-buffer/after
+[08:43:16.138][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/cmp-path
+[08:43:16.174][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-tree.lua
+[08:43:16.210][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/dotfiles/language-server/lua-language-server/meta/LuaJIT%20en-us%20utf8
+[08:43:16.214][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/glow.nvim
+[08:43:16.249][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.config/nvim
+[08:43:16.251][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/null-ls.nvim
+[08:43:16.360][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/vim-fugitive
+[08:43:16.370][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/better-escape.nvim
+[08:43:16.385][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/vim-surround
+[08:43:16.410][info] [#0:script/workspace/workspace.lua:294]: Scan library at:	file:///home/thai/.local/share/nvim/site/pack/packer/start/nvim-treesitter
+[08:43:16.490][info] [#0:script/provider/provider.lua:158]: Server shutdown.
+[08:43:16.491][info] [#0:script/provider/provider.lua:151]: Server exited.
