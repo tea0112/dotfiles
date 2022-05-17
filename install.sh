@@ -72,7 +72,7 @@ ln -sf ${dotfiles_dir}/.zprofile ${dir}
 # create symbolic link of tmux configure
 ln -sf ${dotfiles_dir}/.tmux.conf ${dir}
 
-./dependencies-install/zsh-installer.sh
 ./dependencies-install/neovim-installer.sh
+./dependencies-install/zsh-installer.sh
 ./dependencies-install/tmux-installer.sh
 ./dependencies-install/github-cli-installer.sh
