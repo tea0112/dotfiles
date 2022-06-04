@@ -183,14 +183,13 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
+
+# map key
 bindsym $mod+F1 exec ~/.screenlayout/in.sh
 bindsym $mod+F2 exec ~/.screenlayout/ex.sh
 bindsym $mod+Prior exec pactl -- set-sink-volume @DEFAULT_SINK@ +5%
 bindsym $mod+Next exec pactl -- set-sink-volume @DEFAULT_SINK@ -5%
 bindsym $mod+End exec pactl -- set-sink-mute @DEFAULT_SINK@ toggle
-
-# map key
-#bindsym $mod+x exec xdotool key --clearmodifiers Page_Down
 
 # restore wallpaper
 exec --no-startup-id feh --bg-scale ~/dotfiles/wallpapers/marmotamaps-berchtesgaden-fullhd.jpg
@@ -219,6 +218,8 @@ for_window [class="Pavucontrol"] floating enable, resize set 700 700, move posit
 
 # border color
 client.focused #555555 #555555 #ffffff #2e9ef4 #CC0000
+
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
 exec --no-startup-id discord --start-minimized
 exec --no-startup-id telegram-desktop -startintray 

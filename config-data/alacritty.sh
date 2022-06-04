@@ -1,22 +1,7 @@
 #!/bin/bash
 
-#yay nerd-fonts-jetbrains-mono
-#yay ttf-jetbrains-mono
-cd /tmp
-rm -rf ttf-jetbrains-mono-git
-git clone https://aur.archlinux.org/ttf-jetbrains-mono-git.git
-cd ttf-jetbrains-mono-git
-makepkg -si
-cd ..
-rm -rf ttf-jetbrains-mono-git
-
-cd /tmp
-rm -rf nerd-fonts-jetbrains-mono
-git clone https://aur.archlinux.org/nerd-fonts-jetbrains-mono.git
-cd nerd-fonts-jetbrains-mono
-makepkg -si
-cd ..
-rm -rf ttf-jetbrains-mono-git
+bash ~/.scripts/mmi.sh https://aur.archlinux.org/ttf-jetbrains-mono-git
+bash ~/.scripts/mmi.sh https://aur.archlinux.org/nerd-fonts-jetbrains-mono
 
 sudo pacman -S alacritty
 
