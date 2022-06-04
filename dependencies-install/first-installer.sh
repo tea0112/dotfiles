@@ -10,5 +10,3 @@ sudo pacman -S polybar
 sudo pacman -S rofi
 sudo pacman -S noto-fonts-emoji
 
-bash ~/.scripts/mmi.sh https://aur.archlinux.org/yay
-bash ~/.scripts/mmi.sh https://aur.archlinux.org/google-chrome
