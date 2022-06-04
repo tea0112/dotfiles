@@ -3,13 +3,10 @@
 sudo pacman -S gcc
 sudo pacman -S ripgrep
 sudo pacman -S neovim
+sudo pacman -S lua-language-server 
+sudo pacman -S bash-language-server
 
-rm -rf /tmp/nvm
-git clone https://aur.archlinux.org/nvm.git /tmp/nvm
-cd /tmp/nvm
-makepkg -si
-cd
-rm -rf /tmp/nvm
+bash ~/dotfiles/.scripts/mmi.sh https://aur.archlinux.org/nvm
 
 nvim_config_dir="/home/$USER/nvim"
 if [ -d "${nvim_config_dir}" ]; then
