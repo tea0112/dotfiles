@@ -29,9 +29,6 @@ Utils.map("n", "<Leader>0", "O<ESC>", ns_opts)
 -- source lua neovim
 Utils.map("n", "<Leader>sv", ":luafile $MYVIMRC<CR>", ns_opts)
 
--- run custom function
-Utils.map("n", "<Leader>ra", ":lua Ra()<CR>", ns_opts)
-
 -- delete to hole
 Utils.map("n", "dd", "\"_dd", ns_opts)
 
@@ -110,7 +107,7 @@ Utils.map("i", "jk", "<Esc>", ns_opts)
 -- copy to y
 Utils.map("v", "y", "\"yy", ns_opts)
 
-Utils.map("v", "z", "<leader><leader>F", {})
+Utils.map("v", "<Leader>f", "<leader><leader>F", {})
 Utils.map("v", "f", "<leader><leader>f", {})
 
 -- delete to hole

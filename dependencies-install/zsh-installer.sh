@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo pacman -S --needed git wget base-devel
 sudo pacman -S zsh
 
 rm -rf ~/.oh-my-zsh

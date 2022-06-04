@@ -54,8 +54,7 @@ bindsym $mod+Shift+q kill
 # start dmenu (a program launcher)
 # bindsym $mod+d exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
-# bindcode $mod+40 exec "rofi -modi drun,run -show dru
-bindsym $mod+d exec $HOME/.config/rofi/bin/launcher_colorful
+bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 bindsym $mod+Shift+d exec rofi -show emoji -modi emoji
 #bindsym $mod+Escape exec $HOME/.config/rofi/bin/powermenu
 bindsym $mod+Escape exec ~/.config/rofi/bin/powermenu
@@ -203,7 +202,7 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec  xdg-mime default thunar.desktop inode/directory
 
 # window border
-for_window [class="^.*"] border pixel 7
+for_window [class="^.*"] border pixel 3
 
 # Smart Gaps
 smart_gaps on
@@ -219,7 +218,7 @@ gaps outer 0
 for_window [class="Pavucontrol"] floating enable, resize set 700 700, move position center
 
 # border color
-client.focused #555555 #555555 #ffffff #2e9ef4     #CC0000
+client.focused #555555 #555555 #ffffff #2e9ef4 #CC0000
 
 exec --no-startup-id discord --start-minimized
 exec --no-startup-id telegram-desktop -startintray 
