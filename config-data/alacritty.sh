@@ -1,5 +1,6 @@
 #!/bin/bash
 
+cd
 bash ~/.scripts/mmi.sh https://aur.archlinux.org/ttf-jetbrains-mono-git
 bash ~/.scripts/mmi.sh https://aur.archlinux.org/nerd-fonts-jetbrains-mono
 
