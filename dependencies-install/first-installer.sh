@@ -8,7 +8,7 @@ sudo pacman -S polkit-gnome
 sudo pacman -S arandr
 sudo pacman -S polybar
 sudo pacman -S rofi
+sudo pacman -S noto-fonts-emoji
 
 bash ~/.scripts/mmi.sh https://aur.archlinux.org/yay
-bash ~/.scripts/mmi.sh https://aur.archlinux.org/noto-fonts-emoji-git.git
 bash ~/.scripts/mmi.sh https://aur.archlinux.org/google-chrome
