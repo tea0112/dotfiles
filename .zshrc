@@ -135,6 +135,7 @@ alias blcr="bluetoothctl remove"
 alias aria2="~/.scripts/aria2c.sh"
 alias py="python3"
 alias mmi="bash ~/.scripts/mmi.sh"
+alias i3exit="bash ~/.config/i3/i3exit.sh"
 
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus

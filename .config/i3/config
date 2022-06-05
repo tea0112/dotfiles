@@ -184,6 +184,25 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+# session
+set $Locker i3lock && sleep 1
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+F12 mode "$mode_system"
+
 # map key
 bindsym $mod+F1 exec ~/.screenlayout/in.sh
 bindsym $mod+F2 exec ~/.screenlayout/ex.sh
@@ -220,12 +239,13 @@ for_window [class="Pavucontrol"] floating enable, resize set 700 700, move posit
 client.focused #555555 #555555 #ffffff #2e9ef4 #CC0000
 
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-
 exec --no-startup-id discord --start-minimized
 exec --no-startup-id telegram-desktop -startintray 
 exec --no-startup-id flameshot
 exec --no-startup-id goldendict
 exec --no-startup-id qbittorrent
+exec nm-applet --no-agent &
+exec-always nm-applet
 
 #exec setxkbmap -option caps:super
 
