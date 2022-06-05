@@ -247,5 +247,5 @@ exec --no-startup-id qbittorrent
 exec nm-applet --no-agent &
 exec-always nm-applet
 
-#exec setxkbmap -option caps:super
+exec setxkbmap -option caps:super
 
