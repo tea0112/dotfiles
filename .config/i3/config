@@ -238,6 +238,7 @@ for_window [class="Pavucontrol"] floating enable, resize set 700 700, move posit
 # border color
 client.focused #555555 #555555 #ffffff #2e9ef4 #CC0000
 
+exec --no-startup-id picom -b
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 exec --no-startup-id discord --start-minimized
 exec --no-startup-id telegram-desktop -startintray 
@@ -245,7 +246,6 @@ exec --no-startup-id flameshot
 exec --no-startup-id goldendict
 exec --no-startup-id qbittorrent
 exec nm-applet --no-agent &
-exec-always nm-applet
 
-exec setxkbmap -option caps:super
+exec_always setxkbmap -option caps:super
 
