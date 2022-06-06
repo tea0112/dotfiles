@@ -8,6 +8,7 @@ sudo pacman -S polkit-gnome
 sudo pacman -S arandr
 sudo pacman -S polybar
 sudo pacman -S rofi
+sudo pacman -S rofi-emoji
 sudo pacman -S noto-fonts-emoji
 sudo pacman -S i3lock
 sudo pacman -S picom
