@@ -232,8 +232,9 @@ smart_borders on
 gaps inner 8
 gaps outer 0
 
-# Floating programs
+# window
 for_window [class="Pavucontrol"] floating enable, resize set 700 700, move position center
+for_window [class="Spotify"] move container to workspace $ws10
 
 # border color
 client.focused #555555 #555555 #ffffff #2e9ef4 #CC0000
