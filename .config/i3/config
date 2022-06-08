@@ -54,10 +54,9 @@ bindsym $mod+Shift+q kill
 # start dmenu (a program launcher)
 # bindsym $mod+d exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
-bindcode $mod+40 exec "rofi -show-icons -modi drun,run -show drun"
+bindcode $mod+40 exec rofi -show drun -show-icons
 bindsym $mod+Shift+d exec rofi -show emoji -modi emoji
-#bindsym $mod+Escape exec $HOME/.config/rofi/bin/powermenu
-bindsym $mod+Escape exec ~/.config/rofi/bin/powermenu
+bindsym $mod+q exec rofi -show-icons -show window
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
@@ -74,10 +73,10 @@ bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+#bindsym $mod+Left focus left
+#bindsym $mod+Down focus down
+#bindsym $mod+Up focus up
+#bindsym $mod+Right focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -201,15 +200,15 @@ mode "$mode_system" {
     bindsym Escape mode "default"
 }
 
-bindsym $mod+F12 mode "$mode_system"
+bindsym $mod+Escape mode "$mode_system"
 
 # map key
 bindsym $mod+F1 exec ~/.screenlayout/in.sh
 bindsym $mod+F2 exec ~/.screenlayout/ex.sh
-bindsym $mod+Prior exec pactl -- set-sink-volume @DEFAULT_SINK@ +5%
-bindsym $mod+Next exec pactl -- set-sink-volume @DEFAULT_SINK@ -5%
+# volume
+bindsym $mod+Up exec pactl -- set-sink-volume @DEFAULT_SINK@ +5%
+bindsym $mod+Down exec pactl -- set-sink-volume @DEFAULT_SINK@ -5%
 bindsym $mod+End exec pactl -- set-sink-mute @DEFAULT_SINK@ toggle
-bindsym $mod+q exec rofi -show-icons -lines 9 -columns 2 -eh 1 -padding 100 -width 60 -show window
 
 # restore wallpaper
 exec --no-startup-id feh --bg-scale ~/dotfiles/wallpapers/marmotamaps-berchtesgaden-fullhd.jpg

@@ -147,6 +147,10 @@ export PATH=$PATH:/opt/cmake-3.23.1-linux-x86_64/bin
 export PATH=$PATH:~/dotfiles/bin
 export PATH="/home/thai/anaconda3/bin:$PATH"
 
+# nnn configuration
+export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'
+export NNN_FIFO=/tmp/nnn.fifo
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

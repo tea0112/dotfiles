@@ -12,6 +12,7 @@ sudo pacman -S rofi-emoji
 sudo pacman -S noto-fonts-emoji
 sudo pacman -S i3lock
 sudo pacman -S picom
+sudo pacman -S nnn
 sudo pacman -S zathura
 sudo pacman -S zathura-cb
 sudo pacman -S zathura-djvu
