@@ -6,8 +6,6 @@ sudo pacman -S neovim
 sudo pacman -S lua-language-server 
 sudo pacman -S bash-language-server
 
-bash ~/dotfiles/.scripts/mmi.sh https://aur.archlinux.org/nvm
-
 nvim_config_dir="/home/$USER/nvim"
 if [ -d "${nvim_config_dir}" ]; then
     rm -rf "${nvim_config_dir}"

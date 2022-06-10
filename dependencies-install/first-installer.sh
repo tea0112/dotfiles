@@ -18,3 +18,5 @@ sudo pacman -S pulseaudio-bluetooth
 bash ~/dotfiles/.scripts/mmi.sh https://aur.archlinux.org/yay
 bash ~/dotfiles/.scripts/mmi.sh https://aur.archlinux.org/google-chrome
 bash ~/dotfiles/.scripts/mmi.sh https://aur.archlinux.org/nerd-fonts-hack
+
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
