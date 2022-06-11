@@ -14,6 +14,9 @@ sudo pacman -S zathura-ps
 sudo pacman -S bluez
 sudo pacman -S bluez-utils
 sudo pacman -S pulseaudio-bluetooth
+sudo pacman -S typescript-language-server
+sudo pacman -S bash-language-server
+sudo pacman -S lua-language-server
 
 bash ~/dotfiles/.scripts/mmi.sh https://aur.archlinux.org/yay
 bash ~/dotfiles/.scripts/mmi.sh https://aur.archlinux.org/google-chrome

@@ -148,6 +148,7 @@ export PATH=$PATH:~/dotfiles/bin
 export PATH="/home/thai/anaconda3/bin:$PATH"
 export MM_LIVE_RELOAD=true
 export MM_SERVICESETTINGS_SITEURL="http://example.com"
+export MMCTL_LOCAL=true
 
 # nnn configuration
 export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'
