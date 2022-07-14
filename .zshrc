@@ -73,12 +73,12 @@ POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs)
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git
+	git
 	zsh-autosuggestions
 	zsh-syntax-highlighting
 )
 
-[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
+#[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
 
 source $ZSH/oh-my-zsh.sh
 
