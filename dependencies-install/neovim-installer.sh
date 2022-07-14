@@ -1,10 +1,10 @@
 #!/bin/bash
 
-sudo pacman -S gcc
-sudo pacman -S ripgrep
-sudo pacman -S neovim
-sudo pacman -S lua-language-server 
-sudo pacman -S bash-language-server
+#sudo pacman -S gcc
+#sudo pacman -S ripgrep
+#sudo pacman -S neovim
+#sudo pacman -S lua-language-server 
+#sudo pacman -S bash-language-server
 
 nvim_config_dir="/home/$USER/nvim"
 if [ -d "${nvim_config_dir}" ]; then
