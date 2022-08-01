@@ -12,10 +12,15 @@ if [ -d "${nvim_config_dir}" ]; then
 fi
 ln -sf /home/$USER/dotfiles/.config/nvim/ /home/$USER/.config/
 
-Packer_File=/home/$USER/.local/share/nvim/site/pack/packer/start/packer.nvim
-if [ ! -d "$Packer_File" ]; then
-    git clone --depth 1 https://github.com/wbthomason/packer.nvim\
-    ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+#Packer_File=/home/$USER/.local/share/nvim/site/pack/packer/start/packer.nvim
+#if [ ! -d "$Packer_File" ]; then
+#    git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+#    ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+#fi
+
+if [ -d "/home/$USER/.local/share/nvim/site/pack/packer" ]; then
+    rm -rf "/home/$USER/.local/share/nvim/site/pack/packer"
 fi
+ln -sf /home/$USER/dotfiles/packer/ ~/.local/share/nvim/site/pack/
 
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'

@@ -13,6 +13,7 @@ vim.opt.shiftwidth = tab_number
 vim.opt.softtabstop = tab_number
 vim.opt.expandtab = true
 vim.opt.mouse = 'a'
+vim.opt.clipboard = 'unnamedplus'
 --vim.opt.termguicolors = true
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -22,4 +23,3 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 })
 
---vim.cmd[[highlight NvimTreeFolderIcon guibg=blue]]
