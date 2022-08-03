@@ -51,7 +51,7 @@ Utils.map("n", "<Leader>y", "\"+y", ns_opts)
 Utils.map("n", "<Esc>", ":noh<CR><Esc>", ns_opts)
 
 -- show and select buffer
-Utils.map("n", "<Leader>l", ":ls<CR>:b ", ns_opts)
+Utils.map("n", "<Leader>lb", ":ls<CR>:b ", ns_opts)
 
 -- nvim-tree toggle
 Utils.map("n", "<C-n>", ":NvimTreeToggle<CR>", ns_opts)
