@@ -142,13 +142,14 @@ export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
 export EDITOR=nvim
 export GOPATH=$HOME/go
-export PATH=$PATH:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$GOROOT/bin:$GOPATH/bin:/home/thai/lua-language-server/bin
+export PATH=$PATH:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$GOROOT/bin:$GOPATH/bin
+export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/opt/cmake-3.23.1-linux-x86_64/bin
 export PATH=$PATH:~/dotfiles/bin
+export PATH=$PATH:/opt/apache-maven-3.8.6/bin
 export PATH="/home/thai/anaconda3/bin:$PATH"
-export MM_LIVE_RELOAD=true
-export MM_SERVICESETTINGS_SITEURL="http://example.com"
-export MMCTL_LOCAL=true
+export JAVA_HOME="/usr/lib/jvm/default-java"
+export MAVEN_HOME="/opt/apache-maven-3.8.6"
 
 # nnn configuration
 export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'
