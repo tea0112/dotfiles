@@ -17,7 +17,7 @@ vim.opt.clipboard = 'unnamedplus'
 --vim.opt.termguicolors = true
 
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "cpp" },
+    pattern = { "cpp", "js", "json" },
     callback = function()
         SetIndent(2)
     end
