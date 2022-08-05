@@ -19,9 +19,6 @@ Utils.map("n", "<A-i>", "<CMD>lua require('FTerm').toggle()<CR>", {noremap = tru
 -- run lua command fast
 Utils.map("n", "<C-l>", ":lua ", {noremap = true, silent = false})
 
--- glow
-Utils.map("n", "<Leader>m", ":w <CR>:Glow <CR>", ns_opts)
-
 -- new line without enable insert mode
 Utils.map("n", "<Leader>o", "o<ESC>", ns_opts)
 Utils.map("n", "<Leader>0", "O<ESC>", ns_opts)
@@ -50,12 +47,8 @@ Utils.map("n", "<Leader>y", "\"+y", ns_opts)
 -- turn off highlight
 Utils.map("n", "<Esc>", ":noh<CR><Esc>", ns_opts)
 
--- show and select buffer
-Utils.map("n", "<Leader>lb", ":ls<CR>:b ", ns_opts)
-
 -- nvim-tree toggle
 Utils.map("n", "<C-n>", ":NvimTreeToggle<CR>", ns_opts)
-Utils.map("n", "<Leader>r", ":NvimTreeRefresh<CR> ", ns_opts)
 
 -- move between window
 Utils.map("n", "<A-h>", ":wincmd h<CR>", ns_opts)
