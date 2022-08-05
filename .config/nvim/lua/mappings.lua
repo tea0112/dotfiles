@@ -3,6 +3,47 @@
 ------------- key mappings ---------------
 ------------------------------------------
 ------------------------------------------
+local wk = require 'which-key'
+local mappings = {
+    d = {
+        name = "Debug",
+        R = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run to Cursor" },
+        E = { "<cmd>lua require'dapui'.eval(vim.fn.input '[Expression] > ')<cr>", "Evaluate Input" },
+        C = { "<cmd>lua require'dap'.set_breakpoint(vim.fn.input '[Condition] > ')<cr>", "Conditional Breakpoint" },
+        U = { "<cmd>lua require'dapui'.toggle()<cr>", "Toggle UI" },
+        b = { "<cmd>lua require'dap'.step_back()<cr>", "Step Back" },
+        c = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
+        d = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
+        e = { "<cmd>lua require'dapui'.eval()<cr>", "Evaluate" },
+        g = { "<cmd>lua require'dap'.session()<cr>", "Get Session" },
+        h = { "<cmd>lua require'dap.ui.widgets'.hover()<cr>", "Hover Variables" },
+        S = { "<cmd>lua require'dap.ui.widgets'.scopes()<cr>", "Scopes" },
+        i = { "<cmd>lua require'dap'.step_into()<cr>", "Step Into" },
+        o = { "<cmd>lua require'dap'.step_over()<cr>", "Step Over" },
+        p = { "<cmd>lua require'dap'.pause.toggle()<cr>", "Pause" },
+        q = { "<cmd>lua require'dap'.close()<cr>", "Quit" },
+        r = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Toggle Repl" },
+        s = { "<cmd>lua require'dap'.continue()<cr>", "Start" },
+        t = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Toggle Breakpoint" },
+        x = { "<cmd>lua require'dap'.terminate()<cr>", "Terminate" },
+        u = { "<cmd>lua require'dap'.step_out()<cr>", "Step Out" },
+    },
+    l = {
+        f = { ":lua vim.lsp.buf.formatting()<CR>", "format file" }
+    },
+    t = {
+        d = {":lua require('dap-go').debug_test()<CR>", "Go debug test"}
+    }
+}
+wk.setup()
+wk.register(mappings, {
+    mode = "n",
+    prefix = "<leader>",
+    buffer = nil,
+    silent = true,
+    noremap = true,
+    nowait = false,
+})
 
 -- noremap, silent option
 local ns_opts = { noremap = true, silent = true }
@@ -14,10 +55,10 @@ local ns_opts = { noremap = true, silent = true }
 ------------------------------------------
 
 -- FTerm
-Utils.map("n", "<A-i>", "<CMD>lua require('FTerm').toggle()<CR>", {noremap = true, silent = false})
+Utils.map("n", "<A-i>", "<CMD>lua require('FTerm').toggle()<CR>", { noremap = true, silent = false })
 
 -- run lua command fast
-Utils.map("n", "<C-l>", ":lua ", {noremap = true, silent = false})
+Utils.map("n", "<C-l>", ":lua ", { noremap = true, silent = false })
 
 -- new line without enable insert mode
 Utils.map("n", "<Leader>o", "o<ESC>", ns_opts)
@@ -64,9 +105,6 @@ Utils.map("n", "<Leader>f", "<leader><leader>F", {})
 Utils.map("n", "<A-f>", "<cmd>Telescope find_files<cr>", ns_opts)
 Utils.map("n", "<A-w>", "<cmd>Telescope live_grep<cr>", ns_opts)
 Utils.map("n", "<A-e>", "<cmd>Telescope buffers<cr>", ns_opts)
-
--- lsp
-Utils.map("n", "<Leader>lf", ":lua vim.lsp.buf.formatting()<CR>", ns_opts)
 
 ------------------------------------------
 ------------------------------------------

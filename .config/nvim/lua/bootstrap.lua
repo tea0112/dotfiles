@@ -5,13 +5,13 @@ if fn.empty(fn.glob(install_path)) > 0 then
         install_path })
 end
 
-return require('packer').startup(function(use)
+return require 'packer'.startup(function(use)
     -- Packer can manage itself
-    use("wbthomason/packer.nvim")
+    use "wbthomason/packer.nvim"
     -- better escape
-    use({
+    use {
         "max397574/better-escape.nvim",
-    })
+    }
     -- nerdtree
     --use("preservim/nerdtree")
     use {
@@ -22,64 +22,81 @@ return require('packer').startup(function(use)
         tag = 'nightly' -- optional, updated every week. (see issue #1193)
     }
     -- vim surround
-    use("tpope/vim-surround")
+    use "tpope/vim-surround"
     -- easymotion
-    use("easymotion/vim-easymotion")
+    use "easymotion/vim-easymotion"
     -- fzf
-    use("junegunn/fzf")
+    use "junegunn/fzf"
     -- telescope
-    use({
+    use {
         "nvim-telescope/telescope.nvim",
         requires = { { "nvim-lua/plenary.nvim" } },
-    })
+    }
     -- treesitter
-    use({
+    use {
         "nvim-treesitter/nvim-treesitter",
         run = ":TSUpdate",
-    })
+    }
     -- cmp
-    use("hrsh7th/cmp-buffer")
-    use("hrsh7th/cmp-path")
-    use("hrsh7th/cmp-cmdline")
-    use("hrsh7th/nvim-cmp") -- Autocompletion plugin
-    use("hrsh7th/cmp-nvim-lsp") -- LSP source for nvim-cmp
-    use("saadparwaiz1/cmp_luasnip") -- Snippets source for nvim-cmp
-    use("L3MON4D3/LuaSnip")
+    use "hrsh7th/cmp-buffer"
+    use "hrsh7th/cmp-path"
+    use "hrsh7th/cmp-cmdline"
+    use "hrsh7th/nvim-cmp" -- Autocompletion plugin
+    use "hrsh7th/cmp-nvim-lsp" -- LSP source for nvim-cmp
+    use "saadparwaiz1/cmp_luasnip" -- Snippets source for nvim-cmp
+    use "L3MON4D3/LuaSnip"
     -- neovim lsp
-    use("neovim/nvim-lspconfig") -- Collection of configurations for built-in LSP client
+    use "neovim/nvim-lspconfig" -- Collection of configurations for built-in LSP client
     -- lualine
-    use({
+    use {
         "nvim-lualine/lualine.nvim",
         requires = { "kyazdani42/nvim-web-devicons", opt = true },
-    })
+    }
     -- null-ls
-    use({
+    use {
         "jose-elias-alvarez/null-ls.nvim",
         config = function()
-            require("null-ls").setup()
+            require "null-ls".setup()
         end,
         requires = { "nvim-lua/plenary.nvim" },
-    })
+    }
     -- git change show
     use {
         'lewis6991/gitsigns.nvim',
         tag = 'release'
     }
     -- git fugitive
-    use({ "tpope/vim-fugitive" })
+    use "tpope/vim-fugitive"
     -- onedark
     use 'navarasu/onedark.nvim'
     -- markdown glow
     use { "ellisonleao/glow.nvim", branch = 'main' }
     -- css color
-    use { "norcalli/nvim-colorizer.lua" }
+    use "norcalli/nvim-colorizer.lua"
     -- Fterm
     use "numToStr/FTerm.nvim"
     -- vim go
     use "fatih/vim-go"
+    -- which key
+    use "folke/which-key.nvim"
+
+    use 'leoluz/nvim-dap-go'
+
+    use { 'nvim-telescope/telescope-dap.nvim' }
+
+    use {
+        'mfussenegger/nvim-dap',
+        requires = {
+            "Pocco81/DAPInstall.nvim",
+            "theHamsta/nvim-dap-virtual-text",
+            "rcarriga/nvim-dap-ui",
+            { "jbyuki/one-small-step-for-vimkind", module = "osv" },
+        },
+    }
+
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then
-        require('packer').sync()
+        require 'packer'.sync()
     end
 end)
