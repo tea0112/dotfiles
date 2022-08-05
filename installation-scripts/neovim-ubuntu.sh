@@ -1,8 +1,8 @@
 #!/bin/bash
 
 sudo apt install build-essential -y
-curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
-sudo dpkg -i ripgrep_13.0.0_amd64.deb
+sudo apt install fd-find -y
+sudo apt install ripgrep -y
 
 nvim_config_dir="/home/$USER/nvim"
 if [ -d "${nvim_config_dir}" ]; then

@@ -62,8 +62,8 @@ Utils.map("n", "<Leader>f", "<leader><leader>F", {})
 
 -- telescope
 Utils.map("n", "<A-f>", "<cmd>Telescope find_files<cr>", ns_opts)
-Utils.map("n", "<A-g>", "<cmd>Telescope live_grep<cr>", ns_opts)
-Utils.map("n", "<A-b>", "<cmd>Telescope buffers<cr>", ns_opts)
+Utils.map("n", "<A-w>", "<cmd>Telescope live_grep<cr>", ns_opts)
+Utils.map("n", "<A-e>", "<cmd>Telescope buffers<cr>", ns_opts)
 
 -- lsp
 Utils.map("n", "<Leader>lf", ":lua vim.lsp.buf.formatting()<CR>", ns_opts)
