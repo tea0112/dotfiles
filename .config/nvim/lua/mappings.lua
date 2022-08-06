@@ -109,7 +109,7 @@ Utils.map("n", "<A-l>", ":wincmd l<CR>", ns_opts)
 
 -- easymotion
 Utils.map("n", "f", "<leader><leader>f", {})
-Utils.map("n", "<Leader>f", "<leader><leader>F", {})
+Utils.map("n", "F", "<leader><leader>F", {})
 
 ------------------------------------------
 ------------------------------------------
