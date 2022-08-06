@@ -161,7 +161,6 @@ null_ls.setup({
         -- -- -- -- -- --
         -- completion  --
         -- -- -- -- -- --
-        completion.spell,
         -- -- -- --
         -- hook  --
         -- -- -- --
