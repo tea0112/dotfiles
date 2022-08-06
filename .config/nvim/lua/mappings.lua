@@ -62,8 +62,8 @@ local ns_opts = { noremap = true, silent = true }
 ------------------------------------------
 
 -- 'edit alternate file' convenience mapping
-Utils.map("n", "<A-Left>", "-tabmove<cr>", ns_opts)
-Utils.map("n", "<A-Right>", ":+tabmove<cr>", ns_opts)
+Utils.map("n", "<A-Left>", "gT", ns_opts)
+Utils.map("n", "<A-Right>", "gt", ns_opts)
 
 -- 'edit alternate file' convenience mapping
 Utils.map("n", "<BS>", "<C-^>", ns_opts)
