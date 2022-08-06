@@ -74,10 +74,6 @@ Utils.map("n", "<A-i>", "<CMD>lua require('FTerm').toggle()<CR>", { noremap = tr
 -- run lua command fast
 Utils.map("n", "<C-l>", ":lua ", { noremap = true, silent = false })
 
--- new line without enable insert mode
-Utils.map("n", "<Leader>o", "o<ESC>", ns_opts)
-Utils.map("n", "<Leader>0", "O<ESC>", ns_opts)
-
 -- source lua neovim
 Utils.map("n", "<Leader>sv", ":luafile $MYVIMRC<CR>", ns_opts)
 

@@ -100,6 +100,18 @@ return require 'packer'.startup(function(use)
 
     use 'williamboman/nvim-lsp-installer'
 
+    use {
+        'rmagatti/auto-session',
+        config = function()
+            require('auto-session').setup {
+                log_level = 'info',
+                auto_session_suppress_dirs = { '~/', '~/Projects' }
+            }
+        end
+    }
+
+    use 'folke/tokyonight.nvim'
+
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then

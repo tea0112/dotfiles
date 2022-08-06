@@ -117,6 +117,9 @@ lspconfig.bashls.setup({
     capabilities = capabilities,
 })
 
+-- eslint --
+require'lspconfig'.eslint.setup{}
+
 -----------------------------------------------------------
 -----------------------------------------------------------
 --                                                       --

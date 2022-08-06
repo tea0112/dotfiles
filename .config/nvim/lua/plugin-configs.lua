@@ -1,5 +1,5 @@
 require("lualine").setup({
-    options = { theme = "dracula" },
+    options = { theme = "tokyonight" },
 })
 
 require("better_escape").setup({
@@ -38,12 +38,6 @@ require("nvim-treesitter.configs").setup({
         additional_vim_regex_highlighting = false,
     },
 })
-
-require('onedark').setup {
-    style = 'darker'
-}
-
-require('onedark').load()
 
 -- Attaches to every FileType mode
 require 'colorizer'.setup()

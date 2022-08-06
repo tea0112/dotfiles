@@ -15,3 +15,6 @@ vim.opt.softtabstop = tab_number
 vim.opt.expandtab = true
 vim.opt.mouse = 'a'
 vim.opt.clipboard = 'unnamedplus'
+vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
+
+vim.cmd[[colorscheme tokyonight]]
