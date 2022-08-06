@@ -1,5 +1,3 @@
-require "nvim-lsp-installer".setup {}
-
 --------------
 -- Mappings --
 --------------
@@ -48,6 +46,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 capabilities.offsetEncoding = { "utf-16" }
 
+require "nvim-lsp-installer".setup {}
 
 ----------------------------
 -- Language Server Config --
