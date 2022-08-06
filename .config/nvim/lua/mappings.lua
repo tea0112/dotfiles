@@ -32,9 +32,16 @@ local mappings = {
         f = { ":lua vim.lsp.buf.formatting()<CR>", "format file" }
     },
     t = {
-        d = {":lua require('dap-go').debug_test()<CR>", "Go debug test"}
+        d = { ":lua require('dap-go').debug_test()<CR>", "Go debug test" }
+    },
+    f = {
+        f = { "<cmd>Telescope find_files<cr>", "Find files" },
+        g = { "<cmd>Telescope live_grep<cr>", "Search string"},
+        h = { "<cmd>Telescope help_tags<cr>", "Help" },
+        b = { "<cmd>Telescope buffers<cr>", "List buffers" },
     }
 }
+
 wk.setup()
 wk.register(mappings, {
     mode = "n",
@@ -103,11 +110,6 @@ Utils.map("n", "<A-l>", ":wincmd l<CR>", ns_opts)
 -- easymotion
 Utils.map("n", "f", "<leader><leader>f", {})
 Utils.map("n", "<Leader>f", "<leader><leader>F", {})
-
--- telescope
-Utils.map("n", "<A-f>", "<cmd>Telescope find_files<cr>", ns_opts)
-Utils.map("n", "<A-w>", "<cmd>Telescope live_grep<cr>", ns_opts)
-Utils.map("n", "<A-e>", "<cmd>Telescope buffers<cr>", ns_opts)
 
 ------------------------------------------
 ------------------------------------------
