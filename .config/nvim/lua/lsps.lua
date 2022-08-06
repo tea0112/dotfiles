@@ -102,7 +102,7 @@ lspconfig.rust_analyzer.setup({
 })
 
 
--- rust --
+-- golang --
 lspconfig.gopls.setup({
     on_attach = on_attach,
     capabilities = capabilities,

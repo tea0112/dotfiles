@@ -1,9 +1,10 @@
 -------------------
 -- global config --
 -------------------
-local tab_number = 4
 
+local tab_number = 4
 vim.g.mapleader = " "
+vim.g.cursorhold_updatetime = 100
 
 vim.opt.number = true
 vim.opt.autoindent = true
@@ -14,12 +15,3 @@ vim.opt.softtabstop = tab_number
 vim.opt.expandtab = true
 vim.opt.mouse = 'a'
 vim.opt.clipboard = 'unnamedplus'
---vim.opt.termguicolors = true
-
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "cpp", "js", "json" },
-    callback = function()
-        SetIndent(2)
-    end
-})
-

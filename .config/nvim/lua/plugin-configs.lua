@@ -124,3 +124,5 @@ end
 dap.listeners.before.event_exited["dapui_config"] = function()
     dapui.close()
 end
+
+require 'nvim-lightbulb'.setup({ autocmd = { enabled = true } })
