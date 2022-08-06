@@ -1,3 +1,5 @@
+require "nvim-lsp-installer".setup {}
+
 --------------
 -- Mappings --
 --------------
@@ -62,33 +64,6 @@ local runtime_path = vim.split(package.path, ";")
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
-lspconfig.sumneko_lua.setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
-        Lua = {
-            runtime = {
-                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                version = "LuaJIT",
-                -- Setup your lua path
-                path = runtime_path,
-            },
-            diagnostics = {
-                -- Get the language server to recognize the `vim` global
-                globals = { "vim" },
-            },
-            workspace = {
-                -- Make the server aware of Neovim runtime files
-                library = vim.api.nvim_get_runtime_file("", true),
-            },
-            -- Do not send telemetry data containing a randomized but unique identifier
-            telemetry = {
-                enable = false,
-            },
-        },
-    },
-})
-
 -- cpp --
 lspconfig.clangd.setup({
     on_attach = on_attach,
@@ -101,6 +76,29 @@ lspconfig.rust_analyzer.setup({
     capabilities = capabilities,
 })
 
+-- lua --
+require'lspconfig'.sumneko_lua.setup {
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {'vim'},
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+}
 
 -- golang --
 lspconfig.gopls.setup({
@@ -141,7 +139,9 @@ local completion = null_ls.builtins.completion
 
 null_ls.setup({
     sources = {
-        -- format
+        -- -- -- -- --
+        --  format  --
+        -- -- -- -- --
         formatting.autopep8,
         formatting.clang_format.with({
             extra_args = {
@@ -153,14 +153,19 @@ null_ls.setup({
         formatting.golines,
         formatting.gofumpt,
         formatting.prettier,
-        -- diagnostic
+        formatting.lua_format,
+        -- -- -- -- -- --
+        -- diagnostic  --
+        -- -- -- -- -- --
         diagnostics.eslint,
         diagnostics.flake8,
-        --diagnostics.cppcheck,
-        --diagnostics.shellcheck,
-        -- completion
+        -- -- -- -- -- --
+        -- completion  --
+        -- -- -- -- -- --
         completion.spell,
-        -- nvim
+        -- -- -- --
+        -- hook  --
+        -- -- -- --
         capabilities = capabilities,
         on_attach = on_attach,
     },
