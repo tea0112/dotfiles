@@ -54,6 +54,9 @@ local ns_opts = { noremap = true, silent = true }
 ------------------------------------------
 ------------------------------------------
 
+-- 'edit alternate file' convenience mapping
+Utils.map("n", "<BS>", "<C-^>", ns_opts)
+
 -- FTerm
 Utils.map("n", "<A-i>", "<CMD>lua require('FTerm').toggle()<CR>", { noremap = true, silent = false })
 
