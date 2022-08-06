@@ -153,7 +153,6 @@ null_ls.setup({
         formatting.golines,
         formatting.gofumpt,
         formatting.prettier,
-        formatting.lua_format,
         -- -- -- -- -- --
         -- diagnostic  --
         -- -- -- -- -- --
