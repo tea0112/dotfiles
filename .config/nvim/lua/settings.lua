@@ -18,3 +18,4 @@ vim.opt.clipboard = 'unnamedplus'
 vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
 
 vim.cmd[[colorscheme tokyonight]]
+vim.cmd[[command Diff execute 'w !git diff --no-index % -']]
