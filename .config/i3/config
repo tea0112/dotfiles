@@ -181,10 +181,9 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        #status_command i3status
-        status_command i3status
-}
+#bar {
+#        status_command i3status
+#}
 
 # autochange monitor
 bindsym $mod+F1 exec autorandr --change
@@ -195,3 +194,5 @@ bindsym $mod+F1 exec autorandr --change
 exec --no-startup-id picom -b
 exec_always --no-startup-id imwheel
 exec_always --no-startup-id nm-applet
+exec_always --no-startup-id lxqt-policykit-agent
+exec_always --no-startup-id ~/.config/polybar/launch.sh
