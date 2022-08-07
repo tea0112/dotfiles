@@ -5,6 +5,7 @@
 local tab_number = 4
 vim.g.mapleader = " "
 vim.g.cursorhold_updatetime = 100
+vim.opt.termguicolors = true
 
 vim.opt.number = true
 vim.opt.autoindent = true
@@ -18,4 +19,8 @@ vim.opt.clipboard = 'unnamedplus'
 vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
 
 vim.cmd[[colorscheme tokyonight]]
-vim.cmd[[command Diff execute 'w !git diff --no-index % -']]
+
+vim.api.nvim_create_user_command("Diff", function()
+    vim.cmd('w !git diff --no-index % -')
+end, {})
+

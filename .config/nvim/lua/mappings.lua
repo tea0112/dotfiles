@@ -5,6 +5,9 @@
 ------------------------------------------
 local wk = require 'which-key'
 local mappings = {
+    c = {
+        l = {"<cmd>bufdo bd<cr>", "Clear All Buffer"}
+    },
     d = {
         name = "Debug",
         R = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run to Cursor" },
@@ -60,6 +63,13 @@ local ns_opts = { noremap = true, silent = true }
 ------------- normal mode ----------------
 ------------------------------------------
 ------------------------------------------
+
+-- buffer line
+Utils.map("n", "[b", ":BufferLineCyclePrev<CR>", ns_opts)
+Utils.map("n", "]b", ":BufferLineCycleNext<CR>", ns_opts)
+Utils.map("n", "be", ":BufferLineSortByExtension<CR>", ns_opts)
+Utils.map("n", "bd", ":BufferLineSortByDirectory<CR>", ns_opts)
+
 
 -- 'edit alternate file' convenience mapping
 Utils.map("n", "<A-Left>", "gT", ns_opts)

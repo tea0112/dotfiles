@@ -1,12 +1,13 @@
--- luasnip setup
-local luasnip = require("luasnip")
-
+--require("luasnip.loaders.from_vscode").lazy_load({ paths = { "./lua/snippets" } })
+require("luasnip.loaders.from_vscode").lazy_load()
 -- nvim-cmp setup
-local cmp = require("cmp")
+local cmp = require "cmp"
+local luasnip = require "luasnip"
+
 cmp.setup({
     snippet = {
         expand = function(args)
-            require("luasnip").lsp_expand(args.body)
+            luasnip.lsp_expand(args.body)
         end,
     },
     mapping = {

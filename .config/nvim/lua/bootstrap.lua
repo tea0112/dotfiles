@@ -32,19 +32,19 @@ return require 'packer'.startup(function(use)
         "nvim-telescope/telescope.nvim",
         requires = { { "nvim-lua/plenary.nvim" } },
     }
-    -- treesitter
+
     use {
         "nvim-treesitter/nvim-treesitter",
-        run = ":TSUpdate",
     }
+
     -- cmp
     use "hrsh7th/cmp-buffer"
     use "hrsh7th/cmp-path"
     use "hrsh7th/cmp-cmdline"
     use "hrsh7th/nvim-cmp" -- Autocompletion plugin
     use "hrsh7th/cmp-nvim-lsp" -- LSP source for nvim-cmp
+    use 'L3MON4D3/LuaSnip'
     use "saadparwaiz1/cmp_luasnip" -- Snippets source for nvim-cmp
-    use "L3MON4D3/LuaSnip"
     -- neovim lsp
     use "neovim/nvim-lspconfig" -- Collection of configurations for built-in LSP client
     -- lualine
@@ -112,6 +112,11 @@ return require 'packer'.startup(function(use)
 
     use 'folke/tokyonight.nvim'
 
+    use 'akinsho/bufferline.nvim'
+
+    use "lukas-reineke/indent-blankline.nvim"
+    
+    use "rafamadriz/friendly-snippets"
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then
