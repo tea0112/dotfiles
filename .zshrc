@@ -151,6 +151,7 @@ export JAVA_HOME="/usr/lib/jvm/default-java"
 export MAVEN_HOME="/opt/apache-maven-3.8.6"
 export PAGER=less
 export MM_LIVE_RELOAD=true
+export XDG_CONFIG_HOME="$HOME/.config"
 
 # nnn configuration
 export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'

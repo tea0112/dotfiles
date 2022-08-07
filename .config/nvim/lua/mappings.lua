@@ -67,8 +67,8 @@ local ns_opts = { noremap = true, silent = true }
 -- buffer line
 Utils.map("n", "[b", ":BufferLineCyclePrev<CR>", ns_opts)
 Utils.map("n", "]b", ":BufferLineCycleNext<CR>", ns_opts)
-Utils.map("n", "be", ":BufferLineSortByExtension<CR>", ns_opts)
-Utils.map("n", "bd", ":BufferLineSortByDirectory<CR>", ns_opts)
+Utils.map("n", "se", ":BufferLineSortByExtension<CR>", ns_opts)
+Utils.map("n", "sd", ":BufferLineSortByDirectory<CR>", ns_opts)
 
 
 -- 'edit alternate file' convenience mapping

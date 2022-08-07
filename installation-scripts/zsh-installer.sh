@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#sudo pacman -S zsh
+sudo pacman -S zsh
 
 rm -rf ~/.oh-my-zsh
 git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh

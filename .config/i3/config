@@ -13,11 +13,11 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-# font pango:monospace 8
+font pango:monospace 8
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:DejaVu Sans Mono 8
+#font pango:DejaVu Sans Mono 8
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
@@ -32,7 +32,6 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -45,7 +44,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 
 # start a terminal
-#bindsym $mod+Return exec i3-sensible-terminal
+# bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec alacritty
 
 # kill focused window
@@ -54,9 +53,7 @@ bindsym $mod+Shift+q kill
 # start dmenu (a program launcher)
 # bindsym $mod+d exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
-bindcode $mod+40 exec rofi -show drun -show-icons
-bindsym $mod+Shift+d exec rofi -show emoji -modi emoji
-bindsym $mod+q exec rofi -show-icons -show window
+bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
@@ -66,17 +63,18 @@ bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
 # move focused window
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
-
-# alternatively, you can use the cursor keys:
-#bindsym $mod+Left focus left
-#bindsym $mod+Down focus down
-#bindsym $mod+Up focus up
-#bindsym $mod+Right focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -154,8 +152,6 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
-bindcode Mod4+49 exec xmodmap ~/.Xmodmap
-
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
@@ -164,10 +160,10 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -183,70 +179,19 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# session
-set $Locker i3lock && sleep 1
-
-set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
-mode "$mode_system" {
-    bindsym l exec --no-startup-id $Locker, mode "default"
-    bindsym e exec --no-startup-id i3-msg exit, mode "default"
-    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
-    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
-    bindsym r exec --no-startup-id systemctl reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
-
-    # back to normal: Enter or Escape
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+        #status_command i3status
+        status_command i3status
 }
 
-bindsym $mod+Escape mode "$mode_system"
+# autochange monitor
+bindsym $mod+F1 exec autorandr --change
 
-# map key
-bindsym $mod+F1 exec ~/.screenlayout/in.sh
-bindsym $mod+F2 exec ~/.screenlayout/ex.sh
-# volume
-bindsym $mod+Up exec pactl -- set-sink-volume @DEFAULT_SINK@ +5%
-bindsym $mod+Down exec pactl -- set-sink-volume @DEFAULT_SINK@ -5%
-bindsym $mod+End exec pactl -- set-sink-mute @DEFAULT_SINK@ toggle
-
-# restore wallpaper
-exec --no-startup-id feh --bg-scale ~/dotfiles/wallpapers/marmotamaps-berchtesgaden-fullhd.jpg
-
-# run polybar
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-
-# thunar as default
-exec  xdg-mime default thunar.desktop inode/directory
-
-# window border
-for_window [class="^.*"] border pixel 3
-
-# Smart Gaps
-smart_gaps on
-
-# Smart Borders
-smart_borders on
-
-# Set inner/outer gaps
-gaps inner 8
-gaps outer 0
-
-# window
-for_window [class="Pavucontrol"] floating enable, resize set 700 700, move position center
-for_window [class="Spotify"] move container to workspace $ws10
-
-# border color
-client.focused #555555 #555555 #ffffff #2e9ef4 #CC0000
-
+# start on startup
+# exec - run one time
+# exec_always - each i3 restart
 exec --no-startup-id picom -b
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-exec --no-startup-id discord --start-minimized
-exec --no-startup-id telegram-desktop -startintray 
-exec --no-startup-id flameshot
-exec --no-startup-id goldendict
-exec --no-startup-id qbittorrent
-exec nm-applet --no-agent &
-
-exec_always setxkbmap -option caps:super
-
+exec_always --no-startup-id imwheel
+exec_always --no-startup-id nm-applet
