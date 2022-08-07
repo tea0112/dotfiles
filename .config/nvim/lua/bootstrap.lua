@@ -115,8 +115,10 @@ return require 'packer'.startup(function(use)
     use 'akinsho/bufferline.nvim'
 
     use "lukas-reineke/indent-blankline.nvim"
-    
+
     use "rafamadriz/friendly-snippets"
+
+    use "windwp/nvim-autopairs"
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then
