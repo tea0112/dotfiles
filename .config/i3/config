@@ -200,6 +200,7 @@ gaps inner 15
 gaps outer 0
 
 # autochange monitor
+exec_always --no-startup-id xmodmap ~/.Xmodmap
 bindsym $mod+F1 exec autorandr --change
 bindsym $mod+shift+x exec betterlockscreen -l && sleep 5 && xset dpms force off
 
@@ -217,3 +218,4 @@ exec_always --no-startup-id ~/.config/polybar/launch.sh
 exec_always --no-startup-id goldendict &
 exec_always --no-startup-id qbittorrent &
 exec_always --no-startup-id telegram-desktop &
+exec_always --no-startup-id flameshot &
