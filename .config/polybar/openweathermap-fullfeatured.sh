@@ -67,7 +67,6 @@ if [ -n "$CITY" ]; then
     fi
 
     current=$(curl -sf "$API/weather?appid=$KEY&$CITY_PARAM&units=$UNITS")
-    echo ${current} > ~/log.txt
     forecast=$(curl -sf "$API/forecast?appid=$KEY&$CITY_PARAM&units=$UNITS&cnt=1")
 else
     location=$(curl -sf https://location.services.mozilla.com/v1/geolocate?key=geoclue)
@@ -89,13 +88,13 @@ if [ -n "$current" ] && [ -n "$forecast" ]; then
     forecast_icon=$(echo "$forecast" | jq -r ".list[].weather[0].icon")
 
 
-    if [ "$current_temp" -gt "$forecast_temp" ]; then
-        trend=""
-    elif [ "$forecast_temp" -gt "$current_temp" ]; then
-        trend=""
-    else
-        trend=""
-    fi
+    #if [ "$current_temp" -gt "$forecast_temp" ]; then
+    #    trend=""
+    #elif [ "$forecast_temp" -gt "$current_temp" ]; then
+    #    trend=""
+    #else
+    #    trend=""
+    #fi
 
 
     sun_rise=$(echo "$current" | jq ".sys.sunrise")
@@ -103,12 +102,12 @@ if [ -n "$current" ] && [ -n "$forecast" ]; then
     now=$(date +%s)
 
     if [ "$sun_rise" -gt "$now" ]; then
-        daytime=" $(get_duration "$((sun_rise-now))")"
+        daytime="$(get_duration "$((sun_rise-now))") to "
     elif [ "$sun_set" -gt "$now" ]; then
-        daytime=" $(get_duration "$((sun_set-now))")"
+        daytime="$(get_duration "$((sun_set-now))") to "
     else
-        daytime=" $(get_duration "$((sun_rise-now))")"
+        daytime="$(get_duration "$((sun_rise-now))") to "
     fi
-
-    echo "$(get_icon "$current_icon") $current_temp$SYMBOL  $trend  $(get_icon "$forecast_icon") $forecast_temp$SYMBOL   $daytime"
+    
+    echo "$(get_icon "$current_icon") $current_temp$SYMBOL  $(get_icon "$forecast_icon") $forecast_temp$SYMBOL   $daytime"
 fi
