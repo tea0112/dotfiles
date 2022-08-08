@@ -155,6 +155,7 @@ null_ls.setup({
         formatting.golines,
         formatting.gofumpt,
         formatting.prettier,
+        formatting.jq,
         -- -- -- -- -- --
         -- diagnostic  --
         -- -- -- -- -- --
