@@ -213,6 +213,6 @@ exec_always --no-startup-id imwheel
 exec_always --no-startup-id nm-applet
 exec_always --no-startup-id lxqt-policykit-agent
 exec_always --no-startup-id ~/.config/polybar/launch.sh
-#exec_always --no-startup-id goldendict &
-#exec_always --no-startup-id qbittorrent &
-#exec_always --no-startup-id telegram-desktop &
+exec_always --no-startup-id goldendict &
+exec_always --no-startup-id qbittorrent &
+exec_always --no-startup-id telegram-desktop &

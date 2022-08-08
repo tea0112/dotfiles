@@ -6,7 +6,7 @@ get_icon() {
         01d) icon="";;
         01n) icon="";;
         02d) icon="";;
-        02n) icon="";;
+        02n) icon="";;
         03*) icon="";;
         04*) icon="";;
         09d) icon="";;
@@ -86,7 +86,6 @@ if [ -n "$current" ] && [ -n "$forecast" ]; then
 
     forecast_temp=$(echo "$forecast" | jq ".list[].main.temp" | cut -d "." -f 1)
     forecast_icon=$(echo "$forecast" | jq -r ".list[].weather[0].icon")
-
 
     #if [ "$current_temp" -gt "$forecast_temp" ]; then
     #    trend=""
