@@ -153,7 +153,7 @@ Utils.map("i", "jk", "<Esc>", ns_opts)
 -- copy to y
 Utils.map("v", "y", "\"yy", ns_opts)
 
-Utils.map("v", "<Leader>f", "<leader><leader>F", {})
+Utils.map("v", "F", "<leader><leader>F", {})
 Utils.map("v", "f", "<leader><leader>f", {})
 
 -- delete to hole
