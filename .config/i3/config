@@ -186,7 +186,7 @@ bindsym $mod+r mode "resize"
 #}
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #dda15e #dda15e #dda15e #dda15e   #dda15ebf
+client.focused          #dda15e #dda15e #dda15e #E45826   #95CD41
 client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
 client.unfocused        #333333 #222222 #888888 #292d2e   #222222
 client.urgent           #2f343a #900000 #ffffff #900000   #900000
@@ -196,8 +196,8 @@ client.background       #ffffff
 
 # gaps
 for_window [class="^.*"] border pixel 8
-gaps inner 10
-gaps outer 10
+gaps inner 15
+gaps outer 0
 
 # autochange monitor
 bindsym $mod+F1 exec autorandr --change
@@ -213,3 +213,6 @@ exec_always --no-startup-id imwheel
 exec_always --no-startup-id nm-applet
 exec_always --no-startup-id lxqt-policykit-agent
 exec_always --no-startup-id ~/.config/polybar/launch.sh
+#exec_always --no-startup-id goldendict &
+#exec_always --no-startup-id qbittorrent &
+#exec_always --no-startup-id telegram-desktop &
