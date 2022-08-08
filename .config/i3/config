@@ -207,6 +207,7 @@ bindsym $mod+shift+x exec betterlockscreen -l && sleep 5 && xset dpms force off
 # exec - run one time
 # exec_always - each i3 restart
 exec --no-startup-id picom --experimental-backends -b
+exec --no-startup-id blueman-applet
 exec_always --no-startup-id autorandr --change
 exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpapers/concrete-road.jpg
 exec_always --no-startup-id imwheel
