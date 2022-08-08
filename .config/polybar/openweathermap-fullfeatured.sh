@@ -52,7 +52,7 @@ get_duration() {
 
 }
 
-KEY="6184acfe360848628c2e7302d87ba8a5"
+KEY="$(echo $OPK)"
 CITY="1566319"
 UNITS="metric"
 SYMBOL="°"
