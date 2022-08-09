@@ -117,6 +117,7 @@ alias lk="zdict -dt oxford"
 alias ei3="nvim ~/dotfiles/.config/i3/config"
 alias ealacritty="nvim ~/dotfiles/.config/alacritty/alacritty.yml"
 alias epolybar="cd ~/.config/polybar && nvim ."
+alias erofi="cd ~/dotfiles/.config/rofi && nvim ."
 alias pdotfiles='cd ~/dotfiles && git add . && git commit -m "update" && git push -u origin master'
 alias se="sudoedit"
 # check what wakeup

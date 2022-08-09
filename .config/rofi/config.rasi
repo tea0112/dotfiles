@@ -1,15 +1,38 @@
 configuration {
-	modi: "drun,calc:qalc,window,run";
+	modi: "combi,window";
+    combi-modi: "drun,run";
 	width: 25;
 	show-icons: true;
-	icon-theme: "papirus";
 	lines: 10;
 	fake-transparency: true;
 	sidebar-mode: true;
-	
 }
 
-configuration {
+entry {
+    placeholder: "Type here";
+    cursor: pointer;
+}
+
+element {
+  orientation: horizontal;
+  children: [ element-icon, element-text ];
+  spacing: 5px;
+}
+
+element-icon {
+    size: 2.5em;
+}
+
+entry, element-text {
+    text-color: red;
+    background-color: rgb(0,0,255);
+}
+
+element-text {
+    vertical-align: 0.5;
+}
+
+/* configuration { */
 /*	modi: "window,run,ssh";*/
 /*	font: "mono 12";*/
 /*	location: 0;*/
@@ -147,13 +170,12 @@ configuration {
 /*	me-select-entry: "MousePrimary";*/
 /*	me-accept-entry: "MouseDPrimary";*/
 /*	me-accept-custom: "Control+MouseDPrimary";*/
-  timeout {
-      action: "kb-cancel";
-      delay:  0;
-  }
-  filebrowser {
-      directories-first: true;
-      sorting-method:    "name";
-  }
-}
-@theme "/usr/share/rofi/themes/Paper.rasi"
+/*  timeout {*/
+/*      action: "kb-cancel";*/
+/*      delay:  0;*/
+/*  }*/
+/*  filebrowser {*/
+/*      directories-first: true;*/
+/*      sorting-method:    "name";*/
+/*  }*/
+/*}*/
