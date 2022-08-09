@@ -1,38 +1,10 @@
 configuration {
-	modi: "combi,window";
+    modi: "combi";
     combi-modi: "drun,run";
-	width: 25;
-	show-icons: true;
-	lines: 10;
-	fake-transparency: true;
-	sidebar-mode: true;
 }
+@theme "Pop-Dark"
 
-entry {
-    placeholder: "Type here";
-    cursor: pointer;
-}
-
-element {
-  orientation: horizontal;
-  children: [ element-icon, element-text ];
-  spacing: 5px;
-}
-
-element-icon {
-    size: 2.5em;
-}
-
-entry, element-text {
-    text-color: red;
-    background-color: rgb(0,0,255);
-}
-
-element-text {
-    vertical-align: 0.5;
-}
-
-/* configuration { */
+//configuration {
 /*	modi: "window,run,ssh";*/
 /*	font: "mono 12";*/
 /*	location: 0;*/
@@ -170,12 +142,12 @@ element-text {
 /*	me-select-entry: "MousePrimary";*/
 /*	me-accept-entry: "MouseDPrimary";*/
 /*	me-accept-custom: "Control+MouseDPrimary";*/
-/*  timeout {*/
-/*      action: "kb-cancel";*/
-/*      delay:  0;*/
-/*  }*/
-/*  filebrowser {*/
-/*      directories-first: true;*/
-/*      sorting-method:    "name";*/
-/*  }*/
-/*}*/
+//  timeout {
+//      action: "kb-cancel";
+//      delay:  0;
+//  }
+//  filebrowser {
+//      directories-first: true;
+//      sorting-method:    "name";
+//  }
+//}

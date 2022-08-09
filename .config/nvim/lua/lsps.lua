@@ -117,9 +117,6 @@ lspconfig.bashls.setup({
     capabilities = capabilities,
 })
 
--- eslint --
-require'lspconfig'.eslint.setup{}
-
 -----------------------------------------------------------
 -----------------------------------------------------------
 --                                                       --
@@ -161,6 +158,7 @@ null_ls.setup({
         -- -- -- -- -- --
         diagnostics.eslint,
         diagnostics.flake8,
+        diagnostics.shellcheck,
         -- -- -- -- -- --
         -- completion  --
         -- -- -- -- -- --
