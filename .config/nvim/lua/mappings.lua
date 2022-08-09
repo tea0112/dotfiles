@@ -41,7 +41,6 @@ local mappings = {
         f = { "<cmd>Telescope find_files<cr>", "Find files" },
         g = { "<cmd>Telescope live_grep<cr>", "Search string"},
         h = { "<cmd>Telescope help_tags<cr>", "Help" },
-        b = { "<cmd>Telescope buffers<cr>", "List buffers" },
     }
 }
 
@@ -64,9 +63,10 @@ local ns_opts = { noremap = true, silent = true }
 ------------------------------------------
 ------------------------------------------
 
+--telescope 
+Utils.map("n", "<A-b>", ":Telescope buffers<CR>", ns_opts)
+
 -- buffer line
-Utils.map("n", "[b", ":BufferLineCyclePrev<CR>", ns_opts)
-Utils.map("n", "]b", ":BufferLineCycleNext<CR>", ns_opts)
 Utils.map("n", "se", ":BufferLineSortByExtension<CR>", ns_opts)
 Utils.map("n", "sd", ":BufferLineSortByDirectory<CR>", ns_opts)
 

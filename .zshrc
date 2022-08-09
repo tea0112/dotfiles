@@ -131,10 +131,11 @@ alias blcc="bluetoothctl connect"
 alias blct="bluetoothctl trust"
 alias blcp="bluetoothctl pair"
 alias blcr="bluetoothctl remove"
-alias dl="~/dotfiles/.scripts/aria2c.sh"
+alias dl="~/dotfiles/scripts/aria2c.sh"
 alias py="python3"
-alias mmi="bash ~/.scripts/mmi.sh"
+alias mmi="bash ~/scripts/mmi.sh"
 alias i3exit="bash ~/.config/i3/i3exit.sh"
+alias pe="bash ~/dotfiles/scripts/package-exist.sh"
 
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
