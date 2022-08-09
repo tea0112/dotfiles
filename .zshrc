@@ -8,9 +8,9 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-#ZSH_THEME="robbyrussell"
-ZSH_THEME=powerlevel10k/powerlevel10k
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs)
+ZSH_THEME="robbyrussell"
+#ZSH_THEME=powerlevel10k/powerlevel10k
+#POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs)
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -78,7 +78,7 @@ plugins=(
 	zsh-syntax-highlighting
 )
 
-#[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
+[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
 
 source $ZSH/oh-my-zsh.sh
 
@@ -131,7 +131,7 @@ alias blcc="bluetoothctl connect"
 alias blct="bluetoothctl trust"
 alias blcp="bluetoothctl pair"
 alias blcr="bluetoothctl remove"
-alias aria2="~/.scripts/aria2c.sh"
+alias dl="~/dotfiles/.scripts/aria2c.sh"
 alias py="python3"
 alias mmi="bash ~/.scripts/mmi.sh"
 alias i3exit="bash ~/.config/i3/i3exit.sh"
