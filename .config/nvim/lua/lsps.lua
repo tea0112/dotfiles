@@ -148,9 +148,6 @@ null_ls.setup({
             },
         }),
         formatting.shfmt,
-        formatting.goimports,
-        formatting.golines,
-        formatting.gofumpt,
         formatting.prettier,
         formatting.jq,
         -- -- -- -- -- --

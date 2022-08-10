@@ -210,6 +210,7 @@ bindsym $mod+shift+x exec betterlockscreen -l && sleep 5 && xset dpms force off
 # exec - run one time
 # exec_always - each i3 restart
 exec --no-startup-id picom --experimental-backends -b
+exec --no-startup-id rfkill block 0
 exec --no-startup-id blueman-applet
 exec_always --no-startup-id ~/dotfiles/scripts/set-touchpad.sh
 exec_always --no-startup-id autorandr --change
