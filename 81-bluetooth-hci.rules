@@ -1,0 +1,5 @@
+# find the information using udevadm
+# udevadm info -a -p /sys/class/bluetooth/hci0
+
+# Create a new rules file at /etc/udev/rules.d/81-bluetooth-hci.rules
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0a5c", ATTRS{idProduct}=="21e1", ATTR{authorized}="0"
