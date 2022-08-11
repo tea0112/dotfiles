@@ -5,6 +5,7 @@
 ------------------------------------------
 local wk = require 'which-key'
 local mappings = {
+    a = { "<cmd>Telescope find_files<cr>", "Find files" },
     c = {
         l = {"<cmd>bufdo bd<cr>", "Clear All Buffer"}
     },
@@ -38,7 +39,6 @@ local mappings = {
         d = { ":lua require('dap-go').debug_test()<CR>", "Go debug test" }
     },
     f = {
-        f = { "<cmd>Telescope find_files<cr>", "Find files" },
         g = { "<cmd>Telescope live_grep<cr>", "Search string"},
         h = { "<cmd>Telescope help_tags<cr>", "Help" },
     }
