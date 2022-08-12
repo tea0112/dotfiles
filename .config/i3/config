@@ -195,6 +195,12 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
 client.background       #ffffff
 
+# window
+for_window [class="vlc"] floating enable
+for_window [class="qbittorrent"] floating enable
+for_window [class="goldendict"] floating enable
+for_window [class="telegram-desktop"] floating enable
+
 # gaps
 for_window [class="^.*"] border pixel 3
 gaps inner 15
