@@ -78,7 +78,7 @@ plugins=(
 	zsh-syntax-highlighting
 )
 
-[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
+#[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
 
 source $ZSH/oh-my-zsh.sh
 
