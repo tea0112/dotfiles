@@ -18,6 +18,7 @@ vim.opt.mouse = 'a'
 vim.opt.clipboard = 'unnamedplus'
 vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
 
+vim.g.tokyonight_italic_keywords = false
 vim.cmd[[colorscheme tokyonight]]
 
 vim.api.nvim_create_user_command("Diff", function()
