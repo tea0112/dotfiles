@@ -5,7 +5,6 @@
 ------------------------------------------
 local wk = require 'which-key'
 local mappings = {
-    a = { "<cmd>Telescope find_files<cr>", "Find files" },
     c = {
         l = {"<cmd>bufdo bd<cr>", "Clear All Buffer"}
     },
@@ -64,7 +63,9 @@ local ns_opts = { noremap = true, silent = true }
 ------------------------------------------
 
 --telescope 
-Utils.map("n", "<A-b>", ":Telescope buffers<CR>", ns_opts)
+Utils.map("n", ";a", ":Telescope find_files<CR>", ns_opts)
+Utils.map("n", ";s", ":Telescope buffers<CR>", ns_opts)
+Utils.map("n", ";d", ":Telescope live_grep<CR>", ns_opts)
 
 -- buffer line
 Utils.map("n", "se", ":BufferLineSortByExtension<CR>", ns_opts)
