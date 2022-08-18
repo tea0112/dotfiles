@@ -78,7 +78,7 @@ plugins=(
 	zsh-syntax-highlighting
 )
 
-#[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
+[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
 
 source $ZSH/oh-my-zsh.sh
 
@@ -137,6 +137,8 @@ alias py="python3"
 alias mmi="bash ~/scripts/mmi.sh"
 alias i3exit="bash ~/.config/i3/i3exit.sh"
 alias pe="bash ~/dotfiles/scripts/package-exist.sh"
+alias ll="exa -l -g --icons --git"
+alias la="exa -la -g --icons --git"
 
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
@@ -159,5 +161,8 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'
 export NNN_FIFO=/tmp/nnn.fifo
 
+eval "$(starship init zsh)"
+
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
