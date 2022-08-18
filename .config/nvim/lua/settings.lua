@@ -15,7 +15,23 @@ vim.opt.shiftwidth = tab_number
 vim.opt.softtabstop = tab_number
 vim.opt.expandtab = true
 vim.opt.mouse = 'a'
-vim.opt.clipboard = 'unnamedplus'
+--for linux
+--vim.opt.clipboard = 'unnamedplus'
+--for windows wsl
+vim.cmd([[
+let g:clipboard = {
+      \   'name': 'win32yank-wsl',
+      \   'copy': {
+      \      '+': 'win32yank.exe -i --crlf',
+      \      '*': 'win32yank.exe -i --crlf',
+      \    },
+      \   'paste': {
+      \      '+': 'win32yank.exe -o --lf',
+      \      '*': 'win32yank.exe -o --lf',
+      \   },
+      \   'cache_enabled': 0,
+      \ }
+]])
 vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
 
 vim.g.tokyonight_italic_keywords = false
