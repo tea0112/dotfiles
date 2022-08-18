@@ -2,7 +2,7 @@ configuration {
     modi: "combi";
     combi-modi: "drun,run";
 }
-@theme "Pop-Dark"
+//@theme "Pop-Dark"
 
 //configuration {
 /*	modi: "window,run,ssh";*/

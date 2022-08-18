@@ -7,3 +7,4 @@ if [ -f "~/.imwheelrc" ]; then
 fi
 
 ln -sf ~/dotfiles/.imwheelrc ~/
+imwheel
