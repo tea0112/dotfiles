@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo pacman -S exa
 sudo pacman -S zsh
 
 rm -rf ~/.oh-my-zsh

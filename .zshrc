@@ -137,6 +137,7 @@ alias py="python3"
 alias mmi="bash ~/scripts/mmi.sh"
 alias i3exit="bash ~/.config/i3/i3exit.sh"
 alias pe="bash ~/dotfiles/scripts/package-exist.sh"
+alias ls="exa -g --icons --git"
 alias ll="exa -l -g --icons --git"
 alias la="exa -la -g --icons --git"
 
