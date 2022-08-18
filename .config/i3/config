@@ -201,7 +201,7 @@ for_window [class="telegram-desktop"] floating enable
 
 # gaps
 for_window [class="^.*"] border pixel 3
-gaps inner 15
+gaps inner 10
 gaps outer 0
 
 # autochange monitor
