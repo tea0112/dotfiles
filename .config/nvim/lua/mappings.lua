@@ -62,6 +62,9 @@ local ns_opts = { noremap = true, silent = true }
 ------------------------------------------
 ------------------------------------------
 
+Utils.map("n", "<C-e>", "10<C-e>", ns_opts)
+Utils.map("n", "<C-y>", "10<C-y>", ns_opts)
+
 --telescope 
 Utils.map("n", ";a", ":Telescope find_files<CR>", ns_opts)
 Utils.map("n", ";s", ":Telescope buffers<CR>", ns_opts)
