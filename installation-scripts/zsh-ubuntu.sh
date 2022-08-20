@@ -21,4 +21,4 @@ dotfiles_dir=~/dotfiles
 ln -sf ${dotfiles_dir}/.zshrc ~
 ln -sf ${dotfiles_dir}/.zprofile ~
 
-#chsh -s $(which zsh)
+chsh -s $(which zsh)
