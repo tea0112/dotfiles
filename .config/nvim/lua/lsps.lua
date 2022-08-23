@@ -117,6 +117,13 @@ lspconfig.bashls.setup({
     capabilities = capabilities,
 })
 
+-- java --
+require 'lspconfig'.jdtls.setup {
+    cmd = { 'jdtls' },
+    on_attach = on_attach,
+    capabilities = capabilities,
+}
+
 -----------------------------------------------------------
 -----------------------------------------------------------
 --                                                       --
