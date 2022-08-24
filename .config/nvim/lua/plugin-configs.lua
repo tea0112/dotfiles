@@ -126,6 +126,4 @@ end
 
 require 'nvim-lightbulb'.setup({ autocmd = { enabled = true } })
 
-require 'bufferline'.setup {}
-
 require 'autopairs'

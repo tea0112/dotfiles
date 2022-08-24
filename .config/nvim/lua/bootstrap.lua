@@ -112,8 +112,6 @@ return require 'packer'.startup(function(use)
 
     use 'folke/tokyonight.nvim'
 
-    use 'akinsho/bufferline.nvim'
-
     use "lukas-reineke/indent-blankline.nvim"
 
     use "rafamadriz/friendly-snippets"
