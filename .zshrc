@@ -125,7 +125,7 @@ alias wkd="cat /sys/bus/usb/devices/*/power/wakeup"
 # check what wakeup name
 alias wkn="ll /sys/bus/usb/devices/*/power/wakeup"
 alias cdotfiles="cd ~/dotfiles"
-alias ctm="setxkbmap -option caps:super"
+alias ctm="bash $HOME/dotfiles/scripts/map-caps-to-super.sh"
 alias blcpo="bluetoothctl power on"
 alias blcs="bluetoothctl scan on"
 alias blcc="bluetoothctl connect"
@@ -157,6 +157,8 @@ export MAVEN_HOME="/opt/apache-maven-3.8.6"
 export PAGER=less
 export MM_LIVE_RELOAD=true
 export XDG_CONFIG_HOME="$HOME/.config"
+export WINEARCH=win32
+export WINEPREFIX=~/.wine32
 
 # nnn configuration
 export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'

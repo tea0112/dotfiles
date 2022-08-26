@@ -2,6 +2,7 @@
 
 sudo pacman -S exa
 sudo pacman -S zsh
+sudo pacman -S zoxide
 
 rm -rf ~/.oh-my-zsh
 git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
