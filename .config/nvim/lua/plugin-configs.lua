@@ -42,7 +42,13 @@ require("nvim-treesitter.configs").setup({
 -- Attaches to every FileType mode
 require 'colorizer'.setup()
 
-require 'FTerm'.setup({})
+require 'FTerm'.setup {
+    border     = 'double',
+    dimensions = {
+        height = 1,
+        width = 1,
+    },
+}
 
 require 'nvim-tree'.setup({
     actions = {
