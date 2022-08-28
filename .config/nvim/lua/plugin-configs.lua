@@ -65,7 +65,8 @@ require 'telescope'.setup {
             i = {
                 ["<Esc>"] = require 'telescope.actions'.close,
             },
-        }
+        },
+        file_ignore_patterns = { "node_modules" },
     }
 }
 
