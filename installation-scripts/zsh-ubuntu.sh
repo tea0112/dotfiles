@@ -1,6 +1,11 @@
 #!/bin/bash
 
+sudo apt install build-essential -y
+sudo apt install -y cmake
 sudo apt install -y zsh
+cargo install --locked exa
+cargo install --locked zoxide
+cargo install --locked starship
 
 rm -rf ~/.oh-my-zsh
 git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
