@@ -1,5 +1,8 @@
 #!/bin/bash
 
+sudo apt install shellcheck -y
+sudo apt install aria2 -y
+sudo apt install unzip -y
 sudo apt install build-essential -y
 sudo apt install -y cmake
 sudo apt install -y zsh

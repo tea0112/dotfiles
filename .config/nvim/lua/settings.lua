@@ -16,7 +16,7 @@ vim.opt.softtabstop = tab_number
 vim.opt.expandtab = true
 vim.opt.mouse = 'a'
 --for linux
-vim.opt.clipboard = 'unnamedplus'
+--vim.opt.clipboard = 'unnamedplus'
 -- for wsl
 --if vim.fn.has("wsl") then
 --    vim.g.clipboard = {
@@ -33,20 +33,20 @@ vim.opt.clipboard = 'unnamedplus'
 --    }
 --end
 --for windows wsl
---vim.cmd([[
---let g:clipboard = {
---      \   'name': 'win32yank-wsl',
---      \   'copy': {
---      \      '+': 'win32yank.exe -i --crlf',
---      \      '*': 'win32yank.exe -i --crlf',
---      \    },
---      \   'paste': {
---      \      '+': 'win32yank.exe -o --lf',
---      \      '*': 'win32yank.exe -o --lf',
---      \   },
---      \   'cache_enabled': 0,
---      \ }
---]])
+vim.cmd([[
+let g:clipboard = {
+      \   'name': 'win32yank-wsl',
+      \   'copy': {
+      \      '+': 'win32yank.exe -i --crlf',
+      \      '*': 'win32yank.exe -i --crlf',
+      \    },
+      \   'paste': {
+      \      '+': 'win32yank.exe -o --lf',
+      \      '*': 'win32yank.exe -o --lf',
+      \   },
+      \   'cache_enabled': 0,
+      \ }
+]])
 vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
 
 vim.g.tokyonight_italic_keywords = false

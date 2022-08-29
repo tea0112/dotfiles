@@ -22,8 +22,11 @@ require("nvim-treesitter.configs").setup({
     ignore_install = {},
 
     highlight = {
-        -- `false` will disable the whole extension
-        enable = true,
+        -- -- A list of parser names, or "all"
+        ensure_installed = { "all" },
+
+        -- Automatically install missing parsers when entering buffer
+        auto_install = true,
 
         -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
         --disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
