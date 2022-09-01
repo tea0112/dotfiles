@@ -76,7 +76,7 @@ lspconfig.rust_analyzer.setup({
 })
 
 -- lua --
-require 'lspconfig'.sumneko_lua.setup {
+lspconfig.sumneko_lua.setup {
     settings = {
         Lua = {
             runtime = {
@@ -118,14 +118,17 @@ lspconfig.bashls.setup({
 })
 
 -- java --
-require 'lspconfig'.jdtls.setup {
+lspconfig.jdtls.setup {
     cmd = { 'jdtls' },
     on_attach = on_attach,
     capabilities = capabilities,
 }
 
 -- tailwind css --
-require 'lspconfig'.tailwindcss.setup {}
+lspconfig.tailwindcss.setup {}
+
+-- html --
+lspconfig.html.setup {}
 
 -----------------------------------------------------------
 -----------------------------------------------------------
