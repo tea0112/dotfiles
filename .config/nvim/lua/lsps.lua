@@ -130,6 +130,9 @@ lspconfig.tailwindcss.setup {}
 -- html --
 lspconfig.html.setup {}
 
+-- emmet html --
+lspconfig.emmet_ls.setup {}
+
 -----------------------------------------------------------
 -----------------------------------------------------------
 --                                                       --
