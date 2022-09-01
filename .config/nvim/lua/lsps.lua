@@ -127,11 +127,11 @@ lspconfig.jdtls.setup {
 -- tailwind css --
 lspconfig.tailwindcss.setup {}
 
--- html --
-lspconfig.html.setup {}
-
 -- emmet html --
 lspconfig.emmet_ls.setup {}
+
+-- html --
+lspconfig.html.setup {}
 
 -----------------------------------------------------------
 -----------------------------------------------------------
