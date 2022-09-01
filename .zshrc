@@ -118,7 +118,7 @@ alias ei3="nvim ~/dotfiles/.config/i3/config"
 alias ealacritty="nvim ~/dotfiles/.config/alacritty/alacritty.yml"
 alias epolybar="cd ~/.config/polybar && nvim ."
 alias erofi="cd ~/dotfiles/.config/rofi && nvim ."
-alias pdotfiles='cd ~/dotfiles && git add . && git commit -m "update" && git push -u origin master'
+alias pdotfiles='cd ~/dotfiles && git add . && git commit -m "update" && git push -u origin master && cd -'
 alias se="sudoedit"
 # check what wakeup
 alias wkd="cat /sys/bus/usb/devices/*/power/wakeup"
