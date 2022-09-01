@@ -124,6 +124,9 @@ require 'lspconfig'.jdtls.setup {
     capabilities = capabilities,
 }
 
+-- tailwind css --
+require 'lspconfig'.tailwindcss.setup {}
+
 -----------------------------------------------------------
 -----------------------------------------------------------
 --                                                       --
