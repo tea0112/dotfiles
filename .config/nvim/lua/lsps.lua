@@ -125,13 +125,22 @@ lspconfig.jdtls.setup {
 }
 
 -- tailwind css --
-lspconfig.tailwindcss.setup {}
+lspconfig.tailwindcss.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+}
 
 -- emmet html --
-lspconfig.emmet_ls.setup {}
+lspconfig.emmet_ls.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+}
 
 -- html --
-lspconfig.html.setup {}
+lspconfig.html.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+}
 
 -----------------------------------------------------------
 -----------------------------------------------------------

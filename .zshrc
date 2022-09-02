@@ -140,6 +140,8 @@ alias pe="bash ~/dotfiles/scripts/package-exist.sh"
 alias ls="exa -g --icons --git"
 alias ll="exa -l -g --icons --git"
 alias la="exa -la -g --icons --git"
+alias cm="git commit -m"
+alias de="rm -rf"
 
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
