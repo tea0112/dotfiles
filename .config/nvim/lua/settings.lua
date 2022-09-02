@@ -47,12 +47,20 @@ let g:clipboard = {
       \   'cache_enabled': 0,
       \ }
 ]])
-vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
 
 vim.g.tokyonight_italic_keywords = false
-vim.cmd[[colorscheme tokyonight]]
+vim.cmd [[colorscheme tokyonight]]
 
 vim.api.nvim_create_user_command("Diff", function()
     vim.cmd('w !git diff --no-index % -')
 end, {})
 
+
+-- improves Go syntax highlighting
+vim.g.go_highlight_operators = 1
+vim.g.go_highlight_functions = 1
+vim.g.go_highlight_function_parameters = 1
+vim.g.go_highlight_function_calls = 1
+vim.g.go_highlight_types = 1
+vim.g.go_highlight_fields = 1
