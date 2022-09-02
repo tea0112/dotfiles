@@ -46,7 +46,9 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 capabilities.offsetEncoding = { "utf-16" }
 
-require "nvim-lsp-installer".setup {}
+require("nvim-lsp-installer").setup {
+    automatic_installation = true, -- automatically detect which servers to install (based on which servers are set up via lspconfig)
+}
 
 ----------------------------
 -- Language Server Config --
@@ -118,11 +120,11 @@ lspconfig.bashls.setup({
 })
 
 -- java --
-lspconfig.jdtls.setup {
-    cmd = { 'jdtls' },
-    on_attach = on_attach,
-    capabilities = capabilities,
-}
+--lspconfig.jdtls.setup {
+--    cmd = { 'jdtls' },
+--    on_attach = on_attach,
+--    capabilities = capabilities,
+--}
 
 -- tailwind css --
 lspconfig.tailwindcss.setup {

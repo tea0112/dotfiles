@@ -69,8 +69,8 @@ Utils.map("n", "<C-y>", "10<C-y>", ns_opts)
 
 --telescope 
 Utils.map("n", ";a", ":Telescope find_files<CR>", ns_opts)
-Utils.map("n", ";s", ":Telescope buffers<CR>", ns_opts)
-Utils.map("n", ";d", ":Telescope live_grep<CR>", ns_opts)
+Utils.map("n", ";s", ":Telescope live_grep<CR>", ns_opts)
+Utils.map("n", ";d", ":Telescope buffers<CR>", ns_opts)
 
 -- buffer line
 Utils.map("n", "se", ":BufferLineSortByExtension<CR>", ns_opts)
