@@ -31,6 +31,11 @@ function SetIndent(number)
   vim.opt.softtabstop = number
 end
 
+function IsWSL() 
+  local output = vim.fn.systemlist "uname -r" 
+  return not not string.find(output[1] or "", "WSL")
+end
+
 Utils = {}
 
 function Utils.map(mode, left, right, opts)
