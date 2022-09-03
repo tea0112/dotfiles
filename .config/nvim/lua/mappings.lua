@@ -61,6 +61,7 @@ local ns_opts = { noremap = true, silent = true }
 ------------- normal mode ----------------
 ------------------------------------------
 ------------------------------------------
+Utils.map("n", "E", "2e", ns_opts)
 
 Utils.map("n", "<leader>;", ":w<CR>", ns_opts)
 
