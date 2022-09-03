@@ -143,6 +143,8 @@ alias la="exa -la -g --icons --git"
 alias cm="git commit -m"
 alias de="rm -rf"
 alias gs="git status"
+alias gi="grep -i"
+alias tcb="xclip -selection clipboard"
 
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
