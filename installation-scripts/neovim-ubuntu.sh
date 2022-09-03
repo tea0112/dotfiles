@@ -4,6 +4,9 @@ sudo apt install build-essential -y
 sudo apt install fd-find -y
 sudo apt install ripgrep -y
 sudo apt install shfmt -y
+sudo apt install flake8 -y
+sudo apt install python3-pip -y
+pip install --upgrade autopep8
 
 nvim_config_dir="/home/$USER/.config/nvim"
 if [ -d "${nvim_config_dir}" ]; then
