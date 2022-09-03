@@ -144,6 +144,12 @@ lspconfig.html.setup {
     capabilities = capabilities,
 }
 
+-- protobuf --
+lspconfig.bufls.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+}
+
 -----------------------------------------------------------
 -----------------------------------------------------------
 --                                                       --
@@ -177,9 +183,11 @@ null_ls.setup({
         formatting.shfmt,
         formatting.prettier,
         formatting.jq,
+        formatting.buf,
         -- -- -- -- -- --
         -- diagnostic  --
         -- -- -- -- -- --
+        diagnostics.buf,
         diagnostics.eslint,
         diagnostics.flake8,
         diagnostics.shellcheck,
