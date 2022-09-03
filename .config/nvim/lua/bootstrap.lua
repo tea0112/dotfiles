@@ -1,3 +1,7 @@
+require 'packer'.init {
+    compile_path = os.getenv("HOME") .. '/.local/share/nvim/packer_compiled.lua'
+}
+
 local fn = vim.fn
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
