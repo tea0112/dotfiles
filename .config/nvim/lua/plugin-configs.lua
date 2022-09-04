@@ -136,3 +136,5 @@ end
 
 require 'nvim-lightbulb'.setup { autocmd = { enabled = true } }
 require 'nvim-autopairs'.setup {}
+require 'structrue-go'.setup {}
+require 'hierarchy-tree-go'.setup {}

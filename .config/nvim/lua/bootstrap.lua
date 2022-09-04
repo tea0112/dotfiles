@@ -132,6 +132,15 @@ return require 'packer'.startup(function(use)
 
     use 'gruvbox-community/gruvbox'
 
+    use {
+        'crusj/structrue-go.nvim',
+        branch = "main"
+    }
+
+    use {
+        'crusj/hierarchy-tree-go.nvim',
+        requires = 'neovim/nvim-lspconfig'
+    }
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then
