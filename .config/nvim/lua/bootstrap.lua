@@ -71,16 +71,20 @@ return require 'packer'.startup(function(use)
     }
     -- git fugitive
     use "tpope/vim-fugitive"
-    -- onedark
-    use 'navarasu/onedark.nvim'
+
     -- markdown glow
+
     use { "ellisonleao/glow.nvim", branch = 'main' }
+
     -- css color
     use "norcalli/nvim-colorizer.lua"
+
     -- Fterm
     use "numToStr/FTerm.nvim"
+
     -- vim go
     use "fatih/vim-go"
+
     -- which key
     use "folke/which-key.nvim"
 
@@ -114,8 +118,6 @@ return require 'packer'.startup(function(use)
         end
     }
 
-    use 'folke/tokyonight.nvim'
-
     use "lukas-reineke/indent-blankline.nvim"
 
     use "rafamadriz/friendly-snippets"
@@ -130,8 +132,6 @@ return require 'packer'.startup(function(use)
 
     use 'preservim/nerdcommenter'
 
-    use 'gruvbox-community/gruvbox'
-
     use {
         'crusj/structrue-go.nvim',
         branch = "main"
@@ -141,6 +141,9 @@ return require 'packer'.startup(function(use)
         'crusj/hierarchy-tree-go.nvim',
         requires = 'neovim/nvim-lspconfig'
     }
+
+    use 'navarasu/onedark.nvim'
+
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then
