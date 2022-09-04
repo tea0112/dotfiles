@@ -22,6 +22,7 @@ require("nvim-treesitter.configs").setup({
     ignore_install = {},
 
     highlight = {
+        enable = true,
         -- -- A list of parser names, or "all"
         ensure_installed = { "all" },
 
