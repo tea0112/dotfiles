@@ -1,10 +1,10 @@
 local home_dir = os.getenv("HOME")
 package.path = home_dir .. "/.config/nvim/lua/?.lua;" .. package.path
 
-require("utils")
-require("bootstrap")
-require("settings")
-require("mappings")
-require("lsps")
-require("nvim-cmp")
-require("plugin-configs")
+require("lvim.utils")
+require("lvim.bootstrap")
+require("lvim.settings")
+require("lvim.mappings")
+require("lvim.lsp")
+require("lvim.nvim-cmp")
+require("lvim.plugin-configs")
