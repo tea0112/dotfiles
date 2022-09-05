@@ -1,44 +1,25 @@
 local M = {}
+local utils = require 'lvim.utils'
 
 function M.setup(on_attach, capabilities)
-    local null_ls = require("null-ls")
+    local null_ls = require 'null-ls'
 
     local formatting = null_ls.builtins.formatting
-    local diagnostics = null_ls.builtins.diagnostics
+    local diagnostic = null_ls.builtins.diagnostics
     local completion = null_ls.builtins.completion
 
-    null_ls.setup {
-        sources = {
-            -- -- -- -- --
-            --  format  --
-            -- -- -- -- --
-            formatting.autopep8,
-            formatting.clang_format.with({
-                extra_args = {
-                    "--style=Google",
-                },
-            }),
-            formatting.shfmt,
-            formatting.prettier,
-            formatting.jq,
-            formatting.buf,
-            -- -- -- -- -- --
-            -- diagnostic  --
-            -- -- -- -- -- --
-            diagnostics.buf,
-            diagnostics.eslint,
-            diagnostics.flake8,
-            diagnostics.shellcheck,
-            -- -- -- -- -- --
-            -- completion  --
-            -- -- -- -- -- --
-            -- -- -- --
-            -- hook  --
-            -- -- -- --
-            capabilities = capabilities,
-            on_attach = on_attach,
-        },
+    local formatting_configs = require 'lvim.lsp.null-ls.formattings'.setup(formatting)
+    local diagnostics_configs = require 'lvim.lsp.null-ls.diagnostics'.setup(diagnostic)
+
+    local sources = {
+        capabilities = capabilities,
+        on_attach = on_attach,
     }
+
+    utils.MergeTable(sources, formatting_configs)
+    utils.MergeTable(sources, diagnostics_configs)
+
+    null_ls.setup { sources = sources }
 end
 
 return M
