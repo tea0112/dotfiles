@@ -131,7 +131,7 @@ return require("packer").startup(function(use)
 
 	use("lambdalisue/suda.vim")
 
-	use("mfussenegger/nvim-jdtls")
+	use({ "mfussenegger/nvim-jdtls", ft = { "java" } })
 
 	use("preservim/nerdcommenter")
 

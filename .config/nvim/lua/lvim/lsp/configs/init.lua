@@ -34,11 +34,11 @@ function M.setup(lspconfig, on_attach, capabilities)
 		capabilities = capabilities,
 	})
 
-	--lspconfig.jdtls.setup {
-	--    cmd = { 'jdtls' },
-	--    on_attach = on_attach,
-	--    capabilities = capabilities,
-	--}
+	lspconfig.jdtls.setup({
+		cmd = { "jdtls" },
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
 
 	lspconfig.tailwindcss.setup({
 		on_attach = on_attach,
