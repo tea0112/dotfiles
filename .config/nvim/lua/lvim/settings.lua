@@ -14,11 +14,11 @@ vim.opt.tabstop = tab_number
 vim.opt.shiftwidth = tab_number
 vim.opt.softtabstop = tab_number
 vim.opt.expandtab = true
-vim.opt.mouse = 'a'
+vim.opt.mouse = "a"
 
 --for linux
 if IsWSL() then
-    vim.cmd([[
+	vim.cmd([[
     let g:clipboard = {
           \   'name': 'win32yank-wsl',
           \   'copy': {
@@ -33,15 +33,14 @@ if IsWSL() then
           \ }
     ]])
 else
-    vim.opt.clipboard = 'unnamedplus'
+	vim.opt.clipboard = "unnamedplus"
 end
 
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
 
 vim.api.nvim_create_user_command("Diff", function()
-    vim.cmd('w !git diff --no-index % -')
+	vim.cmd("w !git diff --no-index % -")
 end, {})
-
 
 -- improves Go syntax highlighting
 vim.g.go_highlight_operators = 1

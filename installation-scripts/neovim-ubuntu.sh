@@ -6,6 +6,8 @@ sudo apt install ripgrep -y
 sudo apt install shfmt -y
 sudo apt install flake8 -y
 sudo apt install python3-pip -y
+sudo apt install -y luarocks
+sudo luarocks install luacheck
 pip install --upgrade autopep8
 
 nvim_config_dir="/home/$USER/.config/nvim"
