@@ -22,7 +22,7 @@ local config = {
 
 		-- 💀
 		"-jar",
-		"/opt/jdt-language-server/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar",
+		"/opt/jdt-language-server-1.9.0/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar",
 		-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
 		-- Must point to the                                                     Change this to
 		-- eclipse.jdt.ls installation                                           the actual version
