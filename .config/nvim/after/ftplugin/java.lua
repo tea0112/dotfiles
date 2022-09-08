@@ -29,7 +29,7 @@ local config = {
 
 		-- 💀
 		"-configuration",
-		"/opt/jdt-language-server/config_linux",
+		"/opt/jdt-language-server-1.9.0/config_linux",
 		-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
 		-- Must point to the                      Change to one of `linux`, `win` or `mac`
 		-- eclipse.jdt.ls installation            Depending on your system.
