@@ -4,8 +4,8 @@ function M.setup()
 	require("FTerm").setup({
 		border = "double",
 		dimensions = {
-			height = 1,
-			width = 1,
+			height = 0.9,
+			width = 0.9,
 		},
 	})
 end
