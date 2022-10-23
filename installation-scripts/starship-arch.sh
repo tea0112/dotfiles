@@ -1,6 +1,6 @@
 #!/bin/bash
 
-curl -sS https://starship.rs/install.sh | sh
+sudo pacman -S starship
 
 if [ -d "~/.config/starship.toml" ]; then
     rm -rf ~/.config/starship.toml
