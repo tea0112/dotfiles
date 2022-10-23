@@ -220,15 +220,15 @@ bindsym $mod+q scratchpad show; move position center
 exec --no-startup-id picom --experimental-backends -b
 exec --no-startup-id blueman-applet
 exec_always --no-startup-id xrdb ~/.Xresources
-exec_always --no-startup-id ~/dotfiles/scripts/set-touchpad.sh 13
+exec_always --no-startup-id bash ~/dotfiles/scripts/set-touchpad.sh 13
 exec_always --no-startup-id autorandr --change
 exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg
 exec_always --no-startup-id imwheel
 exec_always --no-startup-id nm-applet
 exec_always --no-startup-id lxqt-policykit-agent
 exec_always --no-startup-id ~/.config/polybar/launch.sh
-exec_always --no-startup-id goldendict &
-exec_always --no-startup-id qbittorrent &
-exec_always --no-startup-id telegram-desktop &
-exec_always --no-startup-id flameshot &
+exec_always --no-startup-id ~/dotfiles/scripts/run-if-not-exist.sh goldendict
+exec_always --no-startup-id ~/dotfiles/scripts/run-if-not-exist.sh qbittorrent
+exec_always --no-startup-id ~/dotfiles/scripts/run-if-not-exist.sh telegram-desktop
+exec_always --no-startup-id ~/dotfiles/scripts/run-if-not-exist.sh flameshot
 exec_always --no-startup-id /usr/lib/xfce4/notifyd/xfce4-notifyd &
