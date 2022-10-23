@@ -1,12 +1,14 @@
 #!/bin/bash
 
 # Show list props
-# xinput list-props 16
+# xinput list-props DEVICE_ID
+
+DEVICE_ID=$1
 
 # tapping enabled
-xinput set-prop 16 304 1
+xinput set-prop "${DEVICE_ID}" 298 1
 # natural scrolling enabled
-xinput set-prop 16 281 1
+xinput set-prop "${DEVICE_ID}" 275 1
 # acceleration speed
-xinput set-prop 16 292 -0.3
+#xinput set-prop "${DEVICE_ID}" 292 -0.3
 # acceleration profile
