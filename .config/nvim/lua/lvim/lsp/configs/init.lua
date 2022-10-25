@@ -69,6 +69,11 @@ function M.setup(lspconfig, on_attach, capabilities)
 	--	on_attach = on_attach,
 	--	capabilities = capabilities,
 	--})
+
+	lspconfig.marksman.setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
 end
 
 return M

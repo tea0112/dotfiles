@@ -3,6 +3,8 @@
 sudo pacman -S gcc
 sudo pacman -S ripgrep
 sudo pacman -S neovim
+sudo pacman -S stylua
+sudo pacman -S shellcheck
 
 nvim_config_dir="/home/$USER/nvim"
 if [ -d "${nvim_config_dir}" ]; then
