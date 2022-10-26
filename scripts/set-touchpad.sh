@@ -10,5 +10,5 @@ xinput set-prop "${DEVICE_ID}" "libinput Tapping Enabled" 1
 # natural scrolling enabled
 xinput set-prop "${DEVICE_ID}" "libinput Natural Scrolling Enabled" 1
 # acceleration speed
-xinput set-prop "${DEVICE_ID}" "libinput Accel Speed" -0.3
+xinput set-prop "${DEVICE_ID}" "libinput Accel Speed" -0.2
 # acceleration profile
