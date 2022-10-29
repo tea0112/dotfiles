@@ -5,6 +5,7 @@ sudo pacman -S ripgrep
 sudo pacman -S neovim
 sudo pacman -S stylua
 sudo pacman -S shellcheck
+sudo pacman -S flake8
 
 nvim_config_dir="/home/$USER/nvim"
 if [ -d "${nvim_config_dir}" ]; then
