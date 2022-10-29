@@ -15,6 +15,7 @@ vim.opt.shiftwidth = tab_number
 vim.opt.softtabstop = tab_number
 vim.opt.expandtab = true
 vim.opt.mouse = "a"
+vim.opt.relativenumber = true
 
 --for linux
 if IsWSL() then
