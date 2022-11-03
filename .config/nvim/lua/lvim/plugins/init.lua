@@ -30,4 +30,4 @@ require("gitsigns").setup({})
 
 require("colorizer").setup()
 
-require("onedark").load()
+require('nord').set()

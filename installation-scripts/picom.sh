@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ -d "~/.config/i3" ]; then
-    rm -rf ~/.config/i3
+if [ -d "$HOME/.config/picom" ]; then
+    rm -rf ~/.config/picom
 fi
 
-ln -sf ~/dotfiles/.config/i3/ ~/.config/
+ln -sf ~/dotfiles/.config/picom/ ~/.config/
