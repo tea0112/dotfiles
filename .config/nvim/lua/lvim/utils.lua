@@ -58,4 +58,7 @@ function M.MergeTable(first, second)
 	end
 end
 
+function M.TurnOnLsp(lsp)
+end
+
 return M
