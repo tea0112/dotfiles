@@ -108,7 +108,7 @@ export LANG=en_US.UTF-8
 # Example aliases
 alias zshconfig="nvim ~/dotfiles/.zshrc"
 alias szsh="source ~/.zshrc"
-alias nv="nvim"
+alias e="nvim"
 alias ai="sudo apt install"
 alias pi="sudo pacman -S"
 alias prm="sudo pacman -R"
