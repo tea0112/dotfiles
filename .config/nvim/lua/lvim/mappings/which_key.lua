@@ -31,7 +31,7 @@ function M.setup()
 			u = { "<cmd>lua require'dap'.step_out()<cr>", "Step Out" },
 		},
 		l = {
-			f = { ":lua vim.lsp.buf.formatting()<CR>", "format file" },
+			f = { ":lua vim.lsp.buf.format { async = true }<CR>", "format file" },
 		},
 		t = {
 			d = { ":lua require('dap-go').debug_test()<CR>", "Go debug test" },

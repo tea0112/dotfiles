@@ -2,7 +2,7 @@ local M = {}
 
 function M.setup()
 	require("lualine").setup({
-		options = { theme = "nord" },
+		options = { theme = "tokyonight" },
 	})
 end
 

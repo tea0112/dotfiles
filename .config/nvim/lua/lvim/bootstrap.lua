@@ -154,7 +154,9 @@ return require("packer").startup(function(use)
 		end,
 	})
 
-	use("shaunsingh/nord.nvim")
+	use("folke/tokyonight.nvim")
+
+	use("EdenEast/nightfox.nvim")
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins

@@ -16,6 +16,8 @@ require("lvim.plugins.nvim_tree").setup()
 
 require("lvim.plugins.onedark").setup()
 
+require("lvim.plugins.tokyonight").setup()
+
 require("lvim.plugins.nvim_cmp").setup()
 
 require("nvim-lightbulb").setup({ autocmd = { enabled = true } })
@@ -30,4 +32,4 @@ require("gitsigns").setup({})
 
 require("colorizer").setup()
 
-require('nord').set()
+vim.cmd([[colorscheme tokyonight-storm]])
