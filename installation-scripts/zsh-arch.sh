@@ -1,8 +1,10 @@
 #!/bin/bash
 
 sudo pacman -S exa
+sudo pacman -S fd
 sudo pacman -S zsh
 sudo pacman -S zoxide
+sudo pacman -S ripgrep
 
 rm -rf ~/.oh-my-zsh
 git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
