@@ -9,7 +9,7 @@ function M.setup(lspconfig, on_attach, capabilities)
 		capabilities = capabilities,
 	})
 
-    lspconfig.clangd.setup({
+	lspconfig.clangd.setup({
 		on_attach = on_attach,
 		capabilities = capabilities,
 	})
@@ -71,6 +71,11 @@ function M.setup(lspconfig, on_attach, capabilities)
 	--})
 
 	lspconfig.marksman.setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
+
+	lspconfig.jsonnet_ls.setup({
 		on_attach = on_attach,
 		capabilities = capabilities,
 	})
