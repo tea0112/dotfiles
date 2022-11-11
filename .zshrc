@@ -144,6 +144,7 @@ alias de="rm -rf"
 alias gs="git status"
 alias gi="grep -i"
 alias tcb="xclip -selection clipboard"
+alias tm="tmux attach || tmux new-session"
 
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
