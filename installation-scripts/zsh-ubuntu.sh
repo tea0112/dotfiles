@@ -1,6 +1,7 @@
 #!/bin/bash
 
 sudo apt install shellcheck -y
+sudo apt install xclip -y
 sudo apt install aria2 -y
 sudo apt install unzip -y
 sudo apt install build-essential -y

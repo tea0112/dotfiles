@@ -1,6 +1,7 @@
 #!/bin/bash
 
 sudo pacman -S exa
+sudo pacman -S xclip
 sudo pacman -S fd
 sudo pacman -S zsh
 sudo pacman -S zoxide
