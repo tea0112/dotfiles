@@ -219,7 +219,7 @@ bindsym $mod+a scratchpad show; move position center
 # start on startup
 # exec - run one time
 # exec_always - each i3 restart
-exec --no-startup-id picom --experimental-backends -b
+exec --no-startup-id picom -b
 exec --no-startup-id blueman-applet
 exec_always --no-startup-id xrdb ~/.Xresources
 exec_always --no-startup-id bash ~/dotfiles/scripts/set-touchpad.sh 13
