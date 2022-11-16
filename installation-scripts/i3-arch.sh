@@ -1,6 +1,8 @@
 #!/bin/bash
 
-if [ -d "~/.config/i3" ]; then
+sudo pacman -S xdotool
+
+if [ -d "/home/thai/.config/i3" ]; then
     rm -rf ~/.config/i3
 fi
 

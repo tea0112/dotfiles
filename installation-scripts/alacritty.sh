@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -d "~/.config/alacritty" ]; then
+if [ -d "/home/thai/.config/alacritty" ]; then
     rm -rf ~/.config/alacritty
 fi
 
