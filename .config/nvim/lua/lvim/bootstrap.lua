@@ -16,8 +16,6 @@ return require("packer").startup(function(use)
 	use({
 		"max397574/better-escape.nvim",
 	})
-	-- nerdtree
-	--use("preservim/nerdtree")
 	use({
 		"kyazdani42/nvim-tree.lua",
 		requires = {
