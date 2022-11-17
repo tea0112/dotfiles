@@ -6,7 +6,7 @@ function M.setup(diagnostic)
 		diagnostic.buf,
 		--diagnostic.eslint,
 		diagnostic.flake8,
-		diagnostic.shellcheck,
+        --diagnostic.shellcheck,
 	}
 end
 
