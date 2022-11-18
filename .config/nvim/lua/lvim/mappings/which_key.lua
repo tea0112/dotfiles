@@ -36,10 +36,6 @@ function M.setup()
 		t = {
 			d = { ":lua require('dap-go').debug_test()<CR>", "Go debug test" },
 		},
-		f = {
-			g = { "<cmd>Telescope live_grep<cr>", "Search string" },
-			h = { "<cmd>Telescope help_tags<cr>", "Help" },
-		},
 	}
 
 	wk.setup()
