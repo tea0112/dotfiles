@@ -216,6 +216,7 @@ bindsym $mod+shift+x exec betterlockscreen -l && sleep 5 && xset dpms force off
 bindsym $mod+shift+z exec systemctl suspend
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+a scratchpad show; move position center
+bindsym $mod+apostrophe exec wmctrl -a 'Add'
 
 # start on startup
 # exec - run one time
