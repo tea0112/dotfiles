@@ -66,7 +66,6 @@ bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
-bindsym $mod+x focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -216,7 +215,7 @@ bindsym $mod+shift+x exec betterlockscreen -l && sleep 5 && xset dpms force off
 bindsym $mod+shift+z exec systemctl suspend
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+a scratchpad show; move position center
-bindsym $mod+apostrophe exec wmctrl -a 'Add'
+bindsym $mod+x exec wmctrl -a 'Add'
 
 # start on startup
 # exec - run one time
