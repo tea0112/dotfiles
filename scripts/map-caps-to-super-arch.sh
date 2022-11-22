@@ -8,6 +8,7 @@ reset_picom () {
 		picom -b
 	else
         kill "${exist}"
+		picom -b
 	fi
 }
 
