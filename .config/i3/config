@@ -206,8 +206,6 @@ for_window [class="^.*"] border pixel 5
 gaps inner 10
 gaps outer 0
 
-# autochange monitor
-exec_always --no-startup-id bash /home/$USER/dotfiles/scripts/map-caps-to-super.sh
 # grave - backtick
 bindsym $mod+grave exec "bash /home/$USER/dotfiles/scripts/map-caps-to-super-arch.sh"
 bindsym $mod+F1 exec autorandr --change
@@ -216,6 +214,7 @@ bindsym $mod+shift+z exec systemctl suspend
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+a [instance="goldendict"] scratchpad show; move position center
 bindsym $mod+s [instance="anki"] scratchpad show; move position 0px 0px
+bindsym $mod+q [title="^nvim vocabs"] scratchpad show; move position 1300px 40px 
 #bindsym $mod+x exec wmctrl -a 'Add'
 
 # start on startup
