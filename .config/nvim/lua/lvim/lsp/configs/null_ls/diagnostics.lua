@@ -6,7 +6,9 @@ function M.setup(diagnostic)
 		diagnostic.buf,
 		--diagnostic.eslint,
 		diagnostic.flake8,
-        --diagnostic.shellcheck,
+		--diagnostic.checkstyle.with({
+		--	extra_args = { "-c", "/google_checks.xml" },
+		--}),
 	}
 end
 
