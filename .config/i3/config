@@ -213,7 +213,7 @@ bindsym $mod+shift+x exec betterlockscreen -l && sleep 5 && xset dpms force off
 bindsym $mod+shift+z exec systemctl suspend
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+a [instance="goldendict"] scratchpad show; move position center
-bindsym $mod+s [title="^nvim vocabs"] scratchpad show; move position 0px 0px
+bindsym $mod+s [title="^Add$"] scratchpad show; move position 0px 0px
 #bindsym $mod+x exec wmctrl -a 'Add'
 
 # start on startup
