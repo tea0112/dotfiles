@@ -1,6 +1,7 @@
 #!/bin/bash
 
 sudo pacman -S gcc
+sudo pacman -S bash-language-server
 sudo pacman -S autopep8
 sudo pacman -S wget
 sudo pacman -S ripgrep

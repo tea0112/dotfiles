@@ -207,7 +207,7 @@ gaps inner 10
 gaps outer 0
 
 # grave - backtick
-bindsym $mod+Insert exec "bash /home/$USER/dotfiles/scripts/map-caps-to-super-arch.sh"
+bindsym $mod+Insert exec "bash $HOME/dotfiles/scripts/map-caps-to-super-arch.sh"
 bindsym $mod+F1 exec autorandr --change
 bindsym $mod+shift+x exec betterlockscreen -l && sleep 5 && xset dpms force off
 bindsym $mod+shift+z exec systemctl suspend
