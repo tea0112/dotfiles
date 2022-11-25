@@ -214,6 +214,7 @@ bindsym $mod+shift+z exec systemctl suspend
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+a [instance="goldendict"] scratchpad show; move position center
 bindsym $mod+s [title="^Add$"] scratchpad show; move position 0px 0px
+bindsym $mod+q workspace back_and_forth
 #bindsym $mod+x exec wmctrl -a 'Add'
 
 # start on startup
