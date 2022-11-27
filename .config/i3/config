@@ -224,7 +224,8 @@ bindsym $mod+a exec wmctrl -a 'Goldendict'
 exec --no-startup-id picom -b
 exec --no-startup-id blueman-applet
 exec_always --no-startup-id xrdb ~/.Xresources
-exec_always --no-startup-id bash ~/dotfiles/scripts/set-touchpad.sh 13
+exec_always --no-startup-id bash ~/dotfiles/scripts/set-touchpad.sh
+exec_always --no-startup-id bash ~/dotfiles/scripts/set-mouse.sh "Logitech B330"
 exec_always --no-startup-id autorandr --change
 exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg
 exec_always --no-startup-id imwheel
