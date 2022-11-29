@@ -217,6 +217,7 @@ bindsym $mod+shift+z exec systemctl suspend
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+Tab workspace back_and_forth
 bindsym $mod+a exec wmctrl -a 'Goldendict'
+bindsym $mod+s exec wmctrl -a 'tmux attach || tmux new-session'
 
 # start on startup
 # exec - run one time
