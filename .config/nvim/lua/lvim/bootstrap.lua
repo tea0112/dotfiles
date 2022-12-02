@@ -129,8 +129,6 @@ return require("packer").startup(function(use)
 
 	use("lambdalisue/suda.vim")
 
-	use({ "mfussenegger/nvim-jdtls", ft = { "java" } })
-
 	use("preservim/nerdcommenter")
 
 	use({
@@ -157,6 +155,9 @@ return require("packer").startup(function(use)
 	use("EdenEast/nightfox.nvim")
 
 	use("vimwiki/vimwiki")
+
+	use({ "mfussenegger/nvim-jdtls", ft = { "java" } })
+
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
 	if packer_bootstrap then

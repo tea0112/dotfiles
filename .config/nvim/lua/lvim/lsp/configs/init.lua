@@ -52,6 +52,8 @@ function M.setup(lspconfig, on_attach, capabilities)
 
 	lsp_mapping_table["tsserver"] = lspconfig.tsserver
 
+	lsp_mapping_table["jdtls"] = lspconfig.jdtls
+
 	if #neovim_config.lsp.off > 0 then
 		for _, off in pairs(neovim_config.lsp.off) do
 			for key, lsp in pairs(lsp_mapping_table) do

@@ -7,3 +7,4 @@ require("lvim.settings")
 require("lvim.lsp")
 require("lvim.plugins")
 require("lvim.mappings")
+

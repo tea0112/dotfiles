@@ -47,3 +47,4 @@ capabilities = require("cmp_nvim_lsp").default_capabilities()
 capabilities.offsetEncoding = { "utf-16" }
 
 require("lvim.lsp.configs").setup(lspconfig, on_attach, capabilities)
+
