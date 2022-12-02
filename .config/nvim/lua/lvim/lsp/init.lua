@@ -48,3 +48,7 @@ capabilities.offsetEncoding = { "utf-16" }
 
 require("lvim.lsp.configs").setup(lspconfig, on_attach, capabilities)
 
+local M = {}
+M.on_attach = on_attach
+M.capabilities = capabilities
+return M
