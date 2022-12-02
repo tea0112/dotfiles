@@ -16,13 +16,13 @@ nnoremap <C-y> 10<C-y>
 
 imap jk <Esc>
 
-vmap y "yy
 vmap f <Plug>(easymotion-f)
 vmap F <Plug>(easymotion-F)
-vmap d "_d
-vmap p "yp
-vmap <Leader>p "+p
-vmap <Leader>y "+y
-vmap <Leader>x "+x
-vmap x "yx
+vnoremap y "yy
+vnoremap d "_d
+vnoremap p "yp
+vnoremap <Leader>p "+p
+vnoremap <Leader>y "+y
+vnoremap <Leader>x "+x
+vnoremap x "yx
 
