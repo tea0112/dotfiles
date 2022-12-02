@@ -2,10 +2,27 @@ let mapleader=" "
 
 set easymotion
 
-" <Leader>f{char} to move to {char}
 map f <Plug>(easymotion-f)
-
-" <Leader>F{char} to move to {char}
 map F <Plug>(easymotion-F)
+nnoremap dd "_dd
+nnoremap p "yp
+nnoremap <Leader>p "+p
+nnoremap yy "yyy
+nnoremap x "yx
+nnoremap <Leader>y "+y
+nnoremap E 2e
+nnoremap <C-e> 10<C-e>
+nnoremap <C-y> 10<C-y>
 
 imap jk <Esc>
+
+vnoremap y "yy
+vnoremap f <Plug>(easymotion-f)
+vnoremap F <Plug>(easymotion-F)
+vnoremap d "_d
+vnoremap p "yp
+vnoremap <Leader>p "+p
+vnoremap <Leader>y "+y
+vnoremap <Leader>x "+x
+vnoremap x "yx
+
