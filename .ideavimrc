@@ -1,2 +1,11 @@
+let mapleader=" "
+
+set easymotion
+
+" <Leader>f{char} to move to {char}
+map f <Plug>(easymotion-f)
+
+" <Leader>F{char} to move to {char}
+map F <Plug>(easymotion-F)
+
 imap jk <Esc>
-let mapleader ="\<Space>"
