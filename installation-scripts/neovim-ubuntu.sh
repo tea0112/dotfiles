@@ -1,6 +1,5 @@
 #!/bin/bash
 
-sudo apt install build-essential -y
 sudo apt install fd-find -y
 sudo apt install ripgrep -y
 sudo apt install flake8 -y

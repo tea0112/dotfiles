@@ -1,6 +1,7 @@
 let mapleader=" "
 
 set easymotion
+set ideajoin
 
 map f <Plug>(easymotion-f)
 map F <Plug>(easymotion-F)
@@ -26,4 +27,3 @@ vnoremap <Leader>p "+p
 vnoremap <Leader>y "+y
 vnoremap <Leader>x "+x
 vnoremap x "yx
-
