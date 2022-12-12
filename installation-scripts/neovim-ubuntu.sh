@@ -1,5 +1,8 @@
 #!/bin/bash
 
+sudo add-apt-repository ppa:neovim-ppa/stable
+sudo apt update
+sudo apt install neovim -y
 sudo apt install fd-find -y
 sudo apt install ripgrep -y
 sudo apt install flake8 -y

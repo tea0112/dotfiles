@@ -1,14 +1,19 @@
 #!/bin/bash
 
+bash ./starship-ubuntu.sh
+
+cargo install exa
+cargo install zoxide
+
+sudo apt install python3-pip
 sudo apt install shellcheck -y
 sudo apt install xclip -y
 sudo apt install aria2 -y
 sudo apt install unzip -y
 sudo apt install build-essential -y
-sudo apt install -y cmake
-sudo apt install -y exa
 sudo apt install -y zsh
-sudo apt install -y zoxide
+
+pip install cmake
 
 rm -rf ~/.oh-my-zsh
 git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
