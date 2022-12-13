@@ -4,6 +4,7 @@ bash ./starship-ubuntu.sh
 
 cargo install exa
 cargo install zoxide
+cargo install stylua
 
 sudo apt install python3-pip
 sudo apt install shellcheck -y

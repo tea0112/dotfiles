@@ -32,4 +32,12 @@ require("gitsigns").setup({})
 
 require("colorizer").setup()
 
+require("mason").setup()
+
+require("mason-null-ls").setup({
+	ensure_installed = nil,
+	automatic_installation = true,
+	automatic_setup = false,
+})
+
 vim.cmd([[colorscheme tokyonight-storm]])

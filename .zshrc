@@ -155,11 +155,6 @@ export EDITOR=nvim
 export GOPATH=$HOME/go
 export PATH=$PATH:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$GOROOT/bin:$GOPATH/bin
 export PATH=$PATH:/usr/local/bin
-export PATH=$PATH:/opt/cmake-3.23.1-linux-x86_64/bin
-export PATH=$PATH:~/dotfiles/bin
-export PATH=$PATH:/opt/apache-maven-3.8.6/bin
-export PATH=$PATH:~/.local/share/nvim/lsp_servers/jdtls/bin
-export PATH=$PATH:~/.local/share/nvim/lsp_servers/yaml/node_modules/yaml-language-server/bin/yaml-language-server
 
 export PATH="/home/thai/anaconda3/bin:$PATH"
 export JAVA_HOME="/usr/lib/jvm/default-java"
