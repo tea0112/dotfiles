@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo pacman -S jq
 sudo pacman -S exa
 sudo pacman -S xclip
 sudo pacman -S fd
