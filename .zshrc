@@ -165,6 +165,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export WINEARCH=win32
 export WINEPREFIX=~/.wine32
 export BOOST_ROOT=/opt/boost_1_80_0
+export SHELL=/usr/bin/zsh
 
 # nnn configuration
 export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'

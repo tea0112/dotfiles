@@ -1,5 +1,3 @@
 #!/bin/bash
 
-yay -S nerd-fonts-jetbrains-mono
-yay ttf-font-awesome
-sudo pacman -S noto-fonts-emoji
+sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
