@@ -10,7 +10,7 @@ Version=1.0
 Name=Aria2 RPC
 
 # The executable of the application, possibly with arguments.
-Exec=/usr/bin/aria2c --enable-rpc
+Exec=/usr/bin/aria2c -c -s 16 -x 16 -k 1M -j 1 --enable-rpc
 # The name of the icon that will be used to display this entry
 #Icon=imwheel
 
