@@ -50,24 +50,33 @@ function M.setup()
 	})
 
 	-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-	if IsWSL() then
-		cmp.setup.cmdline(":", {
-			mapping = cmp.mapping.preset.cmdline(),
-			sources = cmp.config.sources({
-				{ name = "path" },
-			}, {
-				{ name = "cmdline", keyword_pattern = [=[[^[:blank:]\!]*]=], keyword_length = 3 },
-			}),
-		})
-	else
-		cmp.setup.cmdline(":", {
-			mapping = cmp.mapping.preset.cmdline(),
-			sources = cmp.config.sources({
-				{ name = "path" },
-			}, {
-				{ name = "cmdline" },
-			}),
-		})
-	end
+	cmp.setup.cmdline(":", {
+		mapping = cmp.mapping.preset.cmdline(),
+		sources = cmp.config.sources({
+			{ name = "path" },
+		}, {
+			{ name = "cmdline" },
+		}),
+	})
+	--if IsWSL() then
+		--cmp.setup.cmdline(":", {
+			--mapping = cmp.mapping.preset.cmdline(),
+			--sources = cmp.config.sources({
+				--{ name = "path" },
+			--}, {
+				--{ name = "cmdline", keyword_pattern = [=[[^[:blank:]\!]*]=], keyword_length = 3 },
+			--}),
+		--})
+	--else
+		--cmp.setup.cmdline(":", {
+			--mapping = cmp.mapping.preset.cmdline(),
+			--sources = cmp.config.sources({
+				--{ name = "path" },
+			--}, {
+				--{ name = "cmdline" },
+			--}),
+		--})
+	--end
 end
+
 return M
