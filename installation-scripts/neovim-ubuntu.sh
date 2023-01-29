@@ -7,7 +7,7 @@ sudo apt install fd-find -y
 sudo apt install ripgrep -y
 sudo apt install python3-pip -y
 
-ln -sf ~/dotfiles/.neovim-config.json ~
+cp ~/dotfiles/.neovim-config.json ~
 
 nvim_config_dir="/home/$USER/.config/nvim"
 if [ -d "${nvim_config_dir}" ]; then
