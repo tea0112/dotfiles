@@ -11,6 +11,8 @@ sudo pacman -S shellcheck
 sudo pacman -S flake8
 sudo pacman -S shfmt
 
+ln -sf ~/dotfiles/.neovim-config.json ~
+
 nvim_config_dir="/home/$USER/nvim"
 if [ -d "${nvim_config_dir}" ]; then
     rm -rf "${nvim_config_dir}"
