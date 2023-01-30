@@ -20,6 +20,8 @@ require("lvim.plugins.tokyonight").setup()
 
 require("lvim.plugins.nvim_cmp").setup()
 
+require("lvim.plugins.mason").setup()
+
 require("nvim-lightbulb").setup({ autocmd = { enabled = true } })
 
 require("nvim-autopairs").setup({})
@@ -31,13 +33,5 @@ require("hierarchy-tree-go").setup({})
 require("gitsigns").setup({})
 
 require("colorizer").setup()
-
-require("mason").setup()
-
-require("mason-null-ls").setup({
-	ensure_installed = nil,
-	automatic_installation = true,
-	automatic_setup = false,
-})
 
 vim.cmd([[colorscheme tokyonight-storm]])
