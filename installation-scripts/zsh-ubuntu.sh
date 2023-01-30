@@ -1,15 +1,16 @@
 #!/bin/bash
 
-bash ./starship-ubuntu.sh
-
+bash ./dependencies/install-rust.sh
 cargo install exa
 cargo install zoxide
-cargo install stylua
+
+bash ./dependencies/tmux-ubuntu.sh
+bash ./dependencies/starship-ubuntu.sh
+
 
 sudo apt install python3-pip -y
 sudo apt install python3-virtualenv -y
 sudo apt install python3.10-venv -y
-sudo apt install shellcheck -y
 sudo apt install xclip -y
 sudo apt install aria2 -y
 sudo apt install unzip -y
