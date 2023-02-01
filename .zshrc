@@ -155,6 +155,7 @@ export EDITOR=nvim
 export GOPATH=$HOME/go
 export JAVA_HOME=/usr/lib/jvm/default-java
 export MAVEN_HOME=/opt/maven
+export M2_HOME=/opt/maven
 export PAGER=less
 export MM_LIVE_RELOAD=true
 export XDG_CONFIG_HOME=$HOME/.config
