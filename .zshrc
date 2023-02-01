@@ -153,19 +153,21 @@ export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
 export EDITOR=nvim
 export GOPATH=$HOME/go
-export PATH=$PATH:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$GOROOT/bin:$GOPATH/bin
-export PATH=$PATH:/usr/local/bin
-
-export PATH="/home/thai/anaconda3/bin:$PATH"
-export JAVA_HOME="/usr/lib/jvm/default-java"
-export MAVEN_HOME="/opt/apache-maven-3.8.6"
+export JAVA_HOME=/usr/lib/jvm/default-java
+export MAVEN_HOME=/opt/maven
 export PAGER=less
 export MM_LIVE_RELOAD=true
-export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CONFIG_HOME=$HOME/.config
 export WINEARCH=win32
 export WINEPREFIX=~/.wine32
 export BOOST_ROOT=/opt/boost_1_80_0
 export SHELL=/usr/bin/zsh
+
+export PATH=$PATH:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$GOROOT/bin:$GOPATH/bin
+export PATH=$PATH:/usr/local/bin
+export PATH=/home/thai/anaconda3/bin:$PATH
+export PATH=$PATH:$MAVEN_HOME/bin
+export PATH=$PATH:$JAVA_HOME/bin
 
 # nnn configuration
 export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'
