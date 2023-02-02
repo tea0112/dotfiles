@@ -7,7 +7,7 @@ cargo install zoxide
 bash ./dependencies/tmux-ubuntu.sh
 bash ./dependencies/starship-ubuntu.sh
 
-
+sudo apt install wmctrl -y
 sudo apt install python3-pip -y
 sudo apt install python3-virtualenv -y
 sudo apt install python3.10-venv -y
