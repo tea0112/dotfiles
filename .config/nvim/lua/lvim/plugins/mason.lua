@@ -8,7 +8,6 @@ function M.setup()
 			"bashls",
 			"sumneko_lua",
 			"rust_analyzer",
-			"clangd",
 			"bashls",
 			"tailwindcss",
 			"emmet_ls",
