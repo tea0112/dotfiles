@@ -28,7 +28,6 @@ function M.setup()
 			"stylua",
 			"autopep8",
 			"flake8",
-			"clang_format",
 		},
 	})
 end
