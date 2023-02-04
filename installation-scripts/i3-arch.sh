@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo pacman -S gnome-disk-utility
 sudo pacman -S wmctrl
 sudo pacman -S xdotool
 sudo pacman -S lxqt-policykit
