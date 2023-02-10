@@ -120,10 +120,6 @@ alias epolybar="cd ~/.config/polybar && nvim ."
 alias erofi="cd ~/dotfiles/.config/rofi && nvim ."
 alias pdotfiles='cd ~/dotfiles && git add . && if [ $(git commit -m "update" && git push -u origin master) -eq 0 ]; then cd -; fi && cd -'
 alias se="sudoedit"
-# check what wakeup
-alias wkd="cat /sys/bus/usb/devices/*/power/wakeup"
-# check what wakeup name
-alias wkn="ll /sys/bus/usb/devices/*/power/wakeup"
 alias cdotfiles="cd ~/dotfiles"
 alias ctm="bash $HOME/dotfiles/scripts/map-caps-to-super.sh"
 alias blcpo="bluetoothctl power on"
