@@ -33,5 +33,3 @@ require("hierarchy-tree-go").setup({})
 require("gitsigns").setup({})
 
 require("colorizer").setup()
-
-vim.cmd([[colorscheme tokyonight-storm]])
