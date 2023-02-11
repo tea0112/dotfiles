@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo pacman -S rofimoji
 sudo pacman -S arandr
 sudo pacman -S gnome-disk-utility
 sudo pacman -S wmctrl
