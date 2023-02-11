@@ -4,6 +4,8 @@ function M.setup()
 	require("nvim-tree").setup({
 		view = {
 			adaptive_size = true,
+			cursorline = true,
+			relativenumber = true,
 		},
 		actions = {
 			open_file = {
