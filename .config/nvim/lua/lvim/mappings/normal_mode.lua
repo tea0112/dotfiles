@@ -3,6 +3,8 @@ local M = {}
 function M.setup()
 	local ns_opts = { noremap = true, silent = true }
 
+	Utils.map("n", "<C-w>", ":bd!<CR>", ns_opts)
+
 	Utils.map("n", "E", "2e", ns_opts)
 
 	Utils.map("n", "<leader>;", ":w<CR>", ns_opts)
