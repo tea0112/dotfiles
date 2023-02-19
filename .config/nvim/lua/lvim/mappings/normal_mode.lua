@@ -9,8 +9,8 @@ function M.setup()
 
 	Utils.map("n", "<leader>;", ":w<CR>", ns_opts)
 
-	Utils.map("n", "<C-e>", "10<C-e>", ns_opts)
-	Utils.map("n", "<C-y>", "10<C-y>", ns_opts)
+	Utils.map("n", "<C-e>", "5<C-e>", ns_opts)
+	Utils.map("n", "<C-y>", "5<C-y>", ns_opts)
 
 	--telescope
 	Utils.map("n", ";a", ":Telescope find_files<CR>", ns_opts)
