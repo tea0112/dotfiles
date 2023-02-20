@@ -14,3 +14,4 @@ map i recolor
 map p print
 map g goto top
 unmap a
+unmap s
