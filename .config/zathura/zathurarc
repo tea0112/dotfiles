@@ -8,8 +8,9 @@ map d scroll half-down
 map D toggle_page_mode
 map r reload
 map R rotate
-map <C-\=> zoom in
-map <C-\-> zoom out 
+map K zoom in
+map J zoom out 
 map i recolor
 map p print
 map g goto top
+unmap a
