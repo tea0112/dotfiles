@@ -13,5 +13,6 @@ map J zoom out
 map i recolor
 map p print
 map g goto top
+map <Space> mark_evaluate
 unmap a
 unmap s
