@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup(lspconfig, on_attach, capabilities)
-	require("lvim.lsp.configs.sumneko_lua_ls").setup(lspconfig)
+	require("lvim.lsp.configs.lua_ls").setup(lspconfig)
 	require("lvim.lsp.configs.null_ls").setup(on_attach, capabilities)
 
 	local utils = require("lvim.utils")

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo apt install curl -y
 bash ./dependencies/install-rust.sh
 cargo install exa
 cargo install zoxide
