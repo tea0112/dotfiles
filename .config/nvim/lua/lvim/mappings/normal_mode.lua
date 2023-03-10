@@ -38,19 +38,10 @@ function M.setup()
 	Utils.map("n", "<Leader>sv", ":luafile $MYVIMRC<CR>", ns_opts)
 
 	-- delete to hole
-	Utils.map("n", "dd", '"_dd', ns_opts)
-
-	-- paste from y
-	Utils.map("n", "p", '"yp', ns_opts)
+	Utils.map("n", "d", '"_d', ns_opts)
 
 	-- paste from y using leader
 	Utils.map("n", "<Leader>p", '"+p', ns_opts)
-
-	-- copy to y
-	Utils.map("n", "yy", '"yyy', ns_opts)
-
-	-- cut to y
-	Utils.map("n", "x", '"yx', ns_opts)
 
 	-- copy to plus register
 	Utils.map("n", "<Leader>y", '"+y', ns_opts)
