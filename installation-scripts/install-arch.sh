@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo pacman -S nodejs
+sudo pacman -S npm
 sudo pacman -S go
 sudo pacman -S rust
 sudo pacman -S alacritty
