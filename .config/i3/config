@@ -125,37 +125,37 @@ set $ws9 "9"
 set $ws10 "10"
 
 # switch to workspace
-bindsym $mod+s workspace number $ws0
-bindsym $mod+q workspace number $ws1
-bindsym $mod+w workspace number $ws2
-bindsym $mod+e workspace number $ws3
-bindsym $mod+r workspace number $ws4
-bindsym $mod+f workspace number $ws5
-bindsym $mod+u workspace number $ws6
-bindsym $mod+i workspace number $ws7
+bindsym $mod+q workspace number $ws0
+bindsym $mod+w workspace number $ws1
+bindsym $mod+e workspace number $ws2
+bindsym $mod+r workspace number $ws3
+bindsym $mod+f workspace number $ws4
+bindsym $mod+c workspace number $ws5
+bindsym $mod+f workspace number $ws6
+bindsym $mod+r workspace number $ws7
 bindsym $mod+o workspace number $ws8
-bindsym $mod+m workspace number $ws9
-bindsym $mod+n workspace number $ws10
+bindsym $mod+n workspace number $ws9
+bindsym $mod+m workspace number $ws10
 
 # move focused container to workspace
-bindsym $mod+Shift+s move container to workspace number $ws0
-bindsym $mod+Shift+q move container to workspace number $ws1
-bindsym $mod+Shift+w move container to workspace number $ws2
-bindsym $mod+Shift+e move container to workspace number $ws3
-bindsym $mod+Shift+r move container to workspace number $ws4
-bindsym $mod+Shift+f move container to workspace number $ws5
-bindsym $mod+Shift+u move container to workspace number $ws6
-bindsym $mod+Shift+i move container to workspace number $ws7
+bindsym $mod+Shift+q move container to workspace number $ws0
+bindsym $mod+Shift+w move container to workspace number $ws1
+bindsym $mod+Shift+e move container to workspace number $ws2
+bindsym $mod+Shift+r move container to workspace number $ws3
+bindsym $mod+Shift+f move container to workspace number $ws4
+bindsym $mod+Shift+c move container to workspace number $ws5
+bindsym $mod+Shift+f move container to workspace number $ws6
+bindsym $mod+Shift+r move container to workspace number $ws7
 bindsym $mod+Shift+o move container to workspace number $ws8
-bindsym $mod+Shift+m move container to workspace number $ws9
-bindsym $mod+Shift+n move container to workspace number $ws10
+bindsym $mod+Shift+n move container to workspace number $ws9
+bindsym $mod+Shift+m move container to workspace number $ws10
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+4 restart
 # reload the configuration file
 bindsym $mod+Shift+5 reload
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+6 exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+6 exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
