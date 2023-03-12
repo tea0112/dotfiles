@@ -137,3 +137,4 @@ sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf "/tmp/$version"
 
 echo "========== Install Rust =========="
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
