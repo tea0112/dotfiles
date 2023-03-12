@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo pacman -S curl nodejs npm go rust alacritty imwheel mpv gcc wget ripgrep rofi polybar jq aria2 exa xclip fd zsh zoxide starship ripgrep zathura zathura-cb zathura-djvu zathura-ps zathura-pdf-mupdf xsel rofimoji arandr gnome-disk-utility wmctrl xdotool lxqt-policykit network-manager-applet blueman autorandr feh xfce4-notifyd ttf-font-awesome noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra vlc neovim telegram-desktop thunnar
+sudo pacman -S curl nodejs npm go rust alacritty imwheel mpv gcc wget ripgrep rofi polybar jq aria2 exa xclip fd zsh zoxide starship ripgrep zathura zathura-cb zathura-djvu zathura-ps zathura-pdf-mupdf xsel rofimoji arandr gnome-disk-utility wmctrl xdotool lxqt-policykit network-manager-applet blueman autorandr feh xfce4-notifyd ttf-font-awesome noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra vlc neovim telegram-desktop
 
 echo "========== Configure ZSH =========="
 rm -rf ~/.oh-my-zsh
