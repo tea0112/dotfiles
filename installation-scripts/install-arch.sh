@@ -1,45 +1,6 @@
 #!/bin/bash
 
-sudo pacman -S curl
-sudo pacman -S nodejs
-sudo pacman -S npm
-sudo pacman -S go
-sudo pacman -S rust
-sudo pacman -S alacritty
-sudo pacman -S imwheel
-sudo pacman -S mpv
-sudo pacman -S gcc
-sudo pacman -S wget
-sudo pacman -S ripgrep
-sudo pacman -S rofi
-sudo pacman -S polybar
-sudo pacman -S jq
-sudo pacman -S aria2
-sudo pacman -S exa
-sudo pacman -S xclip
-sudo pacman -S fd
-sudo pacman -S zsh
-sudo pacman -S zoxide
-sudo pacman -S starship
-sudo pacman -S ripgrep
-sudo pacman -S zathura
-sudo pacman -S zathura-cb
-sudo pacman -S zathura-djvu
-sudo pacman -S zathura-ps
-sudo pacman -S zathura-pdf-mupdf
-sudo pacman -S xsel
-sudo pacman -S rofimoji
-sudo pacman -S arandr
-sudo pacman -S gnome-disk-utility
-sudo pacman -S wmctrl
-sudo pacman -S xdotool
-sudo pacman -S lxqt-policykit
-sudo pacman -S network-manager-applet
-sudo pacman -S blueman
-sudo pacman -S autorandr
-sudo pacman -S feh
-sudo pacman -S xfce4-notifyd
-sudo pacman -S ttf-font-awesome noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
+sudo pacman -S curl nodejs npm go rust alacritty imwheel mpv gcc wget ripgrep rofi polybar jq aria2 exa xclip fd zsh zoxide starship ripgrep zathura zathura-cb zathura-djvu zathura-ps zathura-pdf-mupdf xsel rofimoji arandr gnome-disk-utility wmctrl xdotool lxqt-policykit network-manager-applet blueman autorandr feh xfce4-notifyd ttf-font-awesome noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
 
 echo "========== Configure ZSH =========="
 rm -rf ~/.oh-my-zsh
