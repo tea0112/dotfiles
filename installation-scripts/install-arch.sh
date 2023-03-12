@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo pacman -S curl
 sudo pacman -S nodejs
 sudo pacman -S npm
 sudo pacman -S go
@@ -161,3 +162,17 @@ if [ -f "~/.imwheelrc" ]; then
 fi
 
 ln -sf ~/dotfiles/.imwheelrc ~/
+
+sudo pacman -R nodejs
+sudo pacman -R npm
+sudo pacman -R go
+sudo pacman -R rust
+
+echo "========== Install Go =========="
+sudo whoami
+version=$(curl -s https://go.dev/dl/ | grep 'go.*.linux-amd64.tar.gz' -m1 -o)
+wget -O "/tmp/$version" "https://dl.google.com/go/${version}"
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf "/tmp/$version"
+
+echo "========== Install Rust =========="
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
