@@ -228,7 +228,6 @@ exec_always --no-startup-id bash ~/dotfiles/scripts/set-touchpad.sh
 exec_always --no-startup-id bash ~/dotfiles/scripts/set-mouse.sh "Logitech B330"
 exec_always --no-startup-id autorandr --change
 exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg
-exec_always --no-startup-id imwheel
 exec_always --no-startup-id nm-applet
 exec_always --no-startup-id lxqt-policykit-agent
 exec_always --no-startup-id ~/.config/polybar/launch.sh
