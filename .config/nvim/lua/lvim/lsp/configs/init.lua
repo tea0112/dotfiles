@@ -3,71 +3,82 @@ local M = {}
 function M.setup(lspconfig, on_attach, capabilities)
 	require("lvim.lsp.configs.lua_ls").setup(lspconfig)
 	require("lvim.lsp.configs.null_ls").setup(on_attach, capabilities)
+	local jdtls_configs = require("lvim.lsp.configs.jdtls")
 
-	local utils = require("lvim.utils")
-	local neovim_config = utils.GetConfig("$HOME/.neovim-config.json")
-	--example config file
-	--{
-	--  "lsp": {
-	--    "off": [
-	--      "tsserver"
-	--    ]
-	--  }
-	--}
+	require("lspconfig")["pyright"].setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
 
-	local function default_attach_capabilities()
-		return {
-			on_attach = on_attach,
-			capabilities = capabilities,
-		}
-	end
+	require("lspconfig")["clangd"].setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
 
-	local lsp_mapping_table = {}
+	require("lspconfig")["rust_analyzer"].setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
 
-	lsp_mapping_table["pyright"] = lspconfig.pyright
+	require("lspconfig")["gopls"].setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
 
-	lsp_mapping_table["clangd"] = lspconfig.clangd
+	require("lspconfig")["bashls"].setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
 
-	lsp_mapping_table["rust_analyzer"] = lspconfig.rust_analyzer
+	require("lspconfig")["tailwindcss"].setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
 
-	lsp_mapping_table["gopls"] = lspconfig.gopls
+	require("lspconfig")["emmet_ls"].setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
 
-	lsp_mapping_table["bashls"] = lspconfig.bashls
+	require("lspconfig")["html"].setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
 
-	lsp_mapping_table["tailwindcss"] = lspconfig.tailwindcss
+	require("lspconfig")["bufls"].setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
 
-	lsp_mapping_table["emmet_ls"] = lspconfig.emmet_ls
+	require("lspconfig")["yamlls"].setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
 
-	lsp_mapping_table["html"] = lspconfig.html
+	require("lspconfig")["cmake"].setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
 
-	lsp_mapping_table["bufls"] = lspconfig.bufls
+	require("lspconfig")["marksman"].setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
 
-	lsp_mapping_table["yamlls"] = lspconfig.yamlls
+	require("lspconfig")["jsonnet_ls"].setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
 
-	lsp_mapping_table["cmake"] = lspconfig.cmake
+	require("lspconfig")["tsserver"].setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+	})
 
-	lsp_mapping_table["marksman"] = lspconfig.marksman
-
-	lsp_mapping_table["jsonnet_ls"] = lspconfig.jsonnet_ls
-
-	lsp_mapping_table["tsserver"] = lspconfig.tsserver
-
-	lsp_mapping_table["jdtls"] = lspconfig.jdtls
-
-	if #neovim_config.lsp.off > 0 then
-		for _, off in pairs(neovim_config.lsp.off) do
-			for key, lsp in pairs(lsp_mapping_table) do
-				if key ~= off then
-					print(key, off)
-					lsp.setup(default_attach_capabilities())
-				end
-			end
-		end
-	else
-		for _, lsp in pairs(lsp_mapping_table) do
-			lsp.setup(default_attach_capabilities())
-		end
-	end
+    require("lspconfig")["jdtls"].setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+    })
 end
 
 return M

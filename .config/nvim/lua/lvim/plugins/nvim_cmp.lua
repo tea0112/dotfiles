@@ -58,25 +58,6 @@ function M.setup()
 			{ name = "cmdline" },
 		}),
 	})
-	--if IsWSL() then
-		--cmp.setup.cmdline(":", {
-			--mapping = cmp.mapping.preset.cmdline(),
-			--sources = cmp.config.sources({
-				--{ name = "path" },
-			--}, {
-				--{ name = "cmdline", keyword_pattern = [=[[^[:blank:]\!]*]=], keyword_length = 3 },
-			--}),
-		--})
-	--else
-		--cmp.setup.cmdline(":", {
-			--mapping = cmp.mapping.preset.cmdline(),
-			--sources = cmp.config.sources({
-				--{ name = "path" },
-			--}, {
-				--{ name = "cmdline" },
-			--}),
-		--})
-	--end
 end
 
 return M
