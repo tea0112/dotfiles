@@ -1,8 +1,9 @@
+--[[local jdtls = require("jdtls")]]
 local status, jdtls = pcall(require, "jdtls")
 if not status then
+	print("module jdtls not found")
 	return
 end
-
 local extendedClientCapabilities = jdtls.extendedClientCapabilities
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
@@ -41,23 +42,10 @@ local config = {
 		"java.base/java.util=ALL-UNNAMED",
 		"--add-opens",
 		"java.base/java.lang=ALL-UNNAMED",
-
-		-- 💀
 		"-jar",
-		mason_jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar",
-		-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
-		-- Must point to the                                                     Change this to
-		-- eclipse.jdt.ls installation                                           the actual version
-
-		-- 💀
+        vim.fn.glob(mason_jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar"),
 		"-configuration",
 		mason_jdtls_path .. "/config_" .. CONFIG,
-		-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
-		-- Must point to the                      Change to one of `linux`, `win` or `mac`
-		-- eclipse.jdt.ls installation            Depending on your system.
-
-		-- 💀
-		-- See `data directory configuration` section in the README
 		"-data",
 		WORKSPACE_PATH,
 	},
