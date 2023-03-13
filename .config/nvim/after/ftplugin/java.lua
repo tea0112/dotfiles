@@ -1,15 +1,10 @@
-local number = 2
-vim.opt.tabstop = number
-vim.opt.shiftwidth = number
-vim.opt.softtabstop = number
-
-local capabilities = require("lvim.lsp").capabilities
-local on_attach = require("lvim.lsp").on_attach
-
 local status, jdtls = pcall(require, "jdtls")
 if not status then
 	return
 end
+
+local extendedClientCapabilities = jdtls.extendedClientCapabilities
+extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
 local home = os.getenv("HOME")
 
@@ -74,7 +69,62 @@ local config = {
 	-- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
 	-- for a list of options
 	settings = {
-		java = {},
+		java = {
+			eclipse = {
+				downloadSources = true,
+			},
+			configuration = {
+				updateBuildConfiguration = "interactive",
+			},
+			maven = {
+				downloadSources = true,
+			},
+			implementationsCodeLens = {
+				enabled = true,
+			},
+			referencesCodeLens = {
+				enabled = true,
+			},
+			references = {
+				includeDecompiledSources = true,
+			},
+			format = {
+				enabled = true,
+				settings = {
+					url = vim.fn.stdpath("config") .. "/lang-servers/intellij-java-google-style.xml",
+					profile = "GoogleStyle",
+				},
+			},
+		},
+		signatureHelp = { enabled = true },
+		completion = {
+			favoriteStaticMembers = {
+				"org.hamcrest.MatcherAssert.assertThat",
+				"org.hamcrest.Matchers.*",
+				"org.hamcrest.CoreMatchers.*",
+				"org.junit.jupiter.api.Assertions.*",
+				"java.util.Objects.requireNonNull",
+				"java.util.Objects.requireNonNullElse",
+				"org.mockito.Mockito.*",
+			},
+		},
+		contentProvider = { preferred = "fernflower" },
+		extendedClientCapabilities = extendedClientCapabilities,
+		sources = {
+			organizeImports = {
+				starThreshold = 9999,
+				staticStarThreshold = 9999,
+			},
+		},
+		codeGeneration = {
+			toString = {
+				template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+			},
+			useBlocks = true,
+		},
+	},
+	flags = {
+		allow_incremental_sync = true,
 	},
 	-- Language server `initializationOptions`
 	-- You need to extend the `bundles` with paths to jar files
@@ -86,9 +136,15 @@ local config = {
 	init_options = {
 		bundles = {},
 	},
-	capabilities = capabilities,
-	on_attach = on_attach,
+	capabilities = require("lvim.lsp").capabilities,
+	on_attach = require("lvim.lsp").on_attach,
 }
--- This starts a new client & server,
--- or attaches to an existing client & server depending on the `root_dir`.
+
 jdtls.start_or_attach(config)
+-- Add the commands
+require("jdtls.setup").add_commands()
+
+local number = 2
+vim.opt.tabstop = number
+vim.opt.shiftwidth = number
+vim.opt.softtabstop = number

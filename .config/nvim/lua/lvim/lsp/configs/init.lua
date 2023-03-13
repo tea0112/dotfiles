@@ -3,7 +3,6 @@ local M = {}
 function M.setup(lspconfig, on_attach, capabilities)
 	require("lvim.lsp.configs.lua_ls").setup(lspconfig)
 	require("lvim.lsp.configs.null_ls").setup(on_attach, capabilities)
-	local jdtls_configs = require("lvim.lsp.configs.jdtls")
 
 	require("lspconfig")["pyright"].setup({
 		on_attach = on_attach,
@@ -75,10 +74,10 @@ function M.setup(lspconfig, on_attach, capabilities)
 		capabilities = capabilities,
 	})
 
-    require("lspconfig")["jdtls"].setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-    })
+    --require("lspconfig")["jdtls"].setup({
+        --on_attach = on_attach,
+        --capabilities = capabilities,
+    --})
 end
 
 return M
