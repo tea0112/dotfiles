@@ -1,4 +1,3 @@
---[[local jdtls = require("jdtls")]]
 local status, jdtls = pcall(require, "jdtls")
 if not status then
 	print("module jdtls not found")
