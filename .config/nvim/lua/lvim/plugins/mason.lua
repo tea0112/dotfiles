@@ -23,6 +23,7 @@ function M.setup()
 
 	require("mason-null-ls").setup({
 		ensure_installed = {
+            "google-java-format",
 			"shfmt",
 			"prettier",
 			"buf",
