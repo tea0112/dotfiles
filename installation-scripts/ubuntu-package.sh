@@ -24,7 +24,7 @@ cargo install exa
 cargo install zoxide
 
 sudo apt update && sudo apt upgrade -y
-sudo apt install curl wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3.10-venv xclip aria2 unzip build-essential zsh tmux xsel rofi polybar mpv vlc qbittorrent telegram-desktop gnome-tweaks goldendict -y
+sudo apt install curl wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3.10-venv xclip aria2 unzip build-essential zsh tmux xsel rofi polybar mpv vlc qbittorrent telegram-desktop gnome-tweaks goldendict gnome-shell-extension-manager -y
 
 pip install cmake 
 
