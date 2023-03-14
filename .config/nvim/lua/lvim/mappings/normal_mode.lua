@@ -16,10 +16,7 @@ function M.setup()
 	Utils.map("n", ";a", ":Telescope find_files<CR>", ns_opts)
 	Utils.map("n", ";s", ":Telescope live_grep<CR>", ns_opts)
 	Utils.map("n", ";d", ":Telescope buffers<CR>", ns_opts)
-
-	-- buffer line
-	Utils.map("n", "se", ":BufferLineSortByExtension<CR>", ns_opts)
-	Utils.map("n", "sd", ":BufferLineSortByDirectory<CR>", ns_opts)
+	Utils.map("n", ";f", ":Telescope help_tags<CR>", ns_opts)
 
 	-- 'edit alternate file' convenience mapping
 	Utils.map("n", "<A-Left>", "gT", ns_opts)

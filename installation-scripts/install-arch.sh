@@ -80,21 +80,11 @@ version=$($get_repo_version nvm-sh/nvm)
 curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${version}/install.sh" | bash
 
 echo "========== Install Neovim =========="
-cp ~/dotfiles/.neovim-config.json ~
-
-nvim_config_dir="/home/$USER/nvim"
+nvim_config_dir="/home/$USER/.config/nvim"
 if [ -d "${nvim_config_dir}" ]; then
     rm -rf "${nvim_config_dir}"
 fi
 ln -sf /home/$USER/dotfiles/.config/nvim/ /home/$USER/.config/
-
-Packer_File=/home/$USER/.local/share/nvim/site/pack/packer/start/packer.nvim
-if [ ! -d "$Packer_File" ]; then
-    git clone --depth 1 https://github.com/wbthomason/packer.nvim\
-    ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-fi
-
-nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 echo "========== Configure Picom =========="
 if [ -d "$HOME/.config/picom" ]; then

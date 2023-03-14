@@ -5,7 +5,6 @@
 vim.cmd([[colorscheme tokyonight-moon]])
 
 local tab_number = 4
-vim.g.mapleader = " "
 vim.g.cursorhold_updatetime = 100
 
 vim.opt.termguicolors = true
