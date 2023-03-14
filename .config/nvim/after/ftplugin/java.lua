@@ -123,8 +123,8 @@ local config = {
 	init_options = {
 		bundles = {},
 	},
-	capabilities = require("lvim.lsp").capabilities,
-	on_attach = require("lvim.lsp").on_attach,
+	capabilities = require("lsp").capabilities,
+	on_attach = require("lsp").on_attach,
 }
 
 jdtls.start_or_attach(config)

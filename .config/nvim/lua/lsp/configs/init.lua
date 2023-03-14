@@ -1,8 +1,8 @@
 local M = {}
 
 function M.setup(lspconfig, on_attach, capabilities)
-	require("lvim.lsp.configs.lua_ls").setup(lspconfig)
-	require("lvim.lsp.configs.null_ls").setup(on_attach, capabilities)
+	require("lsp.configs.lua_ls").setup(lspconfig)
+	require("lsp.configs.null_ls").setup(on_attach, capabilities)
 
 	require("lspconfig")["pyright"].setup({
 		on_attach = on_attach,

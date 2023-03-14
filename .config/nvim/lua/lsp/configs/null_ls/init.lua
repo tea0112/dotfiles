@@ -1,5 +1,5 @@
 local M = {}
-local utils = require("lvim.utils")
+local utils = require("utils")
 
 function M.setup(on_attach, capabilities)
 	local null_ls = require("null-ls")
@@ -8,8 +8,8 @@ function M.setup(on_attach, capabilities)
 	local diagnostic = null_ls.builtins.diagnostics
 	local completion = null_ls.builtins.completion
 
-	local formatting_configs = require("lvim.lsp.configs.null_ls.formattings").setup(formatting)
-	local diagnostics_configs = require("lvim.lsp.configs.null_ls.diagnostics").setup(diagnostic)
+	local formatting_configs = require("lsp.configs.null_ls.formattings").setup(formatting)
+	local diagnostics_configs = require("lsp.configs.null_ls.diagnostics").setup(diagnostic)
 
 	local sources = {
 		capabilities = capabilities,
