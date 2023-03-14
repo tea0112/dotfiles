@@ -12,7 +12,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
-    "rcarriga/nvim-notify",
+    "mfussenegger/nvim-dap",
     "hrsh7th/cmp-nvim-lsp-document-symbol",
     "williamboman/mason-lspconfig.nvim",
     "williamboman/mason.nvim",
