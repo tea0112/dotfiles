@@ -9,7 +9,6 @@ function M.setup()
 			"bashls",
 			"lua_ls",
 			"rust_analyzer",
-			"bashls",
 			"tailwindcss",
 			"emmet_ls",
 			"html",
@@ -25,6 +24,7 @@ function M.setup()
 		ensure_installed = {
             "google-java-format",
 			"shfmt",
+			"shellcheck",
 			"prettier",
 			"buf",
 			"stylua",

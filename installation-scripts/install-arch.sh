@@ -27,12 +27,12 @@ chsh -s $(which zsh)
 echo "========== Install font =========="
 FONT_DIR="$HOME/.fonts"
 if [ -d "$FONT_DIR" ]; then
-    cp $HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf $FONT_DIR
-    fc-cache -f -v
+	cp $HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf $FONT_DIR
+	fc-cache -f -v
 else
-    mkdir $FONT_DIR
-    cp $HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf $FONT_DIR
-    fc-cache -f -v
+	mkdir $FONT_DIR
+	cp $HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf $FONT_DIR
+	fc-cache -f -v
 fi
 
 echo "========== Configure mpv =========="
@@ -41,35 +41,35 @@ ln -sf ~/dotfiles/.config/mpv/ ~/.config
 
 echo "========== Configure i3 =========="
 if [ -d "/home/thai/.config/i3" ]; then
-    rm -rf ~/.config/i3
+	rm -rf ~/.config/i3
 fi
 
 ln -sf ~/dotfiles/.config/i3/ ~/.config/
 
 echo "========== Configure rofi =========="
 if [ -d "~/.config/rofi" ]; then
-    rm -rf ~/.config/rofi
+	rm -rf ~/.config/rofi
 fi
 
 ln -sf ~/dotfiles/.config/rofi/ ~/.config/
 
 echo "========== Configure polybar =========="
 if [ -d "~/.config/polybar" ]; then
-    rm -rf ~/.config/polybar
+	rm -rf ~/.config/polybar
 fi
 
 ln -sf ~/dotfiles/.config/polybar/ ~/.config/
 
 echo "========== Configure starship =========="
 if [ -d "~/.config/starship.toml" ]; then
-    rm -rf ~/.config/starship.toml
+	rm -rf ~/.config/starship.toml
 fi
 
 ln -sf ~/dotfiles/.config/startship.toml ~/.config/
 
 echo "========== Configure zathura =========="
 if [[ -d "$HOME/.config/zathura " ]]; then
-    rm -rf ~/.config/zathura
+	rm -rf ~/.config/zathura
 fi
 
 ln -sf ~/dotfiles/.config/zathura/ ~/.config
@@ -82,13 +82,13 @@ curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${version}/install.sh" | 
 echo "========== Install Neovim =========="
 nvim_config_dir="/home/$USER/.config/nvim"
 if [ -d "${nvim_config_dir}" ]; then
-    rm -rf "${nvim_config_dir}"
+	rm -rf "${nvim_config_dir}"
 fi
 ln -sf /home/$USER/dotfiles/.config/nvim/ /home/$USER/.config/
 
 echo "========== Configure Picom =========="
 if [ -d "$HOME/.config/picom" ]; then
-    rm -rf ~/.config/picom
+	rm -rf ~/.config/picom
 fi
 
 ln -sf ~/dotfiles/.config/picom/ ~/.config/
@@ -102,14 +102,14 @@ ln -sf ~/dotfiles/.tmux.conf ~
 
 echo "========== Configure Alacritty =========="
 if [ -d "/home/thai/.config/alacritty" ]; then
-    rm -rf ~/.config/alacritty
+	rm -rf ~/.config/alacritty
 fi
 
 ln -sf ~/dotfiles/.config/alacritty/ ~/.config/
 
 echo "========== Configure Imwheel =========="
 if [ -f "~/.imwheelrc" ]; then
-    rm ~/.imwheelrc
+	rm ~/.imwheelrc
 fi
 
 ln -sf ~/dotfiles/.imwheelrc ~/
@@ -127,4 +127,3 @@ sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf "/tmp/$version"
 
 echo "========== Install Rust =========="
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-

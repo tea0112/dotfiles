@@ -8,4 +8,3 @@ sudo bash -c 'echo "export XMODIFIERS=@im=ibus" >> "/etc/profile"'
 sudo bash -c 'echo "export QT4_IM_MODULE=ibus" >> "/etc/profile"'
 sudo bash -c 'echo "export CLUTTER_IM_MODULE=ibus" >> "/etc/profile"'
 sudo bash -c 'echo "ibus-daemon -drx" >> "/etc/profile"'
-

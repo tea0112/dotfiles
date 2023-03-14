@@ -78,7 +78,7 @@ function M.GetConfig(file_path)
 	return json.decode(readall(file_path))
 end
 
-function M.MergeTable(first, second)
+function M.MergeArray(first, second)
 	for _, v in pairs(second) do
 		table.insert(first, v)
 	end

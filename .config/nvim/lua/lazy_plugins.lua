@@ -52,9 +52,6 @@ local plugins = {
 	-- null-ls
 	{
 		"jose-elias-alvarez/null-ls.nvim",
-		config = function()
-			require("null-ls").setup()
-		end,
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 	-- git change show

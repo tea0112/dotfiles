@@ -7,12 +7,11 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 rm -rf ~/.tmux.conf
 ln -sf ~/dotfiles/.tmux.conf ~
 
-
 echo "******************* Install Starship *******************"
 curl -sS https://starship.rs/install.sh | sh
 
-if [ -d "~/.config/starship.toml" ]; then
-    rm -rf ~/.config/starship.toml
+if [ -d "${HOME}/.config/starship.toml" ]; then
+	rm -rf ~/.config/starship.toml
 fi
 
 ln -sf ~/dotfiles/.config/startship.toml ~/.config/
@@ -46,17 +45,18 @@ if [ -d "${nvim_config_dir}" ]; then
 	rm -rf "${nvim_config_dir}"
 fi
 ln -sf /home/$USER/dotfiles/.config/nvim/ /home/$USER/.config/
+ln -sf /$HOME/dotfiles/.shellcheckrc $HOME
 
 echo "******************* Install Polybar *******************"
 if [ -d "~/.config/polybar" ]; then
-    rm -rf ~/.config/polybar
+	rm -rf ~/.config/polybar
 fi
 
 ln -sf ~/dotfiles/.config/polybar/ ~/.config/
 
 echo "******************* Install Rofi *******************"
 if [ -d "~/.config/rofi" ]; then
-    rm -rf ~/.config/rofi
+	rm -rf ~/.config/rofi
 fi
 
 ln -sf ~/dotfiles/.config/rofi/ ~/.config/
@@ -75,14 +75,14 @@ echo "******************* Install I3 *******************"
 # xfce4-notifyd
 # ttf-font-awesome
 if [ -d "/home/thai/.config/i3" ]; then
-    rm -rf ~/.config/i3
+	rm -rf ~/.config/i3
 fi
 
 ln -sf ~/dotfiles/.config/i3/ ~/.config/
 
-echo "******************* Install Imwheel *******************" 
+echo "******************* Install Imwheel *******************"
 if [ -f "~/.imwheelrc" ]; then
-    rm ~/.imwheelrc
+	rm ~/.imwheelrc
 fi
 
 ln -sf ~/dotfiles/.imwheelrc ~/
@@ -94,10 +94,10 @@ ln -sf ~/dotfiles/.config/mpv/ ~/.config
 echo "******************* Install Font *******************"
 FONT_DIR="$HOME/.fonts"
 if [ -d "$FONT_DIR" ]; then
-    cp $HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf $FONT_DIR
-    fc-cache -f -v
+	cp $HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf $FONT_DIR
+	fc-cache -f -v
 else
-    mkdir $FONT_DIR
-    cp $HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf $FONT_DIR
-    fc-cache -f -v
+	mkdir $FONT_DIR
+	cp $HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf $FONT_DIR
+	fc-cache -f -v
 fi
