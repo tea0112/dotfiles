@@ -45,7 +45,8 @@ if [ -d "${nvim_config_dir}" ]; then
 	rm -rf "${nvim_config_dir}"
 fi
 ln -sf /home/$USER/dotfiles/.config/nvim/ /home/$USER/.config/
-ln -sf /$HOME/dotfiles/.shellcheckrc $HOME
+ln -sf $HOME/dotfiles/.shellcheckrc $HOME
+ln -sf $HOME/dotfiles/.ideavimrc $HOME
 
 echo "******************* Install Polybar *******************"
 if [ -d "~/.config/polybar" ]; then
@@ -92,12 +93,14 @@ rm -rf ~/.config/mpv
 ln -sf ~/dotfiles/.config/mpv/ ~/.config
 
 echo "******************* Install Font *******************"
-FONT_DIR="$HOME/.fonts"
-if [ -d "$FONT_DIR" ]; then
-	cp $HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf $FONT_DIR
-	fc-cache -f -v
-else
-	mkdir $FONT_DIR
-	cp $HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf $FONT_DIR
-	fc-cache -f -v
+if [ "$1" = "font" ]; then
+	FONT_DIR="$HOME/.fonts"
+	if [ -d "$FONT_DIR" ]; then
+		cp $HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf $FONT_DIR
+		fc-cache -f -v
+	else
+		mkdir $FONT_DIR
+		cp $HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf $FONT_DIR
+		fc-cache -f -v
+	fi
 fi
