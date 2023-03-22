@@ -71,6 +71,8 @@ end
 
 local M = {}
 
+M.WRONG = "Something went wrong"
+
 function M.GetConfig(file_path)
 	if file_exists(file_path) == nil then
 		return nil
