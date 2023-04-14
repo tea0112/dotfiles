@@ -144,6 +144,8 @@ alias tm="tmux attach || tmux new-session"
 alias cb="xclip -selection clipboard"
 alias rtm="bash $HOME/dotfiles/scripts/reorder-tmux.sh"
 
+export EDITOR='nvim'
+export VISUAL='nvim'
 export TERM='xterm-256color'
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
