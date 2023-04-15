@@ -113,8 +113,6 @@ local plugins = {
 
     "windwp/nvim-autopairs",
 
-    "elkowar/yuck.vim",
-
     "lambdalisue/suda.vim",
 
     "preservim/nerdcommenter",
