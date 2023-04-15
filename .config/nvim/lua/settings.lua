@@ -15,7 +15,7 @@ vim.opt.tabstop = tab_number
 vim.opt.shiftwidth = tab_number
 vim.opt.softtabstop = tab_number
 vim.opt.expandtab = true
-vim.opt.mouse = ""
+--vim.opt.mouse = ""
 vim.opt.relativenumber = true
 
 vim.opt.clipboard = "unnamedplus"
