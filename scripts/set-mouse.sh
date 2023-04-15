@@ -1,6 +1,7 @@
 #!/bin/bash
 
 SEARCH="$1"
+MOUSE_SPEED="$2"
 
 if [ "$SEARCH" = "" ]; then
 	exit 1
@@ -15,5 +16,6 @@ ids=$(
 )
 
 for id in $ids; do
-	xinput set-prop "${id}" "libinput Accel Speed" 1 2>/dev/null
+    # between 1
+	xinput set-prop "${id}" "libinput Accel Speed" "$MOUSE_SPEED" 2>/dev/null
 done
