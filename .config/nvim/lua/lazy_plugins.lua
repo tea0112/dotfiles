@@ -143,6 +143,8 @@ local plugins = {
     },
 }
 
-local opts = {}
+local opts = {
+    lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
+}
 
 require("lazy").setup(plugins, opts)
