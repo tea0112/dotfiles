@@ -190,9 +190,10 @@ bindsym $mod+7 mode "resize"
 #        status_command i3status
 #}
 
+# color
 # class                 border  backgr. text    indicator child_border
-client.focused          #120458 #120458 #FFFFFF #FE75FE   #7A04ED
-client.focused_inactive #333333 #120458 #FFFFFF #484e50   #5f676a
+client.focused          #FE75FE #FF124F #120458 #FE75FE   #7A04ED
+client.focused_inactive #333333 #FF124F #FFFFFF #484e50   #5f676a
 client.unfocused        #333333 #222222 #FFFFFF #292d2e   #222222
 client.urgent           #2f343a #900000 #FFFFFF #900000   #900000
 client.placeholder      #000000 #0c0c0c #FFFFFF #000000   #0c0c0c
@@ -210,9 +211,9 @@ gaps outer 0
 
 # grave - backtick
 bindsym $mod+slash exec "bash $HOME/dotfiles/scripts/map-caps-to-super-arch.sh"
-bindsym $mod+shift+F9 exec autorandr --change
-bindsym $mod+shift+x exec betterlockscreen -l && sleep 5 && xset dpms force off
-bindsym $mod+shift+z exec systemctl suspend
+bindsym $mod+Shift+F9 exec autorandr --change
+bindsym $mod+0 exec betterlockscreen -l && sleep 5 && xset dpms force off
+bindsym $mod+Shift+9 exec systemctl suspend
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+Tab workspace back_and_forth
 bindsym $mod+a exec wmctrl -a 'Goldendict'
