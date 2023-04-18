@@ -1,3 +1,7 @@
+-- Holding control gives F25-F36
+-- Holding alt gives F49-F60
+-- Holding ctrl + shift gives F37-F48
+
 local M = {}
 
 function M.setup()

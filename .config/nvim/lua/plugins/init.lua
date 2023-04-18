@@ -1,8 +1,8 @@
+require("plugins.go").setup()
+
 require("plugins.lualine").setup()
 
 require("plugins.treesitter").setup()
-
-require("plugins.dap_go").setup()
 
 require("plugins.fterm").setup()
 
