@@ -62,6 +62,7 @@ lspconfig["pyright"].setup({
 lspconfig["clangd"].setup({
     on_attach = on_attach,
     capabilities = capabilities,
+    filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
 })
 
 lspconfig["rust_analyzer"].setup({
@@ -90,11 +91,6 @@ lspconfig["emmet_ls"].setup({
 })
 
 lspconfig["html"].setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-})
-
-lspconfig["bufls"].setup({
     on_attach = on_attach,
     capabilities = capabilities,
 })
