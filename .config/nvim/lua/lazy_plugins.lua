@@ -13,6 +13,7 @@ vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
     {
+        "Joorem/vim-haproxy",
         "ray-x/go.nvim",
         dependencies = { -- optional packages
             "ray-x/guihua.lua",
