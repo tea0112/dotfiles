@@ -1,10 +1,10 @@
+require("plugins.toggleterm").setup()
+
 require("plugins.go").setup()
 
 require("plugins.lualine").setup()
 
 require("plugins.treesitter").setup()
-
-require("plugins.fterm").setup()
 
 require("plugins.telescope").setup()
 

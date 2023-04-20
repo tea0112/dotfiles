@@ -13,6 +13,14 @@ vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
     {
+        {
+            "romgrk/barbar.nvim",
+            init = function()
+                vim.g.barbar_auto_setup = false
+            end,
+            version = "^1.0.0", -- optional: only update when a new 1.x version is released
+        },
+        { "akinsho/toggleterm.nvim", version = "*" },
         "Joorem/vim-haproxy",
         "ray-x/go.nvim",
         dependencies = { -- optional packages
@@ -89,9 +97,6 @@ local plugins = {
 
     -- css color
     "norcalli/nvim-colorizer.lua",
-
-    -- Fterm
-    "numToStr/FTerm.nvim",
 
     -- which key
     "folke/which-key.nvim",

@@ -12,7 +12,7 @@ function M.setup()
 	-- esc for terminal
 	Utils.map("t", "<ESC>", "<C-\\><C-n>", ns_opts)
 
-	Utils.map("t", "<A-i>", "<C-\\><C-n><CMD>lua require('FTerm').toggle()<CR>", ns_opts)
+    Utils.map("t", "<A-i>", "<C-\\><C-n><CMD>ToggleTermToggleAll<CR>", { noremap = true, silent = false })
 end
 
 return M
