@@ -92,6 +92,13 @@ echo "******************* Install Mpv *******************"
 rm -rf ~/.config/mpv
 ln -sf ~/dotfiles/.config/mpv/ ~/.config
 
+echo "========== Configure zathura =========="
+if [[ -d "$HOME/.config/zathura " ]]; then
+	rm -rf ~/.config/zathura
+fi
+
+ln -sf ~/dotfiles/.config/zathura/ ~/.config
+
 echo "******************* Install Font *******************"
 if [ "$1" = "font" ]; then
 	FONT_DIR="$HOME/.fonts"
