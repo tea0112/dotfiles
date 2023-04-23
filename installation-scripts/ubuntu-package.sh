@@ -8,7 +8,7 @@ fi
 sudo locale-gen "en_US.UTF-8"
 sudo add-apt-repository ppa:neovim-ppa/unstable
 sudo apt update && sudo apt upgrade -y
-sudo apt install curl wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3.10-venv xclip aria2 unzip build-essential zsh tmux xsel rofi polybar mpv vlc qbittorrent telegram-desktop gnome-tweaks goldendict gnome-shell-extension-manager jq neovim -y
+sudo apt install curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel neovim batcat -y
 
 # nvm
 get_repo_version="$HOME/dotfiles/scripts/get_repo_version.sh"
@@ -36,21 +36,21 @@ cargo install zoxide
 pip install cmake
 
 # docker
-if [ "$1" = "docker" ]; then
-	echo "ok"
-	sudo apt-get install \
-		ca-certificates \
-		curl \
-		gnupg \
-		lsb-release
-
-	sudo mkdir -m 0755 -p /etc/apt/keyrings
-	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-	echo \
-		"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
-	sudo apt-get update
-	sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-	sudo usermod -aG docker thai
-	sudo docker run -d --restart=always -e 'SILENT=true' -p 56789:8000 sadeghhayeri/green-tunnel
-fi
+#if [ "$1" = "docker" ]; then
+#	echo "ok"
+#	sudo apt-get install \
+#		ca-certificates \
+#		curl \
+#		gnupg \
+#		lsb-release
+#
+#	sudo mkdir -m 0755 -p /etc/apt/keyrings
+#	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+#	echo \
+#		"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+#  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+#	sudo apt-get update
+#	sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+#	sudo usermod -aG docker thai
+#	sudo docker run -d --restart=always -e 'SILENT=true' -p 56789:8000 sadeghhayeri/green-tunnel
+#fi
