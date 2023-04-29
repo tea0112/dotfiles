@@ -3,7 +3,7 @@ local M = {}
 function M.setup()
 	require("nvim-treesitter.configs").setup({
 		-- -- A list of parser names, or "all"
-		ensure_installed = { "javascript", "c", "cpp", "lua", "python", "typescript", "go" },
+		ensure_installed = { "javascript", "c", "cpp", "lua", "python", "typescript", "go", "css", "html" },
 
 		-- Install languages synchronously (only applied to `ensure_installed`)
 		sync_install = true,
