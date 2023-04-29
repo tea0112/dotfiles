@@ -116,14 +116,14 @@ ln -sf ~/dotfiles/.imwheelrc ~/
 
 echo "******************* Config Mpv *******************"
 rm -rf ~/.config/mpv
-ln -sf ~/dotfiles/.config/mpv/ ~/.config
+ln -sf ~/dotfiles/.config/mpv/ ~/.config/
 
 echo "========== Config zathura =========="
 if [[ -d "$HOME/.config/zathura " ]]; then
 	rm -rf ~/.config/zathura
 fi
 
-ln -sf ~/dotfiles/.config/zathura/ ~/.config
+ln -sf ~/dotfiles/.config/zathura/ ~/.config/
 
 echo "_____________________________________________________"
 read -p "Install Jetbrains Font?" confirm
