@@ -90,7 +90,17 @@ y)
     wget -O "/tmp/$version" "https://dl.google.com/go/${version}"
     sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf "/tmp/$version"
     export PATH=$PATH:/usr/local/go/bin
+    ;;
+*)
+    echo "you chose NO"
+    ;;
+esac
 
+# rust
+echo "_____________________________________________________"
+read -p "Install rust?" confirm
+case $confirm in
+y)
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
     source "/home/${USER}/.cargo/env"
 
