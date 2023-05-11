@@ -10,10 +10,10 @@ function M.setup()
 	Utils.map("v", "d", '"_d', ns_opts)
 
 	-- paste from plus register
-	Utils.map("v", "<Leader>p", '"+p', ns_opts)
+	Utils.map("v", "<Leader>r", '"+p', ns_opts)
 
 	-- copy to plus register
-	Utils.map("v", "<Leader>y", '"+y', ns_opts)
+	Utils.map("v", "<Leader>e", '"+y', ns_opts)
 
 	-- cut to plus register
 	Utils.map("v", "<Leader>x", '"+x', ns_opts)

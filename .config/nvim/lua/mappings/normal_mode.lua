@@ -40,10 +40,10 @@ function M.setup()
     Utils.map("n", "d", '"_d', ns_opts)
 
     -- paste from y using leader
-    Utils.map("n", "<Leader>p", '"+p', ns_opts)
+    Utils.map("n", "<Leader>r", '"+p', ns_opts)
 
     -- copy to plus register
-    Utils.map("n", "<Leader>y", '"+y', ns_opts)
+    Utils.map("n", "<Leader>e", '"+y', ns_opts)
 
     -- turn off highlight
     Utils.map("n", "<Esc>", ":noh<CR><Esc>", ns_opts)
