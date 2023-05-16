@@ -14,7 +14,6 @@ function M.setup()
             "html",
             "bufls",
             "yamlls",
-            "cmake",
             "marksman",
             "tsserver",
             "angularls",
