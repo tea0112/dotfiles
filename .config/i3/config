@@ -216,8 +216,8 @@ bindsym $mod+0 exec betterlockscreen -l && sleep 5 && xset dpms force off
 bindsym $mod+Shift+9 exec systemctl suspend
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+Tab workspace back_and_forth
-bindsym $mod+a exec wmctrl -a 'Goldendict'
-#bindsym $mod+a scratchpad show
+#bindsym $mod+a exec wmctrl -a 'Goldendict'
+bindsym $mod+a scratchpad show
 bindsym $mod+s exec wmctrl -a 'Browse ('
 
 # start on startup
