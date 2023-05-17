@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [[ ! -f "/usr/bin/zsh" ]]; then
+    echo "ZSH doesn't exist"
+    echo "You should run this script by ZSH!"
+    exit 0
+fi
+
 sudo pacman -S curl nodejs npm go rust alacritty imwheel mpv gcc wget ripgrep rofi polybar jq aria2 exa xclip fd zsh zoxide starship ripgrep zathura zathura-cb zathura-djvu zathura-ps zathura-pdf-mupdf xsel rofimoji arandr gnome-disk-utility wmctrl xdotool lxqt-policykit network-manager-applet blueman autorandr feh xfce4-notifyd ttf-font-awesome noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra vlc neovim telegram-desktop thunar qbittorrent unzip gnome-disk-utility git-delta bat dust gnome-keyring
 
 echo "========== Configure ZSH =========="
@@ -74,10 +80,10 @@ fi
 
 ln -sf ~/dotfiles/.config/zathura/ ~/.config
 
-echo "========== Install nvm =========="
-get_repo_version="$HOME/dotfiles/scripts/get_repo_version.sh"
-version=$($get_repo_version nvm-sh/nvm)
-curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${version}/install.sh" | bash
+#echo "========== Install nvm =========="
+#get_repo_version="$HOME/dotfiles/scripts/get_repo_version.sh"
+#version=$($get_repo_version nvm-sh/nvm)
+#curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${version}/install.sh" | bash
 
 echo "========== Install Neovim =========="
 nvim_config_dir="/home/$USER/.config/nvim"
@@ -114,8 +120,6 @@ fi
 
 ln -sf ~/dotfiles/.imwheelrc ~/
 
-sudo pacman -R nodejs
-sudo pacman -R npm
 sudo pacman -R go
 sudo pacman -R rust
 
