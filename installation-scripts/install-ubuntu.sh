@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir ~/.config
+
 echo "_____________________________________________________"
 read -p "Download and Install startship?" confirm
 case $confirm in
