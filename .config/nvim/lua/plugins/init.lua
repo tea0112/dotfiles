@@ -14,13 +14,11 @@ require("plugins.better_escape").setup()
 
 require("plugins.nvim_tree").setup()
 
-require("plugins.onedark").setup()
-
-require("plugins.tokyonight").setup()
-
 require("plugins.nvim_cmp").setup()
 
 require("plugins.mason").setup()
+
+require("plugins.tokyonighttheme").setup()
 
 require("nvim-lightbulb").setup({ autocmd = { enabled = true } })
 

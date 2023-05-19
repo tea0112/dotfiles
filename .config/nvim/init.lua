@@ -6,7 +6,7 @@ vim.g.mapleader = " "
 
 require("lazy_plugins")
 require("utils")
+require("plugins")
 require("settings")
 require("lsp")
-require("plugins")
 require("mappings")
