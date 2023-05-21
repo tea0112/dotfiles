@@ -162,6 +162,8 @@ export WINEARCH=win32
 export WINEPREFIX=~/.wine32
 export BOOST_ROOT=/opt/boost_1_80_0
 export SHELL=/usr/bin/zsh
+export MANPATH=/usr/local/man:/usr/local/share/man:/usr/share/man:/usr/man
+export MANPAGER=most
 
 export PATH=$PATH:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$GOROOT/bin:$GOPATH/bin
 export PATH=$PATH:/usr/local/bin

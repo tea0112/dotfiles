@@ -1,3 +1,3 @@
 vim.cmd("syntax on")
 vim.cmd("set syntax=nasm")
-print 'set done'
+vim.api.nvim_set_keymap("n", ",f", ":!nasmfmt %<CR>", {})

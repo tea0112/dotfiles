@@ -61,7 +61,6 @@ function M.setup()
     Utils.map("n", "f", "<leader><leader>f", {})
     Utils.map("n", "F", "<leader><leader>F", {})
 
-
     Utils.map("n", "<A-p>", "<CMD>BufferPin<CR>", ns_opts)
     Utils.map("n", "<A-c>", "<CMD>BufferClose<CR>", ns_opts)
 
