@@ -10,6 +10,7 @@ function M.setup(on_attach, capabilities)
 
     local formatting_configs = require("lsp.null_ls.formattings").setup(formatting)
     local diagnostics_configs = require("lsp.null_ls.diagnostics").setup(diagnostic)
+    local completion_configs = require("lsp.null_ls.completion").setup(completion)
 
     local sources = {
         --capabilities = capabilities,
@@ -18,6 +19,7 @@ function M.setup(on_attach, capabilities)
 
     utils.MergeArray(sources, formatting_configs)
     utils.MergeArray(sources, diagnostics_configs)
+    utils.MergeArray(sources, completion_configs)
 
     null_ls.setup({ sources = sources })
 end

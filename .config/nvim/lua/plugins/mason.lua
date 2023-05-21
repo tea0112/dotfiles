@@ -30,6 +30,7 @@ function M.setup()
             "stylua",
             "autopep8",
             "flake8",
+            "spell"
         },
     })
 end
