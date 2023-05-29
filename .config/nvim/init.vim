@@ -2,7 +2,7 @@ set number
 set nohlsearch
 set tabstop=4 shiftwidth=4 expandtab
 
-colorscheme slate
+colorscheme retrobox
 
 let mapleader=" "
 
