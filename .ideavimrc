@@ -10,6 +10,7 @@ nnoremap <Leader>e "+y
 nnoremap <Leader>r "+p
 
 imap jk <Esc>
+imap <C-k> <Action>(ParameterInfo)
 
 vnoremap d "_d
 vnoremap x "yx
