@@ -44,7 +44,7 @@ echo "_____________________________________________________"
 read -p "Install package?" confirm
 case $confirm in
 y)
-    sudo apt install curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel neovim gnome-tweaks gnome-shell-extension-manager -y
+    sudo apt install curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel neovim gnome-tweaks gnome-shell-extension-manager goldendict -y
     ;;
 *)
     echo "you chose NO"
