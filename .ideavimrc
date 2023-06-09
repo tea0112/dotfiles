@@ -8,6 +8,7 @@ nnoremap x "yx
 nnoremap p "yp
 nnoremap <Leader>e "+y
 nnoremap <Leader>r "+p
+nnoremap <Backspace> <C-6>
 
 imap jk <Esc>
 imap <C-k> <Action>(ParameterInfo)
