@@ -6,9 +6,15 @@ nnoremap dd "_dd
 nnoremap yy "yyy
 nnoremap x "yx
 nnoremap p "yp
-nnoremap <Leader>e "+y
-nnoremap <Leader>r "+p
+nnoremap ,x "+x
+nnoremap ,e "+y
+nnoremap ,r "+p
 nnoremap <Backspace> <C-6>
+
+;Mappings to <Action> don't work with noremap. If you know the case when it's needed, please let us know.
+map ,e <Action>(ShowErrorDescription)
+map ;a <Action>(GotoClass)
+map <C-w>c :bd<CR>
 
 imap jk <Esc>
 imap <C-k> <Action>(ParameterInfo)
@@ -17,6 +23,6 @@ vnoremap d "_d
 vnoremap x "yx
 vnoremap y "yy
 vnoremap p "yp
-vnoremap <Leader>x "+x
-vnoremap <Leader>e "+y
-vnoremap <Leader>r "+p
+vnoremap ,x "+x
+vnoremap ,e "+y
+vnoremap ,r "+p
