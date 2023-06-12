@@ -5,6 +5,7 @@ set ignorecase
 nnoremap dd "_dd
 nnoremap yy "yyy
 nnoremap x "yx
+nnoremap y "yy
 nnoremap p "yp
 nnoremap ,x "+x
 nnoremap ,e "+y
