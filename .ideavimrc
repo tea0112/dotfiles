@@ -14,8 +14,8 @@ nnoremap <Backspace> <C-6>
 
 ;Mappings to <Action> don't work with noremap. If you know the case when it's needed, please let us know.
 map <Leader>e <Action>(ShowErrorDescription)
-map ;a <Action>(GotoClass)
-map ;g <Action>(SearchEverywhere)
+map ,a <Action>(GotoClass)
+map ,g <Action>(SearchEverywhere)
 map <C-w>c :bd<CR>
 
 imap jk <Esc>
