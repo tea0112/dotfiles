@@ -17,6 +17,36 @@ fi
 #    ;;
 #esac
 
+# nvm
+echo "_____________________________________________________"
+read -p "Install nvm?" confirm
+case $confirm in
+y)
+    get_repo_version="$HOME/dotfiles/scripts/get_repo_version.sh"
+    version=$($get_repo_version nvm-sh/nvm)
+    curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${version}/install.sh" | bash
+
+    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+    ;;
+*)
+    echo "you chose NO"
+    ;;
+esac
+
+echo "_____________________________________________________"
+read -p "Install nodejs with nvm?" confirm
+case $confirm in
+y)
+    nvm i node
+    nvm use node
+    ;;
+*)
+    echo "you chose NO"
+    ;;
+esac
+
+
 echo "_____________________________________________________"
 read -p "Generate en_US.UTF-8?" confirm
 case $confirm in
@@ -44,36 +74,7 @@ echo "_____________________________________________________"
 read -p "Install package?" confirm
 case $confirm in
 y)
-    sudo apt install curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel neovim gnome-tweaks gnome-shell-extension-manager goldendict -y
-    ;;
-*)
-    echo "you chose NO"
-    ;;
-esac
-
-# nvm
-echo "_____________________________________________________"
-read -p "Install nvm?" confirm
-case $confirm in
-y)
-    get_repo_version="$HOME/dotfiles/scripts/get_repo_version.sh"
-    version=$($get_repo_version nvm-sh/nvm)
-    curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${version}/install.sh" | bash
-
-    export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-    ;;
-*)
-    echo "you chose NO"
-    ;;
-esac
-
-echo "_____________________________________________________"
-read -p "Install nodejs with nvm?" confirm
-case $confirm in
-y)
-    nvm i node
-    nvm use node
+    sudo apt install curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel neovim goldendict -y
     ;;
 *)
     echo "you chose NO"
