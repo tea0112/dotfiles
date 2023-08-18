@@ -6,7 +6,7 @@ if [[ ! -f "/usr/bin/zsh" ]]; then
     exit 0
 fi
 
-sudo pacman -S curl mpv gcc wget ripgrep rofi polybar jq aria2 exa xclip fd zsh zoxide starship ripgrep zathura zathura-cb zathura-djvu zathura-ps zathura-pdf-mupdf xsel rofimoji arandr gnome-disk-utility wmctrl xdotool lxqt-policykit network-manager-applet blueman autorandr feh xfce4-notifyd ttf-font-awesome noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra vlc neovim telegram-desktop thunar qbittorrent unzip gnome-disk-utility git-delta bat dust gnome-keyring
+sudo pacman -S curl mpv gcc wget ripgrep rofi polybar jq aria2 exa xclip fd zsh zoxide starship ripgrep zathura zathura-cb zathura-djvu zathura-ps zathura-pdf-mupdf xsel rofimoji arandr gnome-disk-utility wmctrl xdotool lxqt-policykit network-manager-applet blueman autorandr feh xfce4-notifyd ttf-font-awesome noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra vlc neovim telegram-desktop thunar qbittorrent unzip gnome-disk-utility git-delta bat dust gnome-keyring okular breeze
 
 echo "========== Configure ZSH =========="
 rm -rf ~/.oh-my-zsh
@@ -84,7 +84,8 @@ echo "========== Install nvm =========="
 get_repo_version="$HOME/dotfiles/scripts/get_repo_version.sh"
 version=$($get_repo_version nvm-sh/nvm)
 curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${version}/install.sh" | bash
-source ~/.zshrc
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 nvm install --lts
 nvm use --lts
 
