@@ -210,6 +210,7 @@ for_window [class="^.*"] border pixel 5
 gaps inner 10
 gaps outer 0
 
+bindsym $mod+8 exec ~/.config/polybar/launch.sh
 bindsym $mod+slash exec "bash $HOME/dotfiles/scripts/map-caps-to-super-arch.sh"
 bindsym $mod+Shift+F9 exec autorandr --change
 bindsym $mod+shift+0 exec betterlockscreen -l && sleep 5 && xset dpms force off
