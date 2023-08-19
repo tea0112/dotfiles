@@ -183,7 +183,7 @@ mode "resize" {
         bindsym $mod+7 mode "default"
 }
 
-bindsym $mod+7 mode "resize"
+bindsym $mod+4 mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
