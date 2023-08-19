@@ -6,6 +6,9 @@ if [[ ! -f "/usr/bin/zsh" ]]; then
     exit 0
 fi
 
+echo "instal default terminal for things like ranger, neovim"
+echo "export TERMINAL=/usr/bin/alacritty" >> $HOME/.profile
+
 sudo pacman -S curl mpv gcc wget ripgrep rofi polybar jq aria2 exa xclip fd zsh zoxide starship ripgrep zathura zathura-cb zathura-djvu zathura-ps zathura-pdf-mupdf xsel rofimoji arandr gnome-disk-utility wmctrl xdotool lxqt-policykit network-manager-applet blueman autorandr feh xfce4-notifyd ttf-font-awesome noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra vlc neovim telegram-desktop thunar qbittorrent unzip gnome-disk-utility git-delta bat dust gnome-keyring okular breeze copyq gvfs-mtp zip
 
 echo "========== Configure ZSH =========="
