@@ -163,6 +163,7 @@ export WINEARCH=win32
 export WINEPREFIX=~/.wine32
 export BOOST_ROOT=/opt/boost_1_80_0
 export SHELL=/usr/bin/zsh
+export TERMINAL=alacritty
 
 export PATH=$PATH:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$GOROOT/bin:$GOPATH/bin
 export PATH=$PATH:/usr/local/bin
