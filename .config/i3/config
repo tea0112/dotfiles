@@ -212,7 +212,7 @@ gaps outer 0
 
 bindsym $mod+8 exec ~/.config/polybar/launch.sh
 bindsym $mod+slash exec "bash $HOME/dotfiles/scripts/map-caps-to-super-arch.sh"
-bindsym $mod+Shift+F10 exec autorandr --change
+bindsym $mod+Shift+F10 exec autorandr --load mobile
 bindsym $mod+shift+0 exec betterlockscreen -l && sleep 5 && xset dpms force off
 bindsym $mod+Shift+9 exec systemctl suspend
 bindsym $mod+Shift+minus move scratchpad
