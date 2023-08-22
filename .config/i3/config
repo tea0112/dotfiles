@@ -49,7 +49,7 @@ bindsym $mod+Return exec alacritty
 
 # grave
 # kill focused window
-bindsym $mod+grave kill
+bindsym $mod+shift+grave kill
 
 # A more modern dmenu replacement is rofi:
 bindsym $mod+s exec --no-startup-id rofi -show combi -show-icons
@@ -232,6 +232,7 @@ exec_always --no-startup-id autorandr --change
 exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg
 exec_always --no-startup-id nm-applet
 exec_always --no-startup-id copyq
+exec_always --no-startup-id copyq config hide_main_window 1
 exec_always --no-startup-id lxqt-policykit-agent
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 exec_always --no-startup-id ~/dotfiles/scripts/run-if-not-exist.sh goldendict
