@@ -206,6 +206,7 @@ client.background       #ffffff
 for_window [class="qbittorrent"] floating enable
 for_window [class="telegram-desktop"] floating enable
 for_window [class="copyq" instance="copyq"] floating enable
+for_window [class="gnome-calculator" instance="gnome-calculator"] floating enable
 
 # gaps
 for_window [class="^.*"] border pixel 5
