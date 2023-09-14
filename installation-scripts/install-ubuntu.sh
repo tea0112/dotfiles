@@ -109,6 +109,12 @@ fi
 
 ln -sf ~/dotfiles/.config/i3/ ~/.config/
 
+echo "******************* Configure Alacritty *******************"
+if [ -d "/home/thai/.config/alacritty" ]; then
+	rm -rf ~/.config/alacritty
+fi
+ln -sf ~/dotfiles/.config/alacritty/ ~/.config/
+
 echo "******************* Config Imwheel *******************"
 if [ -f "~/.imwheelrc" ]; then
 	rm ~/.imwheelrc
