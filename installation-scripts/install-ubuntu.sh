@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mkdir ~/.config
+mkdir ~/.config -p
 
 echo "_____________________________________________________"
 read -p "Download and Install startship?" confirm
