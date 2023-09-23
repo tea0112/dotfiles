@@ -168,7 +168,7 @@ export BOOST_ROOT=/opt/boost_1_80_0
 export SHELL=/usr/bin/zsh
 
 export PATH=$PATH:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$GOROOT/bin:$GOPATH/bin
-#export PATH=$PATH:$HOME/kde/usr/bin
+export PATH=$PATH:/usr/sbin
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:$HOME/.local/share/nvim/mason/bin
 export PATH=/home/thai/anaconda3/bin:$PATH
