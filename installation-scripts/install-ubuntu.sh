@@ -3,7 +3,7 @@
 mkdir ~/.config -p
 
 echo "_____________________________________________________"
-read -p "Download and Install startship?" confirm
+read -r -p "Download and Install startship?" confirm
 case $confirm in
 y)
 	curl -sS https://starship.rs/install.sh | sh
@@ -14,7 +14,7 @@ y)
 esac
 
 echo "_____________________________________________________"
-read -p "Clone tmux tpm plugin?" confirm
+read -r -p "Clone tmux tpm plugin?" confirm
 case $confirm in
 y)
 	rm -rf ~/.tmux/plugins/tpm
@@ -36,7 +36,7 @@ fi
 ln -sf ~/dotfiles/.config/startship.toml ~/.config/
 
 echo "_____________________________________________________"
-read -p "Clone zsh ohmyzsh, autosuggestions, zsh-syntax-highlighting, powerlevel10k?" confirm
+read -r -p "Clone zsh ohmyzsh, autosuggestions, zsh-syntax-highlighting, powerlevel10k?" confirm
 case $confirm in
 y)
 	rm -rf ~/.oh-my-zsh
@@ -49,7 +49,7 @@ y)
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 
 	rm -rf ~/.oh-my-zsh/custom/themes/powerlevel10k
-	git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM}/themes/powerlevel10k
+	git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM}/themes/powerlevel10k"
 	;;
 *)
 	echo "you chose NO"
@@ -65,26 +65,26 @@ dotfiles_dir=~/dotfiles
 ln -sf ${dotfiles_dir}/.zshrc ~
 ln -sf ${dotfiles_dir}/.zprofile ~
 
-chsh -s $(which zsh)
+chsh -s "$(which zsh)"
 
 echo "******************* Config Neovim *******************"
 nvim_config_dir="/home/$USER/.config/nvim"
 if [ -d "${nvim_config_dir}" ]; then
 	rm -rf "${nvim_config_dir}"
 fi
-ln -sf /home/$USER/dotfiles/.config/nvim/ /home/$USER/.config/
-ln -sf $HOME/dotfiles/.shellcheckrc $HOME
-ln -sf $HOME/dotfiles/.ideavimrc $HOME
+ln -sf "/home/$USER/dotfiles/.config/nvim/" "/home/$USER/.config/"
+ln -sf "$HOME/dotfiles/.shellcheckrc" "$HOME"
+ln -sf "$HOME/dotfiles/.ideavimrc" "$HOME"
 
 echo "******************* Config Polybar *******************"
-if [ -d "~/.config/polybar" ]; then
+if [ -d "$HOME/.config/polybar" ]; then
 	rm -rf ~/.config/polybar
 fi
 
 ln -sf ~/dotfiles/.config/polybar/ ~/.config/
 
 echo "******************* Config Rofi *******************"
-if [ -d "~/.config/rofi" ]; then
+if [ -d "$HOME/.config/rofi" ]; then
 	rm -rf ~/.config/rofi
 fi
 
@@ -116,7 +116,7 @@ fi
 ln -sf ~/dotfiles/.config/alacritty/ ~/.config/
 
 echo "******************* Config Imwheel *******************"
-if [ -f "~/.imwheelrc" ]; then
+if [ -f "$HOME/.imwheelrc" ]; then
 	rm ~/.imwheelrc
 fi
 
@@ -134,17 +134,17 @@ fi
 ln -sf ~/dotfiles/.config/zathura/ ~/.config/
 
 echo "_____________________________________________________"
-read -p "Install Jetbrains Font?" confirm
+read -r -p "Install Jetbrains Font?" confirm
 case $confirm in
 y)
 	echo "******************* Install Font *******************"
 	FONT_DIR="$HOME/.fonts"
 	if [ -d "$FONT_DIR" ]; then
-		cp $HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf $FONT_DIR
+		cp "$HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf" "$FONT_DIR"
 		fc-cache -f -v
 	else
-		mkdir $FONT_DIR
-		cp $HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf $FONT_DIR
+		mkdir "$FONT_DIR"
+		cp "$HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf" "$FONT_DIR"
 		fc-cache -f -v
 	fi
 	;;
