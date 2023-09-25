@@ -34,6 +34,15 @@ ln -sf "${dotfiles_dir}/.zprofile" "$HOME"
 chsh -s "$(which zsh)"
 
 echo ".------------------------------------------------."
+echo "|                     clangd                     |"
+echo "'------------------------------------------------'"
+clangd_directory="$XDG_CONFIG_HOME/clangd"
+if [ -d "$clangd_directory" ]; then
+	rm -rf "$clangd_directory"
+fi
+ln -sf "$HOME/dotfiles/.config/clangd/" "$XDG_CONFIG_HOME/"
+
+echo ".------------------------------------------------."
 echo "|                     ranger                     |"
 echo "'------------------------------------------------'"
 ranger_directory="$HOME/.config/ranger"
@@ -49,7 +58,7 @@ mkdir -p "$HOME/.local/share/fonts/otf"
 mkdir -p "$HOME/.local/share/fonts/tff"
 
 TFF_DIR="$HOME/.local/share/fonts/tff"
-OTF_DIR="$HOME/.local/share/fonts/otf"
+#OTF_DIR="$HOME/.local/share/fonts/otf"
 
 FONT_FILE="CaskaydiaCoveNerdFont-Regular.ttf"
 
