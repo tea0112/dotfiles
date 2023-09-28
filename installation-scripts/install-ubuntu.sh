@@ -103,14 +103,14 @@ echo "******************* Config I3 *******************"
 # feh
 # xfce4-notifyd
 # ttf-font-awesome
-if [ -d "/home/thai/.config/i3" ]; then
+if [ -d "/home/$USER/.config/i3" ]; then
 	rm -rf ~/.config/i3
 fi
 
 ln -sf ~/dotfiles/.config/i3/ ~/.config/
 
 echo "******************* Configure Alacritty *******************"
-if [ -d "/home/thai/.config/alacritty" ]; then
+if [ -d "/home/$USER/.config/alacritty" ]; then
 	rm -rf ~/.config/alacritty
 fi
 ln -sf ~/dotfiles/.config/alacritty/ ~/.config/
@@ -133,18 +133,25 @@ fi
 
 ln -sf ~/dotfiles/.config/zathura/ ~/.config/
 
-echo "_____________________________________________________"
-read -r -p "Install Jetbrains Font?" confirm
+echo ".------------------------------------------------."
+echo "|                     font                       |"
+echo "'------------------------------------------------'"
+read -r -p "Install Caskaydia Cove Nerd Font?" confirm
 case $confirm in
 y)
 	echo "******************* Install Font *******************"
-	FONT_DIR="$HOME/.fonts"
-	if [ -d "$FONT_DIR" ]; then
-		cp "$HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf" "$FONT_DIR"
-		fc-cache -f -v
+	mkdir -p "$HOME/.local/share/fonts/otf"
+	mkdir -p "$HOME/.local/share/fonts/tff"
+
+	TFF_DIR="$HOME/.local/share/fonts/tff"
+	#OTF_DIR="$HOME/.local/share/fonts/otf"
+
+	FONT_FILE="CaskaydiaCoveNerdFont-Regular.ttf"
+
+	if [ -f "${TFF_DIR}/${FONT_FILE}" ]; then
+		echo "${FONT_FILE} exists!"
 	else
-		mkdir "$FONT_DIR"
-		cp "$HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf" "$FONT_DIR"
+		cp "$HOME/dotfiles/${FONT_FILE}" "$FONT_DIR"
 		fc-cache -f -v
 	fi
 	;;
