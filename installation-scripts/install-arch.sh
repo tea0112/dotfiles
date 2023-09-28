@@ -36,11 +36,8 @@ chsh -s "$(which zsh)"
 echo ".------------------------------------------------."
 echo "|                     clangd                     |"
 echo "'------------------------------------------------'"
-clangd_directory="$XDG_CONFIG_HOME/clangd"
-if [ -d "$clangd_directory" ]; then
-	rm -rf "$clangd_directory"
-fi
-ln -sf "$HOME/dotfiles/.config/clangd/" "$XDG_CONFIG_HOME/"
+rm -rf ~/.config/clangd
+ln -sf ~/dotfiles/.config/clangd/ ~/.config/
 
 echo ".------------------------------------------------."
 echo "|                     ranger                     |"

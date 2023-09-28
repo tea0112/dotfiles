@@ -90,6 +90,12 @@ rm -rf "$HOME/.config/polybar"
 ln -sf "$HOME/dotfiles/.config/polybar/" "$HOME/.config/"
 
 echo ".------------------------------------------------."
+echo "|                     clangd                     |"
+echo "'------------------------------------------------'"
+rm -rf ~/.config/clangd
+ln -sf ~/dotfiles/.config/clangd/ ~/.config/
+
+echo ".------------------------------------------------."
 echo "|                  Config Rofi                   |"
 echo "'------------------------------------------------'"
 rm -rf "$HOME/.config/rofi"
