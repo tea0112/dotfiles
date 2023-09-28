@@ -2,7 +2,9 @@
 
 mkdir ~/.config -p
 
-echo "_____________________________________________________"
+echo ".------------------------------------------------."
+echo "|                  startship                     |"
+echo "'------------------------------------------------'"
 read -r -p "Download and Install startship?" confirm
 case $confirm in
 y)
@@ -13,7 +15,9 @@ y)
 	;;
 esac
 
-echo "_____________________________________________________"
+echo ".------------------------------------------------."
+echo "|               tmux tpm plugin                  |"
+echo "'------------------------------------------------'"
 read -r -p "Clone tmux tpm plugin?" confirm
 case $confirm in
 y)
@@ -24,18 +28,22 @@ y)
 	echo "you chose NO"
 	;;
 esac
-echo "******************* Config Tmux *******************"
+
+echo ".------------------------------------------------."
+echo "|                 Config tmux                    |"
+echo "'------------------------------------------------'"
 rm -rf ~/.tmux.conf
 ln -sf ~/dotfiles/.tmux.conf ~
 
-echo "******************* Config Starship *******************"
-if [ -d "${HOME}/.config/starship.toml" ]; then
-	rm -rf ~/.config/starship.toml
-fi
-
+echo ".------------------------------------------------."
+echo "|               Config Starship                  |"
+echo "'------------------------------------------------'"
+rm -rf ~/.config/starship.toml
 ln -sf ~/dotfiles/.config/startship.toml ~/.config/
 
-echo "_____________________________________________________"
+echo ".------------------------------------------------."
+echo "|             Clone zsh plugins                  |"
+echo "'------------------------------------------------'"
 read -r -p "Clone zsh ohmyzsh, autosuggestions, zsh-syntax-highlighting, powerlevel10k?" confirm
 case $confirm in
 y)
@@ -55,42 +63,41 @@ y)
 	echo "you chose NO"
 	;;
 esac
-echo "******************* Config Zsh *******************"
-ZSH_CUSTOM=/home/$USER/.oh-my-zsh/custom
 
+echo ".------------------------------------------------."
+echo "|                  Config Zsh                    |"
+echo "'------------------------------------------------'"
+ZSH_CUSTOM=~/.oh-my-zsh/custom
 rm -rf ~/.zshrc
 rm -rf ~/.zprofile
-
-dotfiles_dir=~/dotfiles
-ln -sf ${dotfiles_dir}/.zshrc ~
-ln -sf ${dotfiles_dir}/.zprofile ~
+ln -sf ~/dotfiles/.zshrc ~
+ln -sf ~/dotfiles/.zprofile ~
 
 chsh -s "$(which zsh)"
 
-echo "******************* Config Neovim *******************"
-nvim_config_dir="/home/$USER/.config/nvim"
-if [ -d "${nvim_config_dir}" ]; then
-	rm -rf "${nvim_config_dir}"
-fi
-ln -sf "/home/$USER/dotfiles/.config/nvim/" "/home/$USER/.config/"
-ln -sf "$HOME/dotfiles/.shellcheckrc" "$HOME"
-ln -sf "$HOME/dotfiles/.ideavimrc" "$HOME"
+echo ".------------------------------------------------."
+echo "|                  Config Neovim                 |"
+echo "'------------------------------------------------'"
+rm -rf ~/.config/nvim
+ln -sf ~/dotfiles/.config/nvim/ ~/.config/
+ln -sf ~/dotfiles/.shellcheckrc ~
+ln -sf ~/dotfiles/.ideavimrc ~
 
-echo "******************* Config Polybar *******************"
-if [ -d "$HOME/.config/polybar" ]; then
-	rm -rf ~/.config/polybar
-fi
+echo ".------------------------------------------------."
+echo "|               Config Polybar                   |"
+echo "'------------------------------------------------'"
+rm -rf "$HOME/.config/polybar"
+ln -sf "$HOME/dotfiles/.config/polybar/" "$HOME/.config/"
 
-ln -sf ~/dotfiles/.config/polybar/ ~/.config/
-
-echo "******************* Config Rofi *******************"
-if [ -d "$HOME/.config/rofi" ]; then
-	rm -rf ~/.config/rofi
-fi
-
+echo ".------------------------------------------------."
+echo "|                  Config Rofi                   |"
+echo "'------------------------------------------------'"
+rm -rf "$HOME/.config/rofi"
 ln -sf ~/dotfiles/.config/rofi/ ~/.config/
 
-echo "******************* Config I3 *******************"
+echo ".------------------------------------------------."
+echo "|                    Config i3                   |"
+echo "'------------------------------------------------'"
 # rofimoji
 # arandr
 # gnome-disk-utility
@@ -103,34 +110,23 @@ echo "******************* Config I3 *******************"
 # feh
 # xfce4-notifyd
 # ttf-font-awesome
-if [ -d "/home/$USER/.config/i3" ]; then
-	rm -rf ~/.config/i3
-fi
-
+rm -rf ~/.config/i3
 ln -sf ~/dotfiles/.config/i3/ ~/.config/
 
-echo "******************* Configure Alacritty *******************"
-if [ -d "/home/$USER/.config/alacritty" ]; then
-	rm -rf ~/.config/alacritty
-fi
+echo ".------------------------------------------------."
+echo "|               Configure Alacritty              |"
+echo "'------------------------------------------------'"
+rm -rf ~/.config/alacritty
 ln -sf ~/dotfiles/.config/alacritty/ ~/.config/
 
-echo "******************* Config Imwheel *******************"
-if [ -f "$HOME/.imwheelrc" ]; then
-	rm ~/.imwheelrc
-fi
-
-ln -sf ~/dotfiles/.imwheelrc ~/
-
-echo "******************* Config Mpv *******************"
+echo ".------------------------------------------------."
+echo "|                   Config Mpv                   |"
+echo "'------------------------------------------------'"
 rm -rf ~/.config/mpv
 ln -sf ~/dotfiles/.config/mpv/ ~/.config/
 
 echo "========== Config zathura =========="
-if [[ -d "$HOME/.config/zathura " ]]; then
-	rm -rf ~/.config/zathura
-fi
-
+rm -rf ~/.config/zathura
 ln -sf ~/dotfiles/.config/zathura/ ~/.config/
 
 echo ".------------------------------------------------."
@@ -140,18 +136,18 @@ read -r -p "Install Caskaydia Cove Nerd Font?" confirm
 case $confirm in
 y)
 	echo "******************* Install Font *******************"
-	mkdir -p "$HOME/.local/share/fonts/otf"
-	mkdir -p "$HOME/.local/share/fonts/tff"
+	mkdir -p ~/.local/share/fonts/otf
+	mkdir -p ~/.local/share/fonts/tff
 
-	TFF_DIR="$HOME/.local/share/fonts/tff"
-	#OTF_DIR="$HOME/.local/share/fonts/otf"
+	TFF_DIR=~/.local/share/fonts/tff
+	#OTF_DIR=~/.local/share/fonts/otf
 
 	FONT_FILE="CaskaydiaCoveNerdFont-Regular.ttf"
 
 	if [ -f "${TFF_DIR}/${FONT_FILE}" ]; then
 		echo "${FONT_FILE} exists!"
 	else
-		cp "$HOME/dotfiles/${FONT_FILE}" "$FONT_DIR"
+		cp ~/dotfiles/${FONT_FILE} "$FONT_DIR"
 		fc-cache -f -v
 	fi
 	;;
