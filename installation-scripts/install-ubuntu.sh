@@ -147,7 +147,7 @@ y)
 	if [ -f "${TFF_DIR}/${FONT_FILE}" ]; then
 		echo "${FONT_FILE} exists!"
 	else
-		cp ~/dotfiles/${FONT_FILE} "$FONT_DIR"
+		cp ~/dotfiles/${FONT_FILE} "$TFF_DIR"
 		fc-cache -f -v
 	fi
 	;;
