@@ -1,5 +1,6 @@
 #!/bin/bash
 
+mkdir -p ~/.local/bin
 # if [[ ! -f "/usr/bin/zsh" ]]; then
 #     echo "ZSH doesn't exist"
 #     echo "You should run this script by ZSH!"
