@@ -146,6 +146,7 @@ alias tm="tmux attach || tmux new-session"
 alias cb="xclip -selection clipboard"
 alias rtm="bash $HOME/dotfiles/scripts/reorder-tmux.sh"
 alias cx="chmod +x"
+alias tch="~/dotfiles/scripts/create_and_chmod_x.sh"
 
 export EDITOR='nvim'
 export VISUAL='nvim'
