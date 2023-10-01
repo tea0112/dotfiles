@@ -1,5 +1,6 @@
 #!/bin/bash
 
+timedatectl set-local-rtc 1
 mkdir ~/.config -p
 
 echo ".------------------------------------------------."
