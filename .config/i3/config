@@ -14,7 +14,8 @@ workspace_layout tabbed
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+#font pango:monospace 8
+font pango:MesloLGLDZ Nerd Font Mono 8
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -36,8 +37,8 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym --release $mod+F12 exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym --release $mod+F11 exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym --release $mod+F1 exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym --release $mod+F2 exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
@@ -214,9 +215,11 @@ gaps inner 10
 gaps outer 0
 
 bindsym $mod+8 exec ~/.config/polybar/launch.sh
-bindsym $mod+slash exec "bash $HOME/dotfiles/scripts/map-caps-to-super-arch.sh"
 bindsym $mod+Shift+F10 exec autorandr --load mobile
-bindsym $mod+shift+0 exec betterlockscreen -l && sleep 5 && xset dpms force off
+
+# i3lock option -c 000000 makes the screen turn black instead of the default white after the screen is locked.
+bindsym $mod+shift+0 exec i3lock -c 000000 && sleep 3 && xset dpms force off
+
 bindsym $mod+Shift+9 exec systemctl suspend
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+Tab workspace back_and_forth
@@ -229,9 +232,10 @@ bindsym Print exec flameshot gui
 # exec_always - each i3 restart
 exec --no-startup-id picom -b
 exec --no-startup-id blueman-applet
-exec_always --no-startup-id xrdb ~/.Xresources
+exec "xautolock -detectsleep -time 3 -locker \"i3lock -c 000000\""
+#exec_always --no-startup-id xrdb ~/.Xresources
 exec_always --no-startup-id bash ~/dotfiles/scripts/set-touchpad.sh
-exec_always --no-startup-id bash ~/dotfiles/scripts/set-mouse.sh "Logitech B330" -0.5
+#exec_always --no-startup-id bash ~/dotfiles/scripts/set-mouse.sh "Logitech B330" -0.5
 exec_always --no-startup-id autorandr --change
 exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg
 exec_always --no-startup-id nm-applet
