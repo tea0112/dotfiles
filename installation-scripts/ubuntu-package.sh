@@ -34,7 +34,7 @@ read -p "Install package?" confirm
 case $confirm in
 y)
 	sudo add-apt-repository ppa:aslatter/ppa -y
-	sudo apt install copyq flameshot blueman picom curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel goldendict gettext fzf nodejs fonts-noto-color-emoji libxcb-cursor0 xdotool ripgrep vim vim-gtk polybar rofi feh alacritty -y
+	sudo apt install build-essential pandoc poppler-utils ffmpeg ripgrep copyq flameshot blueman picom curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel goldendict gettext fzf nodejs fonts-noto-color-emoji libxcb-cursor0 xdotool ripgrep vim vim-gtk polybar rofi feh alacritty -y
 	;;
 *)
 	echo "you chose NO"
@@ -63,6 +63,7 @@ y)
 
 	cargo install eza
 	cargo install zoxide
+	cargo install --locked ripgrep_all
 	;;
 *)
 	echo "you chose NO"
