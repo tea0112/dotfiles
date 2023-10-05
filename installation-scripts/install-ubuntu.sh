@@ -132,7 +132,9 @@ echo "'------------------------------------------------'"
 rm -rf ~/.config/mpv
 ln -sf ~/dotfiles/.config/mpv/ ~/.config/
 
-echo "========== Config zathura =========="
+echo ".------------------------------------------------."
+echo "|                  Zathura                       |"
+echo "'------------------------------------------------'"
 rm -rf ~/.config/zathura
 ln -sf ~/dotfiles/.config/zathura/ ~/.config/
 

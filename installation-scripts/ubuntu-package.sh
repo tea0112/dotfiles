@@ -43,7 +43,7 @@ esac
 
 # Go
 echo "_____________________________________________________"
-read -p "Install golang?" confirm
+read -r -p "Install golang?" confirm
 case $confirm in
 y)
 	./install-go.sh
@@ -55,7 +55,7 @@ esac
 
 # rust
 echo "_____________________________________________________"
-read -p "Install rust?" confirm
+read -r -p "Install rust?" confirm
 case $confirm in
 y)
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
