@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# if you are using gnome, you should install "extension-manager", "AppIndicator and KStatusNotifierItem Support" in order to show Qt tray icons
+
 if [[ ! -f "/usr/bin/zsh" ]]; then
 	echo "ZSH doesn't exist"
 	echo "You should run this script by ZSH!"
