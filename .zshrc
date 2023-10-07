@@ -76,6 +76,7 @@ plugins=(
 	git
 	zsh-autosuggestions
 	zsh-syntax-highlighting
+    zsh-vi-mode
 )
 
 # [ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
@@ -150,6 +151,7 @@ alias tch="~/dotfiles/scripts/create_and_chmod_x.sh"
 alias st="~/dotfiles/scripts/local_repos_status.sh"
 alias pg="git add . && git commit -m "update" && git push -u origin master"
 
+export ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 export EDITOR='nvim'
 export VISUAL='nvim'
 export TERM='xterm-256color'
