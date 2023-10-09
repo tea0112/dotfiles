@@ -115,6 +115,7 @@ alias pi="sudo pacman -S"
 alias prm="sudo pacman -R"
 alias cnvim="cd ~/dotfiles/.config/nvim"
 alias envim="cd ~/dotfiles/.config/nvim && nvim"
+alias pnvim='cd ~/dotfiles/.config/nvim && git add . && if [ $(git commit -m "update" && git push -u origin master) -eq 0 ]; then cd -; fi && cd -'
 alias lk="zdict -dt oxford"
 alias ei3="nvim ~/dotfiles/.config/i3/config"
 alias ealacritty="nvim ~/dotfiles/.config/alacritty/alacritty.yml"
