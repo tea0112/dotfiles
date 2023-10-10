@@ -225,7 +225,7 @@ bindsym $mod+Tab workspace back_and_forth
 #bindsym $mod+a exec wmctrl -a 'Goldendict'
 bindsym $mod+a scratchpad show
 bindsym Print exec flameshot gui
-bindsym $mod+p exec xrandr --output 'LVDS-0' --auto
+bindsym $mod+p exec ~/dotfiles/scripts/use_only_internal_screen.sh
 
 # start on startup
 # exec - run one time
