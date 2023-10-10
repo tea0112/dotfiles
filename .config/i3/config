@@ -126,8 +126,19 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+set $ws11 "11"
+set $ws12 "12"
+set $ws13 "13"
+set $ws14 "14"
+set $ws15 "15"
+set $ws16 "16"
+set $ws17 "17"
+set $ws18 "18"
+set $ws19 "19"
+set $ws20 "20"
 
 # switch to workspace
+bindsym $mod+b workspace number $ws0
 bindsym $mod+q workspace number $ws1
 bindsym $mod+w workspace number $ws2
 bindsym $mod+e workspace number $ws3
@@ -138,9 +149,20 @@ bindsym $mod+z workspace number $ws7
 bindsym $mod+x workspace number $ws8
 bindsym $mod+c workspace number $ws9
 bindsym $mod+v workspace number $ws10
-bindsym $mod+b workspace number $ws0
+
+bindsym $mod+Control+q workspace number $ws11
+bindsym $mod+Control+w workspace number $ws12
+bindsym $mod+Control+e workspace number $ws13
+bindsym $mod+Control+r workspace number $ws14
+bindsym $mod+Control+d workspace number $ws15
+bindsym $mod+Control+f workspace number $ws16
+bindsym $mod+Control+z workspace number $ws17
+bindsym $mod+Control+x workspace number $ws18
+bindsym $mod+Control+c workspace number $ws19
+bindsym $mod+Control+v workspace number $ws20
 
 # move focused container to workspace
+bindsym $mod+Shift+b move container to workspace number $ws0
 bindsym $mod+Shift+q move container to workspace number $ws1
 bindsym $mod+Shift+w move container to workspace number $ws2
 bindsym $mod+Shift+e move container to workspace number $ws3
@@ -151,7 +173,17 @@ bindsym $mod+Shift+z move container to workspace number $ws7
 bindsym $mod+Shift+x move container to workspace number $ws8
 bindsym $mod+Shift+c move container to workspace number $ws9
 bindsym $mod+Shift+v move container to workspace number $ws10
-bindsym $mod+Shift+b move container to workspace number $ws0
+
+bindsym $mod+Control+Shift+q move container to workspace number $ws11
+bindsym $mod+Control+Shift+w move container to workspace number $ws12
+bindsym $mod+Control+Shift+e move container to workspace number $ws13
+bindsym $mod+Control+Shift+r move container to workspace number $ws14
+bindsym $mod+Control+Shift+d move container to workspace number $ws15
+bindsym $mod+Control+Shift+f move container to workspace number $ws16
+bindsym $mod+Control+Shift+z move container to workspace number $ws17
+bindsym $mod+Control+Shift+x move container to workspace number $ws18
+bindsym $mod+Control+Shift+c move container to workspace number $ws19
+bindsym $mod+Control+Shift+v move container to workspace number $ws20
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+4 restart
