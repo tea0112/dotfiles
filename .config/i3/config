@@ -218,9 +218,8 @@ bindsym $mod+8 exec ~/.config/polybar/launch.sh
 bindsym $mod+Shift+F10 exec autorandr --load mobile
 
 # i3lock option -c 000000 makes the screen turn black instead of the default white after the screen is locked.
-bindsym $mod+shift+0 exec i3lock -c 000000 && sleep 3 && xset dpms force off
-
-bindsym $mod+Shift+9 exec systemctl suspend
+bindsym $mod+shift+9 exec i3lock -c 000000 && sleep 3 && xset dpms force off
+bindsym $mod+Shift+0 exec systemctl suspend
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+Tab workspace back_and_forth
 #bindsym $mod+a exec wmctrl -a 'Goldendict'
