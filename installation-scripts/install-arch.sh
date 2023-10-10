@@ -11,7 +11,8 @@ fi
 echo "instal default terminal for things like ranger, neovim"
 echo "export TERMINAL=/usr/bin/alacritty" >>"$HOME/.profile"
 
-sudo pacman -S curl mpv gcc wget ripgrep-all rofi polybar jq aria2 eza xclip fd zsh zoxide starship ripgrep zathura zathura-cb zathura-djvu zathura-ps zathura-pdf-mupdf xsel rofimoji gnome-disk-utility wmctrl xdotool ttf-font-awesome noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra vlc telegram-desktop qbittorrent unzip gnome-keyring gvfs-mtp zip gwenview tumbler gnome-calculator fzf alacritty tmux flatpak okular breeze-icons cmake meson docker ntfs-3g rsync htop
+# X11
+sudo pacman -S curl mpv gcc wget ripgrep-all jq aria2 eza xclip fd zsh zoxide starship ripgrep zathura zathura-cb zathura-djvu zathura-ps zathura-pdf-mupdf xsel rofimoji gnome-disk-utility wmctrl xdotool ttf-font-awesome noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra vlc telegram-desktop qbittorrent unzip gnome-keyring gvfs-mtp zip gnome-calculator fzf alacritty tmux flatpak okular breeze-icons cmake meson docker ntfs-3g rsync htop
 
 flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
