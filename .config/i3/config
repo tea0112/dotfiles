@@ -262,7 +262,7 @@ bindsym $mod+p exec ~/dotfiles/scripts/use_only_internal_screen.sh
 # start on startup
 # exec - run one time
 # exec_always - each i3 restart
-#exec --no-startup-id picom -b
+exec --no-startup-id picom -b
 exec --no-startup-id blueman-applet
 exec --no-startup-id xfce4-power-manager
 exec "xautolock -detectsleep -time 3 -locker \"i3lock -c 000000\""
