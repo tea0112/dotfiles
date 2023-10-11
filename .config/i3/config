@@ -67,6 +67,7 @@ bindsym $mod+g exec rofi -show window -show-icons
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 bindsym $mod+F1 focus left
 bindsym $mod+F2 focus right
