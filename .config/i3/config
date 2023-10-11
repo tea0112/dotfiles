@@ -275,7 +275,7 @@ exec_always --no-startup-id copyq
 exec_always --no-startup-id lxqt-policykit-agent
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 exec_always --no-startup-id goldendict
-exec_always --no-startup-id flatpak run org.qbittorrent.qBittorrent
-exec_always --no-startup-id flatpak run org.telegram.desktop
+exec_always --no-startup-id qbittorrent
+exec_always --no-startup-id telegram-desktop
 exec_always --no-startup-id flameshot
 exec_always --no-startup-id /usr/lib/xfce4/notifyd/xfce4-notifyd &
