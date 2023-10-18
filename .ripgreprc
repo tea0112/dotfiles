@@ -1,0 +1,8 @@
+# Search hidden files and directories.
+--hidden
+
+# Don't respect ignore files (.gitignore, .ignore, etc.).
+#--no-ignore
+
+# Exclude directories.
+--glob=!{.git,.svn,node_modules}
