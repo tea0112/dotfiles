@@ -152,6 +152,8 @@ alias tch="~/dotfiles/scripts/create_and_chmod_x.sh"
 alias st="~/dotfiles/scripts/local_repos_status.sh"
 alias pg="git add . && git commit -m "update" && git push -u origin master"
 
+export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
+export XDG_DATA_DIRS="$HOME/.local/share/flatpak/exports/share:$XDG_DATA_DIRS"
 export ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 export EDITOR='nvim'
 export VISUAL='nvim'
