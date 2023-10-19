@@ -1,42 +1,20 @@
 #!/bin/bash
 
-mkdir -p ~/.config
+# if you are using gnome, you should install "extension-manager", "AppIndicator and KStatusNotifierItem Support" in order to show Qt tray icons
 
-echo "_____________________________________________________"
-read -p "Download and Install startship?" confirm
-case $confirm in
-y)
-	curl -sS https://starship.rs/install.sh | sh
-	;;
-*)
-	echo "you chose NO"
-	;;
-esac
-
-echo "_____________________________________________________"
-read -p "Clone tmux tpm plugin?" confirm
-case $confirm in
-y)
-	rm -rf ~/.tmux/plugins/tpm
-	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-	;;
-*)
-	echo "you chose NO"
-	;;
-esac
-echo "******************* Config Tmux *******************"
-rm -rf ~/.tmux.conf
-ln -sf ~/dotfiles/.tmux.conf ~
-
-echo "******************* Config Starship *******************"
-if [ -d "${HOME}/.config/starship.toml" ]; then
-	rm -rf ~/.config/starship.toml
+if [[ ! -f "/usr/bin/zsh" ]]; then
+	echo "ZSH doesn't exist"
+	echo "You should run this script by ZSH!"
+	exit 0
 fi
 
-ln -sf ~/dotfiles/.config/startship.toml ~/.config/
+echo "instal default terminal for things like ranger, neovim"
+	echo "export TERMINAL=/usr/bin/alacritty" >>"$HOME/.profile"
 
-echo "_____________________________________________________"
-read -p "Clone zsh ohmyzsh, autosuggestions, zsh-syntax-highlighting, powerlevel10k?" confirm
+echo ".------------------------------------------------."
+echo "|             Clone zsh plugins                  |"
+echo "'------------------------------------------------'"
+read -r -p "Clone zsh ohmyzsh, autosuggestions, zsh-syntax-highlighting, powerlevel10k?" confirm
 case $confirm in
 y)
 	rm -rf ~/.oh-my-zsh
@@ -48,49 +26,76 @@ y)
 	rm -rf ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 
+	rm -rf ~/.oh-my-zsh/custom/plugins/zsh-vi-mode
+	git clone https://github.com/jeffreytse/zsh-vi-mode ~/.oh-my-zsh/custom/plugins/zsh-vi-mode
+
 	rm -rf ~/.oh-my-zsh/custom/themes/powerlevel10k
-	git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM}/themes/powerlevel10k
+	git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
 	;;
 *)
 	echo "you chose NO"
 	;;
 esac
-echo "******************* Config Zsh *******************"
-ZSH_CUSTOM=/home/$USER/.oh-my-zsh/custom
 
+echo ".------------------------------------------------."
+echo "|                  Config Zsh                    |"
+echo "'------------------------------------------------'"
+ZSH_CUSTOM=~/.oh-my-zsh/custom
 rm -rf ~/.zshrc
 rm -rf ~/.zprofile
+ln -sf ~/dotfiles/.zshrc ~
+ln -sf ~/dotfiles/.zprofile ~
 
-dotfiles_dir=~/dotfiles
-ln -sf ${dotfiles_dir}/.zshrc ~
-ln -sf ${dotfiles_dir}/.zprofile ~
+chsh -s "$(which zsh)"
 
-chsh -s $(which zsh)
+echo ".------------------------------------------------."
+echo "|                     clangd                     |"
+echo "'------------------------------------------------'"
+rm -rf ~/.config/clangd
+ln -sf ~/dotfiles/.config/clangd/ ~/.config/
 
-echo "******************* Config Neovim *******************"
-nvim_config_dir="/home/$USER/.config/nvim"
-if [ -d "${nvim_config_dir}" ]; then
-	rm -rf "${nvim_config_dir}"
-fi
-ln -sf /home/$USER/dotfiles/.config/nvim/ /home/$USER/.config/
-ln -sf $HOME/dotfiles/.shellcheckrc $HOME
-ln -sf $HOME/dotfiles/.ideavimrc $HOME
+echo ".------------------------------------------------."
+echo "|                     ranger                     |"
+echo "'------------------------------------------------'"
+rm -rf ~/.config/ranger/
+ln -sf ~/dotfiles/.config/ranger/ "$XDG_CONFIG_HOME/"
 
-echo "******************* Config Polybar *******************"
-if [ -d "~/.config/polybar" ]; then
-	rm -rf ~/.config/polybar
-fi
+echo ".------------------------------------------------."
+echo "|                     font                       |"
+echo "'------------------------------------------------'"
+read -r -p "Install Caskaydia Cove Nerd Font?" confirm
+case $confirm in
+y)
+	echo "******************* Install Font *******************"
+	mkdir -p ~/.local/share/fonts/otf
+	mkdir -p ~/.local/share/fonts/tff
 
-ln -sf ~/dotfiles/.config/polybar/ ~/.config/
+	TFF_DIR=~/.local/share/fonts/tff
+	#OTF_DIR=~/.local/share/fonts/otf
 
-echo "******************* Config Rofi *******************"
-if [ -d "~/.config/rofi" ]; then
-	rm -rf ~/.config/rofi
-fi
+	FONT_FILE="CaskaydiaCoveNerdFont-Regular.ttf"
 
-ln -sf ~/dotfiles/.config/rofi/ ~/.config/
+	if [ -f "${TFF_DIR}/${FONT_FILE}" ]; then
+		echo "${FONT_FILE} exists!"
+	else
+		cp ~/dotfiles/${FONT_FILE} "$TFF_DIR"
+		fc-cache -f -v
+	fi
+	;;
+*)
+	echo "you chose NO"
+	;;
+esac
 
-echo "******************* Config I3 *******************"
+echo ".------------------------------------------------."
+echo "|                   Config Mpv                   |"
+echo "'------------------------------------------------'"
+rm -rf ~/.config/mpv
+ln -sf ~/dotfiles/.config/mpv/ ~/.config/
+
+echo ".------------------------------------------------."
+echo "|                    Config i3                   |"
+echo "'------------------------------------------------'"
 # rofimoji
 # arandr
 # gnome-disk-utility
@@ -103,50 +108,98 @@ echo "******************* Config I3 *******************"
 # feh
 # xfce4-notifyd
 # ttf-font-awesome
-if [ -d "/home/thai/.config/i3" ]; then
-	rm -rf ~/.config/i3
-fi
-
+rm -rf ~/.config/i3
 ln -sf ~/dotfiles/.config/i3/ ~/.config/
 
-echo "******************* Configure Alacritty *******************"
-if [ -d "/home/thai/.config/alacritty" ]; then
-	rm -rf ~/.config/alacritty
-fi
-ln -sf ~/dotfiles/.config/alacritty/ ~/.config/
+echo ".------------------------------------------------."
+echo "|                  Config Rofi                   |"
+echo "'------------------------------------------------'"
+rm -rf "$HOME/.config/rofi"
+ln -sf ~/dotfiles/.config/rofi/ ~/.config/
 
-echo "******************* Config Imwheel *******************"
-if [ -f "~/.imwheelrc" ]; then
-	rm ~/.imwheelrc
-fi
+echo ".------------------------------------------------."
+echo "|               Config Polybar                   |"
+echo "'------------------------------------------------'"
+rm -rf "$HOME/.config/polybar"
+ln -sf "$HOME/dotfiles/.config/polybar/" "$HOME/.config/"
 
-ln -sf ~/dotfiles/.imwheelrc ~/
+echo ".------------------------------------------------."
+echo "|               Config Starship                  |"
+echo "'------------------------------------------------'"
+rm -rf ~/.config/starship.toml
+ln -sf ~/dotfiles/.config/startship.toml ~/.config/
 
-echo "******************* Config Mpv *******************"
-rm -rf ~/.config/mpv
-ln -sf ~/dotfiles/.config/mpv/ ~/.config/
-
-echo "========== Config zathura =========="
-if [[ -d "$HOME/.config/zathura " ]]; then
-	rm -rf ~/.config/zathura
-fi
-
+echo ".------------------------------------------------."
+echo "|                  Zathura                       |"
+echo "'------------------------------------------------'"
+rm -rf ~/.config/zathura
 ln -sf ~/dotfiles/.config/zathura/ ~/.config/
 
-echo "_____________________________________________________"
-read -p "Install Jetbrains Font?" confirm
+echo ".------------------------------------------------."
+echo "|                  Config Neovim                 |"
+echo "'------------------------------------------------'"
+rm -rf ~/.config/nvim
+ln -sf ~/dotfiles/.config/nvim/ ~/.config/
+ln -sf ~/dotfiles/.shellcheckrc ~
+ln -sf ~/dotfiles/.ideavimrc ~
+
+echo ".------------------------------------------------."
+echo "|                   Config Picom                 |"
+echo "'------------------------------------------------'"
+rm -rf ~/.config/picom
+ln -sf ~/dotfiles/.config/picom/ ~/.config/
+
+echo ".------------------------------------------------."
+echo "|               tmux tpm plugin                  |"
+echo "'------------------------------------------------'"
+read -r -p "Clone tmux tpm plugin?" confirm
 case $confirm in
 y)
-	echo "******************* Install Font *******************"
-	FONT_DIR="$HOME/.fonts"
-	if [ -d "$FONT_DIR" ]; then
-		cp $HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf $FONT_DIR
-		fc-cache -f -v
-	else
-		mkdir $FONT_DIR
-		cp $HOME/dotfiles/JetBrains\ Mono\ Nerd\ Font\ Complete\ Regular.ttf $FONT_DIR
-		fc-cache -f -v
-	fi
+	rm -rf ~/.tmux/plugins/tpm
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	;;
+*)
+	echo "you chose NO"
+	;;
+esac
+
+echo ".------------------------------------------------."
+echo "|                 Config tmux                    |"
+echo "'------------------------------------------------'"
+rm -rf ~/.tmux.conf
+ln -sf ~/dotfiles/.tmux.conf ~
+
+echo ".------------------------------------------------."
+echo "|               Configure Alacritty              |"
+echo "'------------------------------------------------'"
+rm -rf ~/.config/alacritty
+ln -sf ~/dotfiles/.config/alacritty/ ~/.config/
+
+echo ".------------------------------------------------."
+echo "|                Install Go                      |"
+echo "'------------------------------------------------'"
+read -r -p "Install golang?" confirm
+case $confirm in
+y)
+	./install-go.sh
+	;;
+*)
+	echo "you chose NO"
+	;;
+esac
+
+echo ".------------------------------------------------."
+echo "|                Install Rust                    |"
+echo "'------------------------------------------------'"
+read -r -p "Install rust?" confirm
+case $confirm in
+y)
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	source "/home/${USER}/.cargo/env"
+
+	# cargo install eza
+	# cargo install zoxide
+	# cargo install --locked ripgrep_all
 	;;
 *)
 	echo "you chose NO"
