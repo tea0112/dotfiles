@@ -107,6 +107,7 @@ export LANG=en_US.UTF-8
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
+alias zi="sudo zypper install"
 alias zshconfig="nvim ~/dotfiles/.zshrc"
 alias szsh="source ~/.zshrc"
 alias e="nvim"
