@@ -58,7 +58,7 @@ echo ".------------------------------------------------."
 echo "|                     ranger                     |"
 echo "'------------------------------------------------'"
 rm -rf ~/.config/ranger/
-ln -sf ~/dotfiles/.config/ranger/ "$XDG_CONFIG_HOME/"
+ln -sf ~/dotfiles/.config/ranger/ ~/.config/
 
 echo ".------------------------------------------------."
 echo "|                     font                       |"
