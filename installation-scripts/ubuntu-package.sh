@@ -35,7 +35,8 @@ case $confirm in
 y)
 	# sudo apt install blueman
 	sudo add-apt-repository ppa:aslatter/ppa -y
-	sudo apt install build-essential pandoc poppler-utils ffmpeg ripgrep copyq flameshot picom curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel goldendict gettext fzf nodejs fonts-noto-color-emoji libxcb-cursor0 xdotool ripgrep vim vim-gtk polybar rofi feh alacritty gnome-clocks -y
+	sudo apt install build-essential pandoc poppler-utils ffmpeg ripgrep copyq flameshot picom curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel goldendict gettext fzf nodejs fonts-noto-color-emoji libxcb-cursor0 xdotool ripgrep vim vim-gtk polybar rofi feh alacritty gnome-clocks flatpak gnome-software-plugin-flatpak -y
+	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 	;;
 *)
 	echo "you chose NO"
