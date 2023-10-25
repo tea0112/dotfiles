@@ -1,2 +1,9 @@
+let mapleader=" "
+
 inoremap jk <esc>
+
+map F <Plug>(easymotion-F)
+map f <Plug>(easymotion-f)
+
 set ignorecase
+set easymotion
