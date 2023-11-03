@@ -272,3 +272,7 @@ complete -o nospace -F _comp_kdesrc_run kdesrc-run
 ################################################################################
 
 setopt rmstarsilent
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)
