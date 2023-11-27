@@ -7,3 +7,4 @@ flatpak install org.telegram.desktop
 flatpak install org.qbittorrent.qBittorrent
 flatpak install net.cozic.joplin_desktop
 flatpak install org.gimp.GIMP
+flatpak install flathub io.mpv.Mpv
