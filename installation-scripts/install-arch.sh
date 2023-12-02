@@ -198,10 +198,6 @@ case $confirm in
 y)
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 	source "/home/${USER}/.cargo/env"
-
-	cargo install eza
-	cargo install zoxide
-	cargo install --locked ripgrep_all
 	;;
 *)
 	echo "you chose NO"
