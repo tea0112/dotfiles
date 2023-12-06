@@ -9,7 +9,7 @@ if [[ ! -f "/usr/bin/zsh" ]]; then
 fi
 
 echo "instal default terminal for things like ranger, neovim"
-	echo "export TERMINAL=/usr/bin/alacritty" >>"$HOME/.profile"
+echo "export TERMINAL=/usr/bin/alacritty" >>"$HOME/.profile"
 
 echo ".------------------------------------------------."
 echo "|             Clone zsh plugins                  |"
@@ -181,7 +181,7 @@ echo "'------------------------------------------------'"
 read -r -p "Install golang?" confirm
 case $confirm in
 y)
-	./install-go.sh
+	./kiss-installation/install-go.sh
 	;;
 *)
 	echo "you chose NO"
