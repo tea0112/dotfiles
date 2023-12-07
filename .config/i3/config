@@ -273,7 +273,7 @@ bindsym $mod+a scratchpad show
 bindsym Print exec flameshot gui
 bindsym $mod+bracketright exec copyq toggle
 bindsym $mod+p exec ~/dotfiles/scripts/use_only_internal_screen.sh
-bindsym $mod+backslash exec ~/dotfiles/scripts/toggle-bamboo.sh
+bindsym $mod+F3 exec ~/dotfiles/scripts/toggle-bamboo.sh
 
 # start on startup
 exec i3-msg workspace 1
