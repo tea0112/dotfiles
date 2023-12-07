@@ -271,7 +271,7 @@ bindsym $mod+Tab workspace back_and_forth
 #bindsym $mod+a exec wmctrl -a 'Goldendict'
 bindsym $mod+a scratchpad show
 bindsym Print exec flameshot gui
-bindsym $mod+bracketright exec copyq toggle
+bindsym $mod+F4 exec copyq toggle
 bindsym $mod+p exec ~/dotfiles/scripts/use_only_internal_screen.sh
 bindsym $mod+F3 exec ~/dotfiles/scripts/toggle-bamboo.sh
 
