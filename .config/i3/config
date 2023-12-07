@@ -258,11 +258,11 @@ bindsym $mod+4 mode "resize"
 # Aurora
 # #bf616a #d08770 #ebcb8b #a3be8c #b48ead
 # class                 border  backgr. text    indicator child_border
-client.focused          #4c566a #222222 #FFFFFF #4C566A   #D8DEE9
-client.focused_inactive #3b4252 #2e3440 #eceff4 #484e50   #5f676a
-client.unfocused        #3b4252 #2e3440 #eceff4 #292d2e   #222222
-client.urgent           #2f343a #900000 #eceff4 #900000   #900000
-client.placeholder      #000000 #0c0c0c #eceff4 #000000   #0c0c0c
+client.focused          #4C566A #5E81AC #FFFFFF #4C566A   #D8DEE9
+client.focused_inactive #3B4252 #2E3440 #ECEFF4 #484E50   #5F676A
+client.unfocused        #3B4252 #2E3440 #ECEFF4 #292D2E   #222222
+client.urgent           #2F343A #900000 #ECEFF4 #900000   #900000
+client.placeholder      #000000 #0C0C0C #ECEFF4 #000000   #0C0C0C
 
 client.background       #ffffff
 
