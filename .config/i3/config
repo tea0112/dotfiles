@@ -51,7 +51,7 @@ bindsym $mod+Return exec alacritty
 
 # grave
 # kill focused window
-bindsym $mod+shift+grave kill
+bindsym $mod+grave kill
 
 # A more modern dmenu replacement is rofi:
 bindsym $mod+s exec --no-startup-id rofi -show combi -show-icons
@@ -91,10 +91,10 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in vertical orientation
-bindsym $mod+i split v
+bindsym $mod+o split v
 
 # split in horizontal orientation
-bindsym $mod+o split h
+bindsym $mod+i split h
 
 # enter fullscreen mode for the focused container
 bindsym $mod+t fullscreen toggle
@@ -239,12 +239,30 @@ bindsym $mod+4 mode "resize"
 #}
 
 # color
+# one dark
 # class                 border  backgr. text    indicator child_border
-client.focused          #ffb86c #3D43B4 #FFFFFF #FE75FE   #7A04ED
-client.focused_inactive #333333 #222222 #FFFFFF #484e50   #5f676a
-client.unfocused        #FE75FE #222222 #FFFFFF #292d2e   #222222
-client.urgent           #2f343a #900000 #FFFFFF #900000   #900000
-client.placeholder      #000000 #0c0c0c #FFFFFF #000000   #0c0c0c
+# client.focused          #ffb86c #3D43B4 #FFFFFF #FE75FE   #7A04ED
+# client.focused_inactive #333333 #222222 #FFFFFF #484e50   #5f676a
+# client.unfocused        #FE75FE #222222 #FFFFFF #292d2e   #222222
+# client.urgent           #2f343a #900000 #FFFFFF #900000   #900000
+# client.placeholder      #000000 #0c0c0c #FFFFFF #000000   #0c0c0c
+
+# Nordic
+# Color Palette
+# Polar Night
+# #2e3440 #3b4252 #434c5e #4c566a
+# Snow Storm
+# #d8dee9 #e5e9f0 #eceff4
+# Frost
+# #8fbcbb #88c0d0 #81a1c1 #5e81ac
+# Aurora
+# #bf616a #d08770 #ebcb8b #a3be8c #b48ead
+# class                 border  backgr. text    indicator child_border
+client.focused          #4c566a #222222 #FFFFFF #4C566A   #D8DEE9
+client.focused_inactive #3b4252 #2e3440 #eceff4 #484e50   #5f676a
+client.unfocused        #3b4252 #2e3440 #eceff4 #292d2e   #222222
+client.urgent           #2f343a #900000 #eceff4 #900000   #900000
+client.placeholder      #000000 #0c0c0c #eceff4 #000000   #0c0c0c
 
 client.background       #ffffff
 
@@ -255,7 +273,7 @@ for_window [class="copyq" instance="copyq"] floating enable
 for_window [class="gnome-calculator" instance="gnome-calculator"] floating enable
 
 # gaps
-for_window [class="^.*"] border pixel 0
+for_window [class="^.*"] border pixel 5
 gaps inner 20
 gaps outer 0
 
