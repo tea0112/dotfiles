@@ -286,8 +286,8 @@ bindsym $mod+shift+9 exec betterlockscreen -l dim && sleep 3 && xset dpms force 
 bindsym $mod+Shift+0 exec systemctl suspend
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+Tab workspace back_and_forth
-#bindsym $mod+a exec wmctrl -a 'Goldendict'
-bindsym $mod+a scratchpad show
+bindsym $mod+a exec wmctrl -a 'Goldendict'
+#bindsym $mod+a scratchpad show
 bindsym Print exec flameshot gui
 bindsym $mod+F3 exec ~/dotfiles/scripts/toggle-bamboo.sh
 bindsym $mod+F4 exec copyq toggle
