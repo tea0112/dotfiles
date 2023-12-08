@@ -108,7 +108,7 @@ bindsym $mod+3 layout toggle split
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym $mod+f3 focus mode_toggle
 
 # focus the parent container
 bindsym $mod+y focus parent
@@ -289,7 +289,7 @@ bindsym $mod+Tab workspace back_and_forth
 bindsym $mod+a exec wmctrl -a 'Goldendict'
 #bindsym $mod+a scratchpad show
 bindsym Print exec flameshot gui
-bindsym $mod+F3 exec ~/dotfiles/scripts/toggle-bamboo.sh
+bindsym $mod+space exec ~/dotfiles/scripts/toggle-bamboo.sh
 bindsym $mod+F4 exec copyq toggle
 bindsym $mod+p exec ~/dotfiles/scripts/use_only_internal_screen.sh
 
