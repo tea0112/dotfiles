@@ -148,6 +148,12 @@ rm -rf ~/.config/mpv
 ln -sf ~/dotfiles/.config/mpv/ ~/.config/
 
 echo ".------------------------------------------------."
+echo "|                  mimetype                      |"
+echo "'------------------------------------------------'"
+rm -rf ~/.local/share/applications/mimeapps.list
+ln -sf ~/dotfiles/mimeapps.list ~/.local/share/applications/
+
+echo ".------------------------------------------------."
 echo "|                  Zathura                       |"
 echo "'------------------------------------------------'"
 rm -rf ~/.config/zathura
