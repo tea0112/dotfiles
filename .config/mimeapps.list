@@ -1,6 +1,6 @@
 [Default Applications]
 audio/mpeg=mpv.desktop
-application/pdf=org.pwmt.zathura.desktop
+application/pdf=org.kde.okular.desktop
 x-scheme-handler/jetbrains=jetbrains-toolbox.desktop
 image/png=org.gnome.Loupe.desktop
 
