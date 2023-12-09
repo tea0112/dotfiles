@@ -94,6 +94,12 @@ ln -sf ~/dotfiles/.shellcheckrc ~
 ln -sf ~/dotfiles/.ideavimrc ~
 
 echo ".------------------------------------------------."
+echo "|                   Config nnn                   |"
+echo "'------------------------------------------------'"
+rm -rf ~/.config/nnn
+ln -sf ~/dotfiles/.config/nnn/ ~/.config/
+
+echo ".------------------------------------------------."
 echo "|               Config Polybar                   |"
 echo "'------------------------------------------------'"
 rm -rf "$HOME/.config/polybar"
