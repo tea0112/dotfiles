@@ -1,0 +1,10 @@
+[Default Applications]
+audio/mpeg=mpv.desktop
+application/pdf=org.pwmt.zathura.desktop
+x-scheme-handler/jetbrains=jetbrains-toolbox.desktop
+image/png=org.gnome.Loupe.desktop
+
+[Added Associations]
+audio/mpeg=audacity.desktop;mpv.desktop;
+application/pdf=okularApplication_pdf.desktop;org.pwmt.zathura-pdf-mupdf.desktop;
+image/png=org.gnome.Loupe.desktop;

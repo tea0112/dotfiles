@@ -134,8 +134,8 @@ ln -sf ~/dotfiles/.config/startship.toml ~/.config/
 echo ".------------------------------------------------."
 echo "|                  mimetype                      |"
 echo "'------------------------------------------------'"
-rm -rf ~/.local/share/applications/mimeapps.list
-ln -sf ~/dotfiles/mimeapps.list ~/.local/share/applications/
+rm -rf ~/.config/mimeapps.list
+ln -sf ~/dotfiles/.config/mimeapps.list ~/.config/
 
 echo ".------------------------------------------------."
 echo "|                  Zathura                       |"
