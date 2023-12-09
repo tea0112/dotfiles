@@ -23,11 +23,11 @@ Caps Lock key to Super
         Option "XKbOptions" "caps:super"
     EndSection
 
-Capslock to super, swap super and alt position
+Capslock to escape, swap super and alt position
 
 Section "InputClass"
     Identifier "keyboard defaults"
     MatchIsKeyboard "on"
 
-    Option "XKbOptions" "altwin:swap_alt_win,caps:super"
+    Option "XKbOptions" "altwin:swap_alt_win,caps:escape"
 EndSection
