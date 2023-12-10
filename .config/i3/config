@@ -54,7 +54,7 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+grave kill
 
 # A more modern dmenu replacement is rofi:
-bindsym $mod+s exec --no-startup-id rofi -show combi -show-icons
+bindsym $mod+r exec --no-startup-id rofi -show combi -show-icons
 # dot key
 #bindsym $mod+period exec rofi -modi "emoji:/usr/bin/rofimoji" -show emoji
 bindsym $mod+period exec --no-startup-id rofimoji
@@ -145,9 +145,9 @@ bindsym $mod+b workspace number $ws0
 bindsym $mod+q workspace number $ws1
 bindsym $mod+w workspace number $ws2
 bindsym $mod+e workspace number $ws3
-bindsym $mod+r workspace number $ws4
-bindsym $mod+d workspace number $ws5
-bindsym $mod+f workspace number $ws6
+bindsym $mod+a workspace number $ws4
+bindsym $mod+s workspace number $ws5
+bindsym $mod+d workspace number $ws6
 bindsym $mod+z workspace number $ws7
 bindsym $mod+x workspace number $ws8
 bindsym $mod+c workspace number $ws9
@@ -156,9 +156,9 @@ bindsym $mod+v workspace number $ws10
 bindsym $mod+Control+q workspace number $ws11
 bindsym $mod+Control+w workspace number $ws12
 bindsym $mod+Control+e workspace number $ws13
-bindsym $mod+Control+r workspace number $ws14
-bindsym $mod+Control+d workspace number $ws15
-bindsym $mod+Control+f workspace number $ws16
+bindsym $mod+Control+a workspace number $ws14
+bindsym $mod+Control+s workspace number $ws15
+bindsym $mod+Control+d workspace number $ws16
 bindsym $mod+Control+z workspace number $ws17
 bindsym $mod+Control+x workspace number $ws18
 bindsym $mod+Control+c workspace number $ws19
@@ -169,9 +169,9 @@ bindsym $mod+Shift+b move container to workspace number $ws0
 bindsym $mod+Shift+q move container to workspace number $ws1
 bindsym $mod+Shift+w move container to workspace number $ws2
 bindsym $mod+Shift+e move container to workspace number $ws3
-bindsym $mod+Shift+r move container to workspace number $ws4
-bindsym $mod+Shift+d move container to workspace number $ws5
-bindsym $mod+Shift+f move container to workspace number $ws6
+bindsym $mod+Shift+a move container to workspace number $ws4
+bindsym $mod+Shift+s move container to workspace number $ws5
+bindsym $mod+Shift+d move container to workspace number $ws6
 bindsym $mod+Shift+z move container to workspace number $ws7
 bindsym $mod+Shift+x move container to workspace number $ws8
 bindsym $mod+Shift+c move container to workspace number $ws9
@@ -180,9 +180,9 @@ bindsym $mod+Shift+v move container to workspace number $ws10
 bindsym $mod+Control+Shift+q move container to workspace number $ws11
 bindsym $mod+Control+Shift+w move container to workspace number $ws12
 bindsym $mod+Control+Shift+e move container to workspace number $ws13
-bindsym $mod+Control+Shift+r move container to workspace number $ws14
-bindsym $mod+Control+Shift+d move container to workspace number $ws15
-bindsym $mod+Control+Shift+f move container to workspace number $ws16
+bindsym $mod+Control+Shift+a move container to workspace number $ws14
+bindsym $mod+Control+Shift+s move container to workspace number $ws15
+bindsym $mod+Control+Shift+d move container to workspace number $ws16
 bindsym $mod+Control+Shift+z move container to workspace number $ws17
 bindsym $mod+Control+Shift+x move container to workspace number $ws18
 bindsym $mod+Control+Shift+c move container to workspace number $ws19
@@ -286,8 +286,8 @@ bindsym $mod+shift+9 exec betterlockscreen -l dim && sleep 3 && xset dpms force 
 bindsym $mod+Shift+0 exec systemctl suspend
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+Tab workspace back_and_forth
-# bindsym $mod+a exec wmctrl -a 'Goldendict'
-bindsym $mod+a scratchpad show
+# bindsym $mod+f exec wmctrl -a 'Goldendict'
+bindsym $mod+f scratchpad show
 bindsym Print exec flameshot gui
 bindsym $mod+space exec ~/dotfiles/scripts/toggle-bamboo.sh
 bindsym $mod+F3 exec copyq toggle
