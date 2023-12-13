@@ -1,0 +1,10 @@
+session_name: golang development
+windows:
+  - window_name: editor 
+    panes:
+      - shell_command:
+        - cmd: cd ~/workspace
+  - window_name: cmd
+    panes:
+      - shell_command:
+        -cmd: cd ~/workspace
