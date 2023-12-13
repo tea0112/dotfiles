@@ -51,8 +51,8 @@ chsh -s "$(which zsh)"
 echo ".------------------------------------------------."
 echo "|                     tmuxp                      |"
 echo "'------------------------------------------------'"
-rm -rf ~/.tmuxp
-ln -sf ~/dotfiles/.tmuxp/ ~/
+rm -rf ~/.config/tmuxp
+ln -sf ~/dotfiles/.config/tmuxp/ ~/.config/
 
 echo ".------------------------------------------------."
 echo "|                     clangd                     |"
