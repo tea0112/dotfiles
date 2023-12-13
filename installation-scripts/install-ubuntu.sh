@@ -106,6 +106,12 @@ rm -rf "$HOME/.config/polybar"
 ln -sf "$HOME/dotfiles/.config/polybar/" "$HOME/.config/"
 
 echo ".------------------------------------------------."
+echo "|                     tmuxp                      |"
+echo "'------------------------------------------------'"
+rm -rf ~/.tmuxp
+ln -sf ~/dotfiles/.tmuxp/ ~/
+
+echo ".------------------------------------------------."
 echo "|                     clangd                     |"
 echo "'------------------------------------------------'"
 rm -rf ~/.config/clangd
