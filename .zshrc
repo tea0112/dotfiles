@@ -152,6 +152,7 @@ alias cx="chmod +x"
 alias tch="~/dotfiles/scripts/create_and_chmod_x.sh"
 alias st="~/dotfiles/scripts/local_repos_status.sh"
 alias pg="git add . && git commit -m "update" && git push -u origin master"
+alias tmx="tmuxinator"
 
 export DISABLE_AUTO_TITLE='true'
 export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
