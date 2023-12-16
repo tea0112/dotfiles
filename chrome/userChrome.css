@@ -1,4 +1,4 @@
-/* You should set the preface value to "XXX" in general section, preface option, sidebery addon setting */
+/* You should set the preface value to "F " in general section, preface option, sidebery addon setting */
 #main-window #titlebar {
   overflow: hidden;
   transition: height 0.3s 0.3s !important;
@@ -8,6 +8,6 @@
 #main-window[uidensity="touch"] #titlebar { height: 3.35em !important; }
 #main-window[uidensity="compact"] #titlebar { height: 2.7em !important; }
 /* Hidden state: Hide native tabs strip */
-#main-window[titlepreface*="XXX"] #titlebar { height: 0 !important; }
+#main-window[titlepreface*="F "] #titlebar { height: 0 !important; }
 /* Hidden state: Fix z-index of active pinned tabs */
-#main-window[titlepreface*="XXX"] #tabbrowser-tabs { z-index: 0 !important; }
+#main-window[titlepreface*="F "] #tabbrowser-tabs { z-index: 0 !important; }
