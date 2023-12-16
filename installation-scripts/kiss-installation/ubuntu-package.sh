@@ -51,7 +51,7 @@ echo "_____________________________________________________"
 read -r -p "Install golang?" confirm
 case $confirm in
 y)
-	./kiss-installation/install-go.sh
+	./go.sh
 	;;
 *)
 	echo "you chose NO"
