@@ -45,7 +45,7 @@ read -p "Install essential package?" confirm
 case $confirm in
 y)
 	sudo add-apt-repository ppa:aslatter/ppa -y
-	sudo apt install gnome-tweaks gnome-shell-extension-manager alacritty build-essential pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel goldendict gettext fzf fonts-noto-color-emoji libxcb-cursor0 xdotool ripgrep vim vim-gtk gnome-clocks flatpak -y
+	sudo apt install libcanberra-gtk-module libcanberra-gtk3-module gnome-tweaks gnome-shell-extension-manager alacritty build-essential pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel goldendict gettext fzf fonts-noto-color-emoji libxcb-cursor0 xdotool ripgrep vim vim-gtk gnome-clocks flatpak -y
 
 	sudo apt install gnome-software-plugin-flatpak -y
 
