@@ -30,16 +30,26 @@ y)
 esac
 
 echo "_____________________________________________________"
-read -p "Install package?" confirm
+read -p "Install package for i3wm dependencies?" confirm
 case $confirm in
 y)
-	# sudo apt install blueman
+	sudo apt install copyq blueman flameshot picom rofi feh gnome-clocks -y
+	;;
+*)
+	echo "you chose NO"
+	;;
+esac
+
+echo "_____________________________________________________"
+read -p "Install essential package?" confirm
+case $confirm in
+y)
 	sudo add-apt-repository ppa:aslatter/ppa -y
-	sudo apt install build-essential pandoc poppler-utils ffmpeg ripgrep copyq flameshot picom curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel goldendict gettext fzf nodejs fonts-noto-color-emoji libxcb-cursor0 xdotool ripgrep vim vim-gtk polybar rofi feh gnome-clocks flatpak -y
+	sudo apt install gnome-tweaks gnome-shell-extension-manager alacritty build-essential pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel goldendict gettext fzf fonts-noto-color-emoji libxcb-cursor0 xdotool ripgrep vim vim-gtk gnome-clocks flatpak -y
 
-	# sudo apt install gnome-software-plugin-flatpak -y
+	sudo apt install gnome-software-plugin-flatpak -y
 
-	# flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 	;;
 *)
 	echo "you chose NO"
@@ -51,7 +61,7 @@ echo "_____________________________________________________"
 read -r -p "Install golang?" confirm
 case $confirm in
 y)
-	./go.sh
+	./kiss-installation/go.sh
 	;;
 *)
 	echo "you chose NO"
