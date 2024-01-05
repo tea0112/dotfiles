@@ -1,0 +1,59 @@
+[colors.bright]
+black = "#7F8C8D"
+blue = "#3DAEE9"
+cyan = "#1ABC9C"
+green = "#11D116"
+magenta = "#9b59b6"
+red = "#ED1515"
+white = "#FCFCFC"
+yellow = "#FDBC4B"
+
+[colors.dim]
+black = "#31363b"
+blue = "#1b668f"
+cyan = "#186c60"
+green = "#17a262"
+magenta = "#614a73"
+red = "#783228"
+white = "#63686d"
+yellow = "#b65619"
+
+[colors.normal]
+black = "#232627"
+blue = "#1D99F3"
+cyan = "#16A085"
+green = "#17A262"
+magenta = "#8E44AD"
+red = "#C0392B"
+white = "#EFF0F1"
+yellow = "#F67400"
+
+[colors.primary]
+background = "#232627"
+# bright_background = "#000000"
+bright_foreground = "#ffffff"
+# dim_background = "#31363b"
+dim_foreground = "#eff0f1"
+foreground = "#fcfcfc"
+
+[font]
+size = 14.0
+# transparent_background_colors = true
+
+[font.bold]
+family = "CaskaydiaCove Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "CaskaydiaCove Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "CaskaydiaCove Nerd Font"
+style = "Regular"
+
+[shell]
+program = "/usr/bin/zsh"
+
+[window]
+opacity = 0.95
