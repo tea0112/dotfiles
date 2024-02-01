@@ -316,6 +316,7 @@ bindsym $mod+p exec ~/dotfiles/scripts/use_only_internal_screen.sh
 
 # start on startup
 exec i3-msg workspace 1
+exec --no-startup-id ibus-daemon -d
 # exec - run one time
 # exec_always - each i3 restart
 # exec --no-startup-id picom -b
