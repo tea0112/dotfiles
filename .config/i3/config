@@ -321,7 +321,7 @@ exec i3-msg workspace 1
 # exec --no-startup-id picom -b
 # exec --no-startup-id blueman-applet
 # exec --no-startup-id xfce4-power-manager
-# exec "xautolock -detectsleep -time 3 -locker \"i3lock -c 000000\""
+# exec --no-startup-id bash ~/dotfiles/scripts/i3-idle.sh
 #exec_always --no-startup-id xrdb ~/.Xresources
 exec_always --no-startup-id bash ~/dotfiles/scripts/set-touchpad.sh
 #exec_always --no-startup-id bash ~/dotfiles/scripts/set-mouse.sh "Logitech B330" -0.5
