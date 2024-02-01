@@ -26,8 +26,8 @@ cp -r ~/dotfiles/.config/clangd ~/.config
 echo ".------------------------------------------------."
 echo "|                     ranger                     |"
 echo "'------------------------------------------------'"
-rm -rf ~/.config/ranger
-cp -r ~/dotfiles/.config/ranger ~/.config
+# rm -rf ~/.config/ranger
+# cp -r ~/dotfiles/.config/ranger ~/.config
 
 echo ".------------------------------------------------."
 echo "|                   Config Mpv                   |"
@@ -69,7 +69,7 @@ echo ".------------------------------------------------."
 echo "|               Config Starship                  |"
 echo "'------------------------------------------------'"
 rm -rf ~/.config/starship.toml
-cp ~/dotfiles/.config/startship.toml ~/.config
+cp ~/dotfiles/.config/starship.toml ~/.config
 
 echo ".------------------------------------------------."
 echo "|                  mimetype                      |"
@@ -81,7 +81,7 @@ echo ".------------------------------------------------."
 echo "|                  Zathura                       |"
 echo "'------------------------------------------------'"
 rm -rf ~/.config/zathura
-cp ~/dotfiles/.config/zathura ~/.config
+cp -r ~/dotfiles/.config/zathura ~/.config
 
 echo ".------------------------------------------------."
 echo "|                  Config Neovim                 |"
@@ -94,8 +94,8 @@ cp ~/dotfiles/.ideavimrc ~
 echo ".------------------------------------------------."
 echo "|                   Config nnn                   |"
 echo "'------------------------------------------------'"
-rm -rf ~/.config/nnn
-cp -r ~/dotfiles/.config/nnn ~/.config
+# rm -rf ~/.config/nnn
+# cp -r ~/dotfiles/.config/nnn ~/.config
 
 echo ".------------------------------------------------."
 echo "|                   Config Picom                 |"
