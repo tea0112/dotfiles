@@ -283,10 +283,28 @@ gaps outer 0
 bindsym $mod+8 exec ~/.config/polybar/launch.sh
 bindsym $mod+Shift+F10 exec autorandr --load mobile
 
+set $Locker betterlockscreen -l dim && sleep 3 && xset dpms force off
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+Shift+0 mode "$mode_system"
+
 # i3lock option -c 000000 makes the screen turn black instead of the default white after the screen is locked.
 # bindsym $mod+shift+9 exec i3lock -c 000000 && sleep 3 && xset dpms force off
-bindsym $mod+shift+9 exec betterlockscreen -l dim && sleep 3 && xset dpms force off
-bindsym $mod+Shift+0 exec systemctl suspend
+# bindsym $mod+shift+9 exec betterlockscreen -l dim && sleep 3 && xset dpms force off
+# bindsym $mod+Shift+0 exec systemctl suspend
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+Tab workspace back_and_forth
 bindsym $mod+f exec wmctrl -a 'Goldendict'
