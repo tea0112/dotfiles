@@ -42,11 +42,11 @@ esac
 echo ".------------------------------------------------."
 echo "|                  Config Zsh                    |"
 echo "'------------------------------------------------'"
-ZSH_CUSTOM=~/.oh-my-zsh/custom
+# ZSH_CUSTOM=~/.oh-my-zsh/custom
 rm -rf ~/.zshrc
 rm -rf ~/.zprofile
-ln -sf ~/dotfiles/.zshrc ~
-ln -sf ~/dotfiles/.zprofile ~
+cp ~/dotfiles/.zshrc ~
+cp ~/dotfiles/.zprofile ~
 
 chsh -s "$(which zsh)"
 
@@ -54,19 +54,19 @@ echo ".------------------------------------------------."
 echo "|                     tmuxp                      |"
 echo "'------------------------------------------------'"
 rm -rf ~/.config/tmuxp
-ln -sf ~/dotfiles/.config/tmuxp/ ~/.config/
+cp -r ~/dotfiles/.config/tmuxp ~/.config
 
 echo ".------------------------------------------------."
 echo "|                     clangd                     |"
 echo "'------------------------------------------------'"
 rm -rf ~/.config/clangd
-ln -sf ~/dotfiles/.config/clangd/ ~/.config/
+cp -r ~/dotfiles/.config/clangd ~/.config
 
 echo ".------------------------------------------------."
 echo "|                     ranger                     |"
 echo "'------------------------------------------------'"
-rm -rf ~/.config/ranger/
-ln -sf ~/dotfiles/.config/ranger/ "$XDG_CONFIG_HOME/"
+rm -rf ~/.config/ranger
+cp -r ~/dotfiles/.config/ranger ~/.config
 
 echo ".------------------------------------------------."
 echo "|                     font                       |"
@@ -99,7 +99,7 @@ echo ".------------------------------------------------."
 echo "|                   Config Mpv                   |"
 echo "'------------------------------------------------'"
 rm -rf ~/.config/mpv
-ln -sf ~/dotfiles/.config/mpv/ ~/.config/
+cp -r ~/dotfiles/.config/mpv ~/.config
 
 echo ".------------------------------------------------."
 echo "|                    Config i3                   |"
@@ -117,57 +117,57 @@ echo "'------------------------------------------------'"
 # xfce4-notifyd
 # ttf-font-awesome
 rm -rf ~/.config/i3
-ln -sf ~/dotfiles/.config/i3/ ~/.config/
+cp -r ~/dotfiles/.config/i3 ~/.config
 
 echo ".------------------------------------------------."
 echo "|                  Config Rofi                   |"
 echo "'------------------------------------------------'"
-rm -rf "$HOME/.config/rofi"
-ln -sf ~/dotfiles/.config/rofi/ ~/.config/
+rm -rf ~/.config/rofi
+cp -r ~/dotfiles/.config/rofi ~/.config
 
 echo ".------------------------------------------------."
 echo "|               Config Polybar                   |"
 echo "'------------------------------------------------'"
-rm -rf "$HOME/.config/polybar"
-ln -sf "$HOME/dotfiles/.config/polybar/" "$HOME/.config/"
+rm -rf ~/.config/polybar
+cp -r ~/dotfiles/.config/polybar ~/.config
 
 echo ".------------------------------------------------."
 echo "|               Config Starship                  |"
 echo "'------------------------------------------------'"
 rm -rf ~/.config/starship.toml
-ln -sf ~/dotfiles/.config/startship.toml ~/.config/
+cp ~/dotfiles/.config/startship.toml ~/.config
 
 echo ".------------------------------------------------."
 echo "|                  mimetype                      |"
 echo "'------------------------------------------------'"
-rm -rf ~/.config/mimeapps.list
-ln -sf ~/dotfiles/.config/mimeapps.list ~/.config/
+# rm -rf ~/.config/mimeapps.list
+# cp ~/dotfiles/.config/mimeapps.list ~/.config
 
 echo ".------------------------------------------------."
 echo "|                  Zathura                       |"
 echo "'------------------------------------------------'"
 rm -rf ~/.config/zathura
-ln -sf ~/dotfiles/.config/zathura/ ~/.config/
+cp ~/dotfiles/.config/zathura ~/.config
 
 echo ".------------------------------------------------."
 echo "|                  Config Neovim                 |"
 echo "'------------------------------------------------'"
 rm -rf ~/.config/nvim
-ln -sf ~/dotfiles/.config/nvim/ ~/.config/
-ln -sf ~/dotfiles/.shellcheckrc ~
-ln -sf ~/dotfiles/.ideavimrc ~
+cp -r ~/dotfiles/.config/nvim ~/.config
+cp ~/dotfiles/.shellcheckrc ~
+cp ~/dotfiles/.ideavimrc ~
 
 echo ".------------------------------------------------."
 echo "|                   Config nnn                   |"
 echo "'------------------------------------------------'"
 rm -rf ~/.config/nnn
-ln -sf ~/dotfiles/.config/nnn/ ~/.config/
+cp -r ~/dotfiles/.config/nnn ~/.config
 
 echo ".------------------------------------------------."
 echo "|                   Config Picom                 |"
 echo "'------------------------------------------------'"
 rm -rf ~/.config/picom
-ln -sf ~/dotfiles/.config/picom/ ~/.config/
+cp -r ~/dotfiles/.config/picom ~/.config
 
 echo ".------------------------------------------------."
 echo "|               tmux tpm plugin                  |"
@@ -187,13 +187,13 @@ echo ".------------------------------------------------."
 echo "|                 Config tmux                    |"
 echo "'------------------------------------------------'"
 rm -rf ~/.tmux.conf
-ln -sf ~/dotfiles/.tmux.conf ~
+cp ~/dotfiles/.tmux.conf ~
 
 echo ".------------------------------------------------."
 echo "|               Configure Alacritty              |"
 echo "'------------------------------------------------'"
 rm -rf ~/.config/alacritty
-ln -sf ~/dotfiles/.config/alacritty/ ~/.config/
+cp -r ~/dotfiles/.config/alacritty ~/.config
 
 echo ".------------------------------------------------."
 echo "|                Install Go                      |"
