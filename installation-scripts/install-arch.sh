@@ -38,6 +38,7 @@ y)
 	echo "you chose NO"
 	;;
 esac
+chsh -s "$(which zsh)"
 
 echo ".------------------------------------------------."
 echo "|               create config files              |"

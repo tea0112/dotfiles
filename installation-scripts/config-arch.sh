@@ -9,8 +9,6 @@ rm -rf ~/.zprofile
 cp ~/dotfiles/.zshrc ~
 cp ~/dotfiles/.zprofile ~
 
-chsh -s "$(which zsh)"
-
 echo ".------------------------------------------------."
 echo "|                     tmuxp                      |"
 echo "'------------------------------------------------'"

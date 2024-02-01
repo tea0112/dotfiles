@@ -277,7 +277,7 @@ for_window [class="gnome-calculator" instance="gnome-calculator"] floating enabl
 
 # gaps
 for_window [class="^.*"] border pixel 5
-gaps inner 15
+gaps inner 10
 gaps outer 0
 
 bindsym $mod+8 exec ~/.config/polybar/launch.sh
