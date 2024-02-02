@@ -3,7 +3,7 @@
 echo '.---------------------.'
 echo '|     nvim status     |'
 echo '.---------------------.'
-cd ~/.config/nvim || exit
+cd ~/dotfiles/.config/nvim || exit
 git status
 echo '.---------------------.'
 echo '|   dotfiles status   |'
