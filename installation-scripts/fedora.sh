@@ -13,4 +13,4 @@ y)
 *) ;;
 esac
 
-sudo dnf install zsh eza neovim zoxide make automake gcc gcc-c++ kernel-devel mpv gnome-tweaks ripgrep
+sudo dnf install zsh eza neovim zoxide make automake gcc gcc-c++ kernel-devel mpv gnome-tweaks ripgrep qbittorrent okular neofetch htop
