@@ -19,7 +19,7 @@ mkdir -p ~/.local/bin
 #esac
 
 echo "_____________________________________________________"
-read -p "Generate en_US.UTF-8?" confirm
+read -r -p "Generate en_US.UTF-8?" confirm
 case $confirm in
 y)
 	sudo locale-gen "en_US.UTF-8"
@@ -70,7 +70,6 @@ echo "_____________________________________________________"
 read -p "Install essential package for WSL Ubuntu?" confirm
 case $confirm in
 y)
-	sudo add-apt-repository ppa:aslatter/ppa -y
 	sudo apt install libcanberra-gtk-module libcanberra-gtk3-module pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find ripgrep python3-pip python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel gettext fzf libxcb-cursor0 xdotool ripgrep vim -y
 	;;
 *)
@@ -78,9 +77,8 @@ y)
 	;;
 esac
 
-
 echo "_____________________________________________________"
-read -p "Install essential package for Ubuntu?" confirm
+read -p "Install essential package for Ubuntu X11?" confirm
 case $confirm in
 y)
 	sudo add-apt-repository ppa:aslatter/ppa -y
