@@ -3,7 +3,20 @@
 mkdir ~/.config -p
 
 echo ".------------------------------------------------."
-echo "|                  starship                     |"
+echo "|                  ZSH as default                |"
+echo "'------------------------------------------------'"
+read -r -p "set zsh as default shell?" answer
+case $answer in
+y)
+	chsh -s $(which zsh)
+	;;
+*)
+	echo "you chose NO"
+	;;
+esac
+
+echo ".------------------------------------------------."
+echo "|                  starship                      |"
 echo "'------------------------------------------------'"
 read -r -p "Download and Install startship?" confirm
 case $confirm in
