@@ -70,7 +70,7 @@ echo "_____________________________________________________"
 read -p "Install essential package for WSL Ubuntu?" confirm
 case $confirm in
 y)
-	sudo apt install libcanberra-gtk-module libcanberra-gtk3-module pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find ripgrep python3-pip python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel gettext fzf libxcb-cursor0 xdotool ripgrep vim -y
+	sudo apt install libcanberra-gtk-module libcanberra-gtk3-module pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find ripgrep python3-pip python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel gettext fzf libxcb-cursor0 xdotool ripgrep vim tesseract-ocr-eng -y
 	;;
 *)
 	echo "you chose NO"
