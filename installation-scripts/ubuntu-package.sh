@@ -30,6 +30,22 @@ y)
 esac
 
 echo "_____________________________________________________"
+read -p "Install essential package for Kubuntu X11?" confirm
+case $confirm in
+y)
+	sudo add-apt-repository ppa:aslatter/ppa -y
+	sudo apt install vim vim-gtk gcc curl git extra-cmake-modules libcanberra-gtk-module libcanberra-gtk3-module alacritty pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel goldendict gettext fzf fonts-noto-color-emoji libxcb-cursor0 xdotool ripgrep vim flatpak -y
+
+	sudo apt install gnome-software-plugin-flatpak -y
+
+	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+	;;
+*)
+	echo "you chose NO"
+	;;
+esac
+
+echo "_____________________________________________________"
 read -p "Install package for i3wm dependencies?" confirm
 case $confirm in
 y)
@@ -70,7 +86,7 @@ echo "_____________________________________________________"
 read -p "Install essential package for WSL Ubuntu?" confirm
 case $confirm in
 y)
-	sudo apt install libcanberra-gtk-module libcanberra-gtk3-module pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find ripgrep python3-pip python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel gettext fzf libxcb-cursor0 xdotool ripgrep vim tesseract-ocr-eng -y
+	sudo apt install vim vim-gtk libcanberra-gtk-module libcanberra-gtk3-module pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find ripgrep python3-pip python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel gettext fzf libxcb-cursor0 xdotool ripgrep vim tesseract-ocr-eng -y
 	;;
 *)
 	echo "you chose NO"
@@ -82,7 +98,7 @@ read -p "Install essential package for Ubuntu X11?" confirm
 case $confirm in
 y)
 	sudo add-apt-repository ppa:aslatter/ppa -y
-	sudo apt install gcc curl git libcanberra-gtk-module libcanberra-gtk3-module gnome-tweaks gnome-shell-extension-manager alacritty pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel goldendict gettext fzf fonts-noto-color-emoji libxcb-cursor0 xdotool ripgrep vim gnome-clocks flatpak -y
+	sudo apt install vim vim-gtk gcc curl git libcanberra-gtk-module libcanberra-gtk3-module gnome-tweaks gnome-shell-extension-manager alacritty pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel goldendict gettext fzf fonts-noto-color-emoji libxcb-cursor0 xdotool ripgrep vim gnome-clocks flatpak -y
 
 	sudo apt install gnome-software-plugin-flatpak -y
 
@@ -98,7 +114,7 @@ read -p "Install essential package for Ubuntu Wayland?" confirm
 case $confirm in
 y)
 	sudo add-apt-repository ppa:aslatter/ppa -y
-	sudo apt install gcc curl git libcanberra-gtk-module libcanberra-gtk3-module gnome-tweaks gnome-shell-extension-manager alacritty pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find ripgrep python3-pip python3-pip python3-virtualenv python3-venv aria2 unzip build-essential zsh tmux goldendict gettext fzf fonts-noto-color-emoji ripgrep vim gnome-clocks flatpak -y
+	sudo apt install vim vim-gtk gcc curl git libcanberra-gtk-module libcanberra-gtk3-module gnome-tweaks gnome-shell-extension-manager alacritty pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find ripgrep python3-pip python3-pip python3-virtualenv python3-venv aria2 unzip build-essential zsh tmux goldendict gettext fzf fonts-noto-color-emoji ripgrep vim gnome-clocks flatpak -y
 
 	sudo apt install gnome-software-plugin-flatpak -y
 
@@ -114,7 +130,7 @@ read -p "Install essential package for Xubuntu?" confirm
 case $confirm in
 y)
 	sudo add-apt-repository ppa:aslatter/ppa -y
-	sudo apt install gcc curl git libcanberra-gtk-module libcanberra-gtk3-module alacritty pandoc poppler-utils ffmpeg ripgrep jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel goldendict gettext fzf fonts-noto-color-emoji libxcb-cursor0 xdotool ripgrep vim gnome-clocks flatpak -y
+	sudo apt install vim vim-gtk gcc curl git libcanberra-gtk-module libcanberra-gtk3-module alacritty pandoc poppler-utils ffmpeg ripgrep jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential zsh tmux xsel goldendict gettext fzf fonts-noto-color-emoji libxcb-cursor0 xdotool ripgrep vim gnome-clocks flatpak -y
 
 	sudo apt install gnome-software-plugin-flatpak -y
 

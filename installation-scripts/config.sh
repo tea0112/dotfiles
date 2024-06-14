@@ -16,6 +16,12 @@ rm -rf ~/.config/tmuxp
 cp -r ~/dotfiles/.config/tmuxp ~/.config
 
 echo ".------------------------------------------------."
+echo "|                     vim                        |"
+echo "'------------------------------------------------'"
+rm -rf ~/.vimrc
+cp ~/dotfiles/.vimrc ~
+
+echo ".------------------------------------------------."
 echo "|                     clangd                     |"
 echo "'------------------------------------------------'"
 rm -rf ~/.config/clangd
