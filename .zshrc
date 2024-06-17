@@ -241,3 +241,7 @@ add-zsh-hook chpwd load-nvmrc
 load-nvmrc
 
 setopt rmstarsilent
+
+if [ ! -f "~/.local_startup_script.sh" ]; then
+    source ~/.local_startup_script.sh
+fi
