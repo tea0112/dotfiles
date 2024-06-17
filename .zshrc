@@ -242,6 +242,6 @@ load-nvmrc
 
 setopt rmstarsilent
 
-if [ ! -f "~/.local_startup_script.sh" ]; then
-    source ~/.local_startup_script.sh
+if [ ! -f "~/.custom_environment.sh" ]; then
+    source ~/.custom_environment.sh
 fi
