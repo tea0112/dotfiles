@@ -1,0 +1,14 @@
+Host github-tea0112
+    IgnoreUnknown AddKeysToAgent,UseKeychain
+    AddKeysToAgent yes
+    UseKeychain yes
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/github-tea0112_rsa
+Host azure-zlp
+    IgnoreUnknown AddKeysToAgent,UseKeychain
+    AddKeysToAgent yes
+    UseKeychain yes
+    HostName ssh.dev.azure.com
+    User git
+    IdentityFile ~/.ssh/zlp-rsa
