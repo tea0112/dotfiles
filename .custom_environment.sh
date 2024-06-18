@@ -5,5 +5,5 @@ chmod 600 ~/.ssh/*
 
 if [ -z "$SSH_AGENT_PID" ]; then
     eval $(ssh-agent -s)
-    ssh-add -K ~/.ssh/github-tea0112 ~/.ssh/zlp_rsa
+    ssh-add ~/.ssh/github-tea0112 ~/.ssh/zlp_rsa
 fi
