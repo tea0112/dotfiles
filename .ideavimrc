@@ -6,5 +6,6 @@ nmap <c-w>c :bd<cr>
 map F <Plug>(easymotion-F)
 map f <Plug>(easymotion-f)
 
+set relativenumber
 set ignorecase
 set easymotion
