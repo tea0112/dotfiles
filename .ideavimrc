@@ -3,8 +3,14 @@ let mapleader=" "
 inoremap jk <esc>
 
 nmap <c-w>c :bd<cr>
+nmap <leader>e <action>(EditorCopy)<esc>
+nmap <leader>r <action>(EditorPaste)
+
 map F <Plug>(easymotion-F)
 map f <Plug>(easymotion-f)
+
+vmap <leader>e <action>(EditorCopy)<esc>
+vmap <leader>r <action>(EditorPaste)
 
 set relativenumber
 set ignorecase
