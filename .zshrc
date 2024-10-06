@@ -158,6 +158,7 @@ alias tmx="tmuxinator"
 alias rf="bash ~/dotfiles/installation-scripts/config.sh"
 alias spd="tmux new -d -s spoof 'spoof-dpi --port 56789'"
 alias py="python3"
+alias n="nvim ."
 
 export DISABLE_AUTO_TITLE='true'
 export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
