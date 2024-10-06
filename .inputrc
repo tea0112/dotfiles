@@ -5,6 +5,5 @@ set vi-cmd-mode-string \1\e[2 q\2
 
 set keymap vi-insert
 "jk": vi-movement-mode
+"\C-L": clear-screen
 #"kj": vi-movement-mode
-
-
