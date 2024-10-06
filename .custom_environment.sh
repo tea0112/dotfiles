@@ -4,6 +4,7 @@
 # go1.21.0 download
 # go1.21.0 version
 alias go="go1.21.0"
+alias makegen="go generate ./..."
 
 export PGPASSWD=Postgres!23456
 export PGUSER=postgres
