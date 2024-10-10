@@ -5,6 +5,7 @@ inoremap jk <esc>
 nmap <c-w>c :bd<cr>
 nmap <leader>e <action>(EditorCopy)<esc>
 nmap <leader>r <action>(EditorPaste)
+nmap <c-l> :set hlsearch!<cr>
 
 map F <Plug>(easymotion-F)
 map f <Plug>(easymotion-f)
