@@ -51,9 +51,11 @@ style = "Italic"
 family = "CaskaydiaCove Nerd Font"
 style = "Regular"
 
-[shell]
+[terminal.shell]
 program = "/usr/bin/zsh"
 
 [window]
 opacity = 0.95
 blur = true
+
+[terminal]
