@@ -12,4 +12,3 @@ vmap <leader>r <action>(EditorPaste)
 
 set relativenumber
 set ignorecase
-set easymotion
