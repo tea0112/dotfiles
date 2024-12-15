@@ -3,12 +3,8 @@ let mapleader=" "
 inoremap jk <esc>
 
 nmap <c-w>c :bd<cr>
-nmap <leader>e <action>(EditorCopy)<esc>
-nmap <leader>r <action>(EditorPaste)
 nmap <c-l> :set hlsearch!<cr>
-
-vmap <leader>e <action>(EditorCopy)<esc>
-vmap <leader>r <action>(EditorPaste)
+nmap <leader>ff :action RecentFiles<CR>
 
 set relativenumber
 set ignorecase
