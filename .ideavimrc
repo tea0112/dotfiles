@@ -4,7 +4,6 @@ inoremap jk <esc>
 
 nmap <c-w>c :bd<cr>
 nmap <c-l> :set hlsearch!<cr>
-nmap <leader>ff :action RecentFiles<CR>
 
 set relativenumber
 set ignorecase
