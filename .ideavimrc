@@ -5,5 +5,7 @@ inoremap jk <esc>
 nmap <c-w>c :bd<cr>
 nmap <c-l> :set hlsearch!<cr>
 
+vnoremap x "xx
+
 set relativenumber
 set ignorecase
