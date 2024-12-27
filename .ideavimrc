@@ -5,6 +5,9 @@ inoremap jk <esc>
 nmap <c-w>c :bd<cr>
 nmap <c-l> :set hlsearch!<cr>
 
+nnoremap <c-e> 2<c-e>
+nnoremap <c-y> 2<c-y>
+
 vnoremap x "xx
 
 set relativenumber
