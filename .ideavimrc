@@ -7,6 +7,7 @@ nmap <c-l> :set hlsearch!<cr>
 
 nnoremap <c-e> 2<c-e>
 nnoremap <c-y> 2<c-y>
+nnoremap <leader>aa ggVG
 
 vnoremap x "xx
 
