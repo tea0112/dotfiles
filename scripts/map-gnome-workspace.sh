@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Please also remove keyboard shortcut 'Hide all normal windows (Super+d)', 'Show the overview (super+s)', "
+
 for i in $(seq 1 9); do gsettings set org.gnome.shell.keybindings switch-to-application-${i} '[]'; done
 
 #for i in $(seq 1 10); do gsettings set org.gnome.shell.extensions.dash-to-dock app-hotkey-${i} '[]'; done
