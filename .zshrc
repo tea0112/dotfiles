@@ -159,6 +159,7 @@ alias rf="bash ~/dotfiles/installation-scripts/config.sh"
 alias spd="tmux new -d -s spoof 'spoof-dpi --port 56789'"
 alias py="python3"
 alias n="nvim ."
+alias gvm="~/dotfiles/scripts/switch_go.sh"
 
 export DISABLE_AUTO_TITLE='true'
 export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
@@ -171,8 +172,6 @@ export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
 export EDITOR=nvim
-export GOPATH=$HOME/go
-export GOBIN=$HOME/go/bin
 export JAVA_HOME=$(readlink -f /usr/bin/java | cut -d/ -f1-5)
 export MAVEN_HOME=/opt/maven
 export M2_HOME=/opt/maven
@@ -189,7 +188,7 @@ export LIBVIRT_DEFAULT_URI=qemu:///system
 export MANPAGER='nvim +Man!'
 export MANWIDTH=999
 
-export PATH=$PATH:~/.local/bin:~/.cargo/bin:$(go env GOPATH)/bin
+export PATH=$PATH:~/.local/bin:~/.cargo/bin
 export PATH=$PATH:/usr/sbin
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:$HOME/.local/share/nvim/mason/bin
@@ -248,4 +247,7 @@ setopt rmstarsilent
 
 if [ ! -f "~/.custom_environment.sh" ]; then
     source ~/.custom_environment.sh
+fi
+if [ -f ~/.go/current_version ]; then
+    source ~/.go/current_version
 fi
