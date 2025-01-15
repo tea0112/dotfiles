@@ -172,6 +172,7 @@ export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
 export EDITOR=nvim
 export GOPATH=$HOME/go
+export GOBIN=$HOME/go/bin
 export JAVA_HOME=$(readlink -f /usr/bin/java | cut -d/ -f1-5)
 export MAVEN_HOME=/opt/maven
 export M2_HOME=/opt/maven
