@@ -189,11 +189,11 @@ export LIBVIRT_DEFAULT_URI=qemu:///system
 export MANPAGER='nvim +Man!'
 export MANWIDTH=999
 
-export PATH=$PATH:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$GOROOT/bin:$GOPATH/bin
+export PATH=$PATH:~/.local/bin:~/.cargo/bin:$(go env GOPATH)/bin
 export PATH=$PATH:/usr/sbin
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:$HOME/.local/share/nvim/mason/bin
-export PATH=/home/thai/anaconda3/bin:$PATH
+export PATH=$PATH:$HOME/anaconda3/bin
 export PATH=$PATH:$MAVEN_HOME/bin
 export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:/opt/ripgrep_all
