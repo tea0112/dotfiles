@@ -11,6 +11,11 @@ export PGPORT=5432
 export PGDB=postgres
 export GOPRIVATE=dev.azure.com
 
+gocmd='go'
+lastest_go_version='1.23.4'
+golatestcmd="${gocmd}${golatestcmd}"
+current_version="${lastest_go_version}"
+
 goalias() {
     # Function to display the menu
     show_menu() {
@@ -26,11 +31,13 @@ goalias() {
         1)
             echo "You chose go 1.21.0 version"
             eval 'alias go="go1.21.0"' # Set the alias
+            current_version='1.21.0'
             go version
             ;;
         2)
             echo "You chose go 1.23.4 version"
             eval 'alias go="go1.23.4"' # Set the alias
+            current_version='1.23.4'
             go version
             ;;
         3)
@@ -52,4 +59,12 @@ goalias() {
 
     # Handle the selected option
     handle_option "$choice"
+}
+
+makelint() {
+    eval 'alias go="go1.23.4"' # Set the alias
+    echo 'run lint with go version 1.23.4'
+    golangci-lint run
+    eval 'alias go="go${current_version}"' # Set the alias
+    echo "return go version ${current_version}"
 }
