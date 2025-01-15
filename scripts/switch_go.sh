@@ -1,5 +1,22 @@
 #!/bin/bash
 
+# Before run this
+# Download the required Go versions:
+#     wget https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
+#     wget https://go.dev/dl/go1.23.4.linux-amd64.tar.gz
+# Extract them to separate directories:
+#     mkdir -p ~/.go/versions
+#     wget https://go.dev/dl/go1.21.0.linux-amd64.tar.gz -O ~/.go/versions/go1.21.0.tar.gz
+#     wget https://go.dev/dl/go1.23.4.linux-amd64.tar.gz -O ~/.go/versions/go1.23.4.tar.gz
+#     
+#     tar -C ~/.go/versions -xzf ~/.go/versions/go1.21.0.tar.gz
+#     mv ~/.go/versions/go ~/.go/versions/go1.21.0
+#     
+#     tar -C ~/.go/versions -xzf ~/.go/versions/go1.23.4.tar.gz
+#     mv ~/.go/versions/go ~/.go/versions/go1.23.4
+#     
+#     rm -rf ~/.go/versions/go1.21.0.tar.gz ~/.go/versions/go1.23.4.tar.gz
+
 # Function to clean up existing Go paths from PATH
 clean_go_path() {
     export PATH="$(echo "$PATH" | sed -e 's|:[^:]*/go/bin||g' -e 's|^[^:]*/go/bin:||')"
