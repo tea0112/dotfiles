@@ -8,14 +8,15 @@ nmap <c-l> :set hlsearch!<cr>
 nnoremap <c-e> 2<c-e>
 nnoremap <c-y> 2<c-y>
 nnoremap <leader>aa ggVG
-nnoremap <leader>zx "xP
-nnoremap <leader>zc "0P
 nnoremap <leader>as "xp
 nnoremap <leader>ad "0p
 
 vnoremap x "xx
-vnoremap <c-k> "0p
-vnoremap <c-l> "xp
+vnoremap <c-k> "xp
+vnoremap <c-l> "0p
+
+inoremap <c-k> <c-r>x
+inoremap <c-l> <c-r>0
 
 set relativenumber
 set ignorecase
