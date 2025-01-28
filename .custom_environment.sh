@@ -9,4 +9,4 @@ export PGPASSWD=Postgres!23456
 export PGUSER=postgres
 export PGPORT=5432
 export PGDB=postgres
-export GOPRIVATE=dev.azure.com
+# export GOPRIVATE=dev.azure.com
