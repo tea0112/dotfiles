@@ -187,6 +187,7 @@ export SHELL=/usr/bin/zsh
 export LIBVIRT_DEFAULT_URI=qemu:///system
 export MANPAGER='nvim +Man!'
 export MANWIDTH=999
+export NVM_SYMLINK_CURRENT=true
 
 export PATH=$PATH:~/.local/bin:~/.cargo/bin
 export PATH=$PATH:/usr/sbin
