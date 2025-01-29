@@ -9,7 +9,13 @@ y)
 	sudo dnf groupupdate core
 	sudo dnf config-manager --set-enabled fedora-cisco-openh264
 	sudo dnf install gstreamer1-plugin-openh264 mozilla-openh264
-	sudo dnf install @development-tools alacritty cmake zsh eza zoxide automake gcc gcc-c++ kernel-devel mpv gnome-tweaks ripgrep qbittorrent okular audacity htop vlc vim
+	sudo dnf install @development-tools alacritty cmake zsh eza zoxide automake gcc gcc-c++ kernel-devel mpv gnome-tweaks ripgrep qbittorrent okular audacity htop vlc vim psql postgresql-contrib postgresql
+    sudo dnf -y install dnf-plugins-core
+    sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+    sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+    sudo systemctl enable --now docker
+    sudo usermod -aG docker "$USER"
 	;;
 *)
 	echo "you chose NO"
