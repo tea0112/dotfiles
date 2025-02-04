@@ -188,6 +188,7 @@ export LIBVIRT_DEFAULT_URI=qemu:///system
 export MANPAGER='nvim +Man!'
 export MANWIDTH=999
 export NVM_SYMLINK_CURRENT=true
+export VOLTA_HOME=$HOME/.volta
 
 export PATH=$PATH:~/.local/bin:~/.cargo/bin
 export PATH=$PATH:/usr/sbin
@@ -199,6 +200,7 @@ export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:/opt/ripgrep_all
 export PATH=$PATH:/opt/cmake/bin
 export PATH=$PATH:$HOME/.local/share/JetBrains/Toolbox/apps/goland/bin
+export PATH=$PATH:$VOLTA_HOME/bin
 
 # nnn configuration
 export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'
