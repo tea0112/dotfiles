@@ -160,6 +160,7 @@ alias spd="tmux new -d -s spoof 'spoof-dpi --port 56789'"
 alias py="python3"
 alias n="nvim ."
 alias gvm="~/dotfiles/scripts/switch_go.sh"
+alias cursor="~/Apps/cursor/cursor.AppImage --no-sandbox"
 
 export DISABLE_AUTO_TITLE='true'
 export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
