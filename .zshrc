@@ -203,6 +203,7 @@ export PATH=$PATH:/opt/cmake/bin
 export PATH=$PATH:$HOME/.local/share/JetBrains/Toolbox/apps/goland/bin
 export PATH=$PATH:$VOLTA_HOME/bin
 export PATH=$PATH:/usr/pgsql-17/bin/
+export PATH=$PATH:$HOME/Apps/sonar-scanner/bin
 
 # nnn configuration
 export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'
