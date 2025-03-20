@@ -259,3 +259,9 @@ fi
 # if [ -f ~/.go/current_version ]; then
 #     source ~/.go/current_version
 # fi
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f "$HOME/Apps/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/Apps/google-cloud-sdk/path.zsh.inc"; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f "$HOME/Apps/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/Apps/google-cloud-sdk/completion.zsh.inc"; fi
