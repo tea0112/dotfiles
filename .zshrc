@@ -265,3 +265,6 @@ if [ -f "$HOME/Apps/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/Apps/google-
 
 # The next line enables shell command completion for gcloud.
 if [ -f "$HOME/Apps/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/Apps/google-cloud-sdk/completion.zsh.inc"; fi
+
+[ -s "${HOME}/.g/env" ] && \. "${HOME}/.g/env"  # g shell setup
+
