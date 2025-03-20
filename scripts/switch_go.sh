@@ -28,6 +28,7 @@ show_menu() {
     echo "Please choose an option:"
     echo "1) Set alias go cmd to go 1.21.0"
     echo "2) Set alias go cmd to go 1.23.4"
+    echo "2) Set alias go cmd to go 1.24.0"
     echo "3) Exit"
 }
 
@@ -43,6 +44,10 @@ handle_option() {
         current_version='go1.23.4'
         ;;
     3)
+        echo "You chose go 1.24.0 version"
+        current_version='go1.24.0'
+        ;;
+    4)
         echo "Exiting..."
         exit 0
         ;;
@@ -63,12 +68,21 @@ read choice
 handle_option "$choice"
 
 # Set the new Go version
+gopath=path${current_version}
+mkdir -p "$HOME/.go/${gopath}"
 export GOROOT="${HOME}/.go/versions/${current_version}"
 export PATH=$GOROOT/bin:$PATH
+export GOPATH="$HOME/.go/${gopath}"
+export PATH=$PATH:${gopath}/bin
 
 # Save the selected version to a file
 echo "export GOROOT=~/.go/versions/${current_version}" >~/.go/current_version
 echo "export PATH=\$GOROOT/bin:\$PATH" >>~/.go/current_version
+echo "export GOPATH=\$HOME/.go/${gopath}" >>~/.go/current_version
+echo "export PATH=$PATH:${gopath}/bin" >>~/.go/current_version
+
+
+cat ~/.go/current_version
 
 # Verify the switch
 echo "Switched to Go version: ${current_version}"

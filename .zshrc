@@ -191,6 +191,8 @@ export MANPAGER='nvim +Man!'
 export MANWIDTH=999
 export NVM_SYMLINK_CURRENT=true
 
+export GOPATH=$HOME/go
+
 export PATH=$PATH:~/.local/bin:~/.cargo/bin
 export PATH=$PATH:/usr/sbin
 export PATH=$PATH:/usr/local/bin
@@ -203,6 +205,7 @@ export PATH=$PATH:/opt/cmake/bin
 export PATH=$PATH:$HOME/.local/share/JetBrains/Toolbox/apps/goland/bin
 export PATH=$PATH:/usr/pgsql-17/bin/
 export PATH=$PATH:$HOME/Apps/sonar-scanner/bin
+export PATH="$PATH:$GOPATH/bin"
 
 # nnn configuration
 export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'
@@ -253,6 +256,6 @@ setopt rmstarsilent
 if [ ! -f "~/.custom_environment.sh" ]; then
     source ~/.custom_environment.sh
 fi
-if [ -f ~/.go/current_version ]; then
-    source ~/.go/current_version
-fi
+# if [ -f ~/.go/current_version ]; then
+#     source ~/.go/current_version
+# fi
