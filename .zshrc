@@ -174,7 +174,7 @@ export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
 export EDITOR=nvim
-export JAVA_HOME=$(readlink -f /usr/bin/java | cut -d/ -f1-5)
+# export JAVA_HOME=$(readlink -f /usr/bin/java | cut -d/ -f1-5)
 export MAVEN_HOME=/opt/maven
 export M2_HOME=/opt/maven
 export PAGER=less
@@ -199,7 +199,7 @@ export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:$HOME/.local/share/nvim/mason/bin
 export PATH=$PATH:$HOME/anaconda3/bin
 export PATH=$PATH:$MAVEN_HOME/bin
-export PATH=$PATH:$JAVA_HOME/bin
+# export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:/opt/ripgrep_all
 export PATH=$PATH:/opt/cmake/bin
 export PATH=$PATH:$HOME/.local/share/JetBrains/Toolbox/apps/goland/bin
