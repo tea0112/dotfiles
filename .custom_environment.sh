@@ -12,12 +12,27 @@ export PGDB=postgres
 # export GOPRIVATE=dev.azure.com
 #
 
-if [ -z "${JAVA_HOME}" ]
-then
-    JAVA_HOME=$(readlink -nf $(which java) | xargs dirname | xargs dirname)
-    if [ ! -e "$JAVA_HOME" ]
-    then
-        JAVA_HOME=""
-    fi
-    export JAVA_HOME=$JAVA_HOME
+# Get Java executable path
+JAVA_PATH=$(which java)
+if [ -z "$JAVA_PATH" ]; then
+    echo "Error: Java not found in PATH"
+    exit 1
 fi
+
+# Get the real path of the Java executable
+JAVA_REALPATH=$(readlink -f "$JAVA_PATH")
+if [ -z "$JAVA_REALPATH" ]; then
+    echo "Error: Could not resolve the real path of Java"
+    exit 1
+fi
+
+# Extract JAVA_HOME by removing "/bin/java" from the path
+JAVA_HOME=${JAVA_REALPATH%/bin/java}
+if [ -z "$JAVA_HOME" ]; then
+    echo "Error: Could not determine JAVA_HOME"
+    exit 1
+fi
+
+# Export JAVA_HOME
+export JAVA_HOME
+echo "JAVA_HOME set to: $JAVA_HOME"
