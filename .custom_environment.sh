@@ -35,4 +35,4 @@ fi
 
 # Export JAVA_HOME
 export JAVA_HOME
-echo "JAVA_HOME set to: $JAVA_HOME"
+# echo "JAVA_HOME set to: $JAVA_HOME"
