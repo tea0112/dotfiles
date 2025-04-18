@@ -10,7 +10,7 @@ export PGUSER=postgres
 export PGPORT=5432
 export PGDB=postgres
 # export GOPRIVATE=dev.azure.com
-#
+export GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/application_default_credentials.json
 
 # Get Java executable path
 JAVA_PATH=$(which java)
