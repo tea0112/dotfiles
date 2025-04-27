@@ -5,6 +5,11 @@ inoremap jk <esc>
 nmap <c-w>c :bd<cr>
 nmap <c-l> :set hlsearch!<cr>
 
+nnoremap <A-h> <c-w>h
+nnoremap <A-j> <c-w>j
+nnoremap <A-k> <c-w>k
+nnoremap <A-l> <c-w>l
+
 nnoremap <c-e> 2<c-e>
 nnoremap <c-y> 2<c-y>
 nnoremap <leader>aa ggVG
