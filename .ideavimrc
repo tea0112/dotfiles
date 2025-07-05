@@ -25,3 +25,5 @@ inoremap <c-l> <c-r>0
 
 set relativenumber
 set ignorecase
+set visualbell
+set noerrorbells
