@@ -163,6 +163,7 @@ alias gvm="~/dotfiles/scripts/switch_go.sh"
 alias cursor="~/Apps/cursor/cursor.AppImage --no-sandbox"
 alias sl='git stash list --pretty=format:"%gd - %ci - %s"'
 alias gsa='git fetch --all'
+alias killports='~/dotfiles/scripts/kill_ports.sh'
 
 export DISABLE_AUTO_TITLE='true'
 export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
