@@ -192,6 +192,7 @@ export LIBVIRT_DEFAULT_URI=qemu:///system
 export MANPAGER='nvim +Man!'
 export MANWIDTH=999
 export NVM_SYMLINK_CURRENT=true
+export MEMORY_FILE_PATH=~/common-mcp/server-memory.json
 
 export GOPATH=$HOME/go
 
