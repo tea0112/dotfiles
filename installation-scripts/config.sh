@@ -118,3 +118,10 @@ cp ~/dotfiles/.tmux.conf ~
 # echo "'------------------------------------------------'"
 # rm -rf ~/.config/alacritty
 # cp -r ~/dotfiles/.config/alacritty ~/.config
+
+echo ".------------------------------------------------."
+echo "|                 Config go tools                |"
+echo "'------------------------------------------------'"
+rm -rf ~/go-tools
+cp -r ~/dotfiles/go-tools ~
+
