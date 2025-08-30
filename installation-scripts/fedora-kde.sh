@@ -11,7 +11,7 @@ y)
 	sudo dnf install gstreamer1-plugin-openh264 mozilla-openh264
 	sudo dnf install zsh
 	sudo dnf copr enable alternateved/eza
-	sudo dnf install @development-tools alacritty cmake eza zoxide automake gcc gcc-c++ kernel-devel mpv ripgrep qbittorrent okular audacity htop vlc vim psql postgresql-contrib postgresql
+	sudo dnf install @development-tools alacritty cmake eza zoxide automake gcc gcc-c++ kernel-devel mpv ripgrep qbittorrent okular audacity htop vlc vim psql postgresql-contrib postgresql goldendict
     sudo dnf -y install dnf-plugins-core
     sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
     sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
