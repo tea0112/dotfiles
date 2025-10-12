@@ -276,3 +276,7 @@ fi
 
 [ -s "${HOME}/.g/env" ] && \. "${HOME}/.g/env"  # g shell setup
 
+
+# Gradle Environment Variables
+export GRADLE_HOME=/opt/gradle/gradle-8.8
+export PATH=${GRADLE_HOME}/bin:${PATH}
