@@ -169,7 +169,6 @@ export DISABLE_AUTO_TITLE='true'
 export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
 export XDG_DATA_DIRS="$HOME/.local/share/flatpak/exports/share:$XDG_DATA_DIRS"
 export ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
-export EDITOR='nvim'
 export VISUAL='nvim'
 export TERM='xterm-256color'
 export GTK_IM_MODULE=ibus
