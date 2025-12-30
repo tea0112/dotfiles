@@ -6,8 +6,10 @@ echo "'------------------------------------------------'"
 # ZSH_CUSTOM=~/.oh-my-zsh/custom
 rm -rf ~/.zshrc
 rm -rf ~/.zprofile
+rm -rf ~/.inputrc
 cp ~/dotfiles/.zshrc ~
 cp ~/dotfiles/.zprofile ~
+cp ~/dotfiles/.inputrc ~
 
 echo ".------------------------------------------------."
 echo "|                     tmuxp                      |"
