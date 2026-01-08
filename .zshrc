@@ -259,9 +259,9 @@ setopt rmstarsilent
 if [ ! -f "~/.custom_environment.sh" ]; then
     source ~/.custom_environment.sh
 fi
-# if [ -f ~/.go/current_version ]; then
-#     source ~/.go/current_version
-# fi
+if [ -f ~/.go/current_version ]; then
+    source ~/.go/current_version
+fi
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f "$HOME/Apps/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/Apps/google-cloud-sdk/path.zsh.inc"; fi
@@ -273,9 +273,6 @@ if [ -f "$HOME/Apps/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/Apps/g
 if [[ -n $(alias g 2>/dev/null) ]]; then
     unalias g
 fi
-
-[ -s "${HOME}/.g/env" ] && \. "${HOME}/.g/env"  # g shell setup
-
 
 # Gradle Environment Variables
 export GRADLE_HOME=/opt/gradle/gradle-8.8
