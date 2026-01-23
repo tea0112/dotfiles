@@ -1,5 +1,23 @@
 #!/bin/bash
 
+install_bloop() {
+	CS_BIN_DIR="/home/${USER}/.local/share/coursier/bin"
+	CS_LAUNCHER="/tmp/cs"
+
+	sudo dnf install -y curl gzip
+	curl -fLo "${CS_LAUNCHER}.gz" https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz
+	gunzip -f "${CS_LAUNCHER}.gz"
+	chmod +x "${CS_LAUNCHER}"
+	"${CS_LAUNCHER}" install bloop --force
+
+	if [ -x "${CS_BIN_DIR}/bloop" ]; then
+		"${CS_BIN_DIR}/bloop" --version || true
+	elif command -v bloop >/dev/null 2>&1; then
+		bloop --version || true
+	fi
+	echo "Installed/updated bloop to ${CS_BIN_DIR}"
+}
+
 echo "_____________________________________________________"
 read -r -p "Do you want to install Fedora essential packages?[y]" confirm
 case $confirm in
@@ -47,6 +65,17 @@ y)
 	source "/home/${USER}/.cargo/env"
 
 	cargo install --locked ripgrep_all
+	;;
+*)
+	echo "you chose NO"
+	;;
+esac
+
+echo "_____________________________________________________"
+read -r -p "Install Bloop (Scala build server, via Coursier)?[y]" confirm
+case $confirm in
+y)
+	install_bloop
 	;;
 *)
 	echo "you chose NO"

@@ -196,7 +196,7 @@ export MEMORY_FILE_PATH=~/common-mcp/server-memory.json
 
 export GOPATH=$HOME/go
 
-export PATH=$PATH:~/.local/bin:~/.cargo/bin
+export PATH=$PATH:~/.local/bin:~/.cargo/bin:$HOME/.local/share/coursier/bin
 export PATH=$PATH:/usr/sbin
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:$HOME/.local/share/nvim/mason/bin
