@@ -127,3 +127,16 @@ echo "'------------------------------------------------'"
 rm -rf ~/go-tools
 cp -r ~/dotfiles/go-tools ~
 
+echo ".------------------------------------------------."
+echo "|              Configure git hooks               |"
+echo "'------------------------------------------------'"
+hooks_path=$(git config --global core.hooksPath)
+if [[ -z "$hooks_path" ]]; then
+	hooks_path=~/.config/git/hooks
+	git config --global core.hooksPath "$hooks_path"
+fi
+mkdir -p "$hooks_path"
+if [[ ! -f "$hooks_path/pre-push" ]]; then
+	cp ~/dotfiles/pre-push "$hooks_path/pre-push"
+	chmod +x "$hooks_path/pre-push"
+fi

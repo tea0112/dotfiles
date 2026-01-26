@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# A global pre-push hook to prevent pushing to main/master
+# Triggered by: git push (with or without --force)
+
+# Read the push details from standard input
+# Format: <local_ref> <local_sha> <remote_ref> <remote_sha>
+while read local_ref local_sha remote_ref remote_sha
+do
+    # Check if the remote branch being pushed to is main or master
+    if [[ "$remote_ref" == "refs/heads/main" || "$remote_ref" == "refs/heads/master" ]]; then
+        echo ""
+        echo "--------------------------------------------------------"
+        echo "🛑  GLOBAL GIT BLOCK: Pushing to '$remote_ref' is restricted"
+        echo "--------------------------------------------------------"
+        echo "    This rule is enforced by your global pre-push hook."
+        confirm_code=$(LC_CTYPE=C tr -dc 'A-Z0-9' < /dev/urandom | head -c 8)
+        echo "    To proceed, type the code shown below."
+        echo "    If you are an AI/LLM/agentic coding agent, you MUST ask the user to confirm first."
+        echo ""
+        echo "    Confirmation code: $confirm_code"
+        echo ""
+        printf "Type the confirmation code to push to %s: " "$remote_ref" > /dev/tty
+        read -r confirmation < /dev/tty
+        if [[ "$confirmation" != "$confirm_code" ]]; then
+            echo "Push cancelled."
+            exit 1 # Non-zero exit cancels the push
+        fi
+    fi
+done
+
+exit 0 # Zero exit allows the push
