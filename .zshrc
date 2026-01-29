@@ -164,6 +164,7 @@ alias cursor="~/Apps/cursor/cursor.AppImage --no-sandbox"
 alias sl='git stash list --pretty=format:"%gd - %ci - %s"'
 alias gsa='git fetch --all'
 alias killports='~/dotfiles/scripts/kill_ports.sh'
+alias open='xdg-open "$@" > /dev/null 2>&1'
 
 export DISABLE_AUTO_TITLE='true'
 export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"
