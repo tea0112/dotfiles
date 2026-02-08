@@ -1,3 +1,4 @@
+[colors.cursor]
 text = "#000000"        # Text inside the cursor becomes Black
 cursor = "#FF00FF"      # The cursor block becomes Neon Magenta
 
