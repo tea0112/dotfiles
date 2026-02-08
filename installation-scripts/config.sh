@@ -115,11 +115,11 @@ echo "'------------------------------------------------'"
 rm -rf ~/.tmux.conf
 cp ~/dotfiles/.tmux.conf ~
 
-# echo ".------------------------------------------------."
-# echo "|               Configure Alacritty              |"
-# echo "'------------------------------------------------'"
-# rm -rf ~/.config/alacritty
-# cp -r ~/dotfiles/.config/alacritty ~/.config
+echo ".------------------------------------------------."
+echo "|               Configure Alacritty              |"
+echo "'------------------------------------------------'"
+rm -rf ~/.config/alacritty
+cp -r ~/dotfiles/.config/alacritty ~/.config
 
 echo ".------------------------------------------------."
 echo "|                 Config go tools                |"
