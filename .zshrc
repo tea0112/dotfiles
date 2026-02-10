@@ -194,6 +194,10 @@ export MANPAGER='nvim +Man!'
 export MANWIDTH=999
 export NVM_SYMLINK_CURRENT=true
 export MEMORY_FILE_PATH=~/common-mcp/server-memory.json
+# di=1;34  : Directories -> Bold Blue (uses Alacritty's bright blue)
+# ow=30;42 : Other-Writable (777) -> Black text on Green background (High contrast)
+# tw=30;42 : Sticky-Writable -> Black text on Green background
+export LS_COLORS=$LS_COLORS:'di=1;34:ow=30;42:tw=30;42:'
 
 export GOPATH=$HOME/go
 
