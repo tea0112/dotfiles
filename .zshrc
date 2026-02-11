@@ -79,6 +79,8 @@ plugins=(
     zsh-vi-mode
 )
 
+export ZVM_SYSTEM_CLIPBOARD_ENABLED=true
+
 # [ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
 
 source $ZSH/oh-my-zsh.sh
