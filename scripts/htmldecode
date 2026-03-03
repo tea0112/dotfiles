@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Check if there is piped input or a command line argument
+if [ -p /dev/stdin ]; then
+    # Read from pipe
+    INPUT=$(cat)
+else
+    # Use arguments provided to the script
+    INPUT="$*"
+fi
+
+# Exit if input is empty
+if [ -z "$INPUT" ]; then
+    echo "Usage: htmldecode 'string' OR echo 'string' | htmldecode"
+    exit 1
+fi
+
+# Use Python to unescape the HTML entities
+echo "$INPUT" | python3 -c "import sys, html; print(html.unescape(sys.stdin.read().strip()))"

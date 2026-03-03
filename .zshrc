@@ -285,3 +285,25 @@ fi
 # Gradle Environment Variables
 export GRADLE_HOME=/opt/gradle/gradle-8.8
 export PATH=${GRADLE_HOME}/bin:${PATH}
+
+# HTML Decode wrapper
+htmldecode() {
+    # If arguments are passed, use them; otherwise, read from stdin
+    if [ $# -gt 0 ]; then
+        $HOME/dotfiles/scripts/htmldecode "$*"
+    else
+        $HOME/dotfiles/scripts/htmldecode
+    fi
+}
+
+urldecode() {
+    $HOME/dotfiles/scripts/urldecode "$@"
+}
+
+jsonmin() {
+    $HOME/dotfiles/scripts/jsonmin "$@"
+}
+
+jsonpretty() {
+    /home/vmo/dotfiles/scripts/jsonpretty "$@"
+}

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ -p /dev/stdin ]; then
+    INPUT=$(cat)
+else
+    INPUT="$*"
+fi
+
+if [ -z "$INPUT" ]; then
+    echo "Usage: urldecode 'string' OR echo 'string' | urldecode"
+    exit 1
+fi
+
+# Use Python's urllib to decode URL percent-encoding
+python3 -c "import sys, urllib.parse; print(urllib.parse.unquote(sys.stdin.read().strip()))" <<< "$INPUT"

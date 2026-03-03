@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Function to run the minification
+minify_json() {
+    python3 -c "import sys, json; print(json.dumps(json.load(sys.stdin), separators=(',', ':')))"
+}
+
+# 1. If a file is passed as an argument
+if [ -f "$1" ]; then
+    cat "$1" | minify_json
+# 2. If data is being piped or a Heredoc is used
+elif [ ! -t 0 ]; then
+    minify_json
+# 3. If a string was passed as an argument
+elif [ -n "$1" ]; then
+    echo "$1" | minify_json
+else
+    echo "Usage: jsonmin '{\"key\": \"value\"}' OR jsonmin file.json OR jsonmin << 'EOF' ..."
+    exit 1
+fi

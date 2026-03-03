@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Function to run the beautification
+beautify_json() {
+    # -m json.tool is a built-in Python module for pretty-printing
+    python3 -m json.tool --indent 2
+}
+
+# 1. If a file is passed as an argument
+if [ -f "$1" ]; then
+    cat "$1" | beautify_json
+# 2. If data is being piped or a Heredoc is used
+elif [ ! -t 0 ]; then
+    beautify_json
+# 3. If a string was passed as an argument (like a minified string)
+elif [ -n "$1" ]; then
+    echo "$1" | beautify_json
+else
+    echo "Usage: jsonpretty '{\"a\":1}' OR jsonpretty file.json OR cat file.json | jsonpretty"
+    exit 1
+fi
