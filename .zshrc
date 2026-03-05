@@ -307,3 +307,9 @@ jsonmin() {
 jsonpretty() {
     /home/vmo/dotfiles/scripts/jsonpretty "$@"
 }
+
+# GCS downloader
+gcs-download() {
+  bash ~/dotfiles/scripts/download_gcs.sh "$@"
+}
+
