@@ -77,9 +77,11 @@ plugins=(
 	zsh-autosuggestions
 	zsh-syntax-highlighting
     zsh-vi-mode
+    fzf
 )
 
 export ZVM_SYSTEM_CLIPBOARD_ENABLED=true
+export ZVM_LAZY_KEYBINDINGS=false
 
 # [ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
 
@@ -313,4 +315,12 @@ jsonpretty() {
 gcs-download() {
   bash ~/dotfiles/scripts/download_gcs.sh "$@"
 }
+
+# Re-bind CTRL-R for fzf AFTER zsh-vi-mode precmd hooks
+# Run after every prompt so zvm_init doesn't override our binding
+_zvm_fix_ctrl_r() {
+  bindkey -M viins '^R' fzf-history-widget 2>/dev/null
+}
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd _zvm_fix_ctrl_r
 
