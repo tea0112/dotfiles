@@ -81,6 +81,8 @@ plugins=(
 )
 
 export ZVM_SYSTEM_CLIPBOARD_ENABLED=true
+# Re-bind CTRL-R for fzf AFTER zsh-vi-mode precmd hooks
+# Run after every prompt so zvm_init doesn't override our binding
 export ZVM_LAZY_KEYBINDINGS=false
 
 # [ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
