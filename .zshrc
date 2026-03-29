@@ -324,3 +324,6 @@ _zvm_fix_ctrl_r() {
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _zvm_fix_ctrl_r
 
+# Redo in normal mode only (insert mode keeps CTRL-R for fzf)
+bindkey -M vicmd '^R' redo
+
