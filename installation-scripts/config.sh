@@ -144,5 +144,22 @@ fi
 echo ".------------------------------------------------."
 echo "|                 Config Opencode                 |"
 echo "'------------------------------------------------'"
-rm -rf ~/.config/opencode
-cp -r ~/dotfiles/.config/opencode ~/.config
+mkdir -p ~/.config/opencode
+rm -f ~/.config/opencode/AGENTS.md
+rm -f ~/.config/opencode/opencode.jsonc
+rm -f ~/.config/opencode/opencode-notifier.json
+rm -f ~/.config/opencode/minimax-wrapper.sh
+rm -f ~/.config/opencode/.custom_environment.example.sh
+rm -rf ~/.config/opencode/agents
+rm -rf ~/.config/opencode/commands
+rm -rf ~/.config/opencode/scripts
+rm -rf ~/.config/opencode/skills
+cp ~/dotfiles/.config/opencode/AGENTS.md ~/.config/opencode/
+cp ~/dotfiles/.config/opencode/opencode.jsonc ~/.config/opencode/
+cp ~/dotfiles/.config/opencode/opencode-notifier.json ~/.config/opencode/
+cp ~/dotfiles/.config/opencode/minimax-wrapper.sh ~/.config/opencode/
+cp ~/dotfiles/.config/opencode/.custom_environment.example.sh ~/.config/opencode/
+cp -r ~/dotfiles/.config/opencode/agents ~/.config/opencode/
+cp -r ~/dotfiles/.config/opencode/commands ~/.config/opencode/
+cp -r ~/dotfiles/.config/opencode/scripts ~/.config/opencode/
+cp -r ~/dotfiles/.config/opencode/skills ~/.config/opencode/
