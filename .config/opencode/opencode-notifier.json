@@ -1,0 +1,26 @@
+{
+  "sound": true,
+  "notification": true,
+  "timeout": 5,
+  "showProjectName": true,
+  "command": {
+    "enabled": true,
+    "path": "/usr/bin/notify-send",
+    "args": ["-u", "normal", "-t", "5000", "opencode", "{event}: {message}"],
+    "minDuration": 10
+  },
+  "events": {
+    "permission": { "sound": true, "notification": true },
+    "complete": { "sound": true, "notification": true },
+    "subagent_complete": { "sound": false, "notification": false },
+    "error": { "sound": true, "notification": true },
+    "question": { "sound": true, "notification": true }
+  },
+  "messages": {
+    "permission": "Session needs permission",
+    "complete": "Session has finished",
+    "subagent_complete": "Subagent task completed",
+    "error": "Session encountered an error",
+    "question": "Session has a question"
+  },
+}

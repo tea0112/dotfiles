@@ -1,0 +1,70 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode/gpt-5.3-codex",
+  "mcp": {
+    "MiniMax": {
+      "type": "local",
+      "command": ["bash", "-c", "$HOME/.config/opencode/minimax-wrapper.sh"],
+      "enabled": true
+    }
+  },
+  "plugin": [
+    "opencode-antigravity-auth@beta",
+    "@mohak34/opencode-notifier@latest"
+  ],
+  "autoupdate": true,
+  "provider": {
+    "openrouter": {
+      "models": {
+        "tngtech/tng-r1t-chimera:free": {
+          "name": "TNG: R1T Chimera (free)"
+        },
+        "z-ai/glm-4.5-air:free": {
+          "name": "Z.AI: GLM 4.5 Air (free)"
+        }
+      }
+    }
+  },
+  "permission": {
+    "bash": {
+      // Ask list
+      // "*": "ask",
+      "git commit *": "ask",
+      // Allow list
+      "ls *": "allow",
+      "head *": "allow",
+      "tail *": "allow",
+      "cat *": "allow",
+      "echo *": "allow",
+      "pwd": "allow",
+      "date": "allow",
+      "grep *": "allow",
+      "find *": "allow",
+      "wc *": "allow",
+      "jq *": "allow",
+      "go test *": "allow",
+      "go build *": "allow",
+      "go mod tidy": "allow",
+      "go fmt *": "allow",
+      "go vet *": "allow",
+      "go list *": "allow",
+      "git status": "allow",
+      "git log *": "allow",
+      "git diff *": "allow",
+      "git branch": "allow",
+      "git checkout *": "allow",
+      "git add *": "allow",
+      "git diff *": "allow",
+      "git fetch *": "allow",
+      "git show *": "allow",
+      "git shortlog *": "allow",
+      "make lint": "allow",
+      "make test": "allow",
+      "printf *": "allow",
+      // Deny list
+      "git push *": "deny",
+      "rm *": "ask"
+    },
+    "edit": "ask"
+  }
+}

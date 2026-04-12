@@ -1,1 +1,30 @@
 .config/nnn/bookmarks/
+
+# Dependencies
+node_modules/
+
+# Package files
+package.json
+package-lock.json
+bun.lock
+
+# Secrets and credentials
+antigravity-accounts.json
+antigravity-signature-cache.json
+antigravity-logs/
+antigravity-accounts.json.*.tmp
+.custom_environment.sh
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local state
+opencode-notifier-state.json
+tui.json

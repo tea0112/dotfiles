@@ -140,3 +140,9 @@ if [[ ! -f "$hooks_path/pre-push" ]]; then
 	cp ~/dotfiles/pre-push "$hooks_path/pre-push"
 	chmod +x "$hooks_path/pre-push"
 fi
+
+echo ".------------------------------------------------."
+echo "|                 Config Opencode                 |"
+echo "'------------------------------------------------'"
+rm -rf ~/.config/opencode
+cp -r ~/dotfiles/.config/opencode ~/.config
