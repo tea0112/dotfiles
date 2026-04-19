@@ -330,3 +330,4 @@ add-zsh-hook precmd _zvm_fix_ctrl_r
 # Redo in normal mode only (insert mode keeps CTRL-R for fzf)
 bindkey -M vicmd '^R' redo
 
+. "$HOME/.cargo/env"

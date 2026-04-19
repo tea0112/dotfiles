@@ -160,3 +160,14 @@ y)
 	echo "you chose NO"
 	;;
 esac
+
+echo "_____________________________________________________"
+read -r -p "Install uv (Python package manager)?" confirm
+case $confirm in
+y)
+	curl -LsSf https://astral.sh/uv/install.sh | sh
+	;;
+*)
+	echo "you chose NO"
+	;;
+esac
