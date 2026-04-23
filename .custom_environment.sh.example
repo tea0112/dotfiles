@@ -12,27 +12,10 @@ export PGDB=postgres
 # export GOPRIVATE=dev.azure.com
 export GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/application_default_credentials.json
 
-# Get Java executable path
-JAVA_PATH=$(which java)
-if [ -z "$JAVA_PATH" ]; then
-    echo "Error: Java not found in PATH"
-    exit 1
-fi
+export MINIMAX_API_KEY=sk-....
+export MINIMAX_API_HOST="https://api.minimax.io"
 
-# Get the real path of the Java executable
-JAVA_REALPATH=$(readlink -f "$JAVA_PATH")
-if [ -z "$JAVA_REALPATH" ]; then
-    echo "Error: Could not resolve the real path of Java"
-    exit 1
-fi
+# Use the Windows environment variable for the profile for WSL
+export WINDOWS_USER=$(cmd.exe /c "echo %USERNAME%" 2>/dev/null | tr -d '\r\n')
+export WINDOWS_SCREENSHOTS_PATH="/mnt/c/Users/$WINDOWS_USER/OneDrive/Pictures/Screenshots"
 
-# Extract JAVA_HOME by removing "/bin/java" from the path
-JAVA_HOME=${JAVA_REALPATH%/bin/java}
-if [ -z "$JAVA_HOME" ]; then
-    echo "Error: Could not determine JAVA_HOME"
-    exit 1
-fi
-
-# Export JAVA_HOME
-export JAVA_HOME
-# echo "JAVA_HOME set to: $JAVA_HOME"
