@@ -6,7 +6,23 @@
       "type": "local",
       "command": ["bash", "-c", "$HOME/.config/opencode/minimax-wrapper.sh"],
       "enabled": true
+    },
+    "atlassian": {
+      "type": "remote",
+      "url": "https://mcp.atlassian.com/v1/mcp",
+      "oauth": {
+        "scope": "read:jira-work"
+      },
+      "enabled": true
     }
+  },
+  "tools": {
+    // Keep Atlassian MCP read-only inside OpenCode.
+    "atlassian_add*": false,
+    "atlassian_create*": false,
+    "atlassian_edit*": false,
+    "atlassian_transition*": false,
+    "atlassian_update*": false
   },
   "plugin": [
     "opencode-antigravity-auth@beta",
