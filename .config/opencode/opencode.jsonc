@@ -5,7 +5,7 @@
     "MiniMax": {
       "type": "local",
       "command": ["bash", "-c", "$HOME/.config/opencode/minimax-wrapper.sh"],
-      "enabled": true
+      "enabled": false
     },
     "atlassian": {
       "type": "remote",
