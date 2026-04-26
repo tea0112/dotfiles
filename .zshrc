@@ -331,3 +331,4 @@ add-zsh-hook precmd _zvm_fix_ctrl_r
 bindkey -M vicmd '^R' redo
 
 . "$HOME/.cargo/env"
+alias opencode-auth-inspect="~/dotfiles/scripts/opencode-auth-inspect.sh"
