@@ -275,8 +275,8 @@ config.audible_bell = 'Disabled'
 config.hide_mouse_cursor_when_typing = true
 config.check_for_updates = false
 
--- Do not force config.term for portability.
--- Leaving it unset avoids terminfo issues on fresh WSL machines.
+-- Keep TERM on the portable default for WSL + tmux.
+config.term = 'xterm-256color'
 
 -- =========================================================
 -- Key bindings
