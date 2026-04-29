@@ -122,6 +122,12 @@ rm -rf ~/.config/alacritty
 cp -r ~/dotfiles/.config/alacritty ~/.config
 
 echo ".------------------------------------------------."
+echo "|               Configure WezTerm                |"
+echo "'------------------------------------------------'"
+rm -rf ~/.config/wezterm
+cp -r ~/dotfiles/.config/wezterm ~/.config
+
+echo ".------------------------------------------------."
 echo "|                 Config go tools                |"
 echo "'------------------------------------------------'"
 rm -rf ~/go-tools
