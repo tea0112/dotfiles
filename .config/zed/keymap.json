@@ -1,0 +1,37 @@
+[
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      "j k": "vim::NormalBefore",
+      "ctrl-k": ["workspace::SendKeystrokes", "ctrl-r x"],
+      "ctrl-l": ["workspace::SendKeystrokes", "ctrl-r 0"]
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal && !menu",
+    "bindings": {
+      "ctrl-w c": "pane::CloseActiveItem",
+      "ctrl-o": "pane::GoBack",
+
+      "alt-h": "workspace::ActivatePaneLeft",
+      "alt-j": "workspace::ActivatePaneDown",
+      "alt-k": "workspace::ActivatePaneUp",
+      "alt-l": "workspace::ActivatePaneRight",
+
+      "ctrl-e": ["workspace::SendKeystrokes", "ctrl-e ctrl-e"],
+      "ctrl-y": ["workspace::SendKeystrokes", "ctrl-y ctrl-y"],
+
+      "space a a": "editor::SelectAll",
+      "space a s": ["workspace::SendKeystrokes", "\" x p"],
+      "space a d": ["workspace::SendKeystrokes", "\" 0 p"]
+    }
+  },
+  {
+    "context": "Editor && vim_mode == visual && !menu",
+    "bindings": {
+      "x": ["workspace::SendKeystrokes", "\" x x"],
+      "ctrl-k": ["workspace::SendKeystrokes", "\" x p"],
+      "ctrl-l": ["workspace::SendKeystrokes", "\" 0 p"]
+    }
+  }
+]
