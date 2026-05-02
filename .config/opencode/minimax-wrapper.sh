@@ -4,6 +4,10 @@ if [ -f "$HOME/.custom_environment.sh" ]; then
   . "$HOME/.custom_environment.sh" < /dev/null > /dev/null 2>&1
 fi
 
+if [ "${MINIMAX_MCP_ENABLED:-1}" = "0" ]; then
+  exit 0
+fi
+
 UVX_PATH="$HOME/.local/bin/uvx"
 
 shopt -s nullglob

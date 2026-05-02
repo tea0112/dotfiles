@@ -14,6 +14,7 @@ export GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/application_default_crede
 
 export MINIMAX_API_KEY=sk-....
 export MINIMAX_API_HOST="https://api.minimax.io"
+export MINIMAX_MCP_ENABLED=1
 
 # Use the Windows environment variable for the profile for WSL
 export WINDOWS_USER=$(cmd.exe /c "echo %USERNAME%" 2>/dev/null | tr -d '\r\n')
