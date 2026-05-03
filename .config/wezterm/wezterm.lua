@@ -312,11 +312,7 @@ config.keys = {
 		action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
 	},
 
-	-- Pane navigation, vim-style
-	{ key = "h", mods = "ALT", action = act.ActivatePaneDirection("Left") },
-	{ key = "l", mods = "ALT", action = act.ActivatePaneDirection("Right") },
-	{ key = "k", mods = "ALT", action = act.ActivatePaneDirection("Up") },
-	{ key = "j", mods = "ALT", action = act.ActivatePaneDirection("Down") },
+	-- Alt+h/j/k/l pass through so tmux and Neovim can handle split movement.
 
 	-- Pane resizing
 	{ key = "LeftArrow", mods = "ALT|SHIFT", action = act.AdjustPaneSize({ "Left", 5 }) },
