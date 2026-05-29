@@ -1,155 +1,141 @@
 #!/bin/bash
 
 mkdir -p ~/.local/bin
+
 # if [[ ! -f "/usr/bin/zsh" ]]; then
 #     echo "ZSH doesn't exist"
 #     echo "You should run this script by ZSH!"
 #     exit 0
 # fi
 
-# template
-#echo "_____________________________________________________"
-#read -p "?" confirm
-#case $confirm in
-#y)
-#    ;;
-#*)
-#    echo "you chose NO"
-#    ;;
-#esac
-
 echo "_____________________________________________________"
-read -r -p "Generate en_US.UTF-8?" confirm
+read -r -p "Generate en_US.UTF-8? [y/N] " confirm
 case $confirm in
-y)
+y|Y)
 	sudo locale-gen "en_US.UTF-8"
 	;;
 *)
-	echo "You didn't choose!"
+	echo "Skipped"
 	;;
 esac
 
 echo "_____________________________________________________"
-read -p "Install essential package for WSL Ubuntu?" confirm
+read -r -p "Install essential packages for WSL Ubuntu? [y/N] " confirm
 case $confirm in
-y)
-	sudo apt install vim vim-gtk3 libcanberra-gtk-module libcanberra-gtk3-module pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find ripgrep python3-pip python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential clang libclang-dev zsh tmux xsel gettext fzf libxcb-cursor0 xdotool ripgrep vim tesseract-ocr-eng -y
-	;;
-*)
-	echo "you chose NO"
-	;;
-esac
-
-echo "_____________________________________________________"
-read -p "Install essential package for Kubuntu X11?" confirm
-case $confirm in
-y)
-	sudo add-apt-repository ppa:aslatter/ppa -y
-	sudo apt install vim vim-gtk3 gcc curl git extra-cmake-modules libcanberra-gtk-module libcanberra-gtk3-module alacritty pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential clang libclang-dev zsh tmux xsel goldendict gettext fzf fonts-noto-color-emoji libxcb-cursor0 xdotool ripgrep vim flatpak -y
-
-	sudo apt install gnome-software-plugin-flatpak -y
-
-	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-    flatpak install flathub org.kde.haruna
-	;;
-*)
-	echo "you chose NO"
-	;;
-esac
-
-echo "_____________________________________________________"
-read -p "Install package for i3wm dependencies?" confirm
-case $confirm in
-y)
-	sudo apt install copyq blueman flameshot picom rofi feh gnome-clocks -y
-	;;
-*)
-	echo "you chose NO"
-	;;
-esac
-
-echo "_____________________________________________________"
-read -p "Do you want to add and install neovim unstable ppa?" confirm
-case $confirm in
-y)
-	sudo add-apt-repository ppa:neovim-ppa/unstable
+y|Y)
 	sudo apt update
-	sudo apt install neovim
+	sudo apt install -y vim vim-gtk3 libcanberra-gtk3-module pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential clang libclang-dev zsh tmux xsel gettext fzf libxcb-cursor0 xdotool tesseract-ocr-eng
 	;;
 *)
-	echo "you chose NO"
+	echo "Skipped"
 	;;
 esac
 
 echo "_____________________________________________________"
-read -p "Install essential package for Ubuntu X11?" confirm
+read -r -p "Install essential packages for Kubuntu X11? [y/N] " confirm
 case $confirm in
-y)
-	sudo add-apt-repository ppa:aslatter/ppa -y
-	sudo apt install vim vim-gtk3 gcc curl git libcanberra-gtk-module libcanberra-gtk3-module gnome-tweaks gnome-shell-extension-manager alacritty pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential clang libclang-dev zsh tmux xsel goldendict gettext fzf fonts-noto-color-emoji libxcb-cursor0 xdotool ripgrep vim gnome-clocks flatpak -y
-
-	sudo apt install gnome-software-plugin-flatpak -y
+y|Y)
+	sudo apt update
+	sudo apt install -y vim vim-gtk3 gcc curl git extra-cmake-modules libcanberra-gtk3-module pandoc poppler-utils ffmpeg ripgrep jq wget fd-find python3-pip wmctrl python3-virtualenv python3-venv xclip aria2 unzip build-essential clang libclang-dev zsh tmux xsel goldendict gettext fzf fonts-noto-color-emoji libxcb-cursor0 xdotool flatpak gnome-software-plugin-flatpak
 
 	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-    flatpak install flathub org.kde.haruna
+	flatpak install -y flathub org.kde.haruna
 	;;
 *)
-	echo "you chose NO"
+	echo "Skipped"
 	;;
 esac
 
 echo "_____________________________________________________"
-read -p "Install essential package for Ubuntu Wayland?" confirm
+read -r -p "Install packages for i3wm dependencies? [y/N] " confirm
 case $confirm in
-y)
-	sudo add-apt-repository ppa:aslatter/ppa -y
-	sudo apt install vim vim-gtk3 gcc curl git libcanberra-gtk-module libcanberra-gtk3-module gnome-tweaks gnome-shell-extension-manager alacritty pandoc poppler-utils ffmpeg ripgrep curl jq wget fd-find ripgrep python3-pip python3-pip python3-virtualenv python3-venv aria2 unzip build-essential clang libclang-dev zsh tmux goldendict gettext fzf fonts-noto-color-emoji ripgrep vim gnome-clocks flatpak -y
-
-	sudo apt install gnome-software-plugin-flatpak -y
-
-	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-    flatpak install flathub org.kde.haruna
+y|Y)
+	sudo apt update
+	sudo apt install -y copyq blueman flameshot picom rofi feh gnome-clocks
 	;;
 *)
-	echo "you chose NO"
+	echo "Skipped"
 	;;
 esac
 
 echo "_____________________________________________________"
-read -p "Install essential package for Xubuntu?" confirm
+read -r -p "Do you want to add and install neovim unstable ppa? [y/N] " confirm
 case $confirm in
-y)
-	sudo add-apt-repository ppa:aslatter/ppa -y
-	sudo apt install vim vim-gtk3 gcc curl git libcanberra-gtk-module libcanberra-gtk3-module alacritty pandoc poppler-utils ffmpeg ripgrep jq wget fd-find ripgrep python3-pip wmctrl python3-pip python3-virtualenv python3-venv xclip aria2 unzip build-essential clang libclang-dev zsh tmux xsel goldendict gettext fzf fonts-noto-color-emoji libxcb-cursor0 xdotool ripgrep vim gnome-clocks flatpak -y
-
-	sudo apt install gnome-software-plugin-flatpak -y
-
-	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-    flatpak install flathub org.kde.haruna
+y|Y)
+	sudo add-apt-repository ppa:neovim-ppa/unstable -y
+	sudo apt update
+	sudo apt install -y neovim
 	;;
 *)
-	echo "you chose NO"
+	echo "Skipped"
+	;;
+esac
+
+echo "_____________________________________________________"
+read -r -p "Install essential packages for Ubuntu X11? [y/N] " confirm
+case $confirm in
+y|Y)
+	sudo apt update
+	sudo apt install -y vim vim-gtk3 gcc curl git libcanberra-gtk3-module gnome-tweaks gnome-shell-extension-manager pandoc poppler-utils ffmpeg ripgrep jq wget fd-find python3-pip wmctrl python3-virtualenv python3-venv xclip aria2 unzip build-essential clang libclang-dev zsh tmux xsel goldendict gettext fzf fonts-noto-color-emoji libxcb-cursor0 xdotool gnome-clocks flatpak gnome-software-plugin-flatpak
+
+	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+	flatpak install -y flathub org.kde.haruna
+	;;
+*)
+	echo "Skipped"
+	;;
+esac
+
+echo "_____________________________________________________"
+read -r -p "Install essential packages for Ubuntu Wayland? [y/N] " confirm
+case $confirm in
+y|Y)
+	sudo apt update
+	sudo apt install -y vim vim-gtk3 gcc curl git libcanberra-gtk3-module gnome-tweaks gnome-shell-extension-manager pandoc poppler-utils ffmpeg ripgrep jq wget fd-find python3-pip python3-virtualenv python3-venv aria2 unzip build-essential clang libclang-dev zsh tmux goldendict gettext fzf fonts-noto-color-emoji gnome-clocks flatpak gnome-software-plugin-flatpak wl-clipboard
+
+	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+	flatpak install -y flathub org.kde.haruna
+	;;
+*)
+	echo "Skipped"
+	;;
+esac
+
+echo "_____________________________________________________"
+read -r -p "Install essential packages for Xubuntu? [y/N] " confirm
+case $confirm in
+y|Y)
+	sudo apt update
+	sudo apt install -y vim vim-gtk3 gcc curl git libcanberra-gtk3-module pandoc poppler-utils ffmpeg ripgrep jq wget fd-find python3-pip wmctrl python3-virtualenv python3-venv xclip aria2 unzip build-essential clang libclang-dev zsh tmux xsel goldendict gettext fzf fonts-noto-color-emoji libxcb-cursor0 xdotool gnome-clocks flatpak gnome-software-plugin-flatpak
+
+	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+	flatpak install -y flathub org.kde.haruna
+	;;
+*)
+	echo "Skipped"
 	;;
 esac
 
 # Go
 echo "_____________________________________________________"
-read -r -p "Install golang?" confirm
+read -r -p "Install golang? [y/N] " confirm
 case $confirm in
-y)
+y|Y)
+	hash -r
 	./kiss-installation/go.sh
 	;;
 *)
-	echo "you chose NO"
+	echo "Skipped"
 	;;
 esac
 
 # rust
 echo "_____________________________________________________"
-read -r -p "Install rust?" confirm
+read -r -p "Install rust? [y/N] " confirm
 case $confirm in
-y)
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+y|Y)
+	hash -r
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 	source "/home/${USER}/.cargo/env"
 
 	cargo install eza
@@ -158,17 +144,17 @@ y)
 	cargo install --locked tree-sitter-cli
 	;;
 *)
-	echo "you chose NO"
+	echo "Skipped"
 	;;
 esac
 
 echo "_____________________________________________________"
-read -r -p "Install uv (Python package manager)?" confirm
+read -r -p "Install uv (Python package manager)? [y/N] " confirm
 case $confirm in
-y)
+y|Y)
 	curl -LsSf https://astral.sh/uv/install.sh | sh
 	;;
 *)
-	echo "you chose NO"
+	echo "Skipped"
 	;;
 esac
