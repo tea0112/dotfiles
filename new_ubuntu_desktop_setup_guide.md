@@ -54,6 +54,11 @@
     cd ~/dotfiles/.config
     git clone git@tea0112-github:tea0112/nvim
     ```
+* Set local Git identity for both repos:
+    ```bash
+    cd ~/dotfiles && git config user.name "tea0112" && git config user.email "ducthaidev@gmail.com"
+    cd ~/dotfiles/.config/nvim && git config user.name "tea0112" && git config user.email "ducthaidev@gmail.com"
+    ```
 * Run the Ubuntu package installation script:
     ```bash
     bash ~/dotfiles/installation-scripts/ubuntu-package.sh
