@@ -91,7 +91,9 @@ read -r -p "Install essential packages for Ubuntu Wayland? [y/N] " confirm
 case $confirm in
 y|Y)
 	sudo apt update
-	sudo apt install -y vim vim-gtk3 gcc curl git libcanberra-gtk3-module gnome-tweaks gnome-shell-extension-manager pandoc poppler-utils ffmpeg ripgrep jq wget fd-find python3-pip python3-virtualenv python3-venv aria2 unzip build-essential clang libclang-dev zsh tmux goldendict gettext fzf fonts-noto-color-emoji gnome-clocks flatpak gnome-software-plugin-flatpak wl-clipboard
+	sudo apt install -y vim vim-gtk3 gcc curl git libcanberra-gtk3-module gnome-tweaks gnome-shell-extension-manager pandoc poppler-utils ffmpeg ripgrep jq wget fd-find python3-pip python3-virtualenv python3-venv aria2 unzip build-essential clang libclang-dev zsh tmux goldendict gettext fzf fonts-noto-color-emoji gnome-clocks flatpak gnome-software-plugin-flatpak wl-clipboard gnome-shell-extension-gpaste gpaste-2
+
+    gnome-extensions enable GPaste@gnome-shell-extensions.gnome.org
 
 	flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 	flatpak install -y flathub org.kde.haruna
