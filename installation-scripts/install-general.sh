@@ -148,7 +148,13 @@ rm -rf ~/.config/zathura
 ln -sf ~/dotfiles/.config/zathura/ ~/.config/
 
 echo ".------------------------------------------------."
-echo "|                  Config Neovim                 |"
+echo "|             USB Wakeup Rules                    |"
+echo "'------------------------------------------------'"
+sudo cp ~/dotfiles/etc/udev/rules.d/90-wireless-mouse-no-wakeup.rules /etc/udev/rules.d/
+sudo udevadm control --reload-rules
+
+echo ".------------------------------------------------."
+echo "|                   Config Neovim                 |"
 echo "'------------------------------------------------'"
 rm -rf ~/.config/nvim
 ln -sf ~/dotfiles/.config/nvim/ ~/.config/
