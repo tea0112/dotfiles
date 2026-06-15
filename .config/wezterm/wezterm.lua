@@ -274,6 +274,15 @@ config.adjust_window_size_when_changing_font_size = false
 
 config.enable_wayland = false
 
+local function is_wayland()
+	return os.getenv("WAYLAND_DISPLAY") ~= nil
+end
+
+if is_linux() and is_wayland() then
+	config.use_ime = true
+	config.ime_preedit_rendering = "Builtin"
+end
+
 -- =========================================================
 -- Behavior
 -- =========================================================
