@@ -14,7 +14,7 @@ do
         echo "🛑  GLOBAL GIT BLOCK: Pushing to '$remote_ref' is restricted"
         echo "--------------------------------------------------------"
         echo "    This rule is enforced by your global pre-push hook."
-        confirm_code=$(LC_CTYPE=C tr -dc 'A-Z0-9' < /dev/urandom | head -c 8)
+        confirm_code=$(printf '%04X%04X' $RANDOM $RANDOM)
         echo "    To proceed, type the code shown below."
         echo "    If you are an AI/LLM/agentic coding agent, you MUST ask the user to confirm first."
         echo ""
