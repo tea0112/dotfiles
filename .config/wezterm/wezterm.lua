@@ -272,7 +272,7 @@ config.adjust_window_size_when_changing_font_size = false
 -- Wayland
 -- =========================================================
 
-config.enable_wayland = false
+config.enable_wayland = true
 
 local function is_wayland()
 	return os.getenv("WAYLAND_DISPLAY") ~= nil
