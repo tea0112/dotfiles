@@ -14,9 +14,6 @@
     },
     "explore": {
       "model": "opencode-go/deepseek-v4-flash"
-    },
-    "scout": {
-      "model": "opencode-go/deepseek-v4-flash"
     }
   },
   "autoupdate": true,
