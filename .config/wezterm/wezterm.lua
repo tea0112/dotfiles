@@ -235,7 +235,7 @@ end
 -- Portable font setup:
 -- Do not force a font family. WezTerm has a bundled default stack.
 config.font_size = 12
-config.line_height = 1.1
+config.line_height = 1.0
 
 config.window_padding = {
 	left = 8,
@@ -272,7 +272,10 @@ config.adjust_window_size_when_changing_font_size = false
 -- Wayland
 -- =========================================================
 
-config.enable_wayland = true
+config.enable_wayland = false
+
+-- Limit GPU usage: cap frame rate to reduce render engine load.
+config.max_fps = 30
 
 local function is_wayland()
 	return os.getenv("WAYLAND_DISPLAY") ~= nil
