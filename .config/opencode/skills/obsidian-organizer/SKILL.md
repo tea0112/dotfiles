@@ -14,14 +14,15 @@ Use this skill when the user asks to clean up, format, relink, reorganize, or st
 
 ## Core behavior
 
+- **Preserve all note data, information, and content.** No information must be lost.
+- **If content is duplicate** (clearly identical text, same information, same source material appearing in multiple places), merge it into one canonical location and remove the copy. Do not keep redundant copies of the same information.
+- **If content is similar but not identical**, keep both. Do not collapse, deduplicate, or discard related-but-different information. Improve structure, headings, or transitions around both pieces instead.
 - Match the user's language.
 - Be conservative: preserve note meaning and avoid speculative restructuring.
 - Prefer the smallest correct set of edits.
 - Keep structure, naming, metadata, and link style consistent from the start of the work.
 - Start with a dry-run summary before applying any change.
 - Do not delete files unless the user explicitly asks.
-- Do not treat similar content as duplicate by default.
-- Do not merge, collapse, replace, or remove content unless it is clearly identical and the user explicitly approves it.
 - Do not edit files outside the provided scope.
 
 ## Input handling
@@ -72,10 +73,33 @@ When the target is a directory:
 - Keep filenames, H1 titles, frontmatter `title`, and strong aliases aligned when the intended canonical name is clear.
 - Avoid partial cleanup that leaves mixed heading styles, mixed link styles, or conflicting metadata in the same scope.
 
+## What to improve
+
+When scanning notes, look for these common problems:
+
+- messy headings (flat hierarchy, skipped levels, inconsistent styles)
+- weak note order (content jumps between topics with no clear sequence)
+- mixed summary and detail (high-level context buried inside dense explanation blocks)
+- repeated ideas spread across notes (same concept appears in multiple places without cross-links)
+- unclear learning sequence (prerequisite knowledge not positioned before advanced topics)
+- poor spacing and Markdown structure (missing blank lines, inconsistent list formatting)
+- weak titles when the correct title is clear (filename, H1, and frontmatter `title` disagree)
+
+## Safe actions allowed without approval
+
+- reformat Markdown conservatively
+- improve heading hierarchy
+- split long blocks into clearer sections
+- add short transition lines between sections when needed
+- suggest a better note order
+- suggest safer filenames or titles
+- suggest moving attachments into `_assets/`
+- suggest link fixes and autolinks when confidence is high
+
 ## Conservative Obsidian formatting rules
 
 - Make every changed note valid, readable, and Obsidian-native without changing its meaning.
-- Normalize YAML frontmatter formatting while preserving data.
+- Normalize YAML frontmatter formatting while preserving data. Keep frontmatter data unless it is clearly broken.
 - Normalize heading spacing, blank lines, lists, blockquotes, callouts, code fences, and table spacing only when the intent is clear.
 - Preserve callouts, footnotes, block references, tags, embeds, and existing Obsidian syntax.
 - Prefer Obsidian wiki-links for internal note links that are created or rewritten, unless the existing local convention clearly prefers Markdown links.
@@ -144,7 +168,7 @@ When the target is a directory:
    - Warnings
    - Needs decision
 6. Wait for approval before applying edits.
-7. After approval, apply the smallest safe set of changes and verify links again.
+7. After approval, apply the smallest safe set of changes that makes the notes easier to study, and verify links again.
 
 ## Output expectations
 
