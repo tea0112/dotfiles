@@ -6,7 +6,7 @@
   "tools": {},
   "plugin": [
     //"@mohak34/opencode-notifier@latest",
-    "superpowers@git+https://github.com/obra/superpowers.git"
+    "superpowers@git+https://github.com/obra/superpowers.git",
   ],
   "provider": {
     "aigateway": {
@@ -14,27 +14,27 @@
       "name": "AI Gateway",
       "options": {
         "baseURL": "{env:AI_GATEWAY_BASE_URL}",
-        "apiKey": "{env:AI_GATEWAY_API_KEY}"
+        "apiKey": "{env:AI_GATEWAY_API_KEY}",
       },
       "models": {
         "MiniMax/MiniMax-M2.7": {
-          "name": "MiniMax/MiniMax-M2.7"
+          "name": "MiniMax/MiniMax-M2.7",
         },
         "zai-org/GLM-4.7-cc": {
-          "name": "zai-org/GLM-4.7-cc"
-        }
-      }
-    }
+          "name": "zai-org/GLM-4.7-cc",
+        },
+      },
+    },
   },
   "agent": {
     "general": {
-      "model": "{env:OPENCODE_AGENT_MODEL}"
+      "model": "{env:OPENCODE_AGENT_MODEL}",
       // export MY_AGENT_MODEL="aigateway/MiniMax/MiniMax-M2.7"
       // export OPENCODE_AGENT_MODEL="${MY_AGENT_MODEL:-opencode-go/deepseek-v4-flash}"
     },
     "explore": {
-      "model": "{env:OPENCODE_AGENT_MODEL}"
-    }
+      "model": "{env:OPENCODE_AGENT_MODEL}",
+    },
   },
   "autoupdate": true,
   "permission": {
@@ -75,8 +75,8 @@
       "printf *": "allow",
       // Deny list
       "git push *": "deny",
-      "rm *": "ask"
+      "rm *": "ask",
     },
-    "edit": "ask"
-  }
+    "edit": "ask",
+  },
 }
