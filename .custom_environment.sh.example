@@ -12,9 +12,11 @@ export PGDB=postgres
 # export GOPRIVATE=dev.azure.com
 export GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/application_default_credentials.json
 
-export MINIMAX_API_KEY=sk-....
-export MINIMAX_API_HOST="https://api.minimax.io"
-export MINIMAX_MCP_ENABLED=1
+export AI_GATEWAY_BASE_URL="https://ai.com/gateway/v1"
+export AI_GATEWAY_API_KEY="sk-"
+export MY_AGENT_MODEL="aigateway/MiniMax/MiniMax-M2.7"
+export OPENCODE_AGENT_MODEL="${MY_AGENT_MODEL:-opencode-go/deepseek-v4-flash}"
+
 
 # Alias syntax: wrap the full command in single quotes
 # alias myproject='cd ~/Projects/myproject && ./dev.sh'
