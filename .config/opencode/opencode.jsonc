@@ -7,6 +7,8 @@
   "plugin": [
     //"@mohak34/opencode-notifier@latest",
     "superpowers@git+https://github.com/obra/superpowers.git",
+    "opencode-websearch",
+    "oh-my-openagent@latest"
   ],
   "provider": {
     "aigateway": {
@@ -38,45 +40,15 @@
   },
   "autoupdate": true,
   "permission": {
+    "external_directory": "ask",
+    "edit": "allow",
     "bash": {
-      // Ask list
-      // "*": "ask",
-      "git commit *": "ask",
-      // Allow list
-      "ls *": "allow",
-      "head *": "allow",
-      "tail *": "allow",
-      "cat *": "allow",
-      "echo *": "allow",
-      "pwd": "allow",
-      "date": "allow",
-      "grep *": "allow",
-      "find *": "allow",
-      "wc *": "allow",
-      "jq *": "allow",
-      "go test *": "allow",
-      "go build *": "allow",
-      "go mod tidy": "allow",
-      "go fmt *": "allow",
-      "go vet *": "allow",
-      "go list *": "allow",
-      "git status": "allow",
-      "git log *": "allow",
-      "git diff *": "allow",
-      "git branch": "allow",
-      "git checkout *": "allow",
-      "git add *": "allow",
-      "git diff *": "allow",
-      "git fetch *": "allow",
-      "git show *": "allow",
-      "git shortlog *": "allow",
-      "make lint": "allow",
-      "make test": "allow",
-      "printf *": "allow",
-      // Deny list
       "git push *": "deny",
+      "git push": "deny",
       "rm *": "ask",
+      "rm": "ask",
+      "*": "allow",
     },
-    "edit": "ask",
+    "*": "allow",
   },
 }
