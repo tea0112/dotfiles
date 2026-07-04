@@ -2,16 +2,19 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "agents": {
     "sisyphus": {
-      "model": "aigateway/MiniMax/MiniMax-M2.7"
+      "model": "aigateway/MiniMax/MiniMax-M2.7",
+      "permission": { "edit": "ask" }
     },
     "hephaestus": {
       "model": "aigateway/MiniMax/MiniMax-M2.7"
     },
     "oracle": {
-      "model": "aigateway/MiniMax/MiniMax-M2.7"
+      "model": "aigateway/MiniMax/MiniMax-M2.7",
+      "permission": { "edit": "deny" }
     },
     "explore": {
-      "model": "aigateway/MiniMax/MiniMax-M2.7"
+      "model": "aigateway/MiniMax/MiniMax-M2.7",
+      "permission": { "edit": "deny" }
     },
     "multimodal-looker": {
       "model": "aigateway/MiniMax/MiniMax-M2.7"
@@ -26,11 +29,19 @@
       "model": "aigateway/MiniMax/MiniMax-M2.7"
     },
     "atlas": {
-      "model": "aigateway/MiniMax/MiniMax-M2.7"
+      "model": "aigateway/MiniMax/MiniMax-M2.7",
+      "permission": { "edit": "ask" }
     },
     "sisyphus-junior": {
-      "model": "aigateway/MiniMax/MiniMax-M2.7"
+      "model": "aigateway/MiniMax/MiniMax-M2.7",
+      "permission": { "edit": "ask" }
     }
+  },
+  "team_mode": {
+    "enabled": true,
+    "max_parallel_members": 8,
+    "max_members": 8,
+    "tmux_visualization": false
   },
   "categories": {
     "visual-engineering": {

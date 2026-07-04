@@ -28,3 +28,6 @@ Thumbs.db
 # Local state
 opencode-notifier-state.json
 tui.json
+
+# Oh-My-OpenAgent runtime
+.omo/
