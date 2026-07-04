@@ -1,0 +1,72 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
+  "agents": {
+    "sisyphus": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7",
+      "permission": { "edit": "ask" }
+    },
+    "hephaestus": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7"
+    },
+    "oracle": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7",
+      "permission": { "edit": "deny" }
+    },
+    "explore": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7",
+      "permission": { "edit": "deny" }
+    },
+    "multimodal-looker": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7"
+    },
+    "prometheus": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7"
+    },
+    "metis": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7"
+    },
+    "momus": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7"
+    },
+    "atlas": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7",
+      "permission": { "edit": "ask" }
+    },
+    "sisyphus-junior": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7",
+      "permission": { "edit": "ask" }
+    }
+  },
+  "team_mode": {
+    "enabled": true,
+    "max_parallel_members": 8,
+    "max_members": 8,
+    "tmux_visualization": false
+  },
+  "categories": {
+    "visual-engineering": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7"
+    },
+    "ultrabrain": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7"
+    },
+    "deep": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7"
+    },
+    "artistry": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7"
+    },
+    "quick": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7"
+    },
+    "unspecified-low": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7"
+    },
+    "unspecified-high": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7"
+    },
+    "writing": {
+      "model": "aigateway/MiniMax/MiniMax-M2.7"
+    }
+  }
+}

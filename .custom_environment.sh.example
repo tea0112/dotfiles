@@ -14,6 +14,7 @@ export GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/application_default_crede
 
 export AI_GATEWAY_BASE_URL="https://ai.com/gateway/v1"
 export AI_GATEWAY_API_KEY="sk-"
+export AI_GATEWAY_MODEL="MiniMax/MiniMax-M2.7"
 export MY_AGENT_MODEL="aigateway/MiniMax/MiniMax-M2.7"
 export OPENCODE_AGENT_MODEL="${MY_AGENT_MODEL:-opencode-go/deepseek-v4-flash}"
 
