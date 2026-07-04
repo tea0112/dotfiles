@@ -41,7 +41,7 @@
   "autoupdate": true,
   "permission": {
     "external_directory": "ask",
-    "edit": "allow",
+    "edit": "ask",
     "bash": {
       "git push *": "deny",
       "git push": "deny",
