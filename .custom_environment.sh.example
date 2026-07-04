@@ -17,6 +17,13 @@ export AI_GATEWAY_API_KEY="sk-"
 export MY_AGENT_MODEL="aigateway/MiniMax/MiniMax-M2.7"
 export OPENCODE_AGENT_MODEL="${MY_AGENT_MODEL:-opencode-go/deepseek-v4-flash}"
 
+# pdf convert into obsidian docling
+export DOCLING_VLM_BASE_URL="https://opencode.ai/zen/go/v1"
+export DOCLING_VLM_API_KEY="sk-...."
+export DOCLING_VLM_MODEL="mimo-v2.5"
+export DOCLING_TEXT_BASE_URL="https://provider.com/gateway/v1"
+export DOCLING_TEXT_API_KEY="sk-..."
+export DOCLING_TEXT_MODEL="MiniMax/MiniMax-M2.7"
 
 # Alias syntax: wrap the full command in single quotes
 # alias myproject='cd ~/Projects/myproject && ./dev.sh'
