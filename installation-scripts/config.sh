@@ -143,7 +143,6 @@ rm -f ~/.config/opencode/oh-my-openagent.json
 rm -f ~/.config/opencode/opencode-notifier.json
 rm -f ~/.config/opencode/minimax-wrapper.sh
 rm -f ~/.config/opencode/.custom_environment.example.sh
-rm -rf ~/.config/opencode/agents
 rm -rf ~/.config/opencode/commands
 rm -rf ~/.config/opencode/scripts
 rm -rf ~/.config/opencode/skills
@@ -152,7 +151,6 @@ cp ~/dotfiles/.config/opencode/AGENTS.md ~/.config/opencode/
 cp ~/dotfiles/.config/opencode/opencode.jsonc ~/.config/opencode/
 cp ~/dotfiles/.config/opencode/oh-my-openagent.json ~/.config/opencode/
 cp ~/dotfiles/.config/opencode/opencode-notifier.json ~/.config/opencode/
-cp -r ~/dotfiles/.config/opencode/agents ~/.config/opencode/
 cp -r ~/dotfiles/.config/opencode/commands ~/.config/opencode/
 cp -r ~/dotfiles/.config/opencode/skills ~/.config/opencode/
 cp -r ~/dotfiles/.config/opencode/profiles ~/.config/opencode/
