@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
-  "preset": "opencode-go",
+  "preset": "openai",
   "presets": {
     "openai": {
       "orchestrator": {
@@ -49,57 +49,36 @@
         "variant": "low",
         "skills": [],
         "mcps": []
-      }
-    },
-    "opencode-go": {
-      "orchestrator": {
-        "model": "aigateway/MiniMax/MiniMax-M2.7",
-        "skills": [
-          "*"
-        ],
-        "mcps": [
-          "*",
-          "!context7"
-        ]
       },
-      "oracle": {
-        "model": "aigateway/MiniMax/MiniMax-M2.7",
-        "variant": "max",
-        "skills": [
-          "simplify"
-        ],
-        "mcps": []
+      "council": { "model": "aigateway/MiniMax/MiniMax-M2.7" }
+    }
+  },
+  "council": {
+    "default_preset": "aggressive-review",
+    "presets": {
+      "default": {
+        "alpha": { "model": "aigateway/MiniMax/MiniMax-M2.7" },
+        "beta": { "model": "aigateway/MiniMax/MiniMax-M2.7" },
+        "gamma": { "model": "aigateway/MiniMax/MiniMax-M2.7" }
       },
-      "librarian": {
-        "model": "aigateway/MiniMax/MiniMax-M2.7",
-        "skills": [],
-        "mcps": [
-          "websearch",
-          "context7",
-          "gh_grep"
-        ]
-      },
-      "explorer": {
-        "model": "aigateway/MiniMax/MiniMax-M2.7",
-        "skills": [],
-        "mcps": []
-      },
-      "designer": {
-        "model": "aigateway/MiniMax/MiniMax-M2.7",
-        "variant": "medium",
-        "skills": [],
-        "mcps": []
-      },
-      "fixer": {
-        "model": "aigateway/MiniMax/MiniMax-M2.7",
-        "variant": "high",
-        "skills": [],
-        "mcps": []
-      },
-      "observer": {
-        "model": "aigateway/MiniMax/MiniMax-M2.7",
-        "skills": [],
-        "mcps": []
+      "aggressive-review": {
+        "bug-hunter": {
+          "model": "aigateway/MiniMax/MiniMax-M2.7",
+          "variant": "high",
+          "prompt": "Find bugs, edge cases, and failure modes. Flag anything that could crash, corrupt data, or silently fail."
+        },
+        "architect": {
+          "model": "aigateway/MiniMax/MiniMax-M2.7",
+          "prompt": "Review architecture, boundaries, and long-term design. Identify coupling, wrong abstractions, and maintainability risks."
+        },
+        "security": {
+          "model": "aigateway/MiniMax/MiniMax-M2.7",
+          "prompt": "Audit security: injection, auth, data exposure, and unsafe patterns."
+        },
+        "optimizer": {
+          "model": "aigateway/MiniMax/MiniMax-M2.7",
+          "prompt": "Focus on performance, latency, and resource usage."
+        }
       }
     }
   }
