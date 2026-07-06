@@ -1,0 +1,106 @@
+{
+  "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
+  "preset": "opencode-go",
+  "presets": {
+    "openai": {
+      "orchestrator": {
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
+        "variant": "medium",
+        "skills": [
+          "*"
+        ],
+        "mcps": [
+          "*",
+          "!context7"
+        ]
+      },
+      "oracle": {
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
+        "variant": "high",
+        "skills": [
+          "simplify"
+        ],
+        "mcps": []
+      },
+      "librarian": {
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
+        "variant": "low",
+        "skills": [],
+        "mcps": [
+          "websearch",
+          "context7",
+          "gh_grep"
+        ]
+      },
+      "explorer": {
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
+        "variant": "low",
+        "skills": [],
+        "mcps": []
+      },
+      "designer": {
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
+        "variant": "medium",
+        "skills": [],
+        "mcps": []
+      },
+      "fixer": {
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
+        "variant": "low",
+        "skills": [],
+        "mcps": []
+      }
+    },
+    "opencode-go": {
+      "orchestrator": {
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
+        "skills": [
+          "*"
+        ],
+        "mcps": [
+          "*",
+          "!context7"
+        ]
+      },
+      "oracle": {
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
+        "variant": "max",
+        "skills": [
+          "simplify"
+        ],
+        "mcps": []
+      },
+      "librarian": {
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
+        "skills": [],
+        "mcps": [
+          "websearch",
+          "context7",
+          "gh_grep"
+        ]
+      },
+      "explorer": {
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
+        "skills": [],
+        "mcps": []
+      },
+      "designer": {
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
+        "variant": "medium",
+        "skills": [],
+        "mcps": []
+      },
+      "fixer": {
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
+        "variant": "high",
+        "skills": [],
+        "mcps": []
+      },
+      "observer": {
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
+        "skills": [],
+        "mcps": []
+      }
+    }
+  }
+}

@@ -35,3 +35,5 @@ export WINDOWS_SCREENSHOTS_PATH="/mnt/c/Users/$WINDOWS_USER/OneDrive/Pictures/Sc
 
 export OPENCODE_GO_API_KEY="your_api_key_here"
 export OPENCODE_GO_BASE_URL="https://opencode.ai/zen/go/v1"
+
+export OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true

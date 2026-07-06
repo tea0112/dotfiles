@@ -1,15 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  // "model": "opencode-go/deepseek-v4-pro",
-  // "model": "opencode-go/mimo-v2.5",
   "model": "opencode-go/deepseek-v4-flash",
   "mcp": {},
   "tools": {},
   "plugin": [
-    //"@mohak34/opencode-notifier@latest",
     "superpowers@git+https://github.com/obra/superpowers.git",
-    "opencode-websearch"
-  // "oh-my-openagent@latest" — use oc-heavy for omO
+    "opencode-websearch",
+    "oh-my-opencode-slim"
   ],
   "provider": {
     "aigateway": {
@@ -17,27 +14,27 @@
       "name": "AI Gateway",
       "options": {
         "baseURL": "{env:AI_GATEWAY_BASE_URL}",
-        "apiKey": "{env:AI_GATEWAY_API_KEY}",
+        "apiKey": "{env:AI_GATEWAY_API_KEY}"
       },
       "models": {
         "MiniMax/MiniMax-M2.7": {
-          "name": "MiniMax/MiniMax-M2.7",
+          "name": "MiniMax/MiniMax-M2.7"
         },
         "zai-org/GLM-4.7-cc": {
-          "name": "zai-org/GLM-4.7-cc",
-        },
-      },
-    },
+          "name": "zai-org/GLM-4.7-cc"
+        }
+      }
+    }
   },
   "agent": {
     "general": {
       "model": "{env:OPENCODE_AGENT_MODEL}",
-      // export MY_AGENT_MODEL="aigateway/MiniMax/MiniMax-M2.7"
-      // export OPENCODE_AGENT_MODEL="${MY_AGENT_MODEL:-opencode-go/deepseek-v4-flash}"
+      "disable": true
     },
     "explore": {
       "model": "{env:OPENCODE_AGENT_MODEL}",
-    },
+      "disable": true
+    }
   },
   "autoupdate": true,
   "permission": {
@@ -48,8 +45,9 @@
       "git push": "deny",
       "rm *": "ask",
       "rm": "ask",
-      "*": "allow",
+      "*": "allow"
     },
-    "*": "allow",
+    "*": "allow"
   },
+  "lsp": true
 }
