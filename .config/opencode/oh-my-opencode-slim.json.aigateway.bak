@@ -4,7 +4,7 @@
   "presets": {
     "openai": {
       "orchestrator": {
-        "model": "opencode-go/deepseek-v4-pro",
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
         "variant": "medium",
         "skills": [
           "*"
@@ -15,7 +15,7 @@
         ]
       },
       "oracle": {
-        "model": "opencode-go/mimo-v2.5-pro",
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
         "variant": "high",
         "skills": [
           "simplify"
@@ -23,7 +23,7 @@
         "mcps": []
       },
       "librarian": {
-        "model": "opencode-go/deepseek-v4-flash",
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
         "variant": "low",
         "skills": [],
         "mcps": [
@@ -33,50 +33,50 @@
         ]
       },
       "explorer": {
-        "model": "opencode-go/deepseek-v4-flash",
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
         "variant": "low",
         "skills": [],
         "mcps": []
       },
       "designer": {
-        "model": "opencode-go/kimi-k2.7-code",
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
         "variant": "medium",
         "skills": [],
         "mcps": []
       },
       "fixer": {
-        "model": "opencode-go/deepseek-v4-flash",
+        "model": "aigateway/MiniMax/MiniMax-M2.7",
         "variant": "low",
         "skills": [],
         "mcps": []
       },
-      "council": { "model": "opencode-go/deepseek-v4-pro" }
+      "council": { "model": "aigateway/MiniMax/MiniMax-M2.7" }
     }
   },
   "council": {
     "default_preset": "aggressive-review",
     "presets": {
       "default": {
-        "alpha": { "model": "opencode-go/deepseek-v4-pro" },
-        "beta": { "model": "opencode-go/mimo-v2.5-pro" },
-        "gamma": { "model": "opencode-go/kimi-k2.7-code" }
+        "alpha": { "model": "aigateway/MiniMax/MiniMax-M2.7" },
+        "beta": { "model": "aigateway/MiniMax/MiniMax-M2.7" },
+        "gamma": { "model": "aigateway/MiniMax/MiniMax-M2.7" }
       },
       "aggressive-review": {
         "bug-hunter": {
-          "model": "opencode-go/deepseek-v4-pro",
+          "model": "aigateway/MiniMax/MiniMax-M2.7",
           "variant": "high",
           "prompt": "Find bugs, edge cases, and failure modes. Flag anything that could crash, corrupt data, or silently fail."
         },
         "architect": {
-          "model": "opencode-go/kimi-k2.7-code",
+          "model": "aigateway/MiniMax/MiniMax-M2.7",
           "prompt": "Review architecture, boundaries, and long-term design. Identify coupling, wrong abstractions, and maintainability risks."
         },
         "security": {
-          "model": "opencode-go/mimo-v2.5-pro",
+          "model": "aigateway/MiniMax/MiniMax-M2.7",
           "prompt": "Audit security: injection, auth, data exposure, and unsafe patterns."
         },
         "optimizer": {
-          "model": "opencode-go/qwen3.7-plus",
+          "model": "aigateway/MiniMax/MiniMax-M2.7",
           "prompt": "Focus on performance, latency, and resource usage."
         }
       }
