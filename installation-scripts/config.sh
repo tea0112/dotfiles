@@ -150,7 +150,12 @@ rm -rf ~/.config/opencode/skills
 rm -rf ~/.config/opencode/profiles
 cp ~/dotfiles/.config/opencode/AGENTS.md ~/.config/opencode/
 cp ~/dotfiles/.config/opencode/opencode.jsonc ~/.config/opencode/
-cp ~/dotfiles/.config/opencode/oh-my-opencode-slim.json ~/.config/opencode/
+# Copy active profile if exists, otherwise copy default
+if [ -f ~/dotfiles/.config/opencode/oh-my-opencode-slim.json ]; then
+  cp ~/dotfiles/.config/opencode/oh-my-opencode-slim.json ~/.config/opencode/
+else
+  cp ~/dotfiles/.config/opencode/oh-my-opencode-slim.default.json ~/.config/opencode/oh-my-opencode-slim.json
+fi
 cp ~/dotfiles/.config/opencode/opencode-notifier.json ~/.config/opencode/
 cp -r ~/dotfiles/.config/opencode/commands ~/.config/opencode/
 cp -r ~/dotfiles/.config/opencode/skills ~/.config/opencode/
