@@ -173,7 +173,7 @@ alias killports='~/dotfiles/scripts/kill_ports.sh'
 alias open='xdg-open "$@" > /dev/null 2>&1'
 alias lsb='sudo lsblk -o NAME,TYPE,SIZE,FSAVAIL,FSUSED,FSUSE%,PTTYPE,PATH,FSTYPE,LABEL,MOUNTPOINTS,PARTLABEL'
 alias oc=opencode
-alias oc-heavy='OPENCODE_CONFIG_DIR="$HOME/dotfiles/.config/opencode/profiles/heavy" opencode'
+alias oc-heavy='OPENCODE_PROFILE=heavy rf && opencode'
 
 export DISABLE_AUTO_TITLE='true'
 export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$XDG_DATA_DIRS"

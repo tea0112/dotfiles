@@ -1,0 +1,32 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "$OC_TOP_MODEL",
+  "mcp": {},
+  "tools": {},
+  "plugin": __OC_PLUGINS__,
+  "provider": __OC_PROVIDER_BLOCK__,
+  "agent": {
+    "general": {
+      "model": "{env:OPENCODE_AGENT_MODEL}",
+      "disable": true
+    },
+    "explore": {
+      "model": "{env:OPENCODE_AGENT_MODEL}",
+      "disable": true
+    }
+  },
+  "autoupdate": true,
+  "permission": {
+    "external_directory": "ask",
+    "edit": "ask",
+    "bash": {
+      "git push *": "deny",
+      "git push": "deny",
+      "rm *": "ask",
+      "rm": "ask",
+      "*": "allow"
+    },
+    "*": "allow"
+  },
+  "lsp": true
+}

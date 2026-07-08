@@ -4,7 +4,7 @@
   "presets": {
     "openai": {
       "orchestrator": {
-        "model": "opencode-go/deepseek-v4-pro",
+        "model": "$OC_ORCHESTRATOR_MODEL",
         "variant": "medium",
         "skills": [
           "*"
@@ -15,7 +15,7 @@
         ]
       },
       "oracle": {
-        "model": "opencode-go/mimo-v2.5-pro",
+        "model": "$OC_ORACLE_MODEL",
         "variant": "high",
         "skills": [
           "simplify"
@@ -23,7 +23,7 @@
         "mcps": []
       },
       "librarian": {
-        "model": "opencode-go/deepseek-v4-flash",
+        "model": "$OC_LIBRARIAN_MODEL",
         "variant": "low",
         "skills": [],
         "mcps": [
@@ -33,50 +33,50 @@
         ]
       },
       "explorer": {
-        "model": "opencode-go/deepseek-v4-flash",
+        "model": "$OC_EXPLORER_MODEL",
         "variant": "low",
         "skills": [],
         "mcps": []
       },
       "designer": {
-        "model": "opencode-go/kimi-k2.7-code",
+        "model": "$OC_DESIGNER_MODEL",
         "variant": "medium",
         "skills": [],
         "mcps": []
       },
       "fixer": {
-        "model": "opencode-go/deepseek-v4-flash",
+        "model": "$OC_FIXER_MODEL",
         "variant": "low",
         "skills": [],
         "mcps": []
       },
-      "council": { "model": "opencode-go/deepseek-v4-pro" }
+      "council": { "model": "$OC_COUNCIL_MODEL" }
     }
   },
   "council": {
     "default_preset": "aggressive-review",
     "presets": {
       "default": {
-        "alpha": { "model": "opencode-go/deepseek-v4-pro" },
-        "beta": { "model": "opencode-go/mimo-v2.5-pro" },
-        "gamma": { "model": "opencode-go/kimi-k2.7-code" }
+        "alpha": { "model": "$OC_COUNCIL_ALPHA_MODEL" },
+        "beta": { "model": "$OC_COUNCIL_BETA_MODEL" },
+        "gamma": { "model": "$OC_COUNCIL_GAMMA_MODEL" }
       },
       "aggressive-review": {
         "bug-hunter": {
-          "model": "opencode-go/deepseek-v4-pro",
+          "model": "$OC_COUNCIL_BUGHUNTER_MODEL",
           "variant": "high",
           "prompt": "Find bugs, edge cases, and failure modes. Flag anything that could crash, corrupt data, or silently fail."
         },
         "architect": {
-          "model": "opencode-go/kimi-k2.7-code",
+          "model": "$OC_COUNCIL_ARCHITECT_MODEL",
           "prompt": "Review architecture, boundaries, and long-term design. Identify coupling, wrong abstractions, and maintainability risks."
         },
         "security": {
-          "model": "opencode-go/mimo-v2.5-pro",
+          "model": "$OC_COUNCIL_SECURITY_MODEL",
           "prompt": "Audit security: injection, auth, data exposure, and unsafe patterns."
         },
         "optimizer": {
-          "model": "opencode-go/qwen3.7-plus",
+          "model": "$OC_COUNCIL_OPTIMIZER_MODEL",
           "prompt": "Focus on performance, latency, and resource usage."
         }
       }

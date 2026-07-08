@@ -144,19 +144,13 @@ rm -f ~/.config/opencode/opencode-notifier.json
 rm -f ~/.config/opencode/minimax-wrapper.sh
 rm -f ~/.config/opencode/.custom_environment.example.sh
 rm -f ~/.config/opencode/oh-my-opencode-slim.json
+rm -f ~/.config/opencode/tui.json
 rm -rf ~/.config/opencode/commands
 rm -rf ~/.config/opencode/scripts
 rm -rf ~/.config/opencode/skills
 rm -rf ~/.config/opencode/profiles
 cp ~/dotfiles/.config/opencode/AGENTS.md ~/.config/opencode/
-cp ~/dotfiles/.config/opencode/opencode.jsonc ~/.config/opencode/
-# Copy active profile if exists, otherwise copy default
-if [ -f ~/dotfiles/.config/opencode/oh-my-opencode-slim.json ]; then
-  cp ~/dotfiles/.config/opencode/oh-my-opencode-slim.json ~/.config/opencode/
-else
-  cp ~/dotfiles/.config/opencode/oh-my-opencode-slim.default.json ~/.config/opencode/oh-my-opencode-slim.json
-fi
 cp ~/dotfiles/.config/opencode/opencode-notifier.json ~/.config/opencode/
 cp -r ~/dotfiles/.config/opencode/commands ~/.config/opencode/
 cp -r ~/dotfiles/.config/opencode/skills ~/.config/opencode/
-cp -r ~/dotfiles/.config/opencode/profiles ~/.config/opencode/
+bash ~/dotfiles/.config/opencode/scripts/generate-configs.sh
