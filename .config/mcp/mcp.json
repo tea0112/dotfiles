@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "searxng": {
+      "command": "python3",
+      "args": ["dev/searXNG-mcp/server.py"],
+      "env": {
+        "SEARXNG_BASE_URL": "http://localhost:32768"
+      }
+    }
+  }
+}
