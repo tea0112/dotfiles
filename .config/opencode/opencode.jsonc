@@ -31,6 +31,10 @@
           "limit": {
             "context": 204800,
             "output": 65536
+          },
+          "reasoning": true,
+          "settings": {
+            "reasoningEffort": "high"
           }
         }
       }
