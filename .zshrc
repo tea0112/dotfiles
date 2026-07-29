@@ -207,6 +207,7 @@ export MEMORY_FILE_PATH=~/common-mcp/server-memory.json
 # ow=30;42 : Other-Writable (777) -> Black text on Green background (High contrast)
 # tw=30;42 : Sticky-Writable -> Black text on Green background
 export LS_COLORS=$LS_COLORS:'di=1;34:ow=30;42:tw=30;42:'
+export BUN_INSTALL="$HOME/.bun"
 
 export GOPATH=$HOME/go
 
@@ -225,6 +226,7 @@ export PATH=$PATH:/usr/pgsql-17/bin/
 export PATH=$PATH:$HOME/Apps/sonar-scanner/bin
 export PATH="$PATH:$GOPATH/bin"
 export PATH="$PATH:$HOME/.moon/bin"
+export PATH="$BUN_INSTALL/bin:$PATH"
 
 # nnn configuration
 export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'
