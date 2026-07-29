@@ -1,10 +1,5 @@
-# Generated files — not tracked
-oh-my-opencode-slim.json
-oh-my-openagent.json
-opencode.jsonc
-tui.json
-
-# Profile secrets
-profiles/*.env
-profiles/*.env.*
-!profiles/*.env.example
+node_modules
+package.json
+package-lock.json
+bun.lock
+.gitignore
