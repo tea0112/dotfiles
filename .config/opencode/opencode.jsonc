@@ -1,5 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "default_agent": "orchestrator",
   "model": "cocraft-local/MiniMax/MiniMax-M2.7",
   "mcp": {
     "google-search": {
@@ -57,6 +58,7 @@
   },
   "lsp": true,
   "agent": {
+    "build": { "disable": true },
     "general": {
       "description": "General purpose agent for implementation, file edits, bash commands, and complex multi-step tasks",
       "mode": "subagent",
