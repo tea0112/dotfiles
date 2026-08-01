@@ -1,7 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "cocraft-local/MiniMax/MiniMax-M2.7",
-    "mcp": {
+  "mcp": {
     "google-search": {
       "type": "local",
       "command": [
@@ -55,5 +55,46 @@
       }
     }
   },
-  "lsp": true
+  "lsp": true,
+  "agent": {
+    "general": {
+      "description": "General purpose agent for implementation, file edits, bash commands, and complex multi-step tasks",
+      "mode": "subagent",
+      "permission": {
+        "edit": "allow",
+        "bash": "allow",
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "allow",
+        "websearch": "allow"
+      }
+    },
+    "explore": {
+      "description": "Fast read-only codebase exploration — find files, search code, understand structure",
+      "mode": "subagent",
+      "permission": {
+        "edit": "deny",
+        "bash": "deny",
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "allow",
+        "websearch": "allow"
+      }
+    },
+    "scout": {
+      "description": "External dependency research — inspect libraries, clone repos, cross-reference upstream code",
+      "mode": "subagent",
+      "permission": {
+        "edit": "deny",
+        "bash": "allow",
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "webfetch": "allow",
+        "websearch": "allow"
+      }
+    }
+  }
 }
