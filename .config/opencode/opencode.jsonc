@@ -52,13 +52,49 @@
           "settings": {
             "reasoningEffort": "high"
           }
+        },
+        "MiniMax/MiniMax-M3": {
+          "name": "MiniMax/MiniMax-M3",
+          "capabilities": {
+            "tools": true,
+            "input": [
+              "text",
+              "image",
+              "video"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "variants": {
+            "high": {
+              "reasoningEffort": "high",
+              "textVerbosity": "high",
+              "reasoningSummary": "auto"
+            },
+            "max": {
+              "reasoningEffort": "max",
+              "textVerbosity": "high",
+              "reasoningSummary": "detailed"
+            }
+          },
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "reasoning": true,
+          "settings": {
+            "reasoningEffort": "high"
+          }
         }
       }
     }
   },
   "lsp": true,
   "agent": {
-    "build": { "disable": true },
+    "build": {
+      "disable": true
+    },
     "general": {
       "description": "General purpose agent for implementation, file edits, bash commands, and complex multi-step tasks",
       "mode": "subagent",
