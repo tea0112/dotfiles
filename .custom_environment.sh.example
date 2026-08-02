@@ -20,12 +20,12 @@ export OPENCODE_AGENT_MODEL="${MY_AGENT_MODEL:-opencode-go/deepseek-v4-flash}"
 
 export ANTHROPIC_BASE_URL="https://ai.com/gateway"
 export ANTHROPIC_AUTH_TOKEN="<your key>"
-# Map Claude Code's opus/sonnet/haiku slots onto your allowed model
-export ANTHROPIC_DEFAULT_OPUS_MODEL="MiniMax/MiniMax-M3"
-export ANTHROPIC_DEFAULT_SONNET_MODEL="MiniMax/MiniMax-M3"
+# Keep haiku on M2.7 — it's literally designed for this slot
 export ANTHROPIC_DEFAULT_HAIKU_MODEL="MiniMax/MiniMax-M2.7"
-# Belt-and-braces fallback Claude Code also checks
-export ANTHROPIC_MODEL="MiniMax/MiniMax-M3"
+# opus/sonnet/default get M3 with 1M context for the heavy lifting
+export ANTHROPIC_DEFAULT_OPUS_MODEL="MiniMax/MiniMax-M3[1m]"
+export ANTHROPIC_DEFAULT_SONNET_MODEL="MiniMax/MiniMax-M3[1m]"
+export ANTHROPIC_MODEL="MiniMax/MiniMax-M3[1m]"
 
 # pdf convert into obsidian docling
 export DOCLING_VLM_BASE_URL="https://opencode.ai/zen/go/v1"
