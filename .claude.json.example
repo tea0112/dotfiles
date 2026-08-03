@@ -8,7 +8,7 @@
         "google-search-api-mcp"
       ],
       "env": {
-        "GEMINI_API_KEY": "your key",
+        "GEMINI_API_KEY": "${MY_SECRET_TOKEN}",
         "GOOGLE_SEARCH_MODEL": "gemini-2.5-flash"
       }
     }
