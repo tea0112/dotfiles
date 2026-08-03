@@ -18,6 +18,7 @@ export AI_GATEWAY_MODEL="MiniMax/MiniMax-M2.7"
 export MY_AGENT_MODEL="aigateway/MiniMax/MiniMax-M2.7"
 export OPENCODE_AGENT_MODEL="${MY_AGENT_MODEL:-opencode-go/deepseek-v4-flash}"
 
+# Must have .../gateway for Anthropic
 export ANTHROPIC_BASE_URL="https://ai.com/gateway"
 export ANTHROPIC_AUTH_TOKEN="<your key>"
 # Keep haiku on M2.7 — it's literally designed for this slot
