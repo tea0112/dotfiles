@@ -27,6 +27,7 @@ export ANTHROPIC_DEFAULT_HAIKU_MODEL="MiniMax/MiniMax-M2.7"
 export ANTHROPIC_DEFAULT_OPUS_MODEL="MiniMax/MiniMax-M3[1m]"
 export ANTHROPIC_DEFAULT_SONNET_MODEL="MiniMax/MiniMax-M3[1m]"
 export ANTHROPIC_MODEL="MiniMax/MiniMax-M3[1m]"
+export CLAUDE_CODE_AUTO_COMPACT_WINDOW=850000
 
 # pdf convert into obsidian docling
 export DOCLING_VLM_BASE_URL="https://opencode.ai/zen/go/v1"
