@@ -274,8 +274,8 @@ load-nvmrc() {
 
 setopt rmstarsilent
 
-if [ ! -f "~/.custom_environment.sh" ]; then
-    source ~/.custom_environment.sh
+if [ -f "$HOME/.custom_environment.sh" ]; then
+    source "$HOME/.custom_environment.sh"
 fi
 if [ -f ~/.go/current_version ]; then
     source ~/.go/current_version
