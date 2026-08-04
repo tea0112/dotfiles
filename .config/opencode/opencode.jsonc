@@ -26,45 +26,11 @@
         "apiKey": "{env:AI_GATEWAY_API_KEY}"
       },
       "models": {
-        "MiniMax/MiniMax-M2.7": {
-          "name": "MiniMax/MiniMax-M2.7",
-          "capabilities": {
-            "tools": true,
-            "input": [
-              "text"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "variants": {
-            "high": {
-              "reasoningEffort": "high",
-              "textVerbosity": "low",
-              "reasoningSummary": "auto"
-            }
-          },
-          "limit": {
-            "context": 204800,
-            "output": 65536
-          },
-          "reasoning": true,
-          "settings": {
-            "reasoningEffort": "high"
-          }
-        },
         "MiniMax/MiniMax-M3": {
           "name": "MiniMax/MiniMax-M3",
-          "capabilities": {
-            "tools": true,
-            "input": [
-              "text",
-              "image",
-              "video"
-            ],
-            "output": [
-              "text"
-            ]
+          "modalities": {
+            "input":  ["text", "image", "video"],
+            "output": ["text"]
           },
           "variants": {
             "high": {
