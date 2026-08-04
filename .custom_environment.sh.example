@@ -22,7 +22,7 @@ export OPENCODE_AGENT_MODEL="${MY_AGENT_MODEL:-opencode-go/deepseek-v4-flash}"
 export ANTHROPIC_BASE_URL="https://ai.com/gateway"
 export ANTHROPIC_AUTH_TOKEN="<your key>"
 # Keep haiku on M2.7 — it's literally designed for this slot
-export ANTHROPIC_DEFAULT_HAIKU_MODEL="MiniMax/MiniMax-M2.7"
+export ANTHROPIC_DEFAULT_HAIKU_MODEL="MiniMax/MiniMax-M3[1m]"
 # opus/sonnet/default get M3 with 1M context for the heavy lifting
 export ANTHROPIC_DEFAULT_OPUS_MODEL="MiniMax/MiniMax-M3[1m]"
 export ANTHROPIC_DEFAULT_SONNET_MODEL="MiniMax/MiniMax-M3[1m]"
