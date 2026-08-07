@@ -34,7 +34,9 @@ get_installed_versions() {
 download_and_extract_go() {
     local version=$1
     local version_dir="${HOME}/.go/versions/${version}"
-    local arch="linux-amd64"
+    # Auto-detect platform/architecture (e.g. linux-amd64, darwin-arm64, linux-arm64)
+    local arch
+    arch="$(uname -s | tr '[:upper:]' '[:lower:]')-$(uname -m | sed 's/x86_64/amd64/; s/aarch64/arm64/')"
     local tar_file="${HOME}/.go/versions/${version}.tar.gz"
     local download_url="https://go.dev/dl/${version}.${arch}.tar.gz"
     
@@ -103,6 +105,40 @@ download_and_extract_go() {
         return 1
     fi
     
+    # Verify SHA256 checksum before extracting (security: detects tampering / corruption)
+    local checksum_url="${download_url}.sha256"
+    echo "Verifying checksum..."
+    local checksum_file
+    checksum_file="$(mktemp)"
+    local downloaded_checksum=false
+    if command -v curl >/dev/null 2>&1; then
+        if curl -L -f -s -o "$checksum_file" "$checksum_url"; then
+            downloaded_checksum=true
+        fi
+    elif command -v wget >/dev/null 2>&1; then
+        if wget -q -O "$checksum_file" "$checksum_url"; then
+            downloaded_checksum=true
+        fi
+    fi
+
+    if [ "$downloaded_checksum" = true ]; then
+        local expected_sha actual_sha
+        expected_sha="$(awk '{print $1}' "$checksum_file" | head -n1)"
+        actual_sha="$(sha256sum "$tar_file" | awk '{print $1}')"
+        rm -f "$checksum_file"
+        if [ "$expected_sha" != "$actual_sha" ]; then
+            echo "Error: Checksum verification failed"
+            echo "  Expected: $expected_sha"
+            echo "  Got:      $actual_sha"
+            rm -f "$tar_file"
+            return 1
+        fi
+        echo "Checksum verified."
+    else
+        rm -f "$checksum_file"
+        echo "Warning: Could not download checksum file, skipping verification."
+    fi
+
     # Extract the tar file
     echo "Extracting ${version}..."
     if ! tar -C "${HOME}/.go/versions" -xzf "$tar_file"; then
@@ -373,6 +409,13 @@ export PATH=$GOROOT/bin:$PATH
 export GOPATH="$HOME/.go/${gopath}"
 export PATH=$PATH:${GOPATH}/bin
 
+# Capture common go env values (with sensible defaults) so they persist across switches
+local goproxy="${GOPROXY:-https://proxy.golang.org,direct}"
+local gosumdb="${GOSUMDB:-sum.golang.org}"
+local gotoolchain="${GOTOOLCHAIN:-auto}"
+local goflags="${GOFLAGS:-}"
+local goprivate="${GOPRIVATE:-}"
+
 # Save the selected version to a file
 # First, clean PATH in the saved file by removing all Go paths
 {
@@ -384,6 +427,17 @@ export PATH=$PATH:${GOPATH}/bin
     echo "export PATH=\$GOROOT/bin:\$PATH"
     echo "export GOPATH=\$HOME/.go/${gopath}"
     echo "export PATH=\$PATH:\$GOPATH/bin"
+    echo ""
+    echo "# Common go env values (captured at switch time)"
+    echo "export GOPROXY=\"${goproxy}\""
+    echo "export GOSUMDB=\"${gosumdb}\""
+    echo "export GOTOOLCHAIN=\"${gotoolchain}\""
+    if [ -n "$goflags" ]; then
+        echo "export GOFLAGS=\"${goflags}\""
+    fi
+    if [ -n "$goprivate" ]; then
+        echo "export GOPRIVATE=\"${goprivate}\""
+    fi
 } >~/.go/current_version
 
 

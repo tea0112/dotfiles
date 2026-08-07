@@ -277,8 +277,8 @@ setopt rmstarsilent
 if [ -f "$HOME/.custom_environment.sh" ]; then
     source "$HOME/.custom_environment.sh"
 fi
-if [ -f ~/.go/current_version ]; then
-    source ~/.go/current_version
+if [ -f "$HOME/.go/current_version" ]; then
+    source "$HOME/.go/current_version"
 fi
 
 # The next line updates PATH for the Google Cloud SDK.
