@@ -31,3 +31,4 @@ tui.json
 
 # Oh-My-OpenAgent runtime
 .omo/
+.claude
