@@ -73,13 +73,13 @@
 ---
 
 ## 4. Development Tools
-### Node.js (via NVM)
-* Install NVM and Node LTS:
+### Node.js (via fnm)
+* Install fnm and Node LTS (requires Rust toolchain):
     ```bash
     cd ~/dotfiles/installation-scripts/kiss-installation
-    ./nvm.sh
-    nvm install --lts
-    nvm use --lts
+    ./fnm.sh
+    fnm install --lts --use
+    fnm default lts-latest
     ```
 
 ### Neovim

@@ -67,4 +67,17 @@ y)
 	;;
 esac
 
+echo ".------------------------------------------------."
+echo "|                    docker                      |"
+echo "'------------------------------------------------'"
+read -r -p "Install Docker Engine (official repo)?" confirm
+case $confirm in
+y)
+	./kiss-installation/docker.sh
+	;;
+*)
+	echo "you chose NO"
+	;;
+esac
+
 ./config.sh
