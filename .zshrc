@@ -267,6 +267,42 @@ reload-env() {
     source "$f"
 }
 reload-env
+
+# --- Defang tmux-leaked Anthropic/Claude auth vars ---
+# The ccn/cco aliases (in ~/.custom_environment.sh) set these inline for
+# the claude invocation ONLY; they must NOT persist in the parent shell
+# or in the tmux server-global env (which would leak them into every
+# future pane via tmux's inherited environment). Strip them here on
+# every shell start. Re-runnable; safe inside or outside tmux.
+_anthropic_leak_vars=(
+    ANTHROPIC_API_KEY
+    ANTHROPIC_AUTH_TOKEN
+    ANTHROPIC_BASE_URL
+    ANTHROPIC_MODEL
+    ANTHROPIC_DEFAULT_HAIKU_MODEL
+    ANTHROPIC_DEFAULT_OPUS_MODEL
+    ANTHROPIC_DEFAULT_SONNET_MODEL
+    CLAUDE_API_KEY
+)
+for _v in "${_anthropic_leak_vars[@]}"; do
+    unset "$_v" 2>/dev/null
+done
+unset _anthropic_leak_vars _v
+
+# If we're inside a tmux session, also strip them from the server-global
+# env so future new panes start clean. No-op if the server already lacks them.
+if [ -n "$TMUX" ] && command -v tmux >/dev/null 2>&1; then
+    tmux set-environment -gr \
+        ANTHROPIC_API_KEY \
+        ANTHROPIC_AUTH_TOKEN \
+        ANTHROPIC_BASE_URL \
+        ANTHROPIC_MODEL \
+        ANTHROPIC_DEFAULT_HAIKU_MODEL \
+        ANTHROPIC_DEFAULT_OPUS_MODEL \
+        ANTHROPIC_DEFAULT_SONNET_MODEL \
+        CLAUDE_API_KEY 2>/dev/null
+fi
+
 if [ -f "$HOME/.go/current_version" ]; then
     source "$HOME/.go/current_version"
 fi
