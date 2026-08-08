@@ -246,9 +246,27 @@ source $HOME/.local_env.sh 2> /dev/null
 
 setopt rmstarsilent
 
-if [ -f "$HOME/.custom_environment.sh" ]; then
-    source "$HOME/.custom_environment.sh"
-fi
+# Source ~/.custom_environment.sh, but force-override any prior values
+# (env vars and aliases). Re-runnable; safe to invoke as `reload-env`.
+reload-env() {
+    local f="$HOME/.custom_environment.sh"
+    [ -f "$f" ] || { echo "reload-env: $f not found" >&2; return 1; }
+
+    # Unset every VAR that the file exports
+    sed -nE 's/^[[:space:]]*export[[:space:]]+([A-Za-z_][A-Za-z0-9_]*).*/\1/p' "$f" |
+        while IFS= read -r var; do
+            [ -n "$var" ] && unset "$var"
+        done
+
+    # Unalias every name that the file defines
+    sed -nE "s/^[[:space:]]*alias[[:space:]]+([A-Za-z_][A-Za-z0-9_-]*).*/\1/p" "$f" |
+        while IFS= read -r a; do
+            [ -n "$a" ] && unalias "$a" 2>/dev/null
+        done
+
+    source "$f"
+}
+reload-env
 if [ -f "$HOME/.go/current_version" ]; then
     source "$HOME/.go/current_version"
 fi
