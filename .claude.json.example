@@ -11,6 +11,10 @@
         "GEMINI_API_KEY": "${MY_SECRET_TOKEN}",
         "GOOGLE_SEARCH_MODEL": "gemini-2.5-flash"
       }
+    },
+    "next-devtools": {
+      "command": "npx",
+      "args": ["-y", "next-devtools-mcp@latest"]
     }
   }
 }
