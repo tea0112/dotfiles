@@ -1,5 +1,4 @@
 {
-  "model": "MiniMax/MiniMax-M3[1m]",
   "enabledPlugins": {
     "pyright-lsp@claude-plugins-official": true
   },
