@@ -19,6 +19,9 @@ fi
 gsettings set org.gnome.desktop.wm.keybindings show-desktop "[]"
 gsettings set org.gnome.shell.keybindings toggle-quick-settings "[]"
 gsettings set org.gnome.shell.keybindings toggle-application-view "[]"
+# Unbind Super+v from the message-tray toggle (default is Super+v + Super+m).
+# Keep Super+m working.
+gsettings set org.gnome.shell.keybindings toggle-message-tray "['<Super>m']"
 gsettings set org.gnome.shell.extensions.dash-to-dock shortcut "[]"
 gsettings set org.gnome.shell.extensions.dash-to-dock shortcut-text ""
 
