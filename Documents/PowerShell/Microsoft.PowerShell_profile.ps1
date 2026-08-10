@@ -81,7 +81,6 @@ $env:AI_GATEWAY_API_KEY="sk-..."
 # Claude Code model aliases (mirrors .custom_environment.sh.example)
 # ccn  -> MiniMax M3 (1M context), replace base URL/token with your gateway
 function ccn {
-    $env:ANTHROPIC_API_KEY                = ""
     $env:ANTHROPIC_AUTH_TOKEN             = "sk-..."
     $env:ANTHROPIC_BASE_URL               = "https://netmind.viettel.vn/gateway"  # no /v1
     $env:ANTHROPIC_MODEL                  = "MiniMax/MiniMax-M3[1m]"
