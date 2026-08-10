@@ -87,16 +87,6 @@ function cco {
 }
 
 # General Envs
-#$env:ANTHROPIC_BASE_URL = "https://netmind.viettel.vn/gateway"
-#$env:ANTHROPIC_AUTH_TOKEN = "sk-..."
-#$env:ANTHROPIC_MODEL = "MiniMax/MiniMax-M3[1m]"
-
-$env:ANTHROPIC_BASE_URL = "https://opencode.ai/zen/go"
-$env:ANTHROPIC_API_KEY = "sk-..."
-$env:ANTHROPIC_MODEL = "deepseek-v4-flash[1m]"
-$env:ANTHROPIC_DEFAULT_HAIKU_MODEL = "deepseek-v4-flash[1m]"
-$env:ANTHROPIC_DEFAULT_OPUS_MODEL = "deepseek-v4-flash[1m]"
-$env:ANTHROPIC_DEFAULT_SONNET_MODEL = "deepseek-v4-flash[1m]"
 $env:CLAUDE_CODE_USE_POWERSHELL_TOOL = "1"
 
 $env:AI_GATEWAY_BASE_URL="https://AI.comn/gateway/v1"
