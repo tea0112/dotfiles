@@ -36,9 +36,8 @@
         "@bytebase/dbhub@latest",
         "--transport",
         "stdio",
-        "--dsn",
-        "postgres://user:password@localhost:5432/dbname?sslmode=disable",
-        "--readonly"
+        "--config",
+        "./dbhub.toml"
       ]
     },
     "linear": {
