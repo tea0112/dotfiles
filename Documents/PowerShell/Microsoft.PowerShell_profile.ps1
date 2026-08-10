@@ -61,6 +61,31 @@ if ($env:PATH -notlike "*$RustPath*") {
     $env:PATH = "$RustPath;$env:PATH"
 }
 
+# Claude Code model aliases (mirrors .custom_environment.sh.example)
+# ccn  -> MiniMax M3 (1M context), replace base URL/token with your gateway
+function ccn {
+    $env:ANTHROPIC_MODEL = "MiniMax/MiniMax-M3[1m]"
+    $env:ANTHROPIC_DEFAULT_FABLE_MODEL = "MiniMax/MiniMax-M3[1m]"
+    $env:ANTHROPIC_DEFAULT_HAIKU_MODEL = "MiniMax/MiniMax-M3[1m]"
+    $env:ANTHROPIC_DEFAULT_OPUS_MODEL = "MiniMax/MiniMax-M3[1m]"
+    $env:ANTHROPIC_DEFAULT_SONNET_MODEL = "MiniMax/MiniMax-M3[1m]"
+    $env:ANTHROPIC_BASE_URL = "https://base-url.com"
+    $env:ANTHROPIC_AUTH_TOKEN = "sk-key"
+    claude @args
+}
+
+# cco -> opencode-go deepseek-v4-flash (1M context)
+function cco {
+    $env:ANTHROPIC_MODEL = "opencode-go/deepseek-v4-flash[1m]"
+    $env:ANTHROPIC_DEFAULT_FABLE_MODEL = "opencode-go/deepseek-v4-flash[1m]"
+    $env:ANTHROPIC_DEFAULT_HAIKU_MODEL = "opencode-go/deepseek-v4-flash[1m]"
+    $env:ANTHROPIC_DEFAULT_OPUS_MODEL = "opencode-go/deepseek-v4-flash[1m]"
+    $env:ANTHROPIC_DEFAULT_SONNET_MODEL = "opencode-go/deepseek-v4-flash[1m]"
+    $env:ANTHROPIC_BASE_URL = "https://opencode.ai/zen/go"
+    $env:ANTHROPIC_AUTH_TOKEN = "sk-key"
+    claude @args
+}
+
 # General Envs
 #$env:ANTHROPIC_BASE_URL = "https://netmind.viettel.vn/gateway"
 #$env:ANTHROPIC_AUTH_TOKEN = "sk-..."
