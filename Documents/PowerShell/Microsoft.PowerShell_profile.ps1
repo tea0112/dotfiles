@@ -56,9 +56,9 @@ function killport {
         return
     }
     $pids = $conn | Select-Object -ExpandProperty OwningProcess -Unique
-    foreach ($pid in $pids) {
-        Stop-Process -Id $pid -Force
-        Write-Host "Killed PID $pid on port $Port" -ForegroundColor Green
+    foreach ($procId in $pids) {
+        Stop-Process -Id $procId -Force
+        Write-Host "Killed PID $procId on port $Port" -ForegroundColor Green
     }
 }
 
