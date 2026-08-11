@@ -1,13 +1,66 @@
 # Set up PSReadLine for better command line editing and history
 Import-Module PSReadLine
 Set-PSReadLineOption -PredictionSource HistoryAndPlugin -ErrorAction SilentlyContinue
-Set-PSReadLineOption -PredictionViewStyle ListView -ErrorAction SilentlyContinue
+Set-PSReadLineOption -PredictionViewStyle InlineView -ErrorAction SilentlyContinue
 Set-PSReadLineOption -ShowToolTips
 Set-PSReadLineOption -EditMode Emacs
 
 # Enable auto-completion suggestions behavior
-Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 Set-PSReadLineKeyHandler -Key RightArrow -Function ForwardChar
+
+# Fish-style accept: Ctrl+F always accepts suggestion
+Set-PSReadLineKeyHandler -Chord 'Ctrl+f' -Function AcceptSuggestion
+
+# Fish-style Tab: accept suggestion if visible, else fall back to MenuComplete
+Set-PSReadLineKeyHandler -Key Tab -ScriptBlock {
+    $before = $null
+    [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$before, [ref]$null)
+    [Microsoft.PowerShell.PSConsoleReadLine]::AcceptSuggestion()
+    $after = $null
+    [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$after, [ref]$null)
+    if ($before -eq $after) {
+        [Microsoft.PowerShell.PSConsoleReadLine]::MenuComplete()
+    }
+}
+
+# fzf integration - fuzzy directory picker & history search
+$env:FZF_DEFAULT_OPTS = "--height 40% --layout=reverse --border --info=inline --preview-window=right:60%"
+
+function fe {
+    $dir = Get-ChildItem -Directory -Force -ErrorAction SilentlyContinue |
+           ForEach-Object { $_.Name } |
+           fzf --prompt "dir> "
+    if ($dir) { Set-Location -LiteralPath $dir }
+}
+
+function fh {
+    $historyPath = (Get-PSReadLineOption).HistorySavePath
+    $cmd = Get-Content $historyPath -ErrorAction SilentlyContinue |
+           Select-Object -Unique |
+           fzf --prompt "history> " --tac --no-sort
+    if ($cmd) { [Microsoft.PowerShell.PSConsoleReadLine]::Insert($cmd) }
+}
+
+Set-PSReadLineKeyHandler -Chord 'Ctrl+r' -ScriptBlock { fh }
+Set-PSReadLineKeyHandler -Chord 'Alt+c'  -ScriptBlock { fe }
+
+function killport {
+    param([int]$Port)
+    if (-not $Port) {
+        Write-Host "Usage: killport <port>" -ForegroundColor Yellow
+        return
+    }
+    $conn = Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue
+    if (-not $conn) {
+        Write-Host "No process listening on port $Port" -ForegroundColor Yellow
+        return
+    }
+    $pids = $conn | Select-Object -ExpandProperty OwningProcess -Unique
+    foreach ($pid in $pids) {
+        Stop-Process -Id $pid -Force
+        Write-Host "Killed PID $pid on port $Port" -ForegroundColor Green
+    }
+}
 
 # Common Aliases
 Set-Alias ll Get-ChildItem
