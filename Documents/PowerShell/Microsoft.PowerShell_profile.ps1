@@ -8,8 +8,17 @@ Set-PSReadLineOption -EditMode Emacs
 # Enable auto-completion suggestions behavior
 Set-PSReadLineKeyHandler -Key RightArrow -Function ForwardChar
 
-# Fish-style accept: Ctrl+F always accepts suggestion
-Set-PSReadLineKeyHandler -Chord 'Ctrl+f' -Function AcceptSuggestion
+# Fish-style Ctrl+F: accept suggestion if present, else move cursor forward one char
+Set-PSReadLineKeyHandler -Chord 'Ctrl+f' -ScriptBlock {
+    $before = $null
+    [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$before, [ref]$null)
+    [Microsoft.PowerShell.PSConsoleReadLine]::AcceptSuggestion()
+    $after = $null
+    [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$after, [ref]$null)
+    if ($before -eq $after) {
+        [Microsoft.PowerShell.PSConsoleReadLine]::ForwardChar()
+    }
+}
 
 # Fish-style Tab: accept suggestion if visible, else fall back to MenuComplete
 Set-PSReadLineKeyHandler -Key Tab -ScriptBlock {
