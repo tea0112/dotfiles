@@ -5,5 +5,5 @@ cargo install fnm --locked
 
 export PATH="$HOME/.cargo/bin:$PATH"
 
-fnm install --lts --use
+fnm install --lts
 fnm default lts-latest
