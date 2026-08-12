@@ -57,3 +57,30 @@ export OPENCODE_EXPERIMENTAL_PARALLEL=true
 export OPENCODE_EXPERIMENTAL_SCOUT=true
 export OPENCODE_EXPERIMENTAL_EXA=true
 export OPENCODE_EXPERIMENTAL_LSP_TOOL=true
+
+# --- Claude Code: keep this machine awake while a session runs ---------------
+# Idle suspend is 20 min on AC / 15 min on battery, which cuts long runs short.
+# Inhibits *idle* only, NOT sleep, so `systemctl suspend` and the /sleep command
+# from the Telegram bot still work.  The lock lasts exactly as long as the claude
+# process, so it cannot leak if the session crashes.
+#
+# ccn / cco end in `claude`, so they pick this up automatically: the env
+# assignments pass through the function to the real binary (verified in zsh+bash).
+# Override the binary location with CLAUDE_BIN if it ever moves.
+claude() {
+    local bin="${CLAUDE_BIN:-$HOME/.local/bin/claude}"
+    if [ ! -x "$bin" ]; then
+        # Resolve the real binary while skipping this function.
+        if [ -n "$ZSH_VERSION" ]; then bin=$(whence -p claude)
+        elif [ -n "$BASH_VERSION" ]; then bin=$(type -P claude)
+        else bin=""
+        fi
+    fi
+    [ -n "$bin" ] && [ -x "$bin" ] || { echo "claude: binary not found" >&2; return 127; }
+
+    if [ -n "$DBUS_SESSION_BUS_ADDRESS" ] && command -v gnome-session-inhibit >/dev/null 2>&1; then
+        gnome-session-inhibit --inhibit idle --reason "Claude Code session" "$bin" "$@"
+    else
+        "$bin" "$@"   # no GNOME session (e.g. plain SSH): run unwrapped
+    fi
+}
