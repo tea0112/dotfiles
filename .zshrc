@@ -152,7 +152,21 @@ alias de="rm -rf"
 alias gs="git status"
 alias gi="grep -i"
 alias tcb="xclip -selection clipboard"
-alias tm="tmux attach || tmux new-session"
+# tm: attach to tmux, or start a session. Guarded against being run from
+# inside tmux: a nested `tmux attach` is rejected by the server ("sessions
+# should be nested with care"), but the client has already sent its terminal
+# capability queries (ESC]10;? and ESC]11;?) by then. It exits before the
+# terminal's reply arrives, so the reply lands on zsh's stdin and gets
+# interpreted as keystrokes (e.g. a stray `^[]11;rgb:1e1e/1e1e/1e1e^[\`,
+# whose `:` trips zsh-vi-mode into the `execute:` prompt).
+tm() {
+    if [ -n "$TMUX" ]; then
+        print -u2 "tm: already inside tmux (session: $(tmux display-message -p '#S'))"
+        print -u2 "tm: use Alt+s to switch sessions, or 'tmux detach' first"
+        return 1
+    fi
+    tmux attach || tmux new-session
+}
 alias cb="tr -d '\n' | xclip -selection clipboard"
 alias rtm="bash $HOME/dotfiles/scripts/reorder-tmux.sh"
 alias cx="chmod +x"
