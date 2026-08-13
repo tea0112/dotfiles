@@ -72,6 +72,7 @@ function killport {
 }
 
 # Common Aliases
+Set-Alias -Name oc -Value opencode
 Set-Alias ll Get-ChildItem
 Set-Alias grep Select-String
 Set-Alias touch New-Item
