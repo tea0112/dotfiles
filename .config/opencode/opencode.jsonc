@@ -56,5 +56,9 @@
       }
     }
   },
-  "lsp": true
+  "lsp": true,
+  "permissions": {
+    "read": true,
+    "write": false
+  }
 }
