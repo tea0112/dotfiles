@@ -145,7 +145,7 @@ $env:AI_GATEWAY_API_KEY="sk-..."
 # ccn  -> MiniMax M3 (1M context), replace base URL/token with your gateway
 function ccn {
     $env:ANTHROPIC_AUTH_TOKEN             = "sk-..."
-    $env:ANTHROPIC_BASE_URL               = "https://netmind.viettel.vn/gateway"  # no /v1
+    $env:ANTHROPIC_BASE_URL               = "https://base-url.com/gateway"  # no /v1
     $env:ANTHROPIC_MODEL                  = "MiniMax/MiniMax-M3[1m]"
     $env:ANTHROPIC_DEFAULT_FABLE_MODEL    = "MiniMax/MiniMax-M3[1m]"
     $env:ANTHROPIC_DEFAULT_HAIKU_MODEL    = "MiniMax/MiniMax-M3[1m]"
