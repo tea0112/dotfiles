@@ -133,24 +133,17 @@ echo "'------------------------------------------------'"
 rm -rf ~/go-tools
 cp -r ~/dotfiles/go-tools ~
 
-#echo ".------------------------------------------------."
-#echo "|                 Config Opencode                 |"
-#echo "'------------------------------------------------'"
-#mkdir -p ~/.config/opencode
-#rm -f ~/.config/opencode/AGENTS.md
-#rm -f ~/.config/opencode/opencode.jsonc
-#rm -f ~/.config/opencode/oh-my-openagent.json
-#rm -f ~/.config/opencode/opencode-notifier.json
-#rm -f ~/.config/opencode/minimax-wrapper.sh
-#rm -f ~/.config/opencode/.custom_environment.example.sh
-#rm -f ~/.config/opencode/oh-my-opencode-slim.json
-#rm -f ~/.config/opencode/tui.json
-#rm -rf ~/.config/opencode/commands
-#rm -rf ~/.config/opencode/scripts
-#rm -rf ~/.config/opencode/skills
-#rm -rf ~/.config/opencode/profiles
-#cp ~/dotfiles/.config/opencode/AGENTS.md ~/.config/opencode/
-#cp ~/dotfiles/.config/opencode/opencode-notifier.json ~/.config/opencode/
-#cp -r ~/dotfiles/.config/opencode/commands ~/.config/opencode/
-#cp -r ~/dotfiles/.config/opencode/skills ~/.config/opencode/
-#bash ~/dotfiles/.config/opencode/scripts/generate-configs.sh
+echo ".------------------------------------------------."
+echo "|                Config Opencode                 |"
+echo "'------------------------------------------------'"
+# Symlink instead of copy. opencode2 writes its own runtime files into this
+# directory (service.json, cli.json), so the directory itself cannot be
+# replaced wholesale — and copying the config out of dotfiles is what let the
+# two versions drift apart in the first place.
+mkdir -p ~/.config/opencode
+rm -rf ~/.config/opencode/opencode.jsonc
+rm -rf ~/.config/opencode/AGENTS.md
+rm -rf ~/.config/opencode/skills
+ln -s ~/dotfiles/.config/opencode/opencode.jsonc ~/.config/opencode/opencode.jsonc
+ln -s ~/dotfiles/.config/opencode/AGENTS.md ~/.config/opencode/AGENTS.md
+ln -s ~/dotfiles/.config/opencode/skills ~/.config/opencode/skills
