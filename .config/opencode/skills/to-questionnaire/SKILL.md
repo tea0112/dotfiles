@@ -1,6 +1,7 @@
 ---
 name: to-questionnaire
 description: Turn a decision you can't fully answer into a questionnaire for someone else to fill in.
+slash: true
 metadata:
   "opencode/autoinvoke": false
 ---
