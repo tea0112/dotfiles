@@ -169,3 +169,6 @@ function cco {
 $env:NO_PROXY="localhost,127.0.0.1"
 
 $env:GEMINI_API_KEY = "AQ...."
+
+$env:NETGATE_BASE_URL = "https://net.vn.vn/gateway/v1"
+$env:NETGATE_API_KEY = "sk-"
