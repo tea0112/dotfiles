@@ -21,5 +21,30 @@
         }
       }
     }
+  },
+  "providers": {
+    "netgate": {
+      "name": "netGate",
+      "package": "aisdk:@ai-sdk/openai-compatible",
+      "settings": {
+        "baseURL": "{env:NETGATE_BASE_URL}",
+        "apiKey": "{env:NETGATE_API_KEY}"
+      },
+      "models": {
+        "MiniMax/MiniMax-M3": {
+          "modelID": "MiniMax/MiniMax-M3",
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "limit": {
+            "context": 1000000,
+            "input": 840000,
+            "output": 65536
+          }
+        }
+      }
+    }
   }
 }
