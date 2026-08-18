@@ -27,8 +27,8 @@
       "name": "netGate",
       "package": "aisdk:@ai-sdk/openai-compatible",
       "settings": {
-        "baseURL": "https://net.vietnam.vn/gateway/v1", // Must hardcode because of opencode v2 issue
-        "apiKey": "sk-..."                              // Must hardcode because of opencode v2 issue
+        "baseURL": "{env:AI_GATEWAY_BASE_URL}", // https://net.vnpt.vn/gateway/v1
+        "apiKey": "{env:AI_GATEWAY_API_KEY}"    // sk-...
       },
       "models": {
         "MiniMax/MiniMax-M3": {
