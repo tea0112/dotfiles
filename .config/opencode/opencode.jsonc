@@ -23,28 +23,38 @@
     }
   },
   "providers": {
-    "netgate": {
-      "name": "netGate",
-      "package": "aisdk:@ai-sdk/openai-compatible",
-      "settings": {
-        "baseURL": "{env:AI_GATEWAY_BASE_URL}", // https://net.vnpt.vn/gateway/v1
-        "apiKey": "{env:AI_GATEWAY_API_KEY}"    // sk-...
-      },
-      "models": {
-        "MiniMax/MiniMax-M3": {
-          "modelID": "MiniMax/MiniMax-M3",
-          "capabilities": {
-            "tools": true,
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "limit": {
-            "context": 1000000,
-            "input": 840000,
-            "output": 65536
-          }
-        }
-      }
+     "netgate": {
+       "name": "netGate",
+       "package": "@opencode-ai/ai/providers/openai-compatible",
+       "settings": {
+         "baseURL": "{env:AI_GATEWAY_BASE_URL}", // https://net.vnpt.vn/gateway/v1
+         "apiKey": "{env:AI_GATEWAY_API_KEY}"    // sk-...
+       },
+       "models": {
+         "minimax-m3-custom": {
+           "modelID": "MiniMax/MiniMax-M3",
+           "capabilities": {
+             "tools": true,
+             "input": ["text", "image"],
+             "output": ["text"]
+           },
+           "limit": {
+             "context": 1000000,
+             "output": 65536
+           }
+         }
+       }
     }
+  },
+  "compaction": {
+    "auto": true,
+    "buffer": 5000,
+    "keep": {
+      "tokens": 600000
+    }
+  },
+  "model": "netgate/minimax-m3-custom",
+  "websearch": {
+    "provider": "random"
   }
 }
