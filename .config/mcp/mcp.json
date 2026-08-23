@@ -1,12 +1,14 @@
 {
   "mcpServers": {
-    "searxng": {
-      "command": "python3",
+    "google-search": {
+      "command": "npx",
       "args": [
-        "dev/searXNG-mcp/server.py"
+        "-y",
+        "google-search-api-mcp"
       ],
       "env": {
-        "SEARXNG_BASE_URL": "http://localhost:32768"
+        "GEMINI_API_KEY": "${GEMINI_API_KEY}",
+        "GOOGLE_SEARCH_MODEL": "gemini-2.5-flash"
       }
     }
   }
