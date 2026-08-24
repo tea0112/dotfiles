@@ -25,10 +25,8 @@ export default function (pi: ExtensionAPI) {
           cacheRead: 0, 
           cacheWrite: 0 
         },
-        // SỬA Ở ĐÂY: netgate giới hạn 400,000 tokens/phút. 
-        // Đặt contextWindow ~150,000 để agent có thể thực hiện khoảng 2-3 request mỗi phút mà không bị dính lỗi 429.
-        contextWindow: 150000, 
-        maxTokens: 16384
+        contextWindow: 1000000, 
+        maxTokens: 65536
       }
     ]
   });
