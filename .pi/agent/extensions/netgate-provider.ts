@@ -155,8 +155,8 @@ export default function (pi: ExtensionAPI) {
     // PHÁT HIỆN RETRY: Pi Agent mặc định retry 3 lần mỗi lần cách nhau chỉ 1-2s.
     // Nếu khoảng cách giữa 2 request < 4 giây, chắc chắn là đang bị 429 và bị ép retry.
     if (lastRequestTime > 0 && now - lastRequestTime < 4000) {
-      const retryDelay = 15000; // Ép chờ 15s cho mỗi lần retry
-      console.log(`\n[NetGate Rate Limiter] Cảnh báo: Pi Agent đang Retry quá nhanh! Kéo giãn thêm 15s để chờ Server nhả Token (Rolling Window)...`);
+      const retryDelay = 65000; // Ép chờ 65s cho mỗi lần retry
+      console.log(`\n[NetGate Rate Limiter] Cảnh báo: Pi Agent đang Retry quá nhanh! Kéo giãn thêm 65s để chờ Server nhả Token (Rolling Window)...`);
       await new Promise(r => setTimeout(r, retryDelay));
     }
 
