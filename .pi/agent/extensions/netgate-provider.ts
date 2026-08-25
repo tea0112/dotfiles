@@ -146,18 +146,34 @@ export default function (pi: ExtensionAPI) {
     }
   }
 
+  // Biến lưu thời điểm gửi request cuối cùng để phát hiện Retry
+  let lastRequestTime = 0;
+
   pi.on("before_provider_request", async (event: any) => {
+    const now = Date.now();
+    
+    // PHÁT HIỆN RETRY: Pi Agent mặc định retry 3 lần mỗi lần cách nhau chỉ 1-2s.
+    // Nếu khoảng cách giữa 2 request < 4 giây, chắc chắn là đang bị 429 và bị ép retry.
+    if (lastRequestTime > 0 && now - lastRequestTime < 4000) {
+      const retryDelay = 15000; // Ép chờ 15s cho mỗi lần retry
+      console.log(`\n[NetGate Rate Limiter] Cảnh báo: Pi Agent đang Retry quá nhanh! Kéo giãn thêm 15s để chờ Server nhả Token (Rolling Window)...`);
+      await new Promise(r => setTimeout(r, retryDelay));
+    }
+
     const payloadStr = JSON.stringify(event.payload || {});
-    // CỘNG THÊM 16384 (Max Tokens dự kiến của model) vì Gateway sẽ trừ hao phần này!
-    const tokensNeeded = Math.min(150000, Math.floor(payloadStr.length / 3) + 500 + 16384);
+    // CHUẨN HÓA CÔNG THỨC: Chia 2 thay vì chia 3 (an toàn hơn cho tiếng Việt/Code) + cộng 16384 (Max Tokens)
+    const tokensNeeded = Math.min(150000, Math.floor(payloadStr.length / 2) + 500 + 16384);
 
     const delayMs = await consumeTokensAcrossProcesses(tokensNeeded);
     
     if (delayMs > 0) {
       const waitTime = Math.ceil(delayMs) + 100;
-      console.log(`\n[NetGate Rate Limiter] Quá tải/Đang dính 429! Ép trễ khẩn cấp ${Math.round(waitTime/1000 * 10)/10}s cho ${tokensNeeded} tokens (chờ Server Reset)...`);
+      console.log(`\n[NetGate Rate Limiter] Quá tải Local! Ép trễ ${Math.round(waitTime/1000 * 10)/10}s cho ${tokensNeeded} tokens...`);
       await new Promise(r => setTimeout(r, waitTime));
     }
+    
+    // Cập nhật thời điểm gửi (sau khi đã ngủ xong)
+    lastRequestTime = Date.now();
   });
 
   // Hook 2: Đồng bộ trạng thái với Server
