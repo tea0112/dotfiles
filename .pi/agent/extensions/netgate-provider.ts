@@ -58,7 +58,15 @@ export default function (pi: ExtensionAPI) {
       let state = { tokens: 600000, requests: 30, lastRefill: Date.now() };
       
       if (fs.existsSync(STATE_FILE)) {
-        try { state = JSON.parse(fs.readFileSync(STATE_FILE, 'utf-8')); } catch (e) {}
+        try { 
+          const parsed = JSON.parse(fs.readFileSync(STATE_FILE, 'utf-8')); 
+          // Chỉ lấy nếu đúng chuẩn số để tránh bị NaN do lỗi ghi đè rác
+          if (typeof parsed.tokens === 'number' && !isNaN(parsed.tokens)) state.tokens = parsed.tokens;
+          if (typeof parsed.requests === 'number' && !isNaN(parsed.requests)) state.requests = parsed.requests;
+          if (typeof parsed.lastRefill === 'number' && !isNaN(parsed.lastRefill)) state.lastRefill = parsed.lastRefill;
+        } catch (e) {
+          // Bỏ qua nếu file lỗi, tiếp tục với state đầy (max quota)
+        }
       }
 
       const now = Date.now();
@@ -78,11 +86,13 @@ export default function (pi: ExtensionAPI) {
       }
 
       // CHÌA KHÓA: Trừ token NGAY LẬP TỨC (thấu chi) trước khi ngủ.
-      // Giải quyết vấn đề nghẽn đồng thời của nhiều subagent.
       state.tokens -= tokensNeeded;
       state.requests -= 1;
 
-      fs.writeFileSync(STATE_FILE, JSON.stringify(state));
+      // GHI FILE NGUYÊN TỬ (Atomic Write) chống lỗi Ctrl+C giữa chừng
+      const tempFile = STATE_FILE + '.tmp';
+      fs.writeFileSync(tempFile, JSON.stringify(state));
+      fs.renameSync(tempFile, STATE_FILE);
 
       return delayMs;
     } finally {
