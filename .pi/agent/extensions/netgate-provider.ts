@@ -22,25 +22,22 @@ export default function (pi: ExtensionAPI) {
     ]
   });
 
-  // Tệp tin lưu trữ trạng thái xô token dùng chung cho tất cả các terminal
   const STATE_FILE = path.join(os.homedir(), '.pi/agent/extensions/netgate_ratelimit.json');
   const LOCK_FILE = STATE_FILE + '.lock';
 
-  // Hàm khóa file để chống xung đột (race condition) giữa nhiều terminal
   async function acquireLock() {
     while (true) {
       try {
-        const fd = fs.openSync(LOCK_FILE, 'wx'); // Tạo file nguyên tử (atomic)
+        const fd = fs.openSync(LOCK_FILE, 'wx');
         fs.closeSync(fd);
         return;
       } catch (err: any) {
         if (err.code === 'EEXIST') {
-          // Xóa lock nếu quá hạn 5s (phòng hờ tiến trình trước crash)
           const stat = fs.statSync(LOCK_FILE, { throwIfNoEntry: false });
           if (stat && Date.now() - stat.mtimeMs > 5000) {
             try { fs.unlinkSync(LOCK_FILE); } catch(e) {}
           }
-          await new Promise(r => setTimeout(r, 20)); // Đợi 20ms rồi thử lại
+          await new Promise(r => setTimeout(r, 20));
         } else {
           throw err;
         }
@@ -52,27 +49,78 @@ export default function (pi: ExtensionAPI) {
     try { fs.unlinkSync(LOCK_FILE); } catch(e) {}
   }
 
+  async function syncStateWithServer(serverTokens: number) {
+    await acquireLock();
+    try {
+      let state: any = { tokens: 600000, requests: 30, lastRefill: Date.now(), lockUntil: 0 };
+      if (fs.existsSync(STATE_FILE)) {
+        try { 
+          const parsed = JSON.parse(fs.readFileSync(STATE_FILE, 'utf-8')); 
+          if (typeof parsed.tokens === 'number' && !isNaN(parsed.tokens)) state.tokens = parsed.tokens;
+          if (typeof parsed.requests === 'number' && !isNaN(parsed.requests)) state.requests = parsed.requests;
+          if (typeof parsed.lastRefill === 'number' && !isNaN(parsed.lastRefill)) state.lastRefill = parsed.lastRefill;
+          if (typeof parsed.lockUntil === 'number' && !isNaN(parsed.lockUntil)) state.lockUntil = parsed.lockUntil;
+        } catch (e) {}
+      }
+      
+      // Ghi đè số dư từ Server
+      state.tokens = serverTokens;
+      state.lastRefill = Date.now();
+
+      const tempFile = STATE_FILE + '.tmp';
+      fs.writeFileSync(tempFile, JSON.stringify(state));
+      fs.renameSync(tempFile, STATE_FILE);
+    } finally {
+      releaseLock();
+    }
+  }
+
+  async function setEmergencyLock(resetDelayMs: number) {
+    await acquireLock();
+    try {
+      let state: any = { tokens: 600000, requests: 30, lastRefill: Date.now(), lockUntil: 0 };
+      if (fs.existsSync(STATE_FILE)) {
+        try { state = JSON.parse(fs.readFileSync(STATE_FILE, 'utf-8')); } catch (e) {}
+      }
+      // Đặt cờ khóa khẩn cấp
+      state.lockUntil = Date.now() + resetDelayMs;
+      // Reset số dư về 0 để đồng bộ log
+      state.tokens = 0;
+      state.requests = 0;
+
+      const tempFile = STATE_FILE + '.tmp';
+      fs.writeFileSync(tempFile, JSON.stringify(state));
+      fs.renameSync(tempFile, STATE_FILE);
+    } finally {
+      releaseLock();
+    }
+  }
+
   async function consumeTokensAcrossProcesses(tokensNeeded: number) {
     await acquireLock();
     try {
-      let state = { tokens: 600000, requests: 30, lastRefill: Date.now() };
+      let state: any = { tokens: 600000, requests: 30, lastRefill: Date.now(), lockUntil: 0 };
       
       if (fs.existsSync(STATE_FILE)) {
         try { 
           const parsed = JSON.parse(fs.readFileSync(STATE_FILE, 'utf-8')); 
-          // Chỉ lấy nếu đúng chuẩn số để tránh bị NaN do lỗi ghi đè rác
           if (typeof parsed.tokens === 'number' && !isNaN(parsed.tokens)) state.tokens = parsed.tokens;
           if (typeof parsed.requests === 'number' && !isNaN(parsed.requests)) state.requests = parsed.requests;
           if (typeof parsed.lastRefill === 'number' && !isNaN(parsed.lastRefill)) state.lastRefill = parsed.lastRefill;
-        } catch (e) {
-          // Bỏ qua nếu file lỗi, tiếp tục với state đầy (max quota)
-        }
+          if (typeof parsed.lockUntil === 'number' && !isNaN(parsed.lockUntil)) state.lockUntil = parsed.lockUntil;
+        } catch (e) {}
       }
 
+      // 1. Kiểm tra cờ Khóa khẩn cấp (Fixed Window 429)
+      if (state.lockUntil && Date.now() < state.lockUntil) {
+         const forceWait = state.lockUntil - Date.now();
+         return forceWait;
+      }
+
+      // 2. Tính toán Local Bucket
       const now = Date.now();
       const elapsedMs = now - state.lastRefill;
       
-      // Hồi phục token
       state.tokens = Math.min(600000, state.tokens + elapsedMs * 10);
       state.requests = Math.min(30, state.requests + elapsedMs * 0.0005);
       state.lastRefill = now;
@@ -85,11 +133,9 @@ export default function (pi: ExtensionAPI) {
         delayMs = Math.max(delayMs, (1 - state.requests) / 0.0005);
       }
 
-      // CHÌA KHÓA: Trừ token NGAY LẬP TỨC (thấu chi) trước khi ngủ.
       state.tokens -= tokensNeeded;
       state.requests -= 1;
 
-      // GHI FILE NGUYÊN TỬ (Atomic Write) chống lỗi Ctrl+C giữa chừng
       const tempFile = STATE_FILE + '.tmp';
       fs.writeFileSync(tempFile, JSON.stringify(state));
       fs.renameSync(tempFile, STATE_FILE);
@@ -102,14 +148,37 @@ export default function (pi: ExtensionAPI) {
 
   pi.on("before_provider_request", async (event: any) => {
     const payloadStr = JSON.stringify(event.payload || {});
-    const tokensNeeded = Math.min(150000, Math.floor(payloadStr.length / 3) + 500);
+    // CỘNG THÊM 16384 (Max Tokens dự kiến của model) vì Gateway sẽ trừ hao phần này!
+    const tokensNeeded = Math.min(150000, Math.floor(payloadStr.length / 3) + 500 + 16384);
 
     const delayMs = await consumeTokensAcrossProcesses(tokensNeeded);
     
     if (delayMs > 0) {
       const waitTime = Math.ceil(delayMs) + 100;
-      console.log(`\n[NetGate Rate Limiter] (Multi-process) Hết quota! Ép trễ ${Math.round(waitTime/1000 * 10)/10}s cho ${tokensNeeded} tokens...`);
+      console.log(`\n[NetGate Rate Limiter] Quá tải/Đang dính 429! Ép trễ khẩn cấp ${Math.round(waitTime/1000 * 10)/10}s cho ${tokensNeeded} tokens (chờ Server Reset)...`);
       await new Promise(r => setTimeout(r, waitTime));
+    }
+  });
+
+  // Hook 2: Đồng bộ trạng thái với Server
+  pi.on("after_provider_response", async (event: any) => {
+    // Nếu dính 429 thật sự, khóa 60 giây (đủ để qua phút mới)
+    if (event.status === 429) {
+      console.log(`\n[NetGate Rate Limiter] Bắt được 429 từ Server! Tự động bật Khóa 60s để cứu /goal...`);
+      await setEmergencyLock(60000);
+      return;
+    }
+
+    // Nếu có Header từ Server, đồng bộ số dư về file
+    if (event.headers) {
+       // LiteLLM trả về header chữ thường
+       const remainingStr = event.headers["x-ratelimit-team_member-remaining-tokens"] || event.headers["x-ratelimit-remaining-tokens"];
+       if (remainingStr) {
+          const serverTokens = parseInt(remainingStr, 10);
+          if (!isNaN(serverTokens)) {
+             await syncStateWithServer(serverTokens);
+          }
+       }
     }
   });
 }
