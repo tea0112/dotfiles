@@ -376,3 +376,12 @@ bindkey -M vicmd '^R' redo
 
 . "$HOME/.cargo/env"
 alias opencode-auth-inspect="~/dotfiles/scripts/opencode-auth-inspect.sh"
+
+# pnpm
+export PNPM_HOME="/home/destry/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end
+
