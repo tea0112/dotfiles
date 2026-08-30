@@ -4,7 +4,7 @@ import * as path from 'path';
 import * as os from 'os';
 
 export default function (pi: ExtensionAPI) {
-  pi.registerProvider("netgate", {
+  const netgateConfig = {
     name: "netGate",
     baseUrl: process.env.AI_GATEWAY_BASE_URL || "https://net.vnpt.vn/gateway/v1", 
     apiKey: "$AI_GATEWAY_API_KEY",
@@ -20,7 +20,16 @@ export default function (pi: ExtensionAPI) {
         maxTokens: 16384
       }
     ]
-  });
+  };
+  pi.registerProvider("netgate", netgateConfig);
+
+  // Chỉ áp dụng rate limiting cho các model thuộc provider netgate.
+  // Dẫn xuất từ config để model mới thêm vào provider tự động được cover.
+  const NETGATE_MODEL_IDS = new Set(netgateConfig.models.map((m: any) => m.id));
+
+  // Cờ được set ở hook `before_provider_request`, hook `after_provider_response`
+  // dùng nó để quyết định có xử lý hay không (event after không chứa model).
+  let lastWasNetgate = false;
 
   const STATE_FILE = path.join(os.homedir(), '.pi/agent/extensions/netgate_ratelimit.json');
   const LOCK_FILE = STATE_FILE + '.lock';
@@ -150,6 +159,10 @@ export default function (pi: ExtensionAPI) {
   let lastRequestTime = 0;
 
   pi.on("before_provider_request", async (event: any) => {
+    // Chỉ throttle cho model của netgate; bỏ qua mọi provider khác.
+    lastWasNetgate = NETGATE_MODEL_IDS.has(event.payload?.model);
+    if (!lastWasNetgate) return;
+
     const now = Date.now();
     
     // PHÁT HIỆN RETRY: Pi Agent mặc định retry 3 lần mỗi lần cách nhau chỉ 1-2s.
@@ -178,6 +191,9 @@ export default function (pi: ExtensionAPI) {
 
   // Hook 2: Đồng bộ trạng thái với Server
   pi.on("after_provider_response", async (event: any) => {
+    // Event này không mang model; bỏ qua nếu request trước đó không phải netgate.
+    if (!lastWasNetgate) return;
+
     // Nếu dính 429 thật sự, khóa 60 giây (đủ để qua phút mới)
     if (event.status === 429) {
       console.log(`\n[NetGate Rate Limiter] Bắt được 429 từ Server! Tự động bật Khóa 60s để cứu /goal...`);
