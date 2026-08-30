@@ -239,6 +239,7 @@ export PATH=$PATH:$HOME/Apps/sonar-scanner/bin
 export PATH="$PATH:$GOPATH/bin"
 export PATH="$PATH:$HOME/.moon/bin"
 export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="$HOME/.local/share/pnpm:$PATH"
 
 # nnn configuration
 export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'
