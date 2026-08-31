@@ -48,6 +48,7 @@ async function makeHarness(env = {}) {
 		registerEntryRenderer: () => {},
 		registerCommand: () => {},
 		registerTool: () => {},
+		events: { on: () => () => {}, emit: () => {} },
 	};
 
 	const calls = [];

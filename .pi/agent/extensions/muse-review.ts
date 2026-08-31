@@ -555,6 +555,7 @@ async function runAdvisor(
 		adv.running = false;
 		adv.controller = null;
 		adv.pendingUserTexts = [];
+		pi.events.emit("muse", { running: false });
 		clearStatus(ctx);
 		void startedAt;
 	}
@@ -567,6 +568,7 @@ function startAdvisor(pi: ExtensionAPI, ctx: ExtensionContext, firstUserText: st
 	adv.controller = controller;
 	sessionFlags.advisorRan = true;
 	mirrorBrief(pi, firstUserText);
+	pi.events.emit("muse", { running: true });
 	notify(
 		ctx,
 		`Muse Review: bắt đầu quy trình ${TOTAL_STEPS} bước. Trong lúc chạy, tin nhắn của bạn sẽ được ghi vào brief (main model không trả lời riêng). STOP_REVIEW để hủy.`,

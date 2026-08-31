@@ -5,8 +5,10 @@ Thư mục extension **global** của Pi Agent (`~/.pi/agent/extensions/`) — t
 
 | File | Vai trò |
 |---|---|
-| `muse-review.ts` | **Muse Review Orchestrator** — quy trình viết + review nhiều bước chạy chế độ Advisor (chính của thư mục này) |
-| `muse-review.test.mjs` | Test mô phỏng end-to-end cho muse-review (53 assertions, chạy không cần mạng) |
+| `muse-review.ts` | **Muse Review Orchestrator** — quy trình viết + review nhiều bước chạy chế độ Advisor (viết bài dài) |
+| `critic-review.ts` | **Critic độc lập** — đứng sau MỌI lượt trả lời của MỌI model (code, shell, văn bản…), soi lỗi và bắt làm lại |
+| `muse-review.test.mjs` | Test mô phỏng end-to-end cho muse-review (53 assertions) |
+| `critic-review.test.mjs` | Test mô phỏng end-to-end cho critic-review (30 assertions) |
 | `netgate-provider.ts` | Đăng ký provider `netgate` (VNPT gateway, MiniMax-M3) + rate limiting theo model |
 | `netgate_ratelimit.json` | State file của rate limiter (tự sinh, không sửa tay) |
 | `netgate-provider.ts.bak` | Backup bản cũ |
@@ -100,6 +102,47 @@ node ~/.pi/agent/extensions/muse-review.test.mjs
 
 # sync sang dotfiles
 cp ~/.pi/agent/extensions/muse-review.ts ~/.pi/agent/extensions/muse-review.test.mjs \
+   ~/dotfiles/.pi/agent/extensions/
+```
+
+---
+
+## critic-review.ts — Critic độc lập "đứng sau" (general)
+
+Sau MỌI lượt trả lời của MỌI model (code, shell, giải thích, soạn thảo…), extension gọi 1 call
+ẩn làm người phản biện khách quan. Critic KHÔNG sửa gì, không nói chuyện với user — chỉ phán
+theo một trong 3 khuôn:
+
+| Verdict | Nghĩa là | Hành động |
+|---|---|---|
+| `---LGTM---` | sạch | chỉ hiện dòng `✓ critic`, không tốn lượt nào |
+| `---NEED-VERIFY---` | thiếu bằng chứng (test/lint chưa chạy) | chính **main agent** (kẻ có tool) được yêu cầu chạy lệnh và báo cáo; extension không bao giờ tự chạy code của bạn — chỉ tự đọc `git diff` (chỉ đọc) |
+| `---ISSUES---` | có lỗi thật | đáp án cũ collapse còn 1 dòng, main agent phải kiểm chứng/sửa và **xuất lại đáp án cuối đầy đủ** |
+
+Nguyên tắc:
+- Bằng chứng = prompt + đáp án + tool log của lượt vừa chạy + git diff. Critic bị cấm đoán mò
+  ngoài bằng chứng → ít false-positive.
+- Trần số vòng can thiệp `CRITIC_MAX_ROUNDS` (mặc định 2) → không loop vô tận.
+- User nhắn tin mới → mọi phán quyết đang chờ bị hủy ngay (không inject vào chuyện mới).
+- Muse Review đang chạy → critic im lặng hoàn toàn (phối hợp qua `pi.events`).
+- Đáp án bị thay thế được collapse qua markdownTransformer (display-only).
+
+### Điều khiển & cấu hình
+
+| | |
+|---|---|
+| `CRITIC_OFF` / `CRITIC_ON` | tắt / bật critic cho phiên hiện tại (gõ trong chat) |
+| `CRITIC_AUTO=1\|0` | mặc định bật cho mọi model (đặt `0` nếu muốn) |
+| `CRITIC_MAX_ROUNDS=2` | số lần critic được can thiệp / lượt hỏi |
+| `CRITIC_TIMEOUT=60000` | timeout mỗi call critic (ms) |
+| `CRITIC_MIN_ANSWER=120` | đáp án ngắn hơn mức này + không có tool call → bỏ qua |
+
+Chi phí: mỗi lượt đáng kể = +1 call ẩn; khi có lỗi = +1 lượt main agent sửa. Token call critic
+không vào `/session` của pi.
+
+```bash
+node ~/.pi/agent/extensions/critic-review.test.mjs
+cp ~/.pi/agent/extensions/critic-review.ts ~/.pi/agent/extensions/critic-review.test.mjs \
    ~/dotfiles/.pi/agent/extensions/
 ```
 
