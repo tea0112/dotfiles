@@ -7,10 +7,13 @@
  * ═══ ENGINE 1 — MUSE REVIEW (viết bài, advisor mode) ═══
  *   Vượt giới hạn output tokens của model bằng pipeline chạy NGOÀI main session qua
  *   ctx.modelRegistry.complete():
- *     Bước 1–3 (Writing):  Mở bài → Thân bài → Kết luận  (---END OF PART n---)
- *     Bước 4–6 (Review):   Chính tả & Ngữ pháp → Logic & Lập luận → Ví dụ & Thuyết phục
- *     Bước 7   (Final):    Tổng hợp & Trau chuốt → ---FINAL VERSION---
+ *     Bước 1 (Planning):   Hiểu đề & Dàn ý — xác định đúng thể loại/trọng tâm/độ dài user muốn (---END OF PLAN---)
+ *     Bước 2–4 (Writing):  Phần 1 → Phần 2 → Phần 3 viết THEO DÀN Ý (mỗi phần có ngưỡng từ tối thiểu)
+ *     Bước 5–7 (Review):   Chính tả → Logic & Trọng tâm (cắt lan man) → Dẫn chứng & DIỆT BỊA ĐẶT số liệu
+ *     Bước 8   (Final):    Tổng hợp & Trau chuốt → ---FINAL VERSION---
  *     Dự phòng:            xuất lại đúng 1 lần nếu chưa thấy FINAL
+ *   - CẤM BỊA: tuyệt đối không bịa số liệu/thống kê/khảo sát/nghiên cứu; không chắc chắn là có
+ *     thật → lập luận định tính hoặc ví dụ đời thường. Critic coi bịa số liệu = lỗi chặn.
  *   - CHỐNG CẮT (max output): lượt trả lời bị ngắt vì chạm giới hạn output (stopReason=length)
  *     KHÔNG bị bỏ — extension bắt model VIẾT TIẾP từ đúng chỗ dừng (tối đa
  *     MUSE_MAX_CONTINUATIONS lần) rồi mới ghép lại thành nội dung đầy đủ của bước đó.
@@ -140,7 +143,7 @@ function modelMatches(model: { provider?: string; id?: string } | undefined): bo
 // ═════════════════════════════ Định nghĩa các bước viết ═════════════════════════════
 
 interface StepDef {
-	phase: "writing" | "review" | "final";
+	phase: "planning" | "writing" | "review" | "final";
 	title: string;
 	task: string;
 	tail: string;
@@ -150,29 +153,37 @@ interface StepDef {
 
 const STEPS: StepDef[] = [
 	{
+		phase: "planning",
+		title: "Hiểu đề & Dàn ý",
+		task:
+			"CHƯA VIẾT BÀI. Đọc kỹ toàn bộ yêu cầu của người dùng trong hội thoại và xác định: (1) họ muốn gì — dạng bài (nghị luận, giải thích, phân tích, trả lời câu hỏi, email, bài đăng...), trọng tâm chính, phạm vi; (2) độ dài phù hợp — theo đúng yêu cầu, nếu không nói rõ thì vừa phải (~600–900 từ), KHÔNG phình to; (3) giọng văn phù hợp. Sau đó xuất DÀN Ý CHI TIẾT: chia bài thành 3 phần (Phần 1, Phần 2, Phần 3), mỗi phần liệt kê TỪNG ý sẽ triển khai, mỗi ý một dòng. Dàn ý phải bám sát 100% trọng tâm và thể loại người dùng yêu cầu.",
+		tail: "Kết thúc bằng đúng dòng: ---END OF PLAN---",
+		minWords: 60,
+	},
+	{
 		phase: "writing",
 		part: 1,
-		title: "Mở bài",
+		title: "Phần 1 của bài",
 		task:
-			"Viết MỞ BÀI của bài luận cho đề tài trong hội thoại: giới thiệu vấn đề, tạo điểm thu hút, dẫn dắt vào luận đề. Viết đầy đủ thành đoạn văn hoàn chỉnh, CHI TIẾT và CỤ THỂ. Độ dài mục tiêu: khoảng 200–350 từ (TỐI THIỂU 150 từ — ngắn hơn là bị trả lại).",
+			"Viết PHẦN 1 của bài theo đúng DÀN Ý đã lập: triển khai đầy đủ, chi tiết, cụ thể TỪNG ý của Phần 1. KHÔNG thêm ý ngoài dàn ý, KHÔNG lạc đề, KHÔNG đổi hướng, KHÔNG phình to phạm vi. Bám sát đúng thể loại, trọng tâm và giọng văn người dùng yêu cầu. TỐI THIỂU 150 từ — ngắn hơn là bị trả lại.",
 		tail: "Kết thúc phần bằng đúng dòng: ---END OF PART 1---",
 		minWords: 150,
 	},
 	{
 		phase: "writing",
 		part: 2,
-		title: "Thân bài",
+		title: "Phần 2 của bài",
 		task:
-			"Viết THÂN BÀI, tiếp nối Mở bài đã có trong hội thoại. Triển khai từng luận điểm chính thành đoạn văn hoàn chỉnh (mỗi đoạn một luận điểm, có câu chủ đề, có diễn giải và dẫn chứng). Độ dài mục tiêu: khoảng 300–450 từ (TỐI THIỂU 220 từ — ngắn hơn là bị trả lại).",
+			"Viết PHẦN 2 của bài, tiếp nối Phần 1, theo đúng DÀN Ý: triển khai đầy đủ TỪNG ý của Phần 2 thành đoạn văn hoàn chỉnh (mỗi đoạn một ý, có câu chủ đề). KHÔNG thêm ý ngoài dàn ý, KHÔNG lạc đề. TỐI THIỂU 220 từ — ngắn hơn là bị trả lại.",
 		tail: "Kết thúc phần bằng đúng dòng: ---END OF PART 2---",
 		minWords: 220,
 	},
 	{
 		phase: "writing",
 		part: 3,
-		title: "Kết luận",
+		title: "Phần 3 của bài",
 		task:
-			"Viết KẾT LUẬN, khép lại bài viết bằng cách chốt vấn đề và nâng tầm thông điệp, dựa trên Mở bài và Thân bài đã có trong hội thoại. Độ dài mục tiêu: khoảng 150–250 từ (TỐI THIỂU 100 từ — ngắn hơn là bị trả lại).",
+			"Viết PHẦN 3 của bài, khép lại bài viết theo đúng DÀN Ý: chốt lại đúng trọng tâm, tránh lặp ý các phần trước. KHÔNG thêm ý mới ngoài dàn ý. TỐI THIỂU 100 từ — ngắn hơn là bị trả lại.",
 		tail: "Kết thúc phần bằng đúng dòng: ---END OF PART 3---",
 		minWords: 100,
 	},
@@ -180,28 +191,28 @@ const STEPS: StepDef[] = [
 		phase: "review",
 		title: "Chính tả & Ngữ pháp",
 		task:
-			"REVIEW CHÍNH TẢ & NGỮ PHÁP: đọc toàn bộ nội dung bài viết trong hội thoại, sửa TẤT CẢ lỗi chính tả, ngữ pháp, dấu câu và dùng từ. Chỉ xuất ra toàn bộ bản đã sửa (ghép liền mạch), KHÔNG liệt kê lỗi, KHÔNG bình luận, KHÔNG được rút gọn hay tóm tắt so với bản gốc — giữ nguyên hoặc mở rộng độ dài.",
+			"REVIEW CHÍNH TẢ & NGỮ PHÁP: đọc toàn bộ nội dung bài viết trong hội thoại, sửa TẤT CẢ lỗi chính tả, ngữ pháp, dấu câu và dùng từ. Chỉ xuất ra toàn bộ bản đã sửa (ghép liền mạch), KHÔNG liệt kê lỗi, KHÔNG bình luận, KHÔNG thêm ý mới, KHÔNG thêm số liệu mới, KHÔNG rút gọn so với bản gốc.",
 		tail: "Không thêm bất kỳ dấu hiệu kết thúc đặc biệt nào.",
 	},
 	{
 		phase: "review",
-		title: "Logic & Lập luận",
+		title: "Logic & Trọng tâm",
 		task:
-			"REVIEW LOGIC & LẬP LUẬN: đọc bản mới nhất trong hội thoại, kiểm tra mạch lập luận và tính nhất quán, thắt chặt liên kết giữa các đoạn, bổ sung luận cứ cho những chỗ còn yếu. Chỉ xuất toàn bộ bản đã cải thiện, không bình luận, KHÔNG được rút gọn hay tóm tắt so với bản gốc — giữ nguyên hoặc mở rộng độ dài.",
+			"REVIEW LOGIC & TRỌNG TÂM: so bản mới nhất với DÀN Ý và yêu cầu của người dùng: (1) CẮT BỎ mọi đoạn lan man, lặp ý, vòng vo, không phục vụ trọng tâm; (2) thắt chặt liên kết giữa các phần; (3) đảm bảo toàn bài trả lời ĐÚNG câu hỏi/đề tài người dùng đưa, đúng thể loại. KHÔNG thêm ý mới ngoài dàn ý. Chỉ xuất toàn bộ bản đã sửa, không bình luận.",
 		tail: "Không thêm bất kỳ dấu hiệu kết thúc đặc biệt nào.",
 	},
 	{
 		phase: "review",
-		title: "Ví dụ & Thuyết phục",
+		title: "Dẫn chứng & Diệt bịa đặt",
 		task:
-			"REVIEW VÍ DỤ & TÍNH THUYẾT PHỤC: đọc bản mới nhất trong hội thoại, bổ sung dẫn chứng, ví dụ cụ thể và số liệu minh họa ở những chỗ phù hợp để tăng sức thuyết phục. Chỉ xuất toàn bộ bản đã cải thiện, không bình luận, KHÔNG được rút gọn hay tóm tắt so với bản gốc — giữ nguyên hoặc mở rộng độ dài.",
+			"REVIEW DẪN CHỨNG — ƯU TIÊN SỐ 1 LÀ DIỆT BỊA ĐẶT: rà TẤT CẢ số liệu, thống kê, khảo sát, nghiên cứu, trích dẫn trong bài; TUYỆT ĐỐI XÓA (hoặc thay bằng lập luận định tính/ví dụ đời thường chắc chắn) mọi con số bạn KHÔNG chắc chắn 100% là có thật — bịa số liệu là lỗi nghiêm trọng nhất của bài viết. Sau đó, chỗ nào còn chung chung thì bổ sung dẫn chứng CHẮC CHẮN (sự kiện quen thuộc, hiện tượng đời thường). KHÔNG thêm ý mới ngoài dàn ý. Chỉ xuất toàn bộ bản đã sửa, không bình luận.",
 		tail: "Không thêm bất kỳ dấu hiệu kết thúc đặc biệt nào.",
 	},
 	{
 		phase: "final",
 		title: "Tổng hợp & Trau chuốt",
 		task:
-			"TỔNG HỢP & TRAU CHUỐT: đọc toàn bộ hội thoại, ghép và chỉnh sửa toàn bộ bài thành MỘT bản hoàn chỉnh duy nhất, mượt mà, nhất quán về văn phong từ đầu đến cuối. Chỉ xuất toàn bộ bài hoàn chỉnh, không bình luận.",
+			"TỔNG HỢP & TRAU CHUỐT: đọc toàn bộ hội thoại, ghép và chỉnh thành MỘT bản hoàn chỉnh duy nhất. Kiểm tra lần cuối trước khi xuất: đúng trọng tâm, đúng thể loại, đúng độ dài mục tiêu theo dàn ý (cắt nốt chỗ lan man nếu còn), mượt mà và nhất quán về văn phong. Chỉ xuất toàn bộ bài hoàn chỉnh, không bình luận.",
 		tail: "Kết thúc bài bằng đúng dòng: ---FINAL VERSION---",
 	},
 ];
@@ -294,6 +305,65 @@ function notify(ctx: ExtensionContext, text: string, level: "info" | "warning" |
 function setStatus(ctx: ExtensionContext, text: string | undefined): void {
 	if (!ctx.hasUI) return;
 	ctx.ui.setStatus(EXT_ID, text);
+}
+
+// ═══ Spinner trạng thái (TUI-only): biết ngay extension đang chạy, không vào transcript ═══
+
+const SPIN_FRAMES = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
+
+interface Spinner {
+	set: (text: string) => void;
+	stop: () => void;
+}
+
+let spinner: Spinner | null = null;
+
+function makeSpinner(ctx: ExtensionContext): Spinner {
+	let timer: ReturnType<typeof setInterval> | null = null;
+	let base = "";
+	let frame = 0;
+	let startedAt = Date.now();
+	const paint = () => {
+		if (!ctx.hasUI) return;
+		const sec = Math.floor((Date.now() - startedAt) / 1000);
+		setStatus(ctx, `${SPIN_FRAMES[frame % SPIN_FRAMES.length]} ${base} · ${sec}s`);
+	};
+	return {
+		set(text: string) {
+			base = text;
+			startedAt = Date.now();
+			if (!timer && ctx.hasUI) {
+				timer = setInterval(() => {
+					frame++;
+					paint();
+				}, 300);
+				(timer as unknown as { unref?: () => void }).unref?.();
+			}
+			paint();
+		},
+		stop() {
+			if (timer) clearInterval(timer);
+			timer = null;
+		},
+	};
+}
+
+function spinStart(ctx: ExtensionContext, text: string): void {
+	if (!ctx.hasUI) return;
+	spinner ??= makeSpinner(ctx);
+	spinner.set(text);
+}
+
+function spinSet(ctx: ExtensionContext, text: string): void {
+	if (!ctx.hasUI) return;
+	spinner ??= makeSpinner(ctx);
+	spinner.set(text);
+}
+
+function spinStop(ctx: ExtensionContext): void {
+	spinner?.stop();
+	spinner = null;
+	setStatus(ctx, undefined);
 }
 
 function appendEntrySafe(pi: ExtensionAPI, customType: string, data: unknown): void {
@@ -397,7 +467,7 @@ function deliver(
 function museStatus(ctx: ExtensionContext, index: number, extra = ""): void {
 	const step = stepAt(index);
 	const n = Math.min(index + 1, TOTAL_STEPS);
-	setStatus(ctx, `[Muse] Bước ${n}/${TOTAL_STEPS} · ${step.title}${extra}`);
+	spinSet(ctx, `[Muse] Bước ${n}/${TOTAL_STEPS} · ${step.title}${extra}`);
 }
 
 function criticLine(pi: ExtensionAPI, kind: "ok" | "warn" | "err" | "info", message: string): void {
@@ -416,6 +486,9 @@ const ADVISOR_SYSTEM = [
 	``,
 	`QUY TẮC BẮT BUỘC:`,
 	`- Toàn bộ đề tài và yêu cầu của người dùng nằm trong chính hội thoại này — đọc kỹ và tôn trọng TẤT CẢ yêu cầu.`,
+	`- Yêu cầu của người dùng là TRỌNG TÂM TUYỆT ĐỐI: làm đúng thể loại, đúng phạm vi, đúng trọng tâm họ muốn. Không tự ý đổi đề, không lạc đề, không phình to phạm vi, không lan man.`,
+	`- TUYỆT ĐỐI KHÔNG bịa đặt số liệu, thống kê, khảo sát, nghiên cứu hay trích dẫn. Chỉ dùng dẫn chứng CHẮC CHẮN là có thật; không chắc chắn → lập luận định tính hoặc ví dụ đời thường. Bịa số liệu là lỗi nghiêm trọng nhất.`,
+	`- Bám sát dàn ý đã lập ở bước kế hoạch; không thêm ý ngoài dàn ý (trừ khi người dùng yêu cầu bổ sung).`,
 	`- Bọc toàn bộ nội dung trả lời trong cặp thẻ: dòng đầu tiên là [SECTION], dòng cuối cùng là [END]. Không viết bất cứ gì ngoài cặp thẻ này.`,
 	`- TUYỆT ĐỐI không dùng các cụm từ "Tôi không thể", "As an AI", "xin lỗi" hoặc bất kỳ câu từ chối / nhắc đến bản chất AI nào.`,
 	`- KHÔNG bình luận về quy trình, không đặt câu hỏi ngược lại, không xin hướng dẫn thêm.`,
@@ -571,6 +644,7 @@ async function runAdvisor(
 						title: step.title,
 						message: `bị cắt ở giới hạn output → bảo viết tiếp (lần ${contCount}/${CONFIG.maxContinuations})`,
 					});
+					museStatus(ctx, stepIndex, ` · viết tiếp ${contCount}/${CONFIG.maxContinuations} · ${countWords(coreContent(raw))} từ`);
 					continue;
 				}
 				break;
@@ -589,7 +663,7 @@ async function runAdvisor(
 			const prevWordCount = countWords(essay);
 			// Ngưỡng tối thiểu: bước viết = số từ cứng; review ≥ 70%, tổng hợp ≥ 80% bản hiện tại.
 			const required =
-				step.phase === "writing"
+				step.phase === "planning" || step.phase === "writing"
 					? (step.minWords ?? 0)
 					: Math.floor(prevWordCount * (step.phase === "final" ? 0.8 : 0.7));
 
@@ -613,7 +687,7 @@ async function runAdvisor(
 			retryReason = "";
 
 			if (step.phase === "writing") essay = essay ? `${essay}\n\n${body}` : body;
-			else essay = body;
+			else if (step.phase !== "planning") essay = body; // dàn ý không phải phần của bài
 			appendEntrySafe(pi, EXT_ID, {
 				kind: "step",
 				index: stepIndex,
@@ -665,7 +739,7 @@ async function runAdvisor(
 		adv.running = false;
 		adv.controller = null;
 		adv.pendingUserTexts = [];
-		setStatus(ctx, undefined);
+		spinStop(ctx);
 	}
 }
 
@@ -699,7 +773,7 @@ const CRITIC_SYSTEM = [
 	`1. Xác định việc gì được yêu cầu và tiêu chí "đúng" của nó từ phần YÊU CẦU CỦA NGƯỜI DÙNG.`,
 	`2. Soi ĐÁP ÁN với tiêu chí đó + bằng chứng tool/git: kết quả có sai sót THẬT, thiếu yêu cầu, mâu thuẫn, bỏ sót bước, hay phớt lờ thất bại rõ ràng không.`,
 	`3. CODE/TOOL CALL: lệnh hoặc test thất bại bị phớt lờ; lỗi logic rõ trong diff; edge case bị bỏ; thay đổi không khớp yêu cầu; phá vỡ API/contract được nhắc tới; chưa lưu file/thiếu bước áp dụng.`,
-	`   VĂN BẢN: thiếu ý đã đòi; mâu thuẫn nội bộ; sai lệch với bằng chứng; lan man không trả lời đúng câu hỏi.`,
+	`   VĂN BẢN: thiếu ý đã đòi; mâu thuẫn nội bộ; sai lệch với bằng chứng; lan man/lạc trọng tâm so với yêu cầu; chứa số liệu/thống kê/khảo sát không chắc chắn là có thật (dấu hiệu bịa đặt) — tất cả đều là lỗi chặn.`,
 	`   LOẠI KHÁC: cùng nguyên tắc — so kết quả với yêu cầu + bằng chứng, chỉ báo lỗi thật.`,
 	`CHỈ báo cáo lỗi CHẶN được (kết quả sai / hỏng / dở rõ rệt). KHÔNG báo cáo: sở thích văn phong, tối ưu vi mô, "có thể cân nhắc", điều phải chạy thêm mới biết.`,
 	``,
@@ -825,7 +899,7 @@ async function criticGateEssay(
 	let current = firstEssay;
 	let revised = 0;
 
-	criticStatus(ctx, "🔍 critic: đang soi bài viết…");
+	spinSet(ctx, "🔍 critic: đang soi bài viết…");
 	try {
 		while (true) {
 			const controller = new AbortController();
@@ -875,6 +949,7 @@ async function criticGateEssay(
 			}
 			revised++;
 			criticLine(pi, "warn", `critic có ý kiến → chỉnh sửa lại bài (vòng ${revised}/${CONFIG.criticMaxRounds})`);
+			spinSet(ctx, `🛠 đang chỉnh sửa bài theo critic (vòng ${revised}/${CONFIG.criticMaxRounds})…`);
 
 			// Bước chỉnh sửa trong kênh ẩn: giữ phần tốt, sửa từng nhận xét, xuất lại toàn bộ.
 			const bullets = issues
@@ -957,7 +1032,7 @@ async function runReview(pi: ExtensionAPI, ctx: ExtensionContext): Promise<void>
 	const controller = new AbortController();
 	crit.controller = controller;
 	crit.running = true;
-	criticStatus(ctx, "🔍 critic: đang soi…");
+	spinStart(ctx, "🔍 critic: đang soi…");
 	if (!crit.hinted) {
 		crit.hinted = true;
 		notify(ctx, `critic đang bật cho model trong MUSE_MODELS — tắt: CRITIC_OFF`, "info");
@@ -1031,7 +1106,7 @@ async function runReview(pi: ExtensionAPI, ctx: ExtensionContext): Promise<void>
 	} finally {
 		crit.running = false;
 		crit.controller = null;
-		criticStatus(ctx, undefined);
+		spinStop(ctx);
 	}
 }
 

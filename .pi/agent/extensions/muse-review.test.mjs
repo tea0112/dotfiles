@@ -1,4 +1,4 @@
-// Functional smoke test cho muse-review.ts (MUSE SUITE: pipeline viết bài + critic, muse-only).
+// Functional smoke test cho muse-review.ts (MUSE SUITE: pipeline 8 bước + critic, muse-only).
 // Mock modelRegistry.complete với gate để điều khiển từng bước deterministic.
 import { createJiti } from "/home/theo/.local/share/fnm/node-versions/v24.19.0/installation/lib/node_modules/@earendil-works/pi-coding-agent/node_modules/jiti/lib/jiti.mjs";
 
@@ -40,7 +40,8 @@ function asstEntry(id, text) {
 
 // Generator văn bản: mỗi lần repeat = 14 từ
 const fill = (n) => "Câu văn chi tiết minh họa cho ý chính được triển khai đầy đủ. ".repeat(n).trim();
-// Tối thiểu từ: P1≥150 (12x=168), P2≥220 (17x=238), P3≥100 (8x=112); review ≥70% (30x=420); final ≥80% (28x=392)
+// PLAN (dàn ý, ≥60 từ); P1≥150 (168); P2≥220 (238); P3≥100 (112); review ≥70% (420); final ≥80% (392)
+const PLAN = `[SECTION]\nDÀN Ý CHI TIẾT CHO ĐỀ BÀI:\n- Phần 1: giới thiệu câu nói và nêu vấn đề cần bàn.\n- Phần 2: phân tích ba tầng giá trị kèm dẫn chứng đời thường chắc chắn, không bịa số liệu.\n- Phần 3: chốt vấn đề và bài học hành động cho người trẻ.\n${fill(3)}\n---END OF PLAN---\n[END]`;
 const P1 = `[SECTION]\n${fill(12)}\n---END OF PART 1---\n[END]`;
 const P2 = `[SECTION]\n${fill(17)}\n---END OF PART 2---\n[END]`;
 const P3 = `[SECTION]\n${fill(8)}\n---END OF PART 3---\n[END]`;
@@ -132,14 +133,14 @@ async function makeHarness(env = {}) {
 	};
 }
 
-// Chạy trọn 7 bước pipeline; nếu gate=true thì giải thêm verdict critic cho bài viết.
+// Chạy trọn 8 bước pipeline; gate=true thì giải thêm verdict critic cho bài viết.
 async function runPipeline(t, { gate = true } = {}) {
-	for (const piece of [P1, P2, P3, R1, R2, R3, FIN]) {
+	for (const piece of [PLAN, P1, P2, P3, R1, R2, R3, FIN]) {
 		t.resolveNext(piece);
 		await t.settle();
 	}
 	if (gate) {
-		await t.waitFor(() => t.calls.length === 8);
+		await t.waitFor(() => t.calls.length === 9);
 		t.resolveNext("---LGTM---");
 		await t.settle();
 	}
@@ -147,8 +148,8 @@ async function runPipeline(t, { gate = true } = {}) {
 
 // ═══════════════════════ MUSE — ENGINE 1 ═══════════════════════
 
-// ============== A. Happy path: mọi tin nhắn -> pipeline + gate bài viết ==============
-console.log("\n[A][MUSE] Happy path 7 bước + gate critic; tin sau -> pipeline MỚI");
+// ============== A. Happy path: dàn ý trước, viết theo dàn ý, cấm bịa ==============
+console.log("\n[A][MUSE] 8 bước: Hiểu đề & Dàn ý -> 3 phần -> 3 review -> final + gate");
 {
 	const t = await makeHarness();
 	await t.handlers.session_start({}, t.ctx);
@@ -156,49 +157,53 @@ console.log("\n[A][MUSE] Happy path 7 bước + gate critic; tin sau -> pipeline
 	check(r?.action === "handled", "tin nhắn: handled (pipeline thay main agent)");
 	await t.settle();
 	check(t.calls.length === 1, "call 1 đã mở");
-	check(t.calls[0].systemPrompt.includes("QUY TẮC BẮT BUỘC") && t.calls[0].systemPrompt.includes("As an AI"), "system prompt: luật + negative prompting");
-	check(msgText(t.calls[0].messages[0]) === "Viết bài về biến đổi khí hậu", "brief = tin nhắn đầu");
-	check(msgText(t.calls[0].messages[1]).includes("BƯỚC 1/7 — MỞ BÀI") && msgText(t.calls[0].messages[1]).includes("TỐI THIỂU 150 từ"), "task bước 1 có ngưỡng tối thiểu");
+	check(t.calls[0].systemPrompt.includes("bịa đặt số liệu") && t.calls[0].systemPrompt.includes("TRỌNG TÂM TUYỆT ĐỐI"), "system prompt: cấm bịa + trọng tâm tuyệt đối");
+	const t1 = msgText(t.calls[0].messages[1]);
+	check(t1.includes("BƯỚC 1/8 — HIỂU ĐỀ & DÀN Ý") && t1.includes("CHƯA VIẾT BÀI") && t1.includes("---END OF PLAN---"), "bước 1: lập dàn ý trước, chưa viết bài");
 	check(t.sentMessages.some((m) => m.customType === "muse-brief" && m.display === true && m.content.includes("biến đổi khí hậu")), "brief được mirror");
 
 	const r2 = await t.handlers.input({ text: "thêm giọng hài hước", source: "interactive" }, t.ctx);
 	check(r2?.action === "handled", "tin giữa chừng: handled (fold)");
-	t.resolveNext(P1);
+	t.resolveNext(PLAN);
 	await t.settle();
 	check(t.calls.length === 2, "call 2 đã mở");
 	const sung = t.calls[1].messages.find((m) => msgText(m).includes("YÊU CẦU BỔ SUNG"));
 	check(!!sung && msgText(sung).includes("thêm giọng hài hước"), "tin giữa chừng được fold vào advisor context");
-	check(msgText(t.calls[1].messages.at(-1)).includes("BƯỚC 2/7 — THÂN BÀI"), "task bước 2 đúng");
+	const t2 = msgText(t.calls[1].messages.at(-1));
+	check(t2.includes("BƯỚC 2/8 — PHẦN 1 CỦA BÀI") && t2.includes("DÀN Ý") && t2.includes("KHÔNG thêm ý ngoài dàn ý") && t2.includes("TỐI THIỂU 150 từ"), "bước 2: viết theo dàn ý + ngưỡng từ");
+	check(t.calls[1].messages.some((m) => msgText(m).includes("---END OF PLAN---")), "dàn ý nằm trong context các bước sau");
 
+	t.resolveNext(P1); await t.settle();
+	check(t.calls.length === 3 && msgText(t.calls[2].messages.at(-1)).includes("BƯỚC 3/8 — PHẦN 2 CỦA BÀI"), "bước 3 (Phần 2)");
 	t.resolveNext(P2); await t.settle();
-	check(t.calls.length === 3 && msgText(t.calls[2].messages.at(-1)).includes("BƯỚC 3/7 — KẾT LUẬN"), "bước 3 (Kết luận)");
+	check(t.calls.length === 4 && msgText(t.calls[3].messages.at(-1)).includes("BƯỚC 4/8 — PHẦN 3 CỦA BÀI"), "bước 4 (Phần 3)");
 	t.resolveNext(P3); await t.settle();
-	check(t.calls.length === 4 && msgText(t.calls[3].messages.at(-1)).includes("BƯỚC 4/7 — CHÍNH TẢ"), "bước 4 (Review chính tả)");
+	check(t.calls.length === 5 && msgText(t.calls[4].messages.at(-1)).includes("BƯỚC 5/8 — CHÍNH TẢ"), "bước 5 (Review chính tả)");
 	t.resolveNext(R1); await t.settle();
-	check(t.calls.length === 5 && msgText(t.calls[4].messages.at(-1)).includes("BƯỚC 5/7 — LOGIC"), "bước 5 (Review logic)");
+	check(t.calls.length === 6 && msgText(t.calls[5].messages.at(-1)).includes("BƯỚC 6/8 — LOGIC & TRỌNG TÂM") && msgText(t.calls[5].messages.at(-1)).includes("CẮT BỎ"), "bước 6: cắt lan man, giữ trọng tâm");
 	t.resolveNext(R2); await t.settle();
-	check(t.calls.length === 6 && msgText(t.calls[5].messages.at(-1)).includes("BƯỚC 6/7 — VÍ DỤ"), "bước 6 (Review ví dụ)");
+	const t7 = msgText(t.calls[6].messages.at(-1));
+	check(t.calls.length === 7 && t7.includes("BƯỚC 7/8 — DẪN CHỨNG & DIỆT BỊA ĐẶT") && t7.includes("bịa số liệu"), "bước 7: diệt bịa đặt số liệu");
 	t.resolveNext(R3); await t.settle();
-	check(t.calls.length === 7 && msgText(t.calls[6].messages.at(-1)).includes("BƯỚC 7/7 — TỔNG HỢP") && msgText(t.calls[6].messages.at(-1)).includes("---FINAL VERSION---"), "bước 7 (Tổng hợp + FINAL)");
+	check(t.calls.length === 8 && msgText(t.calls[7].messages.at(-1)).includes("BƯỚC 8/8 — TỔNG HỢP") && msgText(t.calls[7].messages.at(-1)).includes("đúng trọng tâm"), "bước 8 (Tổng hợp + FINAL)");
 
 	t.resolveNext(FIN);
-	const gateOpen = await t.waitFor(() => t.calls.length === 8);
-	check(gateOpen, "sau deliver: critic gate mở call 8");
-	check(t.calls[7].systemPrompt.includes("MỌI LOẠI VIỆC"), "gate dùng CRITIC prompt");
-	const ev = t.calls[7].messages[0].content[0].text;
+	const gateOpen = await t.waitFor(() => t.calls.length === 9);
+	check(gateOpen, "sau deliver: critic gate mở call 9");
+	const ev = t.calls[8].messages[0].content[0].text;
 	check(ev.includes(FINAL_ESSAY) && ev.includes("biến đổi khí hậu"), "evidence có bài viết + đề bài");
 	t.resolveNext("---LGTM---");
 	await t.settle();
-	check(t.calls.length === 8, "LGTM -> dừng, không gọi thêm");
+	check(t.calls.length === 9, "LGTM -> dừng, không gọi thêm");
 	const result = t.sentMessages.find((m) => m.customType === "muse-review-result");
 	check(!!result && result.display === true && result.content === FINAL_ESSAY, "kết quả cuối = bài đã làm sạch marker");
-	check(t.progress.filter((p) => p.kind === "step").length === 7, "7 progress line cho 7 bước");
+	check(t.progress.filter((p) => p.kind === "step").length === 8, "8 progress line cho 8 bước");
 	check(t.progress.some((p) => p.kind === "ok" && (p.message ?? "").includes("bài viết đạt")), "critic báo bài đạt");
 
 	const r3 = await t.handlers.input({ text: "Viết tiếp bài về năng lượng tái tạo", source: "interactive" }, t.ctx);
 	check(r3?.action === "handled", "tin SAU pipeline: lại vào pipeline MỚI (mọi tin nhắn)");
 	await t.settle();
-	check(t.calls.length === 9 && msgText(t.calls[8].messages[0]) === "Viết tiếp bài về năng lượng tái tạo", "pipeline chạy lại với đề mới");
+	check(t.calls.length === 10 && msgText(t.calls[9].messages[0]) === "Viết tiếp bài về năng lượng tái tạo", "pipeline chạy lại với đề mới");
 	const rs = await t.handlers.input({ text: "STOP_REVIEW", source: "interactive" }, t.ctx);
 	check(rs?.action === "handled", "STOP_REVIEW dừng pipeline thứ 2");
 	t.resolveNext("x", { stop: "aborted" });
@@ -215,7 +220,7 @@ console.log("\n[B][MUSE] STOP_REVIEW -> abort; tin sau -> pipeline chạy lại"
 	await t.settle();
 	const r = await t.handlers.input({ text: "  STOP_REVIEW  ", source: "interactive" }, t.ctx);
 	check(r?.action === "handled", "STOP_REVIEW handled");
-	t.resolveNext("[SECTION]\nMở bài dở...\n---END OF PART 1---\n[END]", { stop: "aborted" });
+	t.resolveNext("[SECTION]\nDàn ý dở...\n---END OF PLAN---\n[END]", { stop: "aborted" });
 	await t.settle();
 	check(t.calls.length === 1, "dừng sau call hiện tại, không gọi tiếp");
 	check(!t.sentMessages.some((m) => m.customType === "muse-review-result"), "bản nháp KHÔNG được deliver");
@@ -238,21 +243,24 @@ console.log("\n[C][MUSE] Quá cụt -> quát + bắt viết lại (tokens & từ
 	await t.handlers.session_start({}, t.ctx);
 	await t.handlers.input({ text: "Đề tài ABC", source: "interactive" }, t.ctx);
 	await t.settle();
+	t.resolveNext(PLAN);
+	await t.settle();
+	check(t.calls.length === 2, "dàn ý đạt -> sang bước viết");
 	t.resolveNext("ngắn quá", { tokens: 5 });
 	await t.settle();
-	check(t.calls.length === 2, "retry mở call mới (quá ít tokens)");
-	check(!t.calls[1].messages.some((m) => msgText(m) === "ngắn quá"), "phản hồi lười KHÔNG nằm trong context");
-	const scold = msgText(t.calls[1].messages.at(-1));
+	check(t.calls.length === 3, "retry mở call mới (quá ít tokens)");
+	check(!t.calls[2].messages.some((m) => msgText(m) === "ngắn quá"), "phản hồi lười KHÔNG nằm trong context");
+	const scold = msgText(t.calls[2].messages.at(-1));
 	check(scold.includes("QUÁ CỤT") && scold.includes("LƯỜI") && scold.includes("~5 tokens"), "task quát: quá cụt + lý do");
 
 	t.resolveNext(`[SECTION]\n${fill(1)}\n---END OF PART 1---\n[END]`, { tokens: 300 });
 	await t.settle();
-	check(t.calls.length === 3, "đủ tokens nhưng thiếu từ -> retry lần 2");
+	check(t.calls.length === 4, "đủ tokens nhưng thiếu từ -> retry lần 2");
 	check(t.progress.some((p) => p.kind === "retry" && (p.message ?? "").includes("cần ≥ 150 từ")), "progress nêu ngưỡng từ");
 
 	t.resolveNext(P1);
 	await t.settle();
-	check(t.calls.length === 4 && msgText(t.calls[3].messages.at(-1)).includes("BƯỚC 2/7"), "đủ 168 từ -> chấp nhận, sang bước 2");
+	check(t.calls.length === 5 && msgText(t.calls[4].messages.at(-1)).includes("BƯỚC 3/8"), "đủ 168 từ -> chấp nhận, sang bước 3");
 }
 
 // ============== D. Bị cắt max output -> bắt viết tiếp ==============
@@ -262,17 +270,17 @@ console.log("\n[D][MUSE] stopReason=length -> CONTINUE: viết tiếp từ chỗ
 	await t.handlers.session_start({}, t.ctx);
 	await t.handlers.input({ text: "Đề tài DEF", source: "interactive" }, t.ctx);
 	await t.settle();
-	t.resolveNext("[SECTION]\nMở bài đang viết dở giữa chừng", { stop: "length", tokens: 60 });
+	t.resolveNext("[SECTION]\nDàn ý đang lập dở giữa chừng", { stop: "length", tokens: 60 });
 	await t.settle();
 	check(t.calls.length === 2, "bị cắt -> mở call viết tiếp");
 	const last = msgText(t.calls[1].messages.at(-1));
 	check(last.includes("VIẾT TIẾP NGAY") && last.includes("GIỚI HẠN OUTPUT"), "task CONTINUE đúng");
-	check(t.calls[1].messages.some((m) => msgText(m).includes("viết dở giữa chừng")), "phần dở vẫn nằm trong context");
+	check(t.calls[1].messages.some((m) => msgText(m).includes("lập dở giữa chừng")), "phần dở vẫn nằm trong context");
 	check(t.progress.some((p) => p.kind === "continue"), "progress dòng ✂️ viết tiếp");
 
-	t.resolveNext(P1);
+	t.resolveNext(PLAN);
 	await t.settle();
-	check(t.calls.length === 3 && msgText(t.calls[2].messages.at(-1)).includes("BƯỚC 2/7"), "ghép xong đủ 150+ từ -> sang bước 2");
+	check(t.calls.length === 3 && msgText(t.calls[2].messages.at(-1)).includes("BƯỚC 2/8"), "ghép xong đủ 60+ từ -> sang bước 2");
 }
 
 // ============== E. Hết lượt viết tiếp -> cảnh báo, chấp nhận phần dài nhất ==============
@@ -288,21 +296,22 @@ console.log("\n[E][MUSE] MAX_CONTINUATIONS=1 -> vẫn cắt sau 1 lần -> chấ
 	await t.settle();
 	check(t.calls.length === 3, "1 lần viết tiếp rồi dừng (cap=1)");
 	check(t.progress.some((p) => p.kind === "warning" && (p.message ?? "").includes("vẫn bị cắt sau 1 lần")), "progress cảnh báo vẫn cắt");
-	check(msgText(t.calls[2].messages.at(-1)).includes("BƯỚC 2/7"), "280 từ -> vẫn đủ ngưỡng, sang bước 2");
+	check(msgText(t.calls[2].messages.at(-1)).includes("BƯỚC 2/8"), "280 từ -> vẫn đủ ngưỡng, sang bước 2");
 }
 
 // ============== F. maxSteps guard ==============
-console.log("\n[F][MUSE] MUSE_MAX_STEPS=2 -> trả bản ghép gần hoàn chỉnh nhất");
+console.log("\n[F][MUSE] MUSE_MAX_STEPS=2 -> trả phần đã viết gần hoàn chỉnh nhất");
 {
 	const t = await makeHarness({ CRITIC_AUTO: "0", MUSE_MAX_STEPS: "2" });
 	await t.handlers.session_start({}, t.ctx);
 	await t.handlers.input({ text: "Đề tài GHI", source: "interactive" }, t.ctx);
 	await t.settle();
+	t.resolveNext(PLAN); await t.settle();
 	t.resolveNext(P1); await t.settle();
-	t.resolveNext(P2); await t.settle();
 	check(t.calls.length === 2, "dừng ở 2 call");
 	const result = t.sentMessages.find((m) => m.customType === "muse-review-result");
-	check(!!result && result.content.includes(fill(12)) && result.content.includes(fill(17)), "trả bản ghép phần 1+2");
+	check(!!result && result.content.includes(fill(12)), "trả phần 1 đã viết");
+	check(!result.content.includes("DÀN Ý CHI TIẾT"), "dàn ý KHÔNG bị ghép vào bài");
 	check(t.progress.some((p) => p.kind === "finished" && (p.message ?? "").includes("giới hạn")), "progress ghi rõ lý do");
 }
 
@@ -322,6 +331,8 @@ console.log("\n[G][MUSE] Lỗi model -> dừng; có draft thì trả draft");
 	const t2 = await makeHarness({ CRITIC_AUTO: "0" });
 	await t2.handlers.session_start({}, t2.ctx);
 	await t2.handlers.input({ text: "Đề tài PQR", source: "interactive" }, t2.ctx);
+	await t2.settle();
+	t2.resolveNext(PLAN);
 	await t2.settle();
 	t2.resolveNext(P1);
 	await t2.settle();
@@ -386,7 +397,7 @@ console.log("\n[J][MUSE] Main session chỉ có brief + kết quả; gate chạy
 	const results = t.sentMessages.filter((m) => m.customType === "muse-review-result");
 	check(briefs.length === 1 && results.length === 1, "main session chỉ có: 1 brief + 1 kết quả");
 	check(results[0].content === FINAL_ESSAY, "nội dung final đúng");
-	check(t.calls.length === 8, "7 bước + 1 critic gate");
+	check(t.calls.length === 9, "8 bước + 1 critic gate");
 }
 
 // ============== K. Gate bài viết: ISSUES -> chỉnh sửa trong kênh ẩn ==============
@@ -396,11 +407,11 @@ console.log("\n[K][MUSE+CRITIC] Bài bị critic bắt sửa -> chỉnh sửa �
 	await t.handlers.session_start({}, t.ctx);
 	await t.handlers.input({ text: "Đề tài VWX", source: "interactive" }, t.ctx);
 	await runPipeline(t, { gate: false });
-	await t.waitFor(() => t.calls.length === 8);
+	await t.waitFor(() => t.calls.length === 9);
 	t.resolveNext("---ISSUES---\n- [BLOCKING] mở bài lạc đề → viết lại mở bài bám sát đề tài");
 	await t.settle();
-	check(t.calls.length === 9, "ISSUES -> mở call chỉnh sửa (kênh ẩn)");
-	const rev = t.calls[8];
+	check(t.calls.length === 10, "ISSUES -> mở call chỉnh sửa (kênh ẩn)");
+	const rev = t.calls[9];
 	check(rev.systemPrompt.includes("MUSE REVIEW — CHẾ ĐỘ ADVISOR"), "bước chỉnh sửa dùng ADVISOR system");
 	const task = msgText(rev.messages[0]);
 	check(task.includes("CHỈNH SỬA THEO NGƯỜI PHẢN BIỆN") && task.includes("mở bài lạc đề") && task.includes(FINAL_ESSAY), "task chứa nhận xét + bài hiện tại");
@@ -414,12 +425,12 @@ console.log("\n[K][MUSE+CRITIC] Bài bị critic bắt sửa -> chỉnh sửa �
 	const fresh = t.renderers["muse-review-result"]({ content: "BÀI ĐÃ SỬA V2 với nội dung đầy đủ hơn" }, {}, t.theme).text;
 	check(fresh.includes("✨ Muse Review"), "bản MỚI hiển thị bình thường");
 
-	await t.waitFor(() => t.calls.length === 10);
-	const ev2 = t.calls[9].messages[0].content[0].text;
+	await t.waitFor(() => t.calls.length === 11);
+	const ev2 = t.calls[10].messages[0].content[0].text;
 	check(ev2.includes("BÀI ĐÃ SỬA V2"), "review lại bản mới");
 	t.resolveNext("---LGTM---");
 	await t.settle();
-	check(t.calls.length === 10, "bản mới đạt -> dừng");
+	check(t.calls.length === 11, "bản mới đạt -> dừng");
 }
 
 // ============== L. Trần vòng sửa bài ==============
@@ -429,15 +440,15 @@ console.log("\n[L][MUSE+CRITIC] CRITIC_MAX_ROUNDS=1 -> hết vòng thì giữ b�
 	await t.handlers.session_start({}, t.ctx);
 	await t.handlers.input({ text: "Đề tài YZ1", source: "interactive" }, t.ctx);
 	await runPipeline(t, { gate: false });
-	await t.waitFor(() => t.calls.length === 8);
+	await t.waitFor(() => t.calls.length === 9);
 	t.resolveNext("---ISSUES---\n- lỗi A → sửa A");
 	await t.settle();
 	t.resolveNext(`[SECTION]\nBản sửa vòng 1\n---FINAL VERSION---\n[END]`);
 	await t.settle();
-	await t.waitFor(() => t.calls.length === 10);
+	await t.waitFor(() => t.calls.length === 11);
 	t.resolveNext("---ISSUES---\n- vẫn còn lỗi B → sửa B");
 	await t.settle();
-	check(t.calls.length === 10, "hết vòng -> không gọi chỉnh sửa thêm");
+	check(t.calls.length === 11, "hết vòng -> không gọi chỉnh sửa thêm");
 	check(t.progress.some((p) => p.kind === "warn" && (p.message ?? "").includes("hết 1 vòng sửa")), "progress ghi rõ hết vòng");
 }
 
@@ -448,10 +459,10 @@ console.log("\n[M][MUSE+CRITIC] NEED-VERIFY cho bài viết -> không áp dụng
 	await t.handlers.session_start({}, t.ctx);
 	await t.handlers.input({ text: "Đề tài 234", source: "interactive" }, t.ctx);
 	await runPipeline(t, { gate: false });
-	await t.waitFor(() => t.calls.length === 8);
+	await t.waitFor(() => t.calls.length === 9);
 	t.resolveNext("---NEED-VERIFY---\nnpm test");
 	await t.settle();
-	check(t.calls.length === 8 && t.sentMessages.filter((m) => m.customType === "critic-instruction").length === 0, "bài viết không đòi chạy lệnh");
+	check(t.calls.length === 9 && t.sentMessages.filter((m) => m.customType === "critic-instruction").length === 0, "bài viết không đòi chạy lệnh");
 	check(t.progress.some((p) => p.kind === "info" && (p.message ?? "").includes("không áp dụng cho bài viết")), "progress ghi rõ bỏ qua");
 }
 
@@ -462,12 +473,12 @@ console.log("\n[N][MUSE+CRITIC] STOP_REVIEW trong gate -> hủy chỉnh sửa");
 	await t.handlers.session_start({}, t.ctx);
 	await t.handlers.input({ text: "Đề tài 567", source: "interactive" }, t.ctx);
 	await runPipeline(t, { gate: false });
-	await t.waitFor(() => t.calls.length === 8);
+	await t.waitFor(() => t.calls.length === 9);
 	const rs = await t.handlers.input({ text: "STOP_REVIEW", source: "interactive" }, t.ctx);
 	check(rs?.action === "handled", "STOP trong gate handled");
 	t.resolveNext("---ISSUES---\n- lỗi gì đó");
 	await t.settle();
-	check(t.calls.length === 8, "gate bị hủy -> không chỉnh sửa");
+	check(t.calls.length === 9, "gate bị hủy -> không chỉnh sửa");
 	check(t.sentMessages.filter((m) => m.customType === "muse-review-result").length === 1, "không deliver thêm");
 }
 
@@ -482,7 +493,7 @@ console.log("\n[O][CRITIC] CRITIC_OFF -> không gate bài viết");
 	check(r?.action === "handled", "CRITIC_OFF bị chặn, không vào model");
 	await t.handlers.input({ text: "Đề tài 890", source: "interactive" }, t.ctx);
 	await runPipeline(t, { gate: false });
-	check(t.calls.length === 7, "pipeline đủ 7 call, KHÔNG có critic gate");
+	check(t.calls.length === 8, "pipeline đủ 8 call, KHÔNG có critic gate");
 	check(t.sentMessages.some((m) => m.customType === "muse-review-result"), "kết quả vẫn deliver");
 }
 
@@ -545,6 +556,7 @@ console.log("\n[R][CRITIC] NEED-VERIFY: chỉ lệnh nhanh, cấm start server")
 	const sys = t.calls[0].systemPrompt;
 	check(sys.includes("TUYỆT ĐỐI KHÔNG đòi") && sys.includes("start/dev server"), "prompt cấm đòi start server/watch/build/e2e");
 	check(sys.includes("ĐỪNG NEED-VERIFY") && sys.includes("bằng chứng tĩnh"), "việc đắt -> tự kết luận từ bằng chứng tĩnh");
+	check(sys.includes("bịa đặt"), "critic coi số liệu bịa = lỗi chặn");
 	t.resolveNext("---NEED-VERIFY---\nnpm test -- --run src/app.test.ts\nnpx tsc --noEmit");
 	await t.settle();
 	const inj = t.sentMessages.find((m) => m.customType === "critic-instruction");

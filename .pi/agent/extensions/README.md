@@ -6,7 +6,7 @@ Thư mục extension **global** của Pi Agent (`~/.pi/agent/extensions/`) — t
 | File | Vai trò |
 |---|---|
 | `muse-review.ts` | **Muse Suite — 1 extension, 2 engine, chỉ áp dụng cho model trong `MUSE_MODELS`**: Engine 1 viết bài dài (Advisor pipeline), Engine 2 = Critic độc lập soi mọi sản phẩm của muse |
-| `muse-review.test.mjs` | Test mô phỏng end-to-end cho cả 2 engine (107 assertions, không cần mạng) |
+| `muse-review.test.mjs` | Test mô phỏng end-to-end cho cả 2 engine (110 assertions, không cần mạng) |
 | `netgate-provider.ts` | Đăng ký provider `netgate` (VNPT gateway, MiniMax-M3) + rate limiting theo model |
 | `netgate_ratelimit.json` | State file của rate limiter (tự sinh, không sửa tay) |
 | `netgate-provider.ts.bak` | Backup bản cũ |
@@ -29,11 +29,16 @@ Vượt giới hạn output tokens của model bằng quy trình chạy hoàn to
 `ctx.modelRegistry.complete()`:
 
 ```
-Bước 1–3 (Writing):  Mở bài → Thân bài → Kết luận   (mỗi phần có NGƯỠNG TỐI THIỂU, kết thúc ---END OF PART n---)
-Bước 4–6 (Review):   Chính tả & Ngữ pháp → Logic & Lập luận → Ví dụ & Thuyết phục
-Bước 7   (Final):    Tổng hợp & Trau chuốt → kết thúc ---FINAL VERSION---
+Bước 1 (Planning):   Hiểu đề & Dàn ý — xác định đúng thể loại/trọng tâm/độ dài user muốn, lập dàn ý 3 phần
+Bước 2–4 (Writing):  Phần 1 → Phần 2 → Phần 3 viết THEO DÀN Ý, không thêm ý ngoài dàn ý (ngưỡng từ tối thiểu)
+Bước 5–7 (Review):   Chính tả → Logic & Trọng tâm (cắt lan man/lặp ý) → Dẫn chứng & DIỆT BỊA ĐẶT số liệu
+Bước 8   (Final):    Tổng hợp & Trau chuốt, kiểm tra đúng trọng tâm → kết thúc ---FINAL VERSION---
 Dự phòng:            nếu chưa thấy FINAL, yêu cầu xuất lại đúng 1 lần
 ```
+
+**Cấm bịa đặt**: model yếu hay bịa số liệu thống kê để "cho có" — pipeline cấm tuyệt đối ở mọi
+bước (system prompt + task từng bước), bước 7 chuyên rà và XÓA mọi con số không chắc chắn 100%
+là có thật; critic coi bài chứa số liệu không kiểm chứng được là lỗi chặn và bắt sửa.
 
 **Chống cắt (max output)**: lượt trả lời bị ngắt vì chạm giới hạn output (`stopReason=length`)
 KHÔNG bị bỏ — extension bảo model **VIẾT TIẾP từ đúng chỗ dừng** (tối đa `MUSE_MAX_CONTINUATIONS`
