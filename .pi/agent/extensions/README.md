@@ -5,10 +5,8 @@ Thư mục extension **global** của Pi Agent (`~/.pi/agent/extensions/`) — t
 
 | File | Vai trò |
 |---|---|
-| `muse-review.ts` | **Muse Review Orchestrator** — quy trình viết + review nhiều bước chạy chế độ Advisor (viết bài dài) |
-| `critic-review.ts` | **Critic độc lập** — đứng sau MỌI lượt trả lời của MỌI model (code, shell, văn bản…), soi lỗi và bắt làm lại |
-| `muse-review.test.mjs` | Test mô phỏng end-to-end cho muse-review (53 assertions) |
-| `critic-review.test.mjs` | Test mô phỏng end-to-end cho critic-review (30 assertions) |
+| `muse-review.ts` | **Muse Suite — 1 extension, 2 engine**: Engine 1 viết bài dài (Advisor pipeline), Engine 2 = Critic độc lập đứng sau MỌI lượt trả lời của MỌI model |
+| `muse-review.test.mjs` | Test mô phỏng end-to-end cho cả 2 engine (84 assertions, không cần mạng) |
 | `netgate-provider.ts` | Đăng ký provider `netgate` (VNPT gateway, MiniMax-M3) + rate limiting theo model |
 | `netgate_ratelimit.json` | State file của rate limiter (tự sinh, không sửa tay) |
 | `netgate-provider.ts.bak` | Backup bản cũ |
@@ -107,7 +105,7 @@ cp ~/.pi/agent/extensions/muse-review.ts ~/.pi/agent/extensions/muse-review.test
 
 ---
 
-## critic-review.ts — Critic độc lập "đứng sau" (general)
+## Engine 2 trong muse-review.ts — Critic độc lập "đứng sau" (general)
 
 Sau MỌI lượt trả lời của MỌI model (code, shell, giải thích, soạn thảo…), extension gọi 1 call
 ẩn làm người phản biện khách quan. Critic KHÔNG sửa gì, không nói chuyện với user — chỉ phán
@@ -139,12 +137,6 @@ Nguyên tắc:
 
 Chi phí: mỗi lượt đáng kể = +1 call ẩn; khi có lỗi = +1 lượt main agent sửa. Token call critic
 không vào `/session` của pi.
-
-```bash
-node ~/.pi/agent/extensions/critic-review.test.mjs
-cp ~/.pi/agent/extensions/critic-review.ts ~/.pi/agent/extensions/critic-review.test.mjs \
-   ~/dotfiles/.pi/agent/extensions/
-```
 
 ---
 
