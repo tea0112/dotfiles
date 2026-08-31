@@ -1,54 +1,60 @@
 /**
- * muse-review.ts — Muse Suite cho Pi Agent: bộ "kèm cặp" 2 tầng cho model yếu
+ * muse-review.ts — Muse Suite cho Pi Agent: bộ "kèm cặp" 2 tầng CHO MODEL YẾU
  *
- * Một extension duy nhất, 2 engine:
+ * ⚠ TOÀN BỘ SUITE (cả 2 engine) CHỈ ÁP DỤNG CHO MODEL TRONG DANH SÁCH MUSE_MODELS
+ *   (mặc định: opencode-go/muse-spark-1.2-contributor). Model khác → extension im lặng 100%.
  *
- * ═══ ENGINE 1 — MUSE REVIEW (viết bài dài, advisor mode) ═══
- *   Vượt giới hạn output tokens của model (opencode-go/muse-spark-1.2-contributor và
- *   danh sách MUSE_MODELS) bằng pipeline 7 bước chạy NGOÀI main session qua
+ * ═══ ENGINE 1 — MUSE REVIEW (viết bài, advisor mode) ═══
+ *   Vượt giới hạn output tokens của model bằng pipeline chạy NGOÀI main session qua
  *   ctx.modelRegistry.complete():
  *     Bước 1–3 (Writing):  Mở bài → Thân bài → Kết luận  (---END OF PART n---)
  *     Bước 4–6 (Review):   Chính tả & Ngữ pháp → Logic & Lập luận → Ví dụ & Thuyết phục
  *     Bước 7   (Final):    Tổng hợp & Trau chuốt → ---FINAL VERSION---
  *     Dự phòng:            xuất lại đúng 1 lần nếu chưa thấy FINAL
- *   Main session chỉ nhận: brief (tin nhắn của bạn, mirror) + progress lines (TUI-only,
- *   không vào context) + bản hoàn chỉnh cuối. Draft/prompt/review trung gian không bao giờ
- *   nằm trong main session.
- *   - Auto-start: tin nhắn đầu tiên tự gõ của phiên mới + model khớp MUSE_MODELS.
- *   - Mọi tin nhắn gõ thêm trong lúc chạy được fold vào brief (main model không trả lời riêng).
- *   - /resume có lịch sử → không hijack. Model ngoài danh sách → im lặng bỏ qua.
+ *   - CHỐNG CẮT (max output): lượt trả lời bị ngắt vì chạm giới hạn output (stopReason=length)
+ *     KHÔNG bị bỏ — extension bắt model VIẾT TIẾP từ đúng chỗ dừng (tối đa
+ *     MUSE_MAX_CONTINUATIONS lần) rồi mới ghép lại thành nội dung đầy đủ của bước đó.
+ *   - CHẶN LƯỜI: mỗi bước có ngưỡng tối thiểu (bước viết: số từ tối thiểu cứng; bước
+ *     review/tổng hợp: ≥ 70–80% độ dài bản hiện tại) — quá cụt → quát lỗi + bắt viết lại
+ *     CHI TIẾT hơn (MUSE_MAX_RETRIES lần). Chi tiết trước, review sau, rồi mới trả cho bạn.
+ *   - CHẠY VỚI MỌI TIN NHẮN tự gõ trên muse model (không chỉ tin đầu tiên): tin nhắn
+ *     → pipeline viết → trả bản hoàn chỉnh; main model KHÔNG trả lời riêng (action handled).
+ *   - Tin nhắn gõ thêm TRONG LÚC pipeline đang chạy → fold vào brief, tính vào bài viết.
+ *   - Slash command (/…) không bị hijack. MUSE_AUTO_START=0 → chat bình thường.
+ *   - Draft/prompt/review trung gian không bao giờ nằm trong main session.
  *
- * ═══ ENGINE 2 — CRITIC (phản biện độc lập, GENERAL — mọi loại việc, mọi model) ═══
- *   Sau MỌI lượt trả lời của main agent (code, shell, văn bản, phân tích...), gọi 1 call
- *   ẩn làm reviewer khách quan. Critic KHÔNG sửa, không nói chuyện với user — chỉ phán:
- *     ---LGTM---        sạch → 1 dòng "✓ critic", không tốn lượt
- *     ---NEED-VERIFY---  thiếu bằng chứng test/lint → chính MAIN AGENT (kẻ có tool) được
- *                        yêu cầu chạy lệnh và báo cáo; extension không bao giờ tự chạy code
- *                        của bạn (chỉ tự đọc git diff — chỉ đọc)
- *     ---ISSUES---       có lỗi thật → đáp án cũ collapse còn 1 dòng, main agent phải
- *                        kiểm chứng/sửa và XUẤT LẠI đáp án cuối đầy đủ
- *   - Bằng chứng: prompt + đáp án + tool log lượt vừa chạy + git diff. Cấm đoán mò ngoài
- *     bằng chứng. Trần vòng can thiệp CRITIC_MAX_ROUNDS → không loop vô tận.
- *   - User nhắn tin mới → mọi phán quyết đang chờ bị hủy ngay.
- *   - Engine 1 đang chạy → Engine 2 im lặng hoàn toàn (cùng module, flag chung).
- *   - Đáp án bị thay thế được collapse còn 1 dòng (markdownTransformer, display-only).
+ * ═══ ENGINE 2 — CRITIC (phản biện độc lập, chỉ trên muse model) ═══
+ *   Soi MỌI sản phẩm của muse model:
+ *     a) BÀI VIẾT cuối của pipeline: sau khi deliver, critic đọc đề bài + bài viết và phán.
+ *        Có lỗi thật → gọi thêm bước CHỈNH SỬA trong kênh ẩn (giữ phần tốt, sửa từng nhận
+ *        xét) → deliver bản mới (bản cũ tự collapse). Trần CRITIC_MAX_ROUNDS vòng sửa.
+ *     b) MỌI answer của main agent (khi main agent có chạy: slash command, tool loop,
+ *        MUSE_AUTO_START=0...): verdict LGTM / NEED-VERIFY / ISSUES như cũ — ISSUES →
+ *        đáp án cũ collapse, main agent phải kiểm chứng/sửa và XUẤT LẠI đầy đủ.
+ *   - Critic KHÔNG tự chạy code của bạn (chỉ tự đọc git diff — chỉ đọc); NEED-VERIFY →
+ *   chính MAIN AGENT (kẻ có tool) chạy lệnh lấy bằng chứng. Critic chỉ đòi lệnh kiểm tra
+ *   RẺ NHANH (unit test/typecheck/lint, tự thoát ~30s) — CẤM đòi start server, watch,
+ *   build đầy đủ, e2e, cài dependencies; việc đắt đó → tự kết luận từ bằng chứng tĩnh.
+ *   Cấm đoán mò ngoài bằng chứng. User nhắn tin mới → phán quyết đang chờ bị hủy ngay.
  *
  * ═══ Điều khiển ═══
  *   STOP_REVIEW  (gõ trong chat) → hủy TẤT CẢ: pipeline viết bài + critic đang dở
  *   CRITIC_OFF / CRITIC_ON                    → tắt / bật riêng Engine 2
  *
  * ═══ Cấu hình env (tùy chọn) ═══
- *   MUSE_MODELS=list        danh sách model chạy pipeline, phân tách phẩy, hỗ trợ wildcard *
+ *   MUSE_MODELS=list        danh sách model áp dụng suite, phân tách phẩy, wildcard *
  *                           (mặc định chính xác: opencode-go/muse-spark-1.2-contributor)
- *   MUSE_AUTO_START=1|0     bật/tắt auto-start của Engine 1 (mặc định 1)
- *   MUSE_MAX_STEPS=10       số lần gọi model tối đa mỗi run viết bài
- *   MUSE_MIN_TOKENS=20      ngưỡng "quá ngắn" của bước viết
- *   MUSE_MAX_RETRIES=1      retry mỗi bước viết khi quá ngắn
+ *   MUSE_AUTO_START=1|0     1 (mặc định): mọi tin nhắn tự gõ trên muse model → pipeline.
+ *                           0: chat bình thường (critic vẫn soi answer)
+ *   MUSE_MAX_STEPS=14       số lần gọi model tối đa mỗi run (gồm cả lượt viết tiếp)
+ *   MUSE_MIN_TOKENS=20      sàn tokens tối thiểu mỗi lượt gọi
+ *   MUSE_MAX_RETRIES=2      số lần bắt viết lại khi output quá cụt
+ *   MUSE_MAX_CONTINUATIONS=4    số lần bảo "viết tiếp" khi bị cắt ở giới hạn max output
  *   MUSE_STEP_TIMEOUT=180000    timeout mỗi call viết bài (ms)
- *   CRITIC_AUTO=1|0         bật/tắt Engine 2 (mặc định 1 — áp cho mọi model)
- *   CRITIC_MAX_ROUNDS=2     số lần critic được can thiệp / lượt hỏi của user
+ *   CRITIC_AUTO=1|0         bật/tắt Engine 2 (mặc định 1)
+ *   CRITIC_MAX_ROUNDS=2     số vòng critic được can thiệp (sửa bài / bắt verify)
  *   CRITIC_TIMEOUT=60000    timeout mỗi call critic (ms)
- *   CRITIC_MIN_ANSWER=120   đáp án ngắn hơn + không tool call → bỏ qua khỏi soi
+ *   CRITIC_MIN_ANSWER=120   answer ngắn hơn + không tool call → bỏ qua khỏi soi
  *
  * Lưu ý: token các call ẩn (advisor + critic) không cộng vào /session của pi.
  * Trạng thái in-memory — /reload/restart giữa chừng hủy sạch.
@@ -73,7 +79,7 @@ function envBool(name: string, def: boolean): boolean {
 	return ["1", "true", "yes", "on"].includes(raw.toLowerCase());
 }
 
-// Danh sách model chạy pipeline viết bài — THÊM PROVIDER MỚI VÀO ĐÂY (hoặc env MUSE_MODELS).
+// Danh sách model áp dụng TOÀN BỘ suite — THÊM PROVIDER MỚI VÀO ĐÂY (hoặc env MUSE_MODELS).
 const DEFAULT_MODELS = ["opencode-go/muse-spark-1.2-contributor"];
 
 function parseModels(raw: string | undefined): string[] {
@@ -88,9 +94,10 @@ function parseModels(raw: string | undefined): string[] {
 const CONFIG = {
 	// Engine 1 — writing pipeline
 	autoStart: envBool("MUSE_AUTO_START", true),
-	maxSteps: envInt("MUSE_MAX_STEPS", 10, 1),
+	maxSteps: envInt("MUSE_MAX_STEPS", 14, 1),
 	minTokens: envInt("MUSE_MIN_TOKENS", 20, 1),
-	maxRetries: envInt("MUSE_MAX_RETRIES", 1, 0),
+	maxRetries: envInt("MUSE_MAX_RETRIES", 2, 0),
+	maxContinuations: envInt("MUSE_MAX_CONTINUATIONS", 4, 0),
 	stepTimeoutMs: envInt("MUSE_STEP_TIMEOUT", 180_000, 1_000),
 	models: parseModels(process.env["MUSE_MODELS"]),
 	// Engine 2 — critic
@@ -138,6 +145,7 @@ interface StepDef {
 	task: string;
 	tail: string;
 	part?: number;
+	minWords?: number; // bước viết: số từ tối thiểu (chặn lười)
 }
 
 const STEPS: StepDef[] = [
@@ -146,44 +154,47 @@ const STEPS: StepDef[] = [
 		part: 1,
 		title: "Mở bài",
 		task:
-			"Viết MỞ BÀI của bài luận cho đề tài trong hội thoại: giới thiệu vấn đề, tạo điểm thu hút, dẫn dắt vào luận đề. Độ dài mục tiêu: khoảng 200–350 từ.",
+			"Viết MỞ BÀI của bài luận cho đề tài trong hội thoại: giới thiệu vấn đề, tạo điểm thu hút, dẫn dắt vào luận đề. Viết đầy đủ thành đoạn văn hoàn chỉnh, CHI TIẾT và CỤ THỂ. Độ dài mục tiêu: khoảng 200–350 từ (TỐI THIỂU 150 từ — ngắn hơn là bị trả lại).",
 		tail: "Kết thúc phần bằng đúng dòng: ---END OF PART 1---",
+		minWords: 150,
 	},
 	{
 		phase: "writing",
 		part: 2,
 		title: "Thân bài",
 		task:
-			"Viết THÂN BÀI, tiếp nối Mở bài đã có trong hội thoại. Triển khai từng luận điểm chính thành đoạn văn hoàn chỉnh (mỗi đoạn một luận điểm, có câu chủ đề). Độ dài mục tiêu: khoảng 300–450 từ.",
+			"Viết THÂN BÀI, tiếp nối Mở bài đã có trong hội thoại. Triển khai từng luận điểm chính thành đoạn văn hoàn chỉnh (mỗi đoạn một luận điểm, có câu chủ đề, có diễn giải và dẫn chứng). Độ dài mục tiêu: khoảng 300–450 từ (TỐI THIỂU 220 từ — ngắn hơn là bị trả lại).",
 		tail: "Kết thúc phần bằng đúng dòng: ---END OF PART 2---",
+		minWords: 220,
 	},
 	{
 		phase: "writing",
 		part: 3,
 		title: "Kết luận",
 		task:
-			"Viết KẾT LUẬN, khép lại bài viết bằng cách chốt vấn đề và nâng tầm thông điệp, dựa trên Mở bài và Thân bài đã có trong hội thoại. Độ dài mục tiêu: khoảng 150–250 từ.",
+			"Viết KẾT LUẬN, khép lại bài viết bằng cách chốt vấn đề và nâng tầm thông điệp, dựa trên Mở bài và Thân bài đã có trong hội thoại. Độ dài mục tiêu: khoảng 150–250 từ (TỐI THIỂU 100 từ — ngắn hơn là bị trả lại).",
 		tail: "Kết thúc phần bằng đúng dòng: ---END OF PART 3---",
+		minWords: 100,
 	},
 	{
 		phase: "review",
 		title: "Chính tả & Ngữ pháp",
 		task:
-			"REVIEW CHÍNH TẢ & NGỮ PHÁP: đọc toàn bộ nội dung bài viết trong hội thoại, sửa TẤT CẢ lỗi chính tả, ngữ pháp, dấu câu và dùng từ. Chỉ xuất ra toàn bộ bản đã sửa (ghép liền mạch), KHÔNG liệt kê lỗi, KHÔNG bình luận.",
+			"REVIEW CHÍNH TẢ & NGỮ PHÁP: đọc toàn bộ nội dung bài viết trong hội thoại, sửa TẤT CẢ lỗi chính tả, ngữ pháp, dấu câu và dùng từ. Chỉ xuất ra toàn bộ bản đã sửa (ghép liền mạch), KHÔNG liệt kê lỗi, KHÔNG bình luận, KHÔNG được rút gọn hay tóm tắt so với bản gốc — giữ nguyên hoặc mở rộng độ dài.",
 		tail: "Không thêm bất kỳ dấu hiệu kết thúc đặc biệt nào.",
 	},
 	{
 		phase: "review",
 		title: "Logic & Lập luận",
 		task:
-			"REVIEW LOGIC & LẬP LUẬN: đọc bản mới nhất trong hội thoại, kiểm tra mạch lập luận và tính nhất quán, thắt chặt liên kết giữa các đoạn, bổ sung luận cứ cho những chỗ còn yếu. Chỉ xuất toàn bộ bản đã cải thiện, không bình luận.",
+			"REVIEW LOGIC & LẬP LUẬN: đọc bản mới nhất trong hội thoại, kiểm tra mạch lập luận và tính nhất quán, thắt chặt liên kết giữa các đoạn, bổ sung luận cứ cho những chỗ còn yếu. Chỉ xuất toàn bộ bản đã cải thiện, không bình luận, KHÔNG được rút gọn hay tóm tắt so với bản gốc — giữ nguyên hoặc mở rộng độ dài.",
 		tail: "Không thêm bất kỳ dấu hiệu kết thúc đặc biệt nào.",
 	},
 	{
 		phase: "review",
 		title: "Ví dụ & Thuyết phục",
 		task:
-			"REVIEW VÍ DỤ & TÍNH THUYẾT PHỤC: đọc bản mới nhất trong hội thoại, bổ sung dẫn chứng, ví dụ cụ thể và số liệu minh họa ở những chỗ phù hợp để tăng sức thuyết phục. Chỉ xuất toàn bộ bản đã cải thiện, không bình luận.",
+			"REVIEW VÍ DỤ & TÍNH THUYẾT PHỤC: đọc bản mới nhất trong hội thoại, bổ sung dẫn chứng, ví dụ cụ thể và số liệu minh họa ở những chỗ phù hợp để tăng sức thuyết phục. Chỉ xuất toàn bộ bản đã cải thiện, không bình luận, KHÔNG được rút gọn hay tóm tắt so với bản gốc — giữ nguyên hoặc mở rộng độ dài.",
 		tail: "Không thêm bất kỳ dấu hiệu kết thúc đặc biệt nào.",
 	},
 	{
@@ -268,7 +279,7 @@ function oneLine(s: string): string {
 	return s.replace(/\s+/g, " ").trim();
 }
 
-/** Key nội dung (djb2 + độ dài) để nhận diện đáp án đã bị thay thế khi render. */
+/** Key nội dung (djb2 + độ dài) để nhận diện bài/đáp án đã bị thay thế khi render. */
 function keyOf(text: string): string {
 	let h = 5381;
 	for (let i = 0; i < text.length; i++) h = ((h << 5) + h + text.charCodeAt(i)) >>> 0;
@@ -293,16 +304,6 @@ function appendEntrySafe(pi: ExtensionAPI, customType: string, data: unknown): v
 	}
 }
 
-function countUserMessages(ctx: ExtensionContext): number {
-	try {
-		return (ctx.sessionManager.getBranch() as unknown as EntryLike[]).filter(
-			(e) => e.type === "message" && e.message?.role === "user",
-		).length;
-	} catch {
-		return 0;
-	}
-}
-
 function userMsg(text: string): AiMessage {
 	return { role: "user", content: [{ type: "text", text }], timestamp: Date.now() };
 }
@@ -318,36 +319,7 @@ function makeStepSignal(controller: AbortController, timeoutMs: number): {
 	return { signal, isTimeout: () => timeoutSignal.aborted && !controller.signal.aborted };
 }
 
-// ═════════════════════════════ ENGINE 1 — ADVISOR ═════════════════════════════
-
-const ADVISOR_SYSTEM = [
-	`[QUY TRÌNH MUSE REVIEW — CHẾ ĐỘ ADVISOR]`,
-	`Bạn đang chạy trong một quy trình viết bài nhiều bước do extension điều phối. Mỗi lượt gọi chỉ thực hiện NHIỆM VỤ của bước hiện tại, không làm trước nội dung của các bước sau.`,
-	``,
-	`QUY TẮC BẮT BUỘC:`,
-	`- Toàn bộ đề tài và yêu cầu của người dùng nằm trong chính hội thoại này — đọc kỹ và tôn trọng TẤT CẢ yêu cầu.`,
-	`- Bọc toàn bộ nội dung trả lời trong cặp thẻ: dòng đầu tiên là [SECTION], dòng cuối cùng là [END]. Không viết bất cứ gì ngoài cặp thẻ này.`,
-	`- TUYỆT ĐỐI không dùng các cụm từ "Tôi không thể", "As an AI", "xin lỗi" hoặc bất kỳ câu từ chối / nhắc đến bản chất AI nào.`,
-	`- Không bình luận về quy trình, không đặt câu hỏi ngược lại, không xin hướng dẫn thêm.`,
-].join("\n");
-
-function buildStepTask(index: number, isRetry: boolean): string {
-	const step = stepAt(index);
-	const n = Math.min(index + 1, TOTAL_STEPS);
-	const lines: string[] = [];
-	if (isRetry) {
-		lines.push(
-			`[MUSE REVIEW ⚠ PHẢN HỒI QUÁ NGẮN]`,
-			`Câu trả lời trước của bạn quá ngắn so với yêu cầu. Hãy thực hiện LẠI bước hiện tại (${step.title}) với nội dung CHI TIẾT và ĐẦY ĐỦ hơn.`,
-			``,
-		);
-	} else {
-		lines.push(`[MUSE REVIEW ▸ BƯỚC ${n}/${TOTAL_STEPS} — ${step.title.toUpperCase()}]`);
-	}
-	lines.push(`NHIỆM VỤ: ${step.task}`, step.tail);
-	lines.push(`(Bọc nội dung trong [SECTION]...[END]; tham khảo toàn bộ hội thoại trong phiên làm việc này.)`);
-	return lines.join("\n");
-}
+// ═════════════════════════════ Trạng thái chung ═════════════════════════════
 
 interface AdvisorState {
 	running: boolean;
@@ -358,311 +330,13 @@ interface AdvisorState {
 
 let adv: AdvisorState = { running: false, stepIndex: 0, controller: null, pendingUserTexts: [] };
 
-interface SessionFlags {
-	typedCount: number;
-	initialUserMessages: number;
-	advisorRan: boolean;
-}
-
-let sessionFlags: SessionFlags = { typedCount: 0, initialUserMessages: 0, advisorRan: false };
-
 function resetAdvisor(): void {
 	adv.controller?.abort();
 	adv = { running: false, stepIndex: 0, controller: null, pendingUserTexts: [] };
 }
 
-function mirrorBrief(pi: ExtensionAPI, text: string): void {
-	try {
-		pi.sendMessage({ customType: "muse-brief", content: text, display: true });
-	} catch {
-		// mirror chỉ phục vụ context/transcript
-	}
-}
-
-function deliver(
-	pi: ExtensionAPI,
-	ctx: ExtensionContext,
-	text: string,
-	label: string,
-	level: "info" | "warning",
-): void {
-	try {
-		pi.sendMessage({ customType: "muse-review-result", content: text, display: true });
-	} catch {
-		// nếu send lỗi thì vẫn notify
-	}
-	appendEntrySafe(pi, EXT_ID, { kind: "finished", message: label });
-	notify(ctx, `Muse Review: ${label}`, level);
-}
-
-function museStatus(ctx: ExtensionContext, index: number, extra = ""): void {
-	const step = stepAt(index);
-	const n = Math.min(index + 1, TOTAL_STEPS);
-	setStatus(ctx, `[Muse] Bước ${n}/${TOTAL_STEPS} · ${step.title}${extra}`);
-}
-
-async function runAdvisor(
-	pi: ExtensionAPI,
-	ctx: ExtensionContext,
-	firstUserText: string,
-	controller: AbortController,
-): Promise<void> {
-	const model = ctx.model;
-	const modelId = model ? `${model.provider}/${model.id}` : "(không rõ)";
-	const messages: AiMessage[] = [];
-	let stepIndex = 0;
-	let retries = 0;
-	let stepsExecuted = 0;
-	let latestDraft = "";
-
-	try {
-		if (!model) throw new Error("không có model đang chọn");
-		museStatus(ctx, 0);
-		appendEntrySafe(pi, EXT_ID, {
-			kind: "start",
-			message: `đề tài: "${truncate(firstUserText, 80)}" · model ${modelId} · ${TOTAL_STEPS} bước · STOP_REVIEW để hủy`,
-		});
-		messages.push(userMsg(firstUserText));
-
-		while (true) {
-			// Fold các tin nhắn người dùng gõ thêm giữa chừng.
-			if (adv.pendingUserTexts.length > 0) {
-				const list = adv.pendingUserTexts
-					.splice(0)
-					.map((t) => `- ${t}`)
-					.join("\n");
-				messages.push(
-					userMsg(`YÊU CẦU BỔ SUNG từ người dùng (bắt buộc tôn trọng khi thực hiện):\n${list}`),
-				);
-			}
-
-			// Guard maxSteps: dừng và trả về bản gần hoàn chỉnh nhất.
-			if (stepsExecuted >= CONFIG.maxSteps) {
-				if (latestDraft) {
-					deliver(
-						pi,
-						ctx,
-						latestDraft,
-						`đạt giới hạn ${CONFIG.maxSteps} lần gọi model — trả về bản gần hoàn chỉnh nhất (chưa qua bước trau chuốt).`,
-						"warning",
-					);
-				} else {
-					notify(ctx, `Muse Review: đạt giới hạn ${CONFIG.maxSteps} bước mà chưa có nội dung — dừng.`, "error");
-					appendEntrySafe(pi, EXT_ID, { kind: "error", message: `đạt giới hạn ${CONFIG.maxSteps} bước, không có nội dung` });
-				}
-				return;
-			}
-
-			const step = stepAt(stepIndex);
-			museStatus(ctx, stepIndex);
-			messages.push(userMsg(buildStepTask(stepIndex, retries > 0)));
-			const callStart = Date.now();
-			const { signal, isTimeout } = makeStepSignal(controller, CONFIG.stepTimeoutMs);
-
-			let response: MessageLike;
-			try {
-				response = (await ctx.modelRegistry.complete(
-					model,
-					{ systemPrompt: ADVISOR_SYSTEM, messages },
-					{ signal, cacheRetention: "none", sessionId: uuidv7() },
-				)) as unknown as MessageLike;
-			} catch (err) {
-				if (controller.signal.aborted) {
-					appendEntrySafe(pi, EXT_ID, {
-						kind: "warning",
-						message: `⛔ đã dừng theo STOP_REVIEW tại bước "${step.title}" — bản nháp KHÔNG được đưa vào hội thoại.`,
-					});
-					notify(ctx, "Muse Review: đã dừng. Bản nháp không được đưa vào hội thoại.", "info");
-					return;
-				}
-				throw err;
-			}
-
-			stepsExecuted++;
-
-			if (response.stopReason === "aborted" || controller.signal.aborted) {
-				appendEntrySafe(pi, EXT_ID, {
-					kind: "warning",
-					message: `⛔ đã dừng theo STOP_REVIEW tại bước "${step.title}" — bản nháp KHÔNG được đưa vào hội thoại.`,
-				});
-				notify(ctx, "Muse Review: đã dừng. Bản nháp không được đưa vào hội thoại.", "info");
-				return;
-			}
-			if (response.stopReason === "error" || response.errorMessage) {
-				throw new Error(
-					isTimeout()
-						? `timeout sau ${Math.round(CONFIG.stepTimeoutMs / 1000)}s ở bước "${step.title}"`
-						: (response.errorMessage ?? response.stopReason ?? "lỗi không rõ"),
-				);
-			}
-
-			const raw = extractText(response.content);
-			const body = coreContent(raw);
-			const outTokens = response.usage?.output ?? Math.ceil(body.length / 4);
-			const seconds = (Date.now() - callStart) / 1000;
-
-			// Quá ngắn → retry đúng MUSE_MAX_RETRIES lần (build lại task, bỏ phản hồi xấu).
-			if (outTokens < CONFIG.minTokens && retries < CONFIG.maxRetries) {
-				retries++;
-				messages.pop();
-				appendEntrySafe(pi, EXT_ID, {
-					kind: "retry",
-					index: stepIndex,
-					title: step.title,
-					message: `phản hồi ~${outTokens} tokens — thử lại ${retries}/${CONFIG.maxRetries}`,
-				});
-				continue;
-			}
-			retries = 0;
-
-			messages.push(response as unknown as AiMessage);
-			latestDraft = body;
-			appendEntrySafe(pi, EXT_ID, {
-				kind: "step",
-				index: stepIndex,
-				title: step.title,
-				words: countWords(body),
-				tokens: outTokens,
-				seconds: Math.round(seconds * 10) / 10,
-			});
-
-			if (stepIndex < TOTAL_STEPS - 1) {
-				stepIndex++;
-				adv.stepIndex = stepIndex;
-				continue;
-			}
-
-			if (stepIndex === TOTAL_STEPS - 1 && FINAL_MARKER_RE.test(raw)) {
-				deliver(pi, ctx, cleanFinal(raw), "hoàn tất! Bản hoàn chỉnh bên dưới.", "info");
-				return;
-			}
-
-			if (FINAL_MARKER_RE.test(raw)) {
-				deliver(pi, ctx, cleanFinal(raw), "hoàn tất sau bước dự phòng! Bản hoàn chỉnh bên dưới.", "info");
-			} else {
-				deliver(
-					pi,
-					ctx,
-					latestDraft,
-					"không tìm thấy ---FINAL VERSION--- kể cả sau bước dự phòng — trả về bản đầy đủ nhất hiện có.",
-					"warning",
-				);
-			}
-			return;
-		}
-	} catch (err) {
-		const msg = (err as Error)?.message ?? String(err);
-		appendEntrySafe(pi, EXT_ID, { kind: "error", message: `lỗi: ${truncate(msg, 160)}` });
-		if (latestDraft) {
-			deliver(pi, ctx, latestDraft, `lỗi giữa chừng (${truncate(msg, 100)}) — trả về bản nháp gần nhất.`, "warning");
-		} else {
-			notify(ctx, `Muse Review: lỗi — ${msg}. Không có nội dung để trả về, dừng.`, "error");
-		}
-	} finally {
-		adv.running = false;
-		adv.controller = null;
-		adv.pendingUserTexts = [];
-		setStatus(ctx, undefined);
-	}
-}
-
-function startAdvisor(pi: ExtensionAPI, ctx: ExtensionContext, firstUserText: string): void {
-	resetAdvisor();
-	const controller = new AbortController();
-	adv.running = true;
-	adv.controller = controller;
-	sessionFlags.advisorRan = true;
-	mirrorBrief(pi, firstUserText);
-	notify(
-		ctx,
-		`Muse Review: bắt đầu quy trình ${TOTAL_STEPS} bước. Trong lúc chạy, tin nhắn của bạn sẽ được ghi vào brief (main model không trả lời riêng). STOP_REVIEW để hủy.`,
-		"info",
-	);
-	void runAdvisor(pi, ctx, firstUserText, controller).catch((err) => {
-		notify(ctx, `Muse Review: lỗi không mong muốn — ${(err as Error)?.message ?? err}`, "error");
-		adv.running = false;
-		adv.controller = null;
-		setStatus(ctx, undefined);
-	});
-}
-
-// ═════════════════════════════ ENGINE 2 — CRITIC ═════════════════════════════
-
-const CRITIC_SYSTEM = [
-	`Bạn là CRITIC — bộ phận phản biện ĐỘC LẬP đứng sau một model khác vừa trả lời người dùng, với MỌI LOẠI VIỆC (code, văn bản, phân tích, dịch thuật, tóm tắt, kế hoạch, tư vấn...).`,
-	`Bạn không phải tác giả. Bạn KHÔNG trả lời người dùng, KHÔNG viết lại đáp án, KHÔNG khen, KHÔNG chào hỏi.`,
-	`Bạn chỉ có quyền phán dựa trên BẰNG CHỨNG được cung cấp. Cấm suy diễn lỗi không xuất hiện trong bằng chứng.`,
-	``,
-	`Cách làm việc (general, áp cho mọi loại việc):`,
-	`1. Xác định việc gì được yêu cầu và tiêu chí "đúng" của nó từ phần YÊU CẦU CỦA NGƯỜI DÙNG.`,
-	`2. Soi ĐÁP ÁN với tiêu chí đó + bằng chứng tool/git: kết quả có sai sót THẬT, thiếu yêu cầu, mâu thuẫn, bỏ sót bước, hay phớt lờ thất bại rõ ràng không.`,
-	`3. CODE/TOOL CALL: lệnh hoặc test thất bại bị phớt lờ; lỗi logic rõ trong diff; edge case bị bỏ; thay đổi không khớp yêu cầu; phá vỡ API/contract được nhắc tới; chưa lưu file/thiếu bước áp dụng.`,
-	`   VĂN BẢN: thiếu ý đã đòi; mâu thuẫn nội bộ; sai lệch với bằng chứng; lan man không trả lời đúng câu hỏi.`,
-	`   LOẠI KHÁC: cùng nguyên tắc — so kết quả với yêu cầu + bằng chứng, chỉ báo lỗi thật.`,
-	`CHỈ báo cáo lỗi CHẶN được (kết quả sai / hỏng / dở rõ rệt). KHÔNG báo cáo: sở thích văn phong, tối ưu vi mô, "có thể cân nhắc", điều phải chạy thêm mới biết.`,
-	`Nếu bằng chứng KHÔNG ĐỦ để kết luận (vd sửa code nhưng chưa thấy kết quả test/lint/build nào) -> dùng NEED-VERIFY thay vì đoán.`,
-	``,
-	`Bắt buộc trả lời đúng MỘT trong 3 khuôn, KHÔNG thêm chữ nào khác:`,
-	`---LGTM---`,
-	`hoặc`,
-	`---NEED-VERIFY---`,
-	`<1..3 lệnh shell cần chạy để lấy bằng chứng, mỗi dòng 1 lệnh, không giải thích>`,
-	`hoặc`,
-	`---ISSUES---`,
-	`- <vấn đề ngắn, trỏ bằng chứng cụ thể> → <cách sửa>`,
-].join("\n");
-
-function buildEvidence(prompt: string, answer: string, toolLog: string[], gitDiff: string): string {
-	const t = (s: string, n: number) => (s.length > n ? `${s.slice(0, n)}…[chặn]` : s);
-	return [
-		`=== YÊU CẦU CỦA NGƯỜI DÙNG ===`,
-		t(prompt || "(không rõ)", 1500),
-		``,
-		`=== ĐÁP ÁN CẦN REVIEW ===`,
-		t(answer, 5000),
-		``,
-		`=== BẰNG CHỨNG QUÁ TRÌNH (tool đã chạy trong lượt này) ===`,
-		toolLog.length ? toolLog.map((l) => t(l, 400)).join("\n") : "(không có tool call nào)",
-		``,
-		`=== GIT DIFF ===`,
-		gitDiff || "(không có diff — không phải repo git hoặc không sửa file)",
-	].join("\n");
-}
-
-function verifyInstruction(cmds: string): string {
-	return [
-		`${INJECT_PREFIX} Cần bằng chứng trước khi kết luận. Hãy chạy ĐÚNG các lệnh sau và báo cáo nguyên văn kết quả. KHÔNG sửa code, KHÔNG giải thích thêm:`,
-		cmds,
-	].join("\n");
-}
-
-function reviseInstruction(issues: string): string {
-	return [
-		`${INJECT_PREFIX} Người phản biện độc lập tìm thấy các vấn đề sau trong đáp án vừa rồi:`,
-		issues,
-		``,
-		`Yêu cầu bắt buộc:`,
-		`- Kiểm chứng và sửa TỪNG vấn đề ở trên bằng tool khi cần (đọc file, chạy lại lệnh/test).`,
-		`- Sau đó XUẤT LẠI TOÀN BỘ đáp án cuối cùng hoàn chỉnh cho người dùng (đây là thứ người dùng thấy).`,
-		`- Không xin lỗi, không kể về quy trình review, không tóm tắt thay cho đáp án đầy đủ.`,
-	].join("\n");
-}
-
-/** Lấy phần thân sau một verdict marker (dừng khi gặp marker --- khác). */
-function parseVerdictLines(v: string, marker: RegExp): string {
-	const lines = v.split(/\r?\n/);
-	let collecting = false;
-	const out: string[] = [];
-	for (const line of lines) {
-		if (!collecting) {
-			if (marker.test(line)) collecting = true;
-			continue;
-		}
-		if (/^\s*-{3,}/.test(line)) break;
-		out.push(line);
-	}
-	return out.join("\n").trim();
-}
+// Tăng khi user gửi tin mới -> mọi phán quyết đang chờ của critic lỗi thời.
+const turn = { seq: 0 };
 
 interface CriticState {
 	enabled: boolean;
@@ -694,12 +368,407 @@ function freshCriticState(): CriticState {
 
 let crit: CriticState = freshCriticState();
 
+// ═════════════════════════════ UI helpers ═════════════════════════════
+
+function mirrorBrief(pi: ExtensionAPI, text: string): void {
+	try {
+		pi.sendMessage({ customType: "muse-brief", content: text, display: true });
+	} catch {
+		// mirror chỉ phục vụ context/transcript
+	}
+}
+
+function deliver(
+	pi: ExtensionAPI,
+	ctx: ExtensionContext,
+	text: string,
+	label: string,
+	level: "info" | "warning",
+): void {
+	try {
+		pi.sendMessage({ customType: "muse-review-result", content: text, display: true });
+	} catch {
+		// nếu send lỗi thì vẫn notify
+	}
+	appendEntrySafe(pi, EXT_ID, { kind: "finished", message: label });
+	notify(ctx, `Muse Review: ${label}`, level);
+}
+
+function museStatus(ctx: ExtensionContext, index: number, extra = ""): void {
+	const step = stepAt(index);
+	const n = Math.min(index + 1, TOTAL_STEPS);
+	setStatus(ctx, `[Muse] Bước ${n}/${TOTAL_STEPS} · ${step.title}${extra}`);
+}
+
 function criticLine(pi: ExtensionAPI, kind: "ok" | "warn" | "err" | "info", message: string): void {
 	appendEntrySafe(pi, CRITIC_ENTRY_ID, { kind, message });
 }
 
 function criticStatus(ctx: ExtensionContext, text?: string): void {
 	setStatus(ctx, text);
+}
+
+// ═════════════════════════════ ENGINE 1 — ADVISOR ═════════════════════════════
+
+const ADVISOR_SYSTEM = [
+	`[QUY TRÌNH MUSE REVIEW — CHẾ ĐỘ ADVISOR]`,
+	`Bạn đang chạy trong một quy trình viết bài nhiều bước do extension điều phối. Mỗi lượt gọi chỉ thực hiện NHIỆM VỤ của bước hiện tại, không làm trước nội dung của các bước sau.`,
+	``,
+	`QUY TẮC BẮT BUỘC:`,
+	`- Toàn bộ đề tài và yêu cầu của người dùng nằm trong chính hội thoại này — đọc kỹ và tôn trọng TẤT CẢ yêu cầu.`,
+	`- Bọc toàn bộ nội dung trả lời trong cặp thẻ: dòng đầu tiên là [SECTION], dòng cuối cùng là [END]. Không viết bất cứ gì ngoài cặp thẻ này.`,
+	`- TUYỆT ĐỐI không dùng các cụm từ "Tôi không thể", "As an AI", "xin lỗi" hoặc bất kỳ câu từ chối / nhắc đến bản chất AI nào.`,
+	`- KHÔNG bình luận về quy trình, không đặt câu hỏi ngược lại, không xin hướng dẫn thêm.`,
+	`- Phong cách bắt buộc: CHI TIẾT, CỤ THỂ, ĐẦY ĐỦ. CẤM tóm tắt, CẤM viết qua loa, CẤM bỏ ngang, CẤM dùng "vân vân/...", CẤM tự kết thúc sớm khi nội dung chưa xong.`,
+	`- Nếu lượt trả lời bị ngắt vì giới hạn output, ở lượt kế tiếp phải viết tiếp NGAY từ chỗ dừng cho tới khi hoàn thành phần đang làm.`,
+].join("\n");
+
+function buildStepTask(index: number, isRetry: boolean, reason = ""): string {
+	const step = stepAt(index);
+	const n = Math.min(index + 1, TOTAL_STEPS);
+	const lines: string[] = [];
+	if (isRetry) {
+		lines.push(
+			`[MUSE REVIEW ⚠ PHẢN HỒI QUÁ CỤT — BẠN ĐANG LƯỜI TRẢ LỜI]`,
+			`Câu trả lời trước của bạn${reason ? ` (${reason})` : ""} QUÁ NGẮN và THIẾU CHI TIẾT so với yêu cầu.`,
+			`Hãy thực hiện LẠI bước hiện tại (${step.title}): viết CHI TIẾT, CỤ THỂ, ĐẦY ĐỦ hơn — CẤM tóm tắt, CẤM liệt kê gọn, CẤM bỏ ngang, CẤM kết thúc sớm.`,
+			``,
+		);
+	} else {
+		lines.push(`[MUSE REVIEW ▸ BƯỚC ${n}/${TOTAL_STEPS} — ${step.title.toUpperCase()}]`);
+	}
+	lines.push(`NHIỆM VỤ: ${step.task}`, step.tail);
+	lines.push(`(Bọc nội dung trong [SECTION]...[END]; tham khảo toàn bộ hội thoại trong phiên làm việc này.)`);
+	return lines.join("\n");
+}
+
+const CONTINUE_TASK = [
+	`[MUSE REVIEW ⚠ LƯỢT TRƯỚC BỊ CẮT DO GIỚI HẠN OUTPUT]`,
+	`Phần trả lời trước của bạn bị NGẮT GIỮA CHỪNG vì chạm giới hạn output — nội dung đang DỞ.`,
+	`Hãy VIẾT TIẾP NGAY từ đúng chỗ vừa dừng: không lặp lại chữ đã viết, không tóm tắt lại, không mở đầu lại, không xin lỗi.`,
+	`Viết tiếp cho tới khi hoàn thành phần đang làm. Vẫn bọc nội dung trong [SECTION]...[END].`,
+].join("\n");
+
+async function runAdvisor(
+	pi: ExtensionAPI,
+	ctx: ExtensionContext,
+	firstUserText: string,
+	controller: AbortController,
+): Promise<void> {
+	const model = ctx.model;
+	const modelId = model ? `${model.provider}/${model.id}` : "(không rõ)";
+	const messages: AiMessage[] = [];
+	let fullRequest = firstUserText;
+	let stepIndex = 0;
+	let retries = 0;
+	let retryReason = "";
+	let stepsExecuted = 0;
+	let essay = ""; // nội dung đầy đủ nhất hiện có (bước viết: ghép dần; bước review: thay toàn bộ)
+
+	try {
+		if (!model) throw new Error("không có model đang chọn");
+		museStatus(ctx, 0);
+		appendEntrySafe(pi, EXT_ID, {
+			kind: "start",
+			message: `đề tài: "${truncate(firstUserText, 80)}" · model ${modelId} · ${TOTAL_STEPS} bước · STOP_REVIEW để hủy`,
+		});
+		messages.push(userMsg(firstUserText));
+
+		while (true) {
+			// Fold các tin nhắn người dùng gõ thêm giữa chừng.
+			if (adv.pendingUserTexts.length > 0) {
+				const list = adv.pendingUserTexts
+					.splice(0)
+					.map((t) => `- ${t}`)
+					.join("\n");
+				fullRequest += `\nYÊU CẦU BỔ SUNG:\n${list}`;
+				messages.push(
+					userMsg(`YÊU CẦU BỔ SUNG từ người dùng (bắt buộc tôn trọng khi thực hiện):\n${list}`),
+				);
+			}
+
+			// Guard maxSteps: dừng và trả về bản gần hoàn chỉnh nhất.
+			if (stepsExecuted >= CONFIG.maxSteps) {
+				if (essay) {
+					deliver(
+						pi,
+						ctx,
+						essay,
+						`đạt giới hạn ${CONFIG.maxSteps} lần gọi model — trả về bản gần hoàn chỉnh nhất (chưa qua bước trau chuốt).`,
+						"warning",
+					);
+					await criticGateEssay(pi, ctx, fullRequest, essay);
+				} else {
+					notify(ctx, `Muse Review: đạt giới hạn ${CONFIG.maxSteps} bước mà chưa có nội dung — dừng.`, "error");
+					appendEntrySafe(pi, EXT_ID, { kind: "error", message: `đạt giới hạn ${CONFIG.maxSteps} bước, không có nội dung` });
+				}
+				return;
+			}
+
+			const step = stepAt(stepIndex);
+			museStatus(ctx, stepIndex);
+			const baseLen = messages.length;
+			messages.push(userMsg(buildStepTask(stepIndex, retries > 0, retryReason)));
+			const callStart = Date.now();
+			let raw = "";
+			let outTokens = 0;
+			let lastStop = "stop";
+			let contCount = 0;
+
+			// Vòng gọi 1 bước: nếu bị cắt vì chạm giới hạn output (stopReason=length)
+			// thì bắt model VIẾT TIẾP từ chỗ dừng, tối đa MUSE_MAX_CONTINUATIONS lần.
+			while (true) {
+				const { signal, isTimeout } = makeStepSignal(controller, CONFIG.stepTimeoutMs);
+				let response: MessageLike;
+				try {
+					response = (await ctx.modelRegistry.complete(
+						model,
+						{ systemPrompt: ADVISOR_SYSTEM, messages },
+						{ signal, cacheRetention: "none", sessionId: uuidv7() },
+					)) as unknown as MessageLike;
+				} catch (err) {
+					if (controller.signal.aborted) {
+						appendEntrySafe(pi, EXT_ID, {
+							kind: "warning",
+							message: `⛔ đã dừng theo STOP_REVIEW tại bước "${step.title}" — bản nháp KHÔNG được đưa vào hội thoại.`,
+						});
+						notify(ctx, "Muse Review: đã dừng. Bản nháp không được đưa vào hội thoại.", "info");
+						return;
+					}
+					throw err;
+				}
+
+				stepsExecuted++;
+
+				if (response.stopReason === "aborted" || controller.signal.aborted) {
+					appendEntrySafe(pi, EXT_ID, {
+						kind: "warning",
+						message: `⛔ đã dừng theo STOP_REVIEW tại bước "${step.title}" — bản nháp KHÔNG được đưa vào hội thoại.`,
+					});
+					notify(ctx, "Muse Review: đã dừng. Bản nháp không được đưa vào hội thoại.", "info");
+					return;
+				}
+				if (response.stopReason === "error" || response.errorMessage) {
+					throw new Error(
+						isTimeout()
+							? `timeout sau ${Math.round(CONFIG.stepTimeoutMs / 1000)}s ở bước "${step.title}"`
+							: (response.errorMessage ?? response.stopReason ?? "lỗi không rõ"),
+						);
+				}
+
+				const piece = extractText(response.content);
+				raw += piece;
+				outTokens += response.usage?.output ?? Math.ceil(piece.length / 4);
+				lastStop = response.stopReason ?? "stop";
+				messages.push(response as unknown as AiMessage);
+
+				if (lastStop === "length" && contCount < CONFIG.maxContinuations) {
+					contCount++;
+					messages.push(userMsg(CONTINUE_TASK));
+					appendEntrySafe(pi, EXT_ID, {
+						kind: "continue",
+						index: stepIndex,
+						title: step.title,
+						message: `bị cắt ở giới hạn output → bảo viết tiếp (lần ${contCount}/${CONFIG.maxContinuations})`,
+					});
+					continue;
+				}
+				break;
+			}
+
+			if (lastStop === "length") {
+				appendEntrySafe(pi, EXT_ID, {
+					kind: "warning",
+					message: `bước "${step.title}" vẫn bị cắt sau ${CONFIG.maxContinuations} lần viết tiếp — chấp nhận phần dài nhất lấy được`,
+				});
+			}
+
+			const body = coreContent(raw);
+			const seconds = (Date.now() - callStart) / 1000;
+			const words = countWords(body);
+			const prevWordCount = countWords(essay);
+			// Ngưỡng tối thiểu: bước viết = số từ cứng; review ≥ 70%, tổng hợp ≥ 80% bản hiện tại.
+			const required =
+				step.phase === "writing"
+					? (step.minWords ?? 0)
+					: Math.floor(prevWordCount * (step.phase === "final" ? 0.8 : 0.7));
+
+			// Quá cụt → quát và bắt viết lại chi tiết (MUSE_MAX_RETRIES lần), bỏ phản hồi lười.
+			if ((outTokens < CONFIG.minTokens || (required > 0 && words < required)) && retries < CONFIG.maxRetries) {
+				retries++;
+				retryReason =
+					outTokens < CONFIG.minTokens
+						? `~${outTokens} tokens`
+						: `${words} từ, cần ≥ ${required} từ`;
+				messages.length = baseLen; // bỏ task + các phản hồi lười
+				appendEntrySafe(pi, EXT_ID, {
+					kind: "retry",
+					index: stepIndex,
+					title: step.title,
+					message: `quá cụt (${retryReason}) — bắt viết lại chi tiết (${retries}/${CONFIG.maxRetries})`,
+				});
+				continue;
+			}
+			retries = 0;
+			retryReason = "";
+
+			if (step.phase === "writing") essay = essay ? `${essay}\n\n${body}` : body;
+			else essay = body;
+			appendEntrySafe(pi, EXT_ID, {
+				kind: "step",
+				index: stepIndex,
+				title: step.title,
+				words,
+				tokens: outTokens,
+				seconds: Math.round(seconds * 10) / 10,
+			});
+
+			if (stepIndex < TOTAL_STEPS - 1) {
+				stepIndex++;
+				adv.stepIndex = stepIndex;
+				continue;
+			}
+
+			if (FINAL_MARKER_RE.test(raw)) {
+				const finalText = cleanFinal(raw);
+				deliver(
+					pi,
+					ctx,
+					finalText,
+					stepIndex === TOTAL_STEPS - 1
+						? "hoàn tất! Bản hoàn chỉnh bên dưới."
+						: "hoàn tất sau bước dự phòng! Bản hoàn chỉnh bên dưới.",
+					"info",
+				);
+				await criticGateEssay(pi, ctx, fullRequest, finalText);
+			} else {
+				deliver(
+					pi,
+					ctx,
+					essay,
+					"không tìm thấy ---FINAL VERSION--- kể cả sau bước dự phòng — trả về bản đầy đủ nhất hiện có.",
+					"warning",
+				);
+				await criticGateEssay(pi, ctx, fullRequest, essay);
+			}
+			return;
+		}
+	} catch (err) {
+		const msg = (err as Error)?.message ?? String(err);
+		appendEntrySafe(pi, EXT_ID, { kind: "error", message: `lỗi: ${truncate(msg, 160)}` });
+		if (essay) {
+			deliver(pi, ctx, essay, `lỗi giữa chừng (${truncate(msg, 100)}) — trả về bản nháp gần nhất.`, "warning");
+		} else {
+			notify(ctx, `Muse Review: lỗi — ${msg}. Không có nội dung để trả về, dừng.`, "error");
+		}
+	} finally {
+		adv.running = false;
+		adv.controller = null;
+		adv.pendingUserTexts = [];
+		setStatus(ctx, undefined);
+	}
+}
+
+function startAdvisor(pi: ExtensionAPI, ctx: ExtensionContext, firstUserText: string): void {
+	resetAdvisor();
+	const controller = new AbortController();
+	adv.running = true;
+	adv.controller = controller;
+	mirrorBrief(pi, firstUserText);
+	notify(
+		ctx,
+		`Muse Review: bắt đầu quy trình ${TOTAL_STEPS} bước. Trong lúc chạy, tin nhắn của bạn sẽ được ghi vào brief (main model không trả lời riêng). STOP_REVIEW để hủy.`,
+		"info",
+	);
+	void runAdvisor(pi, ctx, firstUserText, controller).catch((err) => {
+		notify(ctx, `Muse Review: lỗi không mong muốn — ${(err as Error)?.message ?? err}`, "error");
+		adv.running = false;
+		adv.controller = null;
+		setStatus(ctx, undefined);
+	});
+}
+
+// ═════════════════════════════ ENGINE 2 — CRITIC ═════════════════════════════
+
+const CRITIC_SYSTEM = [
+	`Bạn là CRITIC — bộ phận phản biện ĐỘC LẬP đứng sau một model khác vừa trả lời người dùng, với MỌI LOẠI VIỆC (code, văn bản, phân tích, dịch thuật, tóm tắt, kế hoạch, tư vấn...).`,
+	`Bạn không phải tác giả. Bạn KHÔNG trả lời người dùng, KHÔNG viết lại đáp án, KHÔNG khen, KHÔNG chào hỏi.`,
+	`Bạn chỉ có quyền phán dựa trên BẰNG CHỨNG được cung cấp. Cấm suy diễn lỗi không xuất hiện trong bằng chứng.`,
+	``,
+	`Cách làm việc (general, áp cho mọi loại việc):`,
+	`1. Xác định việc gì được yêu cầu và tiêu chí "đúng" của nó từ phần YÊU CẦU CỦA NGƯỜI DÙNG.`,
+	`2. Soi ĐÁP ÁN với tiêu chí đó + bằng chứng tool/git: kết quả có sai sót THẬT, thiếu yêu cầu, mâu thuẫn, bỏ sót bước, hay phớt lờ thất bại rõ ràng không.`,
+	`3. CODE/TOOL CALL: lệnh hoặc test thất bại bị phớt lờ; lỗi logic rõ trong diff; edge case bị bỏ; thay đổi không khớp yêu cầu; phá vỡ API/contract được nhắc tới; chưa lưu file/thiếu bước áp dụng.`,
+	`   VĂN BẢN: thiếu ý đã đòi; mâu thuẫn nội bộ; sai lệch với bằng chứng; lan man không trả lời đúng câu hỏi.`,
+	`   LOẠI KHÁC: cùng nguyên tắc — so kết quả với yêu cầu + bằng chứng, chỉ báo lỗi thật.`,
+	`CHỈ báo cáo lỗi CHẶN được (kết quả sai / hỏng / dở rõ rệt). KHÔNG báo cáo: sở thích văn phong, tối ưu vi mô, "có thể cân nhắc", điều phải chạy thêm mới biết.`,
+	``,
+	`Về NEED-VERIFY — RẤT KÉN CHỌN, chỉ khi thiếu bằng chứng VÀ lấy được bằng lệnh RẺ:`,
+	`- CHỈ đòi lệnh kiểm tra NHANH, tự thoát trong vài giây đến ~30 giây: unit test của 1-2 file liên quan, typecheck, lint file vừa sửa, đọc/grep một file để đối chiếu.`,
+	`- TUYỆT ĐỐI KHÔNG đòi những việc tốn thời gian: start/dev server hoặc bất kỳ tiến trình chạy dài, watch mode, build đầy đủ, e2e suite, cài dependencies, migration DB, gọi API mạng ngoài, lệnh tương tác hoặc chờ input.`,
+	`- Nếu xác minh thật sự cần những việc đắt đó -> ĐỪNG NEED-VERIFY. Tự kết luận từ bằng chứng tĩnh đang có (đọc code/diff/log trong bằng chứng): thấy lỗi rõ -> ISSUES; không thấy lỗi chặn -> LGTM.`,
+	`- Tối đa 2 lệnh, mỗi dòng 1 lệnh, lệnh nào cũng phải tự thoát nhanh.`,
+	``,
+	`Bắt buộc trả lời đúng MỘT trong 3 khuôn, KHÔNG thêm chữ nào khác:`,
+	`---LGTM---`,
+	`hoặc`,
+	`---NEED-VERIFY---`,
+	`<tối đa 2 lệnh kiểm tra NHANH (tự thoát, không start server, không watch), mỗi dòng 1 lệnh, không giải thích>`,
+	`hoặc`,
+	`---ISSUES---`,
+	`- <vấn đề ngắn, trỏ bằng chứng cụ thể> → <cách sửa>`,
+].join("\n");
+
+function buildEvidence(prompt: string, answer: string, toolLog: string[], gitDiff: string): string {
+	const t = (s: string, n: number) => (s.length > n ? `${s.slice(0, n)}…[chặn]` : s);
+	return [
+		`=== YÊU CẦU CỦA NGƯỜI DÙNG ===`,
+		t(prompt || "(không rõ)", 1500),
+		``,
+		`=== ĐÁP ÁN CẦN REVIEW ===`,
+		t(answer, 5000),
+		``,
+		`=== BẰNG CHỨNG QUÁ TRÌNH (tool đã chạy trong lượt này) ===`,
+		toolLog.length ? toolLog.map((l) => t(l, 400)).join("\n") : "(không có tool call nào)",
+		``,
+		`=== GIT DIFF ===`,
+		gitDiff || "(không có diff — không phải repo git hoặc không sửa file)",
+	].join("\n");
+}
+
+function verifyInstruction(cmds: string): string {
+	return [
+		`${INJECT_PREFIX} Cần bằng chứng nhanh trước khi kết luận. Hãy chạy ĐÚNG các lệnh kiểm tra NHANH sau (mỗi lệnh phải tự thoát — nếu lệnh nào cần start server/chờ lâu/tương tác thì bỏ qua và ghi rõ) rồi báo cáo nguyên văn kết quả. KHÔNG sửa code, KHÔNG giải thích thêm:`,
+		cmds,
+	].join("\n");
+}
+
+function reviseInstruction(issues: string): string {
+	return [
+		`${INJECT_PREFIX} Người phản biện độc lập tìm thấy các vấn đề sau trong đáp án vừa rồi:`,
+		issues,
+		``,
+		`Yêu cầu bắt buộc:`,
+		`- Kiểm chứng và sửa TỪNG vấn đề ở trên bằng tool khi cần (đọc file, chạy lại lệnh/test).`,
+		`- Sau đó XUẤT LẠI TOÀN BỘ đáp án cuối cùng hoàn chỉnh cho người dùng (đây là thứ người dùng thấy).`,
+		`- Không xin lỗi, không kể về quy trình review, không tóm tắt thay cho đáp án đầy đủ.`,
+	].join("\n");
+}
+
+/** Lấy phần thân sau một verdict marker (dừng khi gặp marker --- khác). */
+function parseVerdictLines(v: string, marker: RegExp): string {
+	const lines = v.split(/\r?\n/);
+	let collecting = false;
+	const out: string[] = [];
+	for (const line of lines) {
+		if (!collecting) {
+			if (marker.test(line)) collecting = true;
+			continue;
+		}
+		if (/^\s*-{3,}/.test(line)) break;
+		out.push(line);
+	}
+	return out.join("\n").trim();
 }
 
 function inject(pi: ExtensionAPI, text: string): void {
@@ -737,7 +806,139 @@ function lastAssistant(ctx: ExtensionContext): { msg: MessageLike; key: string }
 	return undefined;
 }
 
+/**
+ * Gate critic cho BÀI VIẾT cuối của pipeline: soi đề bài + bài viết trong kênh ẩn.
+ * LGTM → xong. ISSUES → gọi thêm bước CHỈNH SỬA (vẫn kênh ẩn) → deliver bản mới
+ * (bản cũ collapse). Trần CONFIG.criticMaxRounds vòng sửa. NEED-VERIFY → bỏ qua
+ * (bài viết không cần chạy lệnh lấy bằng chứng).
+ */
+async function criticGateEssay(
+	pi: ExtensionAPI,
+	ctx: ExtensionContext,
+	request: string,
+	firstEssay: string,
+): Promise<void> {
+	if (!crit.enabled || !modelMatches(ctx.model)) return;
+	const model = ctx.model;
+	if (!model || !firstEssay.trim()) return;
+	const seq = turn.seq;
+	let current = firstEssay;
+	let revised = 0;
+
+	criticStatus(ctx, "🔍 critic: đang soi bài viết…");
+	try {
+		while (true) {
+			const controller = new AbortController();
+			crit.controller = controller;
+			const gitDiff = await getGitDiff(pi);
+			const evidence = buildEvidence(
+				request,
+				current,
+				["(bài viết được soạn bằng pipeline nhiều bước ngoài main session — không có tool call)"],
+				gitDiff,
+			);
+			const { signal } = makeStepSignal(controller, CONFIG.criticTimeoutMs);
+			const verdictResp = (await ctx.modelRegistry.complete(
+				model,
+				{ systemPrompt: CRITIC_SYSTEM, messages: [userMsg(evidence)] },
+				{ signal, cacheRetention: "none", sessionId: uuidv7() },
+			)) as unknown as MessageLike;
+
+			if (controller.signal.aborted || seq !== turn.seq) return;
+			if (verdictResp.stopReason === "aborted") return;
+			if (verdictResp.stopReason === "error" || verdictResp.errorMessage) {
+				criticLine(pi, "warn", `critic lỗi (${oneLine(verdictResp.errorMessage ?? "api error")}) — giữ bài hiện tại.`);
+				return;
+			}
+
+			const v = extractText(verdictResp.content);
+			const issues = VERDICT_ISSUES.test(v) ? parseVerdictLines(v, VERDICT_ISSUES) : "";
+			const verify = VERDICT_VERIFY.test(v) ? parseVerdictLines(v, VERDICT_VERIFY) : "";
+
+			if (!issues && !verify && VERDICT_LGTM.test(v)) {
+				criticLine(pi, "ok", "bài viết đạt — critic không có ý kiến");
+				return;
+			}
+			if (verify && !issues) {
+				criticLine(pi, "info", "critic đòi bằng chứng chạy lệnh — không áp dụng cho bài viết, bỏ qua");
+				return;
+			}
+			if (!issues) {
+				criticLine(pi, "warn", "verdict không đúng khuôn → coi như đạt");
+				return;
+			}
+
+			if (revised >= CONFIG.criticMaxRounds) {
+				criticLine(pi, "warn", `còn ý kiến nhưng đã hết ${CONFIG.criticMaxRounds} vòng sửa — giữ bản hiện tại.`);
+				notify(ctx, `critic còn ý kiến nhưng đã hết vòng sửa bài.`, "warning");
+				return;
+			}
+			revised++;
+			criticLine(pi, "warn", `critic có ý kiến → chỉnh sửa lại bài (vòng ${revised}/${CONFIG.criticMaxRounds})`);
+
+			// Bước chỉnh sửa trong kênh ẩn: giữ phần tốt, sửa từng nhận xét, xuất lại toàn bộ.
+			const bullets = issues
+				.split(/\n+/)
+				.map((l) => oneLine(l))
+				.filter(Boolean)
+				.map((l) => (l.startsWith("-") ? l : `- ${l}`))
+				.join("\n");
+			const revTask = [
+				`[MUSE REVIEW ▸ CHỈNH SỬA THEO NGƯỜI PHẢN BIỆN ĐỘC LẬP]`,
+				`Đề tài / yêu cầu gốc của người dùng:`,
+				request,
+				``,
+				`BÀI VIẾT HIỆN TẠI:`,
+				current,
+				``,
+				`NHẬN XÉT CỦA NGƯỜI PHẢN BIỆN (xử lý TỪNG ý, không bỏ ý nào):`,
+				bullets,
+				``,
+				`NHIỆM VỤ: sửa bài theo từng nhận xét trên, giữ nguyên những phần đã tốt, xuất lại TOÀN BỘ bài hoàn chỉnh liền mạch. Không bình luận, không liệt kê đã sửa gì.`,
+				`Kết thúc bài bằng đúng dòng: ---FINAL VERSION---`,
+			].join("\n");
+			const revSignal = makeStepSignal(controller, CONFIG.stepTimeoutMs);
+			const revResp = (await ctx.modelRegistry.complete(
+				model,
+				{ systemPrompt: ADVISOR_SYSTEM, messages: [userMsg(revTask)] },
+				{ signal: revSignal.signal, cacheRetention: "none", sessionId: uuidv7() },
+			)) as unknown as MessageLike;
+
+			if (controller.signal.aborted || seq !== turn.seq) return;
+			if (revResp.stopReason === "aborted") return;
+			if (revResp.stopReason === "error" || revResp.errorMessage) {
+				criticLine(pi, "err", `lỗi khi chỉnh sửa bài: ${oneLine(revResp.errorMessage ?? "api error")}`);
+				return;
+			}
+			const revRaw = extractText(revResp.content);
+			const revBody = FINAL_MARKER_RE.test(revRaw) ? cleanFinal(revRaw) : coreContent(revRaw);
+			if (!revBody) {
+				criticLine(pi, "err", "bản chỉnh sửa rỗng — giữ bài hiện tại");
+				return;
+			}
+			crit.superseded.add(keyOf(current)); // bản cũ collapse trong transcript
+			current = revBody;
+			appendEntrySafe(pi, EXT_ID, {
+				kind: "revise",
+				round: revised,
+				words: countWords(revBody),
+			});
+			deliver(pi, ctx, current, `bài đã chỉnh sửa theo critic (vòng ${revised}/${CONFIG.criticMaxRounds}) — bản mới bên dưới.`, "info");
+			// vòng lặp tiếp: review lại bản mới
+		}
+	} catch (err) {
+		if (crit.controller?.signal.aborted !== true) {
+			criticLine(pi, "err", `lỗi critic: ${oneLine((err as Error)?.message ?? String(err))}`);
+		}
+	} finally {
+		crit.controller = null;
+		criticStatus(ctx, undefined);
+	}
+}
+
+/** Review answer của main agent (khi main agent thực sự chạy) — qua agent_settled. */
 async function runReview(pi: ExtensionAPI, ctx: ExtensionContext): Promise<void> {
+	if (!crit.enabled || crit.running || adv.running || !modelMatches(ctx.model)) return;
 	const last = lastAssistant(ctx);
 	if (!last) return;
 	const answer = extractText(last.msg.content);
@@ -746,7 +947,6 @@ async function runReview(pi: ExtensionAPI, ctx: ExtensionContext): Promise<void>
 
 	if (!answer.trim()) return;
 	if (last.key && crit.superseded.has(last.key)) return; // bản cũ đã bị thay
-	if (adv.running || !crit.enabled || crit.running) return;
 	// bỏ qua câu quá cụt và không có hành động nào ("ok", "xong", ...)
 	if (!selfDriven && crit.toolLog.length === 0 && answer.length < CONFIG.criticMinAnswerChars) return;
 
@@ -760,7 +960,7 @@ async function runReview(pi: ExtensionAPI, ctx: ExtensionContext): Promise<void>
 	criticStatus(ctx, "🔍 critic: đang soi…");
 	if (!crit.hinted) {
 		crit.hinted = true;
-		notify(ctx, `critic đang bật cho mọi lượt trả lời — tắt: CRITIC_OFF`, "info");
+		notify(ctx, `critic đang bật cho model trong MUSE_MODELS — tắt: CRITIC_OFF`, "info");
 	}
 
 	try {
@@ -835,11 +1035,6 @@ async function runReview(pi: ExtensionAPI, ctx: ExtensionContext): Promise<void>
 	}
 }
 
-// ═════════════════════════════ State gốc (turn tracking) ═════════════════════════════
-
-// Tăng khi user gửi tin mới -> mọi phán quyết đang chờ của critic lỗi thời.
-const turn = { seq: 0 };
-
 // ═════════════════════════════ Extension ═════════════════════════════
 
 export default function (pi: ExtensionAPI) {
@@ -851,9 +1046,17 @@ export default function (pi: ExtensionAPI) {
 		return new Text(theme.fg("accent", `Muse brief › ${text}`), 0, 0);
 	});
 
-	// Kết quả cuối cùng của pipeline viết bài.
+	// Kết quả cuối cùng của pipeline viết bài (bản đã bị critic sửa → collapse).
 	pi.registerMessageRenderer("muse-review-result", (message, _options, theme) => {
 		const text = typeof message.content === "string" ? message.content : "";
+		if (text && crit.superseded.has(keyOf(text))) {
+			const words = text.split(/\s+/).filter(Boolean).length;
+			return new Text(
+				theme.fg("muted", `⤷ _bản bài viết này đã được critic chỉnh sửa — xem bản mới phía dưới (~${words} từ đã ẩn)_`),
+				0,
+				0,
+			);
+		}
 		return new Text(`${theme.bold(theme.fg("success", "✨ Muse Review — Bản hoàn chỉnh"))}\n\n${text}`, 0, 0);
 	});
 
@@ -870,6 +1073,7 @@ export default function (pi: ExtensionAPI) {
 			words?: number;
 			tokens?: number;
 			seconds?: number;
+			round?: number;
 		};
 		switch (d.kind) {
 			case "start":
@@ -886,6 +1090,18 @@ export default function (pi: ExtensionAPI) {
 			case "retry":
 				return new Text(
 					theme.fg("warning", `⚠️ [${Math.min((d.index ?? 0) + 1, TOTAL_STEPS)}/${TOTAL_STEPS}] ${d.title ?? ""} — ${d.message ?? ""}`),
+					0,
+					0,
+				);
+			case "continue":
+				return new Text(
+					theme.fg("accent", `✂️ [${Math.min((d.index ?? 0) + 1, TOTAL_STEPS)}/${TOTAL_STEPS}] ${d.title ?? ""} — ${d.message ?? ""}`),
+					0,
+					0,
+				);
+			case "revise":
+				return new Text(
+					theme.fg("warning", `🛠 chỉnh sửa theo critic (vòng ${d.round ?? 0}) · ${d.words ?? 0} từ`),
 					0,
 					0,
 				);
@@ -914,7 +1130,7 @@ export default function (pi: ExtensionAPI) {
 		return new Text(`${label} · ${d.message ?? ""}`, 0, 0);
 	});
 
-	// Collapse đáp án đã bị critic bắt làm lại (display-only; context không đổi).
+	// Collapse đáp án (main agent) đã bị critic bắt làm lại (display-only; context không đổi).
 	pi.registerMarkdownTransformer((markdown, info) => {
 		if (info?.messageType !== "assistant" || crit.superseded.size === 0) return markdown;
 		if (!crit.superseded.has(keyOf(markdown))) return markdown;
@@ -929,7 +1145,6 @@ export default function (pi: ExtensionAPI) {
 		crit.controller?.abort();
 		crit = freshCriticState();
 		turn.seq = 0;
-		sessionFlags = { typedCount: 0, initialUserMessages: countUserMessages(ctx), advisorRan: false };
 		setStatus(ctx, undefined);
 	});
 
@@ -940,7 +1155,7 @@ export default function (pi: ExtensionAPI) {
 		setStatus(ctx, undefined);
 	});
 
-	// ---- Input: kill switch, keyword, fold brief, auto-start, reset critic theo lượt ----
+	// ---- Input: kill switch, keyword, fold brief, pipeline MỌI tin nhắn, reset critic ----
 
 	pi.on("input", async (event, ctx) => {
 		try {
@@ -981,7 +1196,6 @@ export default function (pi: ExtensionAPI) {
 
 			// Chỉ xử lý tin nhắn người dùng tự gõ.
 			if (event.source !== "interactive") return { action: "continue" };
-			sessionFlags.typedCount++;
 
 			// Engine 1 đang chạy: ghi vào brief (main model không trả lời riêng).
 			if (adv.running) {
@@ -993,21 +1207,24 @@ export default function (pi: ExtensionAPI) {
 				return { action: "handled" };
 			}
 
-			// Tin nhắn mới của user = mọi phán quyết critic đang chờ trở nên lỗi thời.
+			// Tin nhắn mới = phán quyết critic đang chờ lỗi thời + reset vòng đếm.
 			turn.seq++;
 			crit.controller?.abort();
-
-			// Auto-start Engine 1: tin đầu tự gõ của phiên mới + model trong danh sách.
-			if (CONFIG.autoStart && !sessionFlags.advisorRan && sessionFlags.typedCount === 1 && sessionFlags.initialUserMessages === 0 && text && !text.startsWith("/") && modelMatches(ctx.model)) {
-				startAdvisor(pi, ctx, text);
-				return { action: "handled" };
-			}
-
-			// Reset vòng đếm critic cho lượt hỏi mới.
 			crit.roundsUsed = 0;
 			crit.verifyUsed = false;
 			crit.toolLog = [];
 			crit.lastRealPrompt = text;
+
+			// Model ngoài danh sách MUSE_MODELS → toàn bộ suite im lặng.
+			if (!modelMatches(ctx.model)) return { action: "continue" };
+
+			// MỌI tin nhắn tự gõ (không phải slash command) trên muse model → pipeline.
+			if (CONFIG.autoStart && text && !text.startsWith("/")) {
+				startAdvisor(pi, ctx, text);
+				return { action: "handled" };
+			}
+
+			// Slash command hoặc MUSE_AUTO_START=0 → chat bình thường, critic vẫn soi answer.
 			return { action: "continue" };
 		} catch {
 			return { action: "continue" };
@@ -1032,10 +1249,10 @@ export default function (pi: ExtensionAPI) {
 		if (crit.toolLog.length > 8) crit.toolLog.shift();
 	});
 
-	// ---- Engine 2: đánh giá sau khi agent thực sự dừng ----
+	// ---- Engine 2: đánh giá answer của main agent sau khi agent dừng ----
 
 	pi.on("agent_settled", async (_event, ctx) => {
-		if (!crit.enabled || crit.running || adv.running) return;
+		if (!crit.enabled || crit.running || adv.running || !modelMatches(ctx.model)) return;
 		const capturedSeq = turn.seq;
 		// defer: để pi kết thúc phần settle trước khi critic chạy
 		setTimeout(() => {
