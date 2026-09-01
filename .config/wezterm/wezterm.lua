@@ -272,7 +272,7 @@ config.adjust_window_size_when_changing_font_size = false
 -- Wayland
 -- =========================================================
 
-config.enable_wayland = false
+config.enable_wayland = true
 
 -- Limit GPU usage: cap frame rate to reduce render engine load.
 config.max_fps = 30
