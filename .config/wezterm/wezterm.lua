@@ -256,14 +256,12 @@ config.use_fancy_tab_bar = true
 config.hide_tab_bar_if_only_one_tab = false
 config.tab_bar_at_bottom = false
 
--- Keep Windows minimize/maximize/close buttons.
-if is_windows() then
-	config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
-	config.integrated_title_buttons = { "Hide", "Maximize", "Close" }
-	config.integrated_title_button_style = "Windows"
-else
-	config.window_decorations = "RESIZE"
-end
+-- Window buttons drawn inside the tab bar on all platforms.
+-- wezterm's native-Wayland CSD titlebar is broken on GNOME (no titlebar, no
+-- border resize); integrated buttons + tab-bar drag avoid the titlebar entirely.
+config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+config.integrated_title_buttons = { "Hide", "Maximize", "Close" }
+config.integrated_title_button_style = "Windows"
 
 config.window_close_confirmation = "NeverPrompt"
 config.adjust_window_size_when_changing_font_size = false
