@@ -1,0 +1,701 @@
+#!/usr/bin/env python3
+"""vnz-leech — ném link vào chat VNZ-LEECH (cbox), đợi mod, tự tải file về.
+
+Cách dùng:
+    vnz-leech <link1> [link2 ...]        # gửi link, đợi mod, tự tải
+    cat links.txt | vnz-leech            # đọc link từ stdin
+    vnz-leech -f links.txt               # đọc link từ file
+    vnz-leech --dry-run                  # login + đọc tin, không gửi/tải (test)
+"""
+
+import argparse
+import os
+import re
+import shutil
+import sys
+import threading
+import time
+from pathlib import Path
+from urllib.parse import unquote, urlparse
+from concurrent.futures import ThreadPoolExecutor
+
+import requests
+from rich.text import Text
+from rich.console import Console, Group
+from rich.live import Live
+from rich.progress import (BarColumn, DownloadColumn, Progress,
+                           TaskProgressColumn, TextColumn,
+                           TimeRemainingColumn, TransferSpeedColumn)
+from rich.table import Table
+
+# ── Cấu hình box (đã khảo sát từ HTML thật của vnz-leech.com) ──────────────
+BOXID = "4240872"
+BOXTAG = "soigia"
+BASE = "https://www4.cbox.ws/box"
+MAIN_URL = f"{BASE}/?boxid={BOXID}&boxtag={BOXTAG}&sec=main"
+FORM_URL = f"{BASE}/?boxid={BOXID}&boxtag={BOXTAG}&sec=form"
+SUBMIT_URL = f"{BASE}/index.php?boxid={BOXID}&boxtag={BOXTAG}&sec=submit"
+
+
+def profile_url(user: str) -> str:
+    return f"{BASE}/?boxid={BOXID}&boxtag={BOXTAG}&sec=profile&n={user}&k="
+
+DEFAULT_USER = os.environ.get("VNZ_USER", "")
+DEFAULT_PASSWORD = os.environ.get("VNZ_PASSWORD", "")
+DEFAULT_DIR = str(Path.home() / "Downloads" / "ns")
+
+MOD_NAME = "VNZ.Team"
+FAIL_PATTERNS = ["bị lỗi", "have error", "just only for", "sử dụng hết"]
+
+MIN_SPLIT_SIZE = 2 * 1024 * 1024    # nhỏ hơn thế: giữ 1 kết nối
+SEG_MIN_SIZE = 1 * 1024 * 1024      # mỗi segment tối thiểu (floor kiểu aria2)
+
+console = Console()
+
+
+# ── Tiện ích ────────────────────────────────────────────────────────────────
+def strip_tags(html: str) -> str:
+    text = re.sub(r"<[^>]+>", " ", html)
+    text = text.replace("&nbsp;", " ").replace("&amp;", "&")
+    text = text.replace("&lt;", "<").replace("&gt;", ">").replace("&#039;", "'")
+    text = re.sub(r"\s+", " ", text).strip()
+    # bỏ đuôi "(sent from ...)"
+    text = re.sub(r"\s*\(sent from\b.*$", "", text).strip()
+    return text
+
+
+def basename_of(url: str) -> str:
+    """Basename của path trong URL, bỏ query, URL-decode. Rỗng nếu không có."""
+    path = urlparse(url).path
+    name = os.path.basename(path)
+    return unquote(name) if name and "." in name else ""
+
+
+def extract_error(text: str) -> str:
+    """Lý do lỗi: đoạn sau 'Lỗi:'/'Error:' tới '| Máy chủ'/'| Server:'."""
+    m = re.search(r"(?:Lỗi|Error)\s*:\s*(.*?)(?:\s*\|\s*(?:Máy chủ|Server)|$)",
+                  text, re.IGNORECASE)
+    return m.group(1).strip() if m else ""
+def norm_name(s: str) -> str:
+    """Chuẩn hoá tên file để so khớp: '_' và '+' → space, bỏ hoa/thường."""
+    return s.lower().replace("_", " ").replace("+", " ").strip()
+
+
+def extract_fname(text: str) -> str:
+    """Tên file từ tin thành công: 'VNZ.TEAM | <tên có cả space> (<size>)'."""
+    m = re.search(r"VNZ\.TEAM\s*\|?\s*(.+?)\s*\(", text)
+    if not m:
+        return ""
+
+
+class SlowDownloadError(Exception):
+    """Tải chậm bất thường dưới ngưỡng --min-speed."""
+
+
+def extract_quota(text: str) -> str:
+    """Dung lượng còn lại từ tin mod: 'Còn lại: 9.33 GB' / 'Left: 13.2 GB'."""
+    m = re.search(r"(?:Còn lại|Left)\s*:\s*([\d.,]+\s*[KMG]?B)", text, re.IGNORECASE)
+    return m.group(1).strip() if m else ""
+
+
+# ── Client cbox ─────────────────────────────────────────────────────────────
+class CboxError(Exception):
+    pass
+
+
+class CboxClient:
+    def __init__(self, user: str, password: str):
+        self.user = user
+        self.password = password
+        self.key = ""
+        self.s = requests.Session()
+        self.s.headers["User-Agent"] = (
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"
+        )
+        self.s.headers["Referer"] = "https://vnz-leech.com/"
+
+    # -- login ---------------------------------------------------------------
+    def login(self) -> None:
+        r = self.s.post(profile_url(self.user), data={
+            "pword": self.password,
+            "auth_prov": "",
+            "auth_id": "",
+            "sublog": " Log in ",
+        }, timeout=30)
+        r.raise_for_status()
+        if "Log in to use this name" in r.text:
+            raise CboxError("Đăng nhập thất bại: sai mật khẩu hoặc name bị chặn.")
+        # (a) key trong JS updateUser({...key:"..."...}) của response login
+        m = re.search(r'key\s*:\s*"([^"]+)"', r.text)
+        if m and m.group(1):
+            self.key = m.group(1)
+            return
+        # (b) hidden input key trên form đã đăng nhập
+        r2 = self.s.get(FORM_URL, timeout=30)
+        r2.raise_for_status()
+        m = re.search(r'name="key"[^>]*value="([^"]*)"', r2.text)
+        if not m:
+            m = re.search(r'value="([^"]*)"[^>]*name="key"', r2.text)
+        if m:
+            self.key = m.group(1)
+        # key vẫn có thể rỗng → post() sẽ thử và fallback
+
+    # -- đọc tin nhắn ----------------------------------------------------------
+    def fetch_messages(self) -> list:
+        """Trả list tin tăng dần theo id: {id, author, is_mod, text, hrefs}."""
+        r = self.s.get(MAIN_URL, timeout=30)
+        r.raise_for_status()
+        out = []
+        for tr in re.finditer(r'<tr id="(-?\d+)">(.*?)</tr>', r.text, re.DOTALL):
+            mid = int(tr.group(1))
+            body = tr.group(2)
+            am = re.search(r'<b class="nme [^"]*">(.*?)</b>', body, re.DOTALL)
+            author = strip_tags(am.group(1)) if am else ""
+            is_mod = bool(am) and "pn_mod" in am.group(0)
+            text = strip_tags(body)
+            hrefs = re.findall(r'href="([^"]+)"', body)
+            out.append({"id": mid, "author": author, "is_mod": is_mod,
+                        "text": text, "hrefs": hrefs})
+        out.sort(key=lambda x: x["id"])
+        return out
+
+    def max_id(self) -> int:
+        msgs = self.fetch_messages()
+        return msgs[-1]["id"] if msgs else 0
+
+    # -- gửi tin ---------------------------------------------------------------
+    def post(self, text: str, before_id: int | None = None,
+             verify_after: float = 15.0) -> None:
+        """Gửi tin; xác minh tin của mình xuất hiện; retry nếu dính flood."""
+        before = before_id if before_id is not None else self.max_id()
+        for attempt in range(3):
+            r = self.s.post(SUBMIT_URL, data={
+                "nme": self.user,
+                "pst": text,
+                "key": self.key,
+                "lvl": "1",
+                "sub": "Go",
+            }, timeout=30)
+            r.raise_for_status()
+            body = r.text
+            if "Please wait longer" in body or "Posting failed" in body:
+                if attempt < 2:
+                    time.sleep(20)
+                    continue
+                raise CboxError("Bị chặn flood control sau 3 lần thử.")
+            # xác minh tin đã lên box
+            deadline = time.time() + verify_after
+            while time.time() < deadline:
+                time.sleep(3)
+                for msg in self.fetch_messages():
+                    if msg["id"] > before and not msg["is_mod"] \
+                            and msg["author"] == self.user \
+                            and text[:60] in msg["text"]:
+                        return
+            # không thấy → thử lại lần kế (key khác?) — login lại lấy key
+            if attempt < 2:
+                self.login()
+                time.sleep(5)
+        raise CboxError("Gửi tin rồi nhưng không thấy tin trên box sau 3 lần thử.")
+
+
+# ── Phân loại tin mod ───────────────────────────────────────────────────────
+def classify(msg: dict, user: str):
+    """Trả ('success', {link, filename}) | ('fail', lý do) | (None, msg)."""
+    if not msg["is_mod"] or msg["author"] != MOD_NAME:
+        return None, msg
+    if not re.search(r"\b" + re.escape(user) + r"\b", msg["text"]):
+        return None, msg
+    text = msg["text"]
+    # LỖI trước THÀNH CÔNG (tin VIP-upsell cũng chứa bbURL donate)
+    low = text.lower()
+    for p in FAIL_PATTERNS:
+        if p.lower() in low:
+            reason = extract_error(text)
+            return "fail", reason or text
+    for href in msg["hrefs"]:
+        if "vnz-leech.com" in href or not href.startswith("http"):
+            continue
+        fname = extract_fname(text) or basename_of(href).replace("+", " ")
+        return "success", {"link": href, "filename": fname,
+                           "quota": extract_quota(text)}
+    return None, msg
+
+
+# ── Tải file ────────────────────────────────────────────────────────────────
+def _content_range_total(r: requests.Response) -> int:
+    """Tổng size file từ header Content-Range của response 206."""
+    m = re.search(r"bytes\s+\d+-\d+/(\d+)", r.headers.get("Content-Range", ""))
+    return int(m.group(1)) if m else 0
+
+
+def _pump(r, f, tid: int, progress: Progress, min_speed: int,
+          abort: threading.Event | None = None) -> None:
+    """Đọc stream vào file, cập nhật progress, phát hiện stall 90s/kết nối."""
+    marked_at, got, got_mark = time.time(), 0, 0
+    for chunk in r.iter_content(chunk_size=1 << 16):
+        if abort is not None and abort.is_set():
+            raise RuntimeError("aborted")
+        f.write(chunk)
+        progress.advance(tid, len(chunk))
+        got += len(chunk)
+        if time.time() - marked_at > 90:
+            floor = max(256 * 1024, min_speed * 1024 * 90)
+            if got - got_mark < floor:
+                raise SlowDownloadError(
+                    f"tải chậm/stall ({(got - got_mark) // 1024} KB trong 90s "
+                    f"< {min_speed} KB/s) — .part giữ lại để resume")
+            marked_at, got_mark = time.time(), got
+
+
+def _download_single(url: str, dest: Path, progress: Progress, label: str,
+                     min_speed: int, resume_from: int = 0) -> Path:
+    """Tải 1 kết nối (behaviour cũ), nối tiếp từ byte resume_from qua .part."""
+    part = dest.with_suffix(dest.suffix + ".part")
+    headers = {"Range": f"bytes={resume_from}-"} if resume_from else {}
+    with requests.get(url, headers=headers, stream=True, timeout=60) as r:
+        r.raise_for_status()
+        mode = "wb"
+        start_at = resume_from
+        if r.status_code == 206 and start_at:
+            mode = "ab"
+        else:
+            start_at = 0
+            mode = "wb"
+        total = r.headers.get("Content-Length")
+        cd = r.headers.get("Content-Disposition", "")
+        cm = re.search(r'filename\*?=(?:UTF-8\'\')?"?([^";]+)"?', cd)
+        if cm and not label:
+            dest = dest.parent / unquote(cm.group(1).strip())
+            part = dest.with_suffix(dest.suffix + ".part")
+        total = int(total) + start_at if total else None
+        tid = progress.add_task(label or dest.name, total=total,
+                                start=False, completed=start_at)
+        progress.start_task(tid)
+        with open(part, mode) as f:
+            _pump(r, f, tid, progress, min_speed)
+    part.rename(dest)
+    return dest
+
+
+def _download_segments(url: str, dest: Path, total: int, n: int,
+                       progress: Progress, min_speed: int) -> Path:
+    """Tải n đoạn Range song song thành .vsegN, xong thì ghép thành dest."""
+    bounds = [(i * total // n, (i + 1) * total // n - 1) for i in range(n)]
+    seg_files = [dest.with_name(dest.name + f".vseg{i}") for i in range(n)]
+    seg_len = [end - start + 1 for start, end in bounds]
+    have = []
+    for i, sf in enumerate(seg_files):
+        sz = sf.stat().st_size if sf.exists() else 0
+        if sz > seg_len[i]:  # stale (tổng size lần trước khác) → bỏ
+            sf.unlink()
+            sz = 0
+        have.append(sz)
+
+    abort = threading.Event()
+    errors = []
+
+    def seg_job(i: int) -> None:
+        start, end = bounds[i]
+        if have[i] == seg_len[i]:
+            return
+        try:
+            with requests.get(url,
+                              headers={"Range": f"bytes={start + have[i]}-{end}"},
+                              stream=True, timeout=60) as r:
+                r.raise_for_status()
+                if r.status_code != 206:
+                    raise RuntimeError(
+                        f"server không tôn trọng Range (HTTP {r.status_code})")
+                tid = progress.add_task(f"{dest.name} [{i + 1}/{n}]",
+                                        total=seg_len[i], start=False,
+                                        completed=have[i])
+                progress.start_task(tid)
+                with open(seg_files[i], "ab") as f:
+                    _pump(r, f, tid, progress, min_speed, abort)
+        except Exception as e:
+            errors.append(e)
+            abort.set()
+
+    with ThreadPoolExecutor(max_workers=n) as pool:
+        for i in range(n):
+            pool.submit(seg_job, i)
+    real = [e for e in errors
+            if not (isinstance(e, RuntimeError) and str(e) == "aborted")]
+    if real:
+        raise real[0]  # giữ nguyên .vseg để lần chạy sau resume
+    for i, sf in enumerate(seg_files):
+        if sf.stat().st_size != seg_len[i]:
+            raise RuntimeError(f"segment {i} thiếu dữ liệu "
+                               f"({sf.stat().st_size}/{seg_len[i]} byte)")
+    with open(dest, "wb") as out:
+        for sf in seg_files:
+            with open(sf, "rb") as f:
+                shutil.copyfileobj(f, out, 1 << 20)
+    for sf in seg_files:
+        sf.unlink()
+    return dest
+
+
+def download(url: str, dest_dir: str, progress: Progress, label: str,
+             min_speed: int = 0, conns: int = 4) -> Path:
+    dest = Path(dest_dir) / (label or basename_of(url) or "download.bin")
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    part = dest.with_suffix(dest.suffix + ".part")
+    if part.exists():  # chuẩn cũ: hoàn tất nốt bằng 1 kết nối
+        return _download_single(url, dest, progress, label, min_speed,
+                                resume_from=part.stat().st_size)
+
+    with requests.get(url, headers={"Range": "bytes=0-0"}, stream=True,
+                      timeout=60) as probe:
+        probe.raise_for_status()  # link chết → HTTPError → job() xin server mới
+        cd = probe.headers.get("Content-Disposition", "")
+        cm = re.search(r'filename\*?=(?:UTF-8\'\')?"?([^";]+)"?', cd)
+        if cm and not label:
+            dest = dest.parent / unquote(cm.group(1).strip())
+        total = _content_range_total(probe) if probe.status_code == 206 else 0
+    n = max(1, min(conns, total // SEG_MIN_SIZE)) if total else 1
+    if probe.status_code == 206 and conns > 1 and total >= MIN_SPLIT_SIZE and n >= 2:
+        return _download_segments(url, dest, total, n, progress, min_speed)
+    return _download_single(url, dest, progress, label, min_speed, resume_from=0)
+
+
+# ── Giao diện ───────────────────────────────────────────────────────────────
+def make_table(rows: list) -> Table:
+    t = Table(expand=True)
+    t.add_column("#", justify="right", width=3)
+    t.add_column("Link", ratio=3, overflow="fold")
+    t.add_column("Trạng thái", ratio=2, overflow="fold")
+    for i, r in enumerate(rows, 1):
+        st = r["status"]
+        color = {"done": "green", "skip": "yellow", "fail": "red",
+                 "timeout": "red", "wait": "cyan", "send": "cyan",
+                 "dl": "magenta", "stop": "yellow"}.get(r["kind"], "white")
+        t.add_row(str(i), r["link"][:90], Text(st, style=color))
+    return t
+
+
+def render(rows: list, progress: Progress) -> Group:
+    return Group(make_table(rows), progress)
+
+
+# ── Vòng chính ──────────────────────────────────────────────────────────────
+def find_resume_url(client, user: str, fname: str) -> str:
+    """Tìm URL tải CÒN SỐNG từ tin thành công của mod (link leech là link tạm)."""
+    low = norm_name(fname)
+    cands = []
+    for m in reversed(client.fetch_messages()):
+        if not m["is_mod"] or m["author"] != MOD_NAME:
+            continue
+        if not re.search(r"\b" + re.escape(user) + r"\b", m["text"]):
+            continue
+        for href in m["hrefs"]:
+            if "vnz-leech.com" in href or not href.startswith("http"):
+                continue
+            if ((norm_name(basename_of(href)) == low
+                 or norm_name(extract_fname(m["text"])) == low)
+                    and href not in cands):
+                cands.append(href)
+    for href in cands:  # probe từng cái, chết thì thử cái kế
+        try:
+            pr = requests.get(href, stream=True, timeout=15, allow_redirects=False,
+                              headers={"Range": "bytes=0-1",
+                                       "User-Agent": "Mozilla/5.0"})
+            ok = pr.status_code in (200, 206)
+            pr.close()
+            if ok:
+                return href
+        except requests.RequestException:
+            continue
+    return ""
+
+
+def expand_folder(url: str, depth: int = 2) -> list:
+    """Bung link folder rapidgator: mọi file trong folder + subfolder (hết trang)."""
+    ua = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"}
+    files, folders, page = [], [], url
+    while page:
+        r = requests.get(page, timeout=30, headers=ua)
+        r.raise_for_status()
+        for m in re.finditer(r'href="(/(?:file|folder)/[^"]+\.html)"', r.text):
+            full = "https://rapidgator.net" + m.group(1)
+            if full.rstrip("/") == url.rstrip("/") or full in files or full in folders:
+                continue
+            if "/file/" in full:
+                files.append(full)
+            elif "page=" not in full:
+                folders.append(full)
+        nxt = re.search(r'href="(/folder/[^"]+\.html\?page=\d+)"[^>]*>\s*Next', r.text)
+        page = "https://rapidgator.net" + nxt.group(1) if nxt else None
+    if depth > 1:
+        for f in folders:
+            files += expand_folder(f, depth - 1)
+    seen, out = set(), []
+    for f in files:
+        if f not in seen:
+            seen.add(f)
+            out.append(f)
+    return out
+
+
+def collect_links(args) -> list:
+    links = list(args.links)
+    if args.file:
+        links += [l.strip() for l in Path(args.file).read_text().splitlines()
+                  if l.strip() and not l.strip().startswith("#")]
+    if not links and not sys.stdin.isatty():
+        links += [l.strip() for l in sys.stdin.read().splitlines() if l.strip()]
+    seen, out = set(), []
+
+    def add(u: str) -> None:
+        if u.startswith("http") and u not in seen:
+            seen.add(u)
+            out.append(u)
+
+    for l in links:
+        if not l.startswith("http"):
+            continue
+        if "rapidgator.net/folder/" in l:
+            files = expand_folder(l)
+            console.print(f"[bold]Bộ[/bold] {l}\n  → [cyan]{len(files)}[/cyan] file")
+            for f in files:
+                add(f)
+        else:
+            add(l)
+    return out
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description="VNZ-LEECH auto downloader")
+    ap.add_argument("links", nargs="*", help="link cần leech")
+    ap.add_argument("-f", "--file", help="file chứa list link (1 link/dòng)")
+    ap.add_argument("--user", default=DEFAULT_USER)
+    ap.add_argument("--password", default=DEFAULT_PASSWORD)
+    ap.add_argument("--dir", default=DEFAULT_DIR, help="thư mục lưu file")
+    ap.add_argument("--timeout", type=int, default=600,
+                    help="giây chờ mod mỗi link (mặc định 600)")
+    ap.add_argument("--poll", type=float, default=5.0,
+                    help="chu kỳ poll box (giây, mặc định 5)")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="login + đọc tin rồi thoát, không gửi/tải")
+    ap.add_argument("--max", type=int, default=0,
+                    help="giới hạn số link xử lý sau khi bung bộ (0 = tất cả)")
+    ap.add_argument("--min-speed", type=int, default=0,
+                    help="KB/s tối thiểu; chậm hơn sẽ hủy và gửi lại link xin server mới (0 = tắt)")
+    ap.add_argument("--conns", type=int, default=16,
+                    help="số kết nối song song mỗi file (max kiểu aria2 -x16; 1 = tắt)")
+    ap.add_argument("--jobs", type=int, default=8,
+                    help="số file tải nền đồng thời (mặc định 8)")
+    args = ap.parse_args()
+    if not args.user or not args.password:
+        console.print("[red]Thiếu VNZ_USER / VNZ_PASSWORD[/red] — set trong ~/.custom_environment.sh hoặc dùng --user/--password.")
+        return 2
+    os.makedirs(args.dir, exist_ok=True)
+
+    client = CboxClient(args.user, args.password)
+    console.print("[bold]Đăng nhập cbox[/bold] (name [cyan]{}[/cyan])...".format(args.user))
+    try:
+        client.login()
+    except (requests.RequestException, CboxError) as e:
+        console.print(f"[red]Login lỗi:[/red] {e}")
+        return 2
+    console.print("[green]Đăng nhập OK[/green]" +
+                  (f" (key={'có' if client.key else 'rỗng — sẽ fallback'})"))
+
+    if args.dry_run:
+        msgs = client.fetch_messages()
+        console.print(f"\n[bold]{len(msgs)} tin trên box (5 tin gần nhất):[/bold]")
+        for m in msgs[-5:]:
+            tag = "[magenta]MOD[/magenta]" if m["is_mod"] else "   "
+            console.print(f"  #{m['id']} {tag} [cyan]{m['author']}[/cyan]: {m['text'][:150]}")
+        console.print("\n[bold]Test phân loại tin mod nhắc đến bạn:[/bold]")
+        hits = [m for m in msgs if m["is_mod"] and re.search(r"\b" + re.escape(args.user) + r"\b", m["text"])]
+        for m in hits[-3:]:
+            kind, detail = classify(m, args.user)
+            console.print(f"  #{m['id']} → [bold]{kind}[/bold] {str(detail)[:180]}")
+        if not hits:
+            console.print("  (chưa có tin mod nào nhắc tên bạn để test)")
+        return 0
+
+    links = collect_links(args)
+    if not links:
+        console.print("[red]Không có link nào.[/red]")
+        return 2
+    if args.max and len(links) > args.max:
+        console.print(f"[yellow]--max: xử lý {args.max}/{len(links)} link đầu tiên[/yellow]")
+        links = links[:args.max]
+
+    rows = [{"link": l, "status": "đang chờ", "kind": "wait"} for l in links]
+    progress = Progress(
+        TextColumn("[progress.description]{task.description}"),
+        BarColumn(), TaskProgressColumn(),
+        DownloadColumn(), TransferSpeedColumn(), TimeRemainingColumn(),
+    )
+    baseline = client.max_id()
+    console.print(f"Baseline message id: [cyan]{baseline}[/cyan] — "
+                  f"{len(links)} link, chờ tối đa [cyan]{args.timeout}s[/cyan]/link\n")
+
+    saved, failed, last_quota = [], [], ""
+    executor = ThreadPoolExecutor(max_workers=args.jobs)
+    futures = []
+    stop = {"flag": False}
+    with Live(render(rows, progress), console=console, refresh_per_second=2) as live:
+        def start_download(url: str, fname: str, row: dict, link: str) -> None:
+            def job():
+                err = ""
+                for attempt in range(2):
+                    try:
+                        dest = download(url, args.dir, progress, fname,
+                                        min_speed=args.min_speed,
+                                        conns=args.conns)
+                        row["status"], row["kind"] = f"HOÀN TẤT → {dest}", "done"
+                        saved.append(dest)
+                        return ("done", "")
+                    except requests.HTTPError as e:
+                        return ("retry", f"link hết hạn (download: {e})")
+                    except SlowDownloadError as e:
+                        if args.min_speed > 0:
+                            return ("retry", str(e))  # hủy, xin mod cấp server mới
+                        err = f"download: {e}"
+                        if attempt == 0:
+                            time.sleep(5)  # stall/mạng → thử lại đúng URL cũ 1 lần
+                    except Exception as e:
+                        err = f"download: {e}"
+                        if attempt == 0:
+                            time.sleep(5)
+                row["status"], row["kind"] = f"LỖI tải: {err}", "fail"
+                failed.append((link, err))
+                return ("fail", err)
+            futures.append((executor.submit(job), link))
+
+        def wait_reply(row: dict):
+            """Chờ tin mod trả lời cho link vừa gửi. Trả (kind, detail) hoặc None."""
+            nonlocal baseline
+            t0 = time.time()
+            while time.time() - t0 < args.timeout:
+                row["status"] = f"CHỜ MOD ({int(time.time()-t0)}s)"
+                live.update(render(rows, progress))
+                try:
+                    msgs = [m for m in client.fetch_messages() if m["id"] > baseline]
+                except requests.RequestException:
+                    time.sleep(args.poll)
+                    continue
+                for m in msgs:
+                    kind, detail = classify(m, args.user)
+                    if kind:
+                        baseline = max(baseline, m["id"])
+                        return kind, detail
+                time.sleep(args.poll)
+            return None
+
+        def process(link: str, row: dict) -> None:
+            nonlocal last_quota
+            # 1) check "đã có"/".part" trước khi gửi — tránh tốn quota mod
+            expected = re.sub(r"\.html?$", "", basename_of(link), flags=re.I)
+            if expected:
+                lowmap = {norm_name(p.name): p for p in Path(args.dir).iterdir()}
+                if norm_name(expected) in lowmap:
+                    have = lowmap[norm_name(expected)].name
+                    row["status"], row["kind"] = f"ĐÃ CÓ — bỏ qua ({have})", "skip"
+                    live.update(render(rows, progress))
+                    return
+                part_key = norm_name(expected) + ".part"
+                if part_key in lowmap:
+                    base = lowmap[part_key].name[:-len(".part")]
+                    rurl = find_resume_url(client, args.user, base)
+                    if rurl:
+                        row["status"], row["kind"] = f"TIẾP TỤC .part — {base}", "dl"
+                        live.update(render(rows, progress))
+                        start_download(rurl, base, row, link)
+                        return
+                seg_key = norm_name(expected) + ".vseg"
+                seg_hit = next((p for k, p in lowmap.items()
+                                if k.startswith(seg_key)), None)
+                if seg_hit is not None:
+                    base = re.sub(r"\.vseg\d+$", "", seg_hit.name)
+                    rurl = find_resume_url(client, args.user, base)
+                    if rurl:
+                        row["status"], row["kind"] = f"TIẾP TỤC .vseg — {base}", "dl"
+                        live.update(render(rows, progress))
+                        start_download(rurl, base, row, link)
+                        return
+            # 2) gửi tin
+            row["status"], row["kind"] = "ĐANG GỬI...", "send"
+            live.update(render(rows, progress))
+            try:
+                client.post(link, before_id=baseline)
+            except (requests.RequestException, CboxError) as e:
+                row["status"], row["kind"] = f"LỖI gửi: {e}", "fail"
+                failed.append((link, str(e)))
+                live.update(render(rows, progress))
+                return
+            # 3) chờ mod trả lời
+            result = wait_reply(row)
+            if not result:
+                row["status"], row["kind"] = "HẾT GIỜ chờ mod", "timeout"
+                failed.append((link, "timeout"))
+                live.update(render(rows, progress))
+                return
+            kind, detail = result
+            if kind == "fail":
+                row["status"], row["kind"] = f"LỖI: {detail[:120]}", "fail"
+                failed.append((link, detail))
+                if "sử dụng hết" in detail.lower():
+                    stop["flag"] = True
+                live.update(render(rows, progress))
+                return
+            # 4) giao tải nền — vòng chính chạy tiếp link kế luôn
+            fname = detail["filename"] or expected or basename_of(detail["link"])
+            quota = detail.get("quota", "")
+            if quota:
+                last_quota = quota
+            row["status"], row["kind"] = ("ĐANG TẢI (nền) " + fname
+                                          + (f" (còn lại: {quota})" if quota else "")), "dl"
+            live.update(render(rows, progress))
+            start_download(detail["link"], fname, row, link)
+
+        for idx, link in enumerate(links):
+            if stop["flag"]:
+                rows[idx]["status"], rows[idx]["kind"] = "DỪNG — host hết quota", "stop"
+                live.update(render(rows, progress))
+                continue
+            process(link, rows[idx])
+
+        def drain(collect: bool) -> list:
+            out = []
+            for fut, dlink in futures:
+                kind, why = fut.result()
+                if kind == "retry":
+                    if collect:
+                        out.append(dlink)
+                    else:
+                        r2 = rows[links.index(dlink)]
+                        r2["status"], r2["kind"] = f"LỖI tải: {why}", "fail"
+                        failed.append((dlink, why))
+                    live.update(render(rows, progress))
+            return out
+
+        # link chết (404...) → gửi lại đúng 1 lần; .part cũ vẫn resume được
+        for rlink in drain(True):
+            console.print(f"[yellow]Link hết hạn — gửi lại (mod trừ thêm quota):[/yellow] {rlink}")
+            process(rlink, rows[links.index(rlink)])
+        drain(False)
+
+    # tổng kết
+    console.print("\n[bold]═══ TỔNG KẾT ═══[/bold]")
+    for p in saved:
+        console.print(f"  [green]✓[/green] {p}")
+    for l, why in failed:
+        console.print(f"  [red]✗[/red] {l}\n      └ {why}")
+    n_stop = sum(1 for r in rows if r["kind"] == "stop")
+    console.print(f"\n[green]{len(saved)} file[/green] · "
+                  f"[yellow]{len(rows)-len(saved)-len(failed)-n_stop} đã có sẵn[/yellow] · "
+                  f"[red]{len(failed)} lỗi[/red]"
+                  + (f" · [magenta]{n_stop} dừng (hết quota)[/magenta]" if n_stop else "")
+                  + (f" · [cyan]quota còn lại: {last_quota}[/cyan]" if last_quota else ""))
+    return 1 if failed else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
