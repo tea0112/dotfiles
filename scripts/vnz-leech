@@ -2,7 +2,7 @@
 """vnz-leech — ném link vào chat VNZ-LEECH (cbox), đợi mod, tự tải file về.
 
 Cách dùng:
-    vnz-leech <link1> [link2 ...]        # gửi link, đợi mod, tự tải
+    vnz-leech <link1> [link2 ...]        # gửi link, đời mod, tự tải
     cat links.txt | vnz-leech            # đọc link từ stdin
     vnz-leech -f links.txt               # đọc link từ file
     vnz-leech --dry-run                  # login + đọc tin, không gửi/tải (test)
@@ -12,7 +12,10 @@ import argparse
 import os
 import re
 import shutil
+import signal
+import subprocess
 import sys
+import tempfile
 import threading
 import time
 from pathlib import Path
@@ -49,6 +52,28 @@ FAIL_PATTERNS = ["bị lỗi", "have error", "just only for", "sử dụng hết
 
 MIN_SPLIT_SIZE = 2 * 1024 * 1024    # nhỏ hơn thế: giữ 1 kết nối
 SEG_MIN_SIZE = 1 * 1024 * 1024      # mỗi segment tối thiểu (floor kiểu aria2)
+DEFAULT_MAX_TIME = 1800             # 30 phút / file (Q7: không treo mãi)
+
+# Whitelist ext cho seed registry (Q15) và detect AV (Q2)
+SEED_EXT = {
+    # Video
+    "mp4", "mkv", "webm", "avi", "mov", "flv", "wmv", "m4v",
+    "ts", "mpg", "mpeg", "vob", "3gp",
+    # Audio
+    "mp3", "flac", "wav", "m4a", "aac", "ogg", "opus", "wma",
+    # Archives
+    "zip", "rar", "7z", "tar", "gz", "bz2", "xz",
+    # Disk images
+    "iso", "dmg", "pkg",
+    # Documents
+    "pdf", "epub", "mobi",
+}
+AV_EXT = {
+    "mp4", "mkv", "webm", "avi", "mov", "flv", "wmv", "m4v",
+    "ts", "mpg", "mpeg", "vob", "3gp",
+    "mp3", "flac", "wav", "m4a", "aac", "ogg", "opus", "wma",
+}
+REMUX_EXT = {"mp4", "m4v", "mov"}    # cần ffmpeg sửa moov atom (Q3)
 
 console = Console()
 
@@ -76,6 +101,8 @@ def extract_error(text: str) -> str:
     m = re.search(r"(?:Lỗi|Error)\s*:\s*(.*?)(?:\s*\|\s*(?:Máy chủ|Server)|$)",
                   text, re.IGNORECASE)
     return m.group(1).strip() if m else ""
+
+
 def norm_name(s: str) -> str:
     """Chuẩn hoá tên file để so khớp: '_' và '+' → space, bỏ hoa/thường."""
     return s.lower().replace("_", " ").replace("+", " ").strip()
@@ -84,12 +111,15 @@ def norm_name(s: str) -> str:
 def extract_fname(text: str) -> str:
     """Tên file từ tin thành công: 'VNZ.TEAM | <tên có cả space> (<size>)'."""
     m = re.search(r"VNZ\.TEAM\s*\|?\s*(.+?)\s*\(", text)
-    if not m:
-        return ""
+    return m.group(1).strip() if m else ""
 
 
 class SlowDownloadError(Exception):
     """Tải chậm bất thường dưới ngưỡng --min-speed."""
+
+
+class MaxTimeError(Exception):
+    """Quá thời gian cho phép (--max-time) mà chưa xong."""
 
 
 def extract_quota(text: str) -> str:
@@ -223,6 +253,152 @@ def classify(msg: dict, user: str):
     return None, msg
 
 
+# ── Registry (Q5/Q6): track file đã tải để không tải lại ───────────────────
+class Registry:
+    """File phẳng 1 normalized-name/dòng, có lock cho thread-safe writes.
+
+    So sánh bằng stem (bỏ ext) để match linh hoạt giữa URL .html và file .mp4.
+    """
+
+    def __init__(self, path: Path):
+        self.path = path
+        self.lock = threading.Lock()
+        self._names: set[str] = set()
+        if path.exists():
+            for line in path.read_text(encoding="utf-8").splitlines():
+                line = line.strip()
+                if line:
+                    self._names.add(line)
+
+    @staticmethod
+    def _key(name: str) -> str:
+        """Stem của tên file, đã chuẩn hoá thường + bỏ cuối .ext."""
+        stem = re.sub(r"\.[a-z0-9]+$", "", name, flags=re.I)
+        return stem.lower().strip()
+
+    def has(self, name: str) -> bool:
+        return self._key(name) in self._names
+
+    def add(self, name: str) -> bool:
+        """Trả True nếu thêm mới, False nếu đã có."""
+        key = self._key(name)
+        with self.lock:
+            if key in self._names:
+                return False
+            self._names.add(key)
+            with open(self.path, "a", encoding="utf-8") as f:
+                f.write(key + "\n")
+            return True
+
+    def seed(self, source_dir: Path, min_size: int = 1024 * 1024) -> int:
+        """Seed từ file có sẵn trong source_dir. Chỉ chạy nếu registry chưa tồn tại.
+
+        Filter: file thường (không ẩn), ext trong SEED_EXT, size ≥ min_size.
+        """
+        if self.path.exists():
+            return 0
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        added = 0
+        with self.lock:
+            entries: list[str] = []
+            for p in source_dir.iterdir():
+                if not p.is_file() or p.name.startswith("."):
+                    continue
+                ext = p.suffix.lstrip(".").lower()
+                if ext not in SEED_EXT:
+                    continue
+                try:
+                    if p.stat().st_size < min_size:
+                        continue
+                except OSError:
+                    continue
+                key = self._key(p.name)
+                if key not in self._names:
+                    self._names.add(key)
+                    entries.append(key)
+                    added += 1
+            if entries:
+                with open(self.path, "w", encoding="utf-8") as f:
+                    for k in sorted(entries):
+                        f.write(k + "\n")
+        return added
+
+
+# ── Auto-join (Q3/Q11): join .vseg thành file .partial.<ext> trong args.dir ─
+_MIME_TO_AV_EXT = {
+    "video/mp4": "mp4", "video/x-matroska": "mkv", "video/webm": "webm",
+    "video/x-msvideo": "avi", "video/quicktime": "mov", "video/mpeg": "mpg",
+    "video/3gpp": "3gp",
+    "audio/mpeg": "mp3", "audio/flac": "flac", "audio/x-wav": "wav",
+    "audio/mp4": "m4a", "audio/aac": "aac", "audio/ogg": "ogg",
+    "audio/opus": "opus",
+}
+
+
+def _detect_av_ext(path: Path) -> str | None:
+    """Đoán extension AV qua `file --mime-type`. Trả None nếu không phải AV."""
+    try:
+        r = subprocess.run(["file", "--mime-type", "-b", str(path)],
+                           capture_output=True, text=True, timeout=10)
+        return _MIME_TO_AV_EXT.get(r.stdout.strip())
+    except (subprocess.TimeoutExpired, FileNotFoundError, Exception):
+        return None
+
+
+def auto_join(tmp_dir: Path, dest_dir: Path, key: str) -> Path | None:
+    """Ghép .vseg trong tmp_dir thành dest_dir/<key>.partial.<ext> nếu là AV.
+
+    Trả None nếu không có segment, hoặc ext detect không phải AV
+    (lúc đó salvage_partial sẽ lo cho non-AV).
+    """
+    seg_pat = re.compile(r"\.vseg(\d+)$")
+    segs = sorted(
+        (p for p in tmp_dir.iterdir()
+         if seg_pat.search(p.name) and p.name.startswith(f"{key}.")),
+        key=lambda p: int(seg_pat.search(p.name).group(1)),
+    )
+    if not segs:
+        return None
+
+    # Join ra file tạm trong /tmp để probe ext trước khi ghi vào dest_dir
+    tmp_joined = tmp_dir / f"{key}.joined"
+    with open(tmp_joined, "wb") as out:
+        for seg in segs:
+            with open(seg, "rb") as f:
+                shutil.copyfileobj(f, out, 1 << 20)
+
+    ext = _detect_av_ext(tmp_joined)
+    if not ext:
+        # Không phải AV → để salvage_partial xử lý sau. Giữ segments + tmp_joined.
+        return None
+
+    # Bỏ ext khỏi key để dest name đẹp: movie.mp4 -> movie.partial.mp4
+    stem = re.sub(r"\.[a-z0-9]+$", "", key, flags=re.I)
+    dest = dest_dir / f"{stem}.partial.{ext}"
+    tmp_joined.rename(dest)
+    for seg in segs:
+        seg.unlink()
+
+    # ffmpeg remux cho mp4 family để sửa moov atom (Q3)
+    if ext in REMUX_EXT and shutil.which("ffmpeg"):
+        remuxed = dest_dir / f"{key}.partial.{ext}.remuxed"
+        try:
+            subprocess.run(
+                ["ffmpeg", "-y", "-i", str(dest), "-c", "copy", str(remuxed)],
+                check=True, capture_output=True, timeout=120,
+            )
+            dest.unlink()
+            remuxed.rename(dest)
+            console.print(f"  [green]ffmpeg remux OK[/green]: {dest.name}")
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired, Exception):
+            if remuxed.exists():
+                remuxed.unlink()
+            console.print(
+                f"  [yellow]ffmpeg remux thất bại, giữ file .partial gốc[/yellow]")
+
+    return dest
+
+
 # ── Tải file ────────────────────────────────────────────────────────────────
 def _content_range_total(r: requests.Response) -> int:
     """Tổng size file từ header Content-Range của response 206."""
@@ -231,29 +407,41 @@ def _content_range_total(r: requests.Response) -> int:
 
 
 def _pump(r, f, tid: int, progress: Progress, min_speed: int,
+          file_start: float, max_time: int,
           abort: threading.Event | None = None) -> None:
-    """Đọc stream vào file, cập nhật progress, phát hiện stall 90s/kết nối."""
+    """Đọc stream vào file, cập nhật progress, phát hiện stall 90s/kết nối.
+
+    Q7: skip stall check khi progress > 95% (cuối file chậm là bình thường),
+    đồng thời raise MaxTimeError nếu vượt --max-time.
+    """
     marked_at, got, got_mark = time.time(), 0, 0
     for chunk in r.iter_content(chunk_size=1 << 16):
         if abort is not None and abort.is_set():
             raise RuntimeError("aborted")
+        if max_time > 0 and time.time() - file_start > max_time:
+            raise MaxTimeError(
+                f"quá {max_time}s tải file — auto-join phần đã có")
         f.write(chunk)
         progress.advance(tid, len(chunk))
         got += len(chunk)
-        if time.time() - marked_at > 90:
-            floor = max(256 * 1024, min_speed * 1024 * 90)
-            if got - got_mark < floor:
-                raise SlowDownloadError(
-                    f"tải chậm/stall ({(got - got_mark) // 1024} KB trong 90s "
-                    f"< {min_speed} KB/s) — .part giữ lại để resume")
+        if time.time() - marked_at > 90 and min_speed > 0:
+            task = progress.tasks[tid]
+            if task.total and task.completed / task.total < 0.95:
+                floor = max(256 * 1024, min_speed * 1024 * 90)
+                if got - got_mark < floor:
+                    raise SlowDownloadError(
+                        f"tải chậm/stall ({(got - got_mark) // 1024} KB trong 90s "
+                        f"< {min_speed} KB/s) — .part giữ lại để resume")
             marked_at, got_mark = time.time(), got
 
 
-def _download_single(url: str, dest: Path, progress: Progress, label: str,
-                     min_speed: int, resume_from: int = 0) -> Path:
+def _download_single(url: str, dest: Path, tmp_dir: Path, progress: Progress,
+                     label: str, min_speed: int, max_time: int,
+                     resume_from: int = 0) -> Path:
     """Tải 1 kết nối (behaviour cũ), nối tiếp từ byte resume_from qua .part."""
-    part = dest.with_suffix(dest.suffix + ".part")
+    part = tmp_dir / f"{dest.name}.part"
     headers = {"Range": f"bytes={resume_from}-"} if resume_from else {}
+    file_start = time.time()
     with requests.get(url, headers=headers, stream=True, timeout=60) as r:
         r.raise_for_status()
         mode = "wb"
@@ -268,22 +456,24 @@ def _download_single(url: str, dest: Path, progress: Progress, label: str,
         cm = re.search(r'filename\*?=(?:UTF-8\'\')?"?([^";]+)"?', cd)
         if cm and not label:
             dest = dest.parent / unquote(cm.group(1).strip())
-            part = dest.with_suffix(dest.suffix + ".part")
+            part = tmp_dir / f"{dest.name}.part"
         total = int(total) + start_at if total else None
         tid = progress.add_task(label or dest.name, total=total,
                                 start=False, completed=start_at)
         progress.start_task(tid)
         with open(part, mode) as f:
-            _pump(r, f, tid, progress, min_speed)
+            _pump(r, f, tid, progress, min_speed, file_start, max_time)
     part.rename(dest)
     return dest
 
 
 def _download_segments(url: str, dest: Path, total: int, n: int,
-                       progress: Progress, min_speed: int) -> Path:
-    """Tải n đoạn Range song song thành .vsegN, xong thì ghép thành dest."""
+                       tmp_dir: Path, progress: Progress,
+                       min_speed: int, max_time: int,
+                       abort: threading.Event) -> Path:
+    """Tải n đoạn Range song song thành .vsegN trong tmp_dir, xong thì ghép."""
     bounds = [(i * total // n, (i + 1) * total // n - 1) for i in range(n)]
-    seg_files = [dest.with_name(dest.name + f".vseg{i}") for i in range(n)]
+    seg_files = [tmp_dir / f"{dest.name}.vseg{i}" for i in range(n)]
     seg_len = [end - start + 1 for start, end in bounds]
     have = []
     for i, sf in enumerate(seg_files):
@@ -293,40 +483,65 @@ def _download_segments(url: str, dest: Path, total: int, n: int,
             sz = 0
         have.append(sz)
 
-    abort = threading.Event()
     errors = []
+    file_start = time.time()
+    tid = progress.add_task(dest.name, total=total, start=False,
+                            completed=sum(have))
+    progress.start_task(tid)
 
     def seg_job(i: int) -> None:
         start, end = bounds[i]
-        if have[i] == seg_len[i]:
-            return
-        try:
-            with requests.get(url,
-                              headers={"Range": f"bytes={start + have[i]}-{end}"},
-                              stream=True, timeout=60) as r:
-                r.raise_for_status()
-                if r.status_code != 206:
+        last = None
+        for attempt in range(4):  # 1 lần + 3 retry, mỗi lần resume từ byte đã tải
+            if abort.is_set():
+                return
+            try:
+                have_i = (seg_files[i].stat().st_size
+                          if seg_files[i].exists() else 0)
+                if have_i >= seg_len[i]:
+                    return
+                with requests.get(url,
+                                  headers={"Range": f"bytes={start + have_i}-{end}"},
+                                  stream=True, timeout=60) as r:
+                    r.raise_for_status()
+                    if r.status_code != 206:
+                        raise RuntimeError(
+                            f"server không tôn trọng Range (HTTP {r.status_code})")
+                    with open(seg_files[i], "ab") as f:
+                        _pump(r, f, tid, progress, min_speed,
+                              file_start, max_time, abort)
+                # server có thể trả response "hợp lệ" nhưng thiếu byte
+                # (CL khớp phần gửi) → tự kiểm tra, thiếu thì retry
+                if seg_files[i].stat().st_size < seg_len[i]:
                     raise RuntimeError(
-                        f"server không tôn trọng Range (HTTP {r.status_code})")
-                tid = progress.add_task(f"{dest.name} [{i + 1}/{n}]",
-                                        total=seg_len[i], start=False,
-                                        completed=have[i])
-                progress.start_task(tid)
-                with open(seg_files[i], "ab") as f:
-                    _pump(r, f, tid, progress, min_speed, abort)
-        except Exception as e:
-            errors.append(e)
-            abort.set()
+                        f"segment {i} chưa đủ "
+                        f"({seg_files[i].stat().st_size}/{seg_len[i]} byte)")
+                return
+            except SlowDownloadError as e:
+                errors.append(e)
+                abort.set()
+                return
+            except (MaxTimeError, RuntimeError) as e:
+                if isinstance(e, RuntimeError) and str(e) == "aborted":
+                    return
+                errors.append(e)
+                abort.set()
+                return
+            except Exception as e:
+                last = e
+                time.sleep(2 * (attempt + 1))
+        errors.append(last)
+        abort.set()
 
     with ThreadPoolExecutor(max_workers=n) as pool:
         for i in range(n):
             pool.submit(seg_job, i)
-    real = [e for e in errors
-            if not (isinstance(e, RuntimeError) and str(e) == "aborted")]
-    if real:
-        raise real[0]  # giữ nguyên .vseg để lần chạy sau resume
+    if errors:
+        progress.remove_task(tid)
+        raise errors[0]  # giữ nguyên .vseg để lần chạy sau resume
     for i, sf in enumerate(seg_files):
         if sf.stat().st_size != seg_len[i]:
+            progress.remove_task(tid)
             raise RuntimeError(f"segment {i} thiếu dữ liệu "
                                f"({sf.stat().st_size}/{seg_len[i]} byte)")
     with open(dest, "wb") as out:
@@ -338,13 +553,15 @@ def _download_segments(url: str, dest: Path, total: int, n: int,
     return dest
 
 
-def download(url: str, dest_dir: str, progress: Progress, label: str,
-             min_speed: int = 0, conns: int = 4) -> Path:
+def download(url: str, dest_dir: str, tmp_dir: Path, progress: Progress,
+             label: str, min_speed: int = 0, max_time: int = DEFAULT_MAX_TIME,
+             conns: int = 4, abort: threading.Event | None = None) -> Path:
     dest = Path(dest_dir) / (label or basename_of(url) or "download.bin")
     dest.parent.mkdir(parents=True, exist_ok=True)
-    part = dest.with_suffix(dest.suffix + ".part")
+    part = tmp_dir / f"{dest.name}.part"
     if part.exists():  # chuẩn cũ: hoàn tất nốt bằng 1 kết nối
-        return _download_single(url, dest, progress, label, min_speed,
+        return _download_single(url, dest, tmp_dir, progress, label,
+                                min_speed, max_time,
                                 resume_from=part.stat().st_size)
 
     with requests.get(url, headers={"Range": "bytes=0-0"}, stream=True,
@@ -357,8 +574,10 @@ def download(url: str, dest_dir: str, progress: Progress, label: str,
         total = _content_range_total(probe) if probe.status_code == 206 else 0
     n = max(1, min(conns, total // SEG_MIN_SIZE)) if total else 1
     if probe.status_code == 206 and conns > 1 and total >= MIN_SPLIT_SIZE and n >= 2:
-        return _download_segments(url, dest, total, n, progress, min_speed)
-    return _download_single(url, dest, progress, label, min_speed, resume_from=0)
+        return _download_segments(url, dest, total, n, tmp_dir, progress,
+                                  min_speed, max_time, abort)
+    return _download_single(url, dest, tmp_dir, progress, label,
+                            min_speed, max_time, resume_from=0)
 
 
 # ── Giao diện ───────────────────────────────────────────────────────────────
@@ -402,13 +621,40 @@ def find_resume_url(client, user: str, fname: str) -> str:
             pr = requests.get(href, stream=True, timeout=15, allow_redirects=False,
                               headers={"Range": "bytes=0-1",
                                        "User-Agent": "Mozilla/5.0"})
-            ok = pr.status_code in (200, 206)
+            # URL chết hay trả 200 + trang lỗi nhỏ (CL khai khống) → chỉ nhận
+            # 206 kèm Content-Range: hồi đoạn cần server hỗ trợ Range thật
+            ok = pr.status_code == 206 and pr.headers.get("Content-Range")
             pr.close()
             if ok:
                 return href
         except requests.RequestException:
             continue
     return ""
+
+
+def salvage_partial(tmp_dir: Path, args_dir: Path, expected: str) -> Path | None:
+    """Ghép .vseg trong tmp_dir thành file cuối trong args_dir (cho non-AV).
+
+    Auto-join đã lo AV trước đó; salvage_partial chỉ xử lý non-AV + file
+    không detect được ext.
+    """
+    seg_pat = re.compile(r"\.vseg(\d+)$")
+    key = norm_name(re.sub(r"\.[a-z0-9]+$", "", expected, flags=re.I))
+    segs = sorted(
+        (p for p in tmp_dir.iterdir()
+         if seg_pat.search(p.name) and norm_name(p.name).startswith(key)),
+        key=lambda p: int(seg_pat.search(p.name).group(1)),
+    )
+    if not segs:
+        return None
+    dest = args_dir / expected
+    with open(dest, "wb") as out:
+        for p in segs:
+            with open(p, "rb") as f:
+                shutil.copyfileobj(f, out, 1 << 20)
+    for p in segs:
+        p.unlink()
+    return dest
 
 
 def expand_folder(url: str, depth: int = 2) -> list:
@@ -478,11 +724,14 @@ def main() -> int:
     ap.add_argument("--poll", type=float, default=5.0,
                     help="chu kỳ poll box (giây, mặc định 5)")
     ap.add_argument("--dry-run", action="store_true",
-                    help="login + đọc tin rồi thoát, không gửi/tải")
+                    help="login + đọc tin rồi thoát, không gửi/tải (test)")
     ap.add_argument("--max", type=int, default=0,
                     help="giới hạn số link xử lý sau khi bung bộ (0 = tất cả)")
     ap.add_argument("--min-speed", type=int, default=0,
-                    help="KB/s tối thiểu; chậm hơn sẽ hủy và gửi lại link xin server mới (0 = tắt)")
+                    help="KB/s tối thiểu; chậm hơn sẽ hủy. Mặc định 0 (tắt) — "
+                         "kết hợp --max-time để tránh treo vĩnh viễn")
+    ap.add_argument("--max-time", type=int, default=DEFAULT_MAX_TIME,
+                    help=f"giây tối đa cho mỗi file (mặc định {DEFAULT_MAX_TIME})")
     ap.add_argument("--conns", type=int, default=16,
                     help="số kết nối song song mỗi file (max kiểu aria2 -x16; 1 = tắt)")
     ap.add_argument("--jobs", type=int, default=8,
@@ -493,15 +742,38 @@ def main() -> int:
         return 2
     os.makedirs(args.dir, exist_ok=True)
 
+    # Per-process tmp_dir cho .vseg/.part (Q10). Tự dọn khi script kết thúc.
+    tmp_dir = Path(tempfile.mkdtemp(prefix="vnz-leech-", dir="/tmp"))
+    # SIGINT handler: set stop_event để _pump/seg_job thoát graceful (Q12).
+    stop_event = threading.Event()
+
+    def sigint_handler(signum, frame):
+        if stop_event.is_set():
+            console.print("\n[red]Ctrl-C lần 2 — ép thoát.[/red]")
+            os._exit(1)
+        stop_event.set()
+        console.print("\n[yellow]Đang thoát — auto-join file AV dở... "
+                      "(Ctrl-C lần nữa để cưỡng ép)[/yellow]")
+
+    signal.signal(signal.SIGINT, sigint_handler)
+
     client = CboxClient(args.user, args.password)
     console.print("[bold]Đăng nhập cbox[/bold] (name [cyan]{}[/cyan])...".format(args.user))
     try:
         client.login()
     except (requests.RequestException, CboxError) as e:
         console.print(f"[red]Login lỗi:[/red] {e}")
+        shutil.rmtree(tmp_dir, ignore_errors=True)
         return 2
     console.print("[green]Đăng nhập OK[/green]" +
                   (f" (key={'có' if client.key else 'rỗng — sẽ fallback'})"))
+
+    # Registry: load (hoặc seed nếu chưa có) (Q5/Q6/Q14/Q15)
+    registry = Registry(Path(args.dir) / "vnz-leech-downloaded")
+    seeded = registry.seed(Path(args.dir))
+    if seeded:
+        console.print(f"[cyan]Registry seed {seeded} file từ {args.dir}[/cyan]")
+    console.print(f"[cyan]Registry: {len(registry._names)} file đã tải (track)[/cyan]")
 
     if args.dry_run:
         msgs = client.fetch_messages()
@@ -516,17 +788,20 @@ def main() -> int:
             console.print(f"  #{m['id']} → [bold]{kind}[/bold] {str(detail)[:180]}")
         if not hits:
             console.print("  (chưa có tin mod nào nhắc tên bạn để test)")
+        shutil.rmtree(tmp_dir, ignore_errors=True)
         return 0
 
     links = collect_links(args)
     if not links:
         console.print("[red]Không có link nào.[/red]")
+        shutil.rmtree(tmp_dir, ignore_errors=True)
         return 2
     if args.max and len(links) > args.max:
         console.print(f"[yellow]--max: xử lý {args.max}/{len(links)} link đầu tiên[/yellow]")
         links = links[:args.max]
 
-    rows = [{"link": l, "status": "đang chờ", "kind": "wait"} for l in links]
+    rows = [{"link": l, "status": "đang chờ", "kind": "wait", "_fname": ""}
+            for l in links]
     progress = Progress(
         TextColumn("[progress.description]{task.description}"),
         BarColumn(), TaskProgressColumn(),
@@ -535,6 +810,7 @@ def main() -> int:
     baseline = client.max_id()
     console.print(f"Baseline message id: [cyan]{baseline}[/cyan] — "
                   f"{len(links)} link, chờ tối đa [cyan]{args.timeout}s[/cyan]/link\n")
+    console.print(f"Segments/.part tạm: [cyan]{tmp_dir}[/cyan]\n")
 
     saved, failed, last_quota = [], [], ""
     executor = ThreadPoolExecutor(max_workers=args.jobs)
@@ -542,31 +818,39 @@ def main() -> int:
     stop = {"flag": False}
     with Live(render(rows, progress), console=console, refresh_per_second=2) as live:
         def start_download(url: str, fname: str, row: dict, link: str) -> None:
+            row["_fname"] = fname  # Lưu để auto_join dùng khi fail
             def job():
                 err = ""
-                for attempt in range(2):
+                # Q8: B=0, C=0, D=3 retries với backoff 5/10/15s
+                RETRY_BACKOFF = (5, 10, 15)
+                for attempt in range(len(RETRY_BACKOFF) + 1):
                     try:
-                        dest = download(url, args.dir, progress, fname,
+                        dest = download(url, args.dir, tmp_dir, progress, fname,
                                         min_speed=args.min_speed,
-                                        conns=args.conns)
+                                        max_time=args.max_time,
+                                        conns=args.conns,
+                                        abort=stop_event)
                         row["status"], row["kind"] = f"HOÀN TẤT → {dest}", "done"
                         saved.append(dest)
+                        registry.add(fname)  # Q14: track để lần sau skip
                         return ("done", "")
                     except requests.HTTPError as e:
+                        # B: link hết hạn — không retry, không resend
                         return ("retry", f"link hết hạn (download: {e})")
                     except SlowDownloadError as e:
-                        if args.min_speed > 0:
-                            return ("retry", str(e))  # hủy, xin mod cấp server mới
-                        err = f"download: {e}"
-                        if attempt == 0:
-                            time.sleep(5)  # stall/mạng → thử lại đúng URL cũ 1 lần
+                        # C: stall — không retry same-URL, không resend
+                        return ("retry", str(e))
+                    except MaxTimeError as e:
+                        # max-time hit — không retry, không resend (Q7)
+                        return ("retry", str(e))
                     except Exception as e:
+                        # D: lỗi khác — retry same-URL với backoff
                         err = f"download: {e}"
-                        if attempt == 0:
-                            time.sleep(5)
-                row["status"], row["kind"] = f"LỖI tải: {err}", "fail"
-                failed.append((link, err))
-                return ("fail", err)
+                        if attempt < len(RETRY_BACKOFF):
+                            time.sleep(RETRY_BACKOFF[attempt])
+                            continue
+                        return ("retry", err)
+                return ("retry", err)
             futures.append((executor.submit(job), link))
 
         def wait_reply(row: dict):
@@ -574,6 +858,8 @@ def main() -> int:
             nonlocal baseline
             t0 = time.time()
             while time.time() - t0 < args.timeout:
+                if stop_event.is_set():
+                    return None
                 row["status"] = f"CHỜ MOD ({int(time.time()-t0)}s)"
                 live.update(render(rows, progress))
                 try:
@@ -591,8 +877,14 @@ def main() -> int:
 
         def process(link: str, row: dict) -> None:
             nonlocal last_quota
-            # 1) check "đã có"/".part" trước khi gửi — tránh tốn quota mod
+            # 1) check registry TRƯỚC (Q14) — "đã từng tải" dù file đã xoá
             expected = re.sub(r"\.html?$", "", basename_of(link), flags=re.I)
+            if expected and registry.has(expected):
+                row["status"], row["kind"] = (
+                    "ĐÃ TẢI TRƯỚC ĐÓ (file hiện không có trong dir) — bỏ qua", "skip")
+                live.update(render(rows, progress))
+                return
+            # 2) check file có sẵn / .part / .vseg trong tmp_dir
             if expected:
                 lowmap = {norm_name(p.name): p for p in Path(args.dir).iterdir()}
                 if norm_name(expected) in lowmap:
@@ -609,18 +901,22 @@ def main() -> int:
                         live.update(render(rows, progress))
                         start_download(rurl, base, row, link)
                         return
-                seg_key = norm_name(expected) + ".vseg"
-                seg_hit = next((p for k, p in lowmap.items()
-                                if k.startswith(seg_key)), None)
+                seg_pat = re.compile(r"\.vseg\d+$")
+                seg_hit = next(
+                    (p for p in tmp_dir.iterdir()
+                     if seg_pat.search(p.name)
+                     and norm_name(p.name).startswith(norm_name(expected))),
+                    None,
+                )
                 if seg_hit is not None:
-                    base = re.sub(r"\.vseg\d+$", "", seg_hit.name)
+                    base = seg_pat.sub("", seg_hit.name)
                     rurl = find_resume_url(client, args.user, base)
                     if rurl:
                         row["status"], row["kind"] = f"TIẾP TỤC .vseg — {base}", "dl"
                         live.update(render(rows, progress))
                         start_download(rurl, base, row, link)
                         return
-            # 2) gửi tin
+            # 3) gửi tin
             row["status"], row["kind"] = "ĐANG GỬI...", "send"
             live.update(render(rows, progress))
             try:
@@ -630,7 +926,7 @@ def main() -> int:
                 failed.append((link, str(e)))
                 live.update(render(rows, progress))
                 return
-            # 3) chờ mod trả lời
+            # 4) chờ mod trả lời
             result = wait_reply(row)
             if not result:
                 row["status"], row["kind"] = "HẾT GIỜ chờ mod", "timeout"
@@ -645,7 +941,7 @@ def main() -> int:
                     stop["flag"] = True
                 live.update(render(rows, progress))
                 return
-            # 4) giao tải nền — vòng chính chạy tiếp link kế luôn
+            # 5) giao tải nền — vòng chính chạy tiếp link kế luôn
             fname = detail["filename"] or expected or basename_of(detail["link"])
             quota = detail.get("quota", "")
             if quota:
@@ -662,25 +958,28 @@ def main() -> int:
                 continue
             process(link, rows[idx])
 
-        def drain(collect: bool) -> list:
-            out = []
+        # Q1+Q11: drain jobs, NO RESEND, auto-join cho AV / salvage_partial cho non-AV
+        def handle_failures():
             for fut, dlink in futures:
                 kind, why = fut.result()
-                if kind == "retry":
-                    if collect:
-                        out.append(dlink)
-                    else:
-                        r2 = rows[links.index(dlink)]
-                        r2["status"], r2["kind"] = f"LỖI tải: {why}", "fail"
-                        failed.append((dlink, why))
-                    live.update(render(rows, progress))
-            return out
+                if kind != "retry":
+                    continue
+                row = rows[links.index(dlink)]
+                fname = row.get("_fname", "")
+                # Thử auto-join cho AV trước
+                if fname:
+                    joined = auto_join(tmp_dir, Path(args.dir), fname)
+                    if joined:
+                        row["status"], row["kind"] = (
+                            f"AUTO-JOIN (incomplete): {joined}", "skip")
+                        live.update(render(rows, progress))
+                        continue
+                # Non-AV / không detect được → salvage_partial sẽ lo ở cuối
+                row["status"], row["kind"] = f"LỖI tải: {why}", "fail"
+                failed.append((dlink, why))
+                live.update(render(rows, progress))
 
-        # link chết (404...) → gửi lại đúng 1 lần; .part cũ vẫn resume được
-        for rlink in drain(True):
-            console.print(f"[yellow]Link hết hạn — gửi lại (mod trừ thêm quota):[/yellow] {rlink}")
-            process(rlink, rows[links.index(rlink)])
-        drain(False)
+        handle_failures()
 
     # tổng kết
     console.print("\n[bold]═══ TỔNG KẾT ═══[/bold]")
@@ -688,12 +987,34 @@ def main() -> int:
         console.print(f"  [green]✓[/green] {p}")
     for l, why in failed:
         console.print(f"  [red]✗[/red] {l}\n      └ {why}")
+    # salvage_partial: chỉ non-AV (AV đã auto-join rồi)
+    have_names = {norm_name(p.name) for p in Path(args.dir).iterdir()}
+    for l, why in failed:
+        expected = re.sub(r"\.html?$", "", basename_of(l), flags=re.I)
+        if not expected or norm_name(expected) in have_names:
+            continue
+        # Bỏ qua nếu expected đã là AV (đã auto-join thành .partial.<ext>)
+        ext = expected.rsplit(".", 1)[-1].lower() if "." in expected else ""
+        if ext in AV_EXT:
+            continue
+        sp = salvage_partial(tmp_dir, Path(args.dir), expected)
+        if sp:
+            have_names.add(norm_name(sp.name))
+            console.print(f"  [yellow]⚠[/yellow] {sp} — ghép phần có sẵn "
+                          f"({sp.stat().st_size // (1 << 20)} MB, chưa full)")
     n_stop = sum(1 for r in rows if r["kind"] == "stop")
     console.print(f"\n[green]{len(saved)} file[/green] · "
                   f"[yellow]{len(rows)-len(saved)-len(failed)-n_stop} đã có sẵn[/yellow] · "
                   f"[red]{len(failed)} lỗi[/red]"
                   + (f" · [magenta]{n_stop} dừng (hết quota)[/magenta]" if n_stop else "")
                   + (f" · [cyan]quota còn lại: {last_quota}[/cyan]" if last_quota else ""))
+
+    # Cleanup tmp_dir nếu rỗng (Q10: cleanup-on-success, còn lại để user xem)
+    try:
+        tmp_dir.rmdir()  # chỉ xoá nếu rỗng; raises nếu còn file
+    except OSError:
+        console.print(f"[yellow]Tmp dir còn file (segments chưa join): "
+                      f"{tmp_dir}[/yellow]")
     return 1 if failed else 0
 
 
