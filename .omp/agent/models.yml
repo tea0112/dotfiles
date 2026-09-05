@@ -1,0 +1,43 @@
+providers:
+  netgate:
+    baseUrl: https://netmind.vnpt.vn/gateway/v1
+    apiKey: sk-xxxxxxxxxxxxxxxxxxxxxx   # key nằm trong file — đừng commit/share
+    api: openai-completions
+    models:
+      - id: MiniMax/MiniMax-M3          # chuỗi gửi lên gateway (đã test OK)
+        name: minimax-m3                # tên hiển thị trong /model
+        reasoning: true                 # model trả thinking ở field reasoning_content riêng
+        supportsTools: true             # gateway: supports_function_calling = true
+        input: [text, image]            # gateway: supports_vision = true
+        contextWindow: 600000           # hạ từ 1M để compact sớm: gateway chặn ước lượng >800K tokens/60s
+                                        # (chars/4 + max_tokens) — compact ở 85% = 510K, ước lượng ~705K, an toàn
+        maxTokens: 128000               # gateway: max_output_tokens = 128.000
+        cost:                           # đơn vị $/1M tokens, theo giá gateway khai báo
+          input: 0.3
+          output: 1.2
+          cacheRead: 0.06
+          cacheWrite: 0
+        compat:
+          reasoningContentField: reasoning_content
+      - id: zai-org/GLM-5.3-Flash       # chuỗi gửi lên gateway (đã test OK)
+        name: glm-5.3-flash             # tên hiển thị trong /model
+        reasoning: true                 # trả thinking ở field reasoning_content riêng (đã probe)
+        supportsTools: true             # probe: gọi tool chuẩn OpenAI OK
+        input: [text, image]            # probe: nhận ảnh đầu vào OK
+        contextWindow: 600000           # hạ từ 1M vì rate limit — cùng lý do với MiniMax-M3
+        maxTokens: 131072               # catalog omp: 128K (gateway không khai báo metadata)
+        cost:                           # giá flash Z.ai theo catalog omp ($/1M tokens)
+          input: 0.075
+          output: 0.25
+          cacheRead: 0.015
+          cacheWrite: 0
+        thinking:                       # effort variants giống model mặc định hiện tại của bạn
+          mode: effort
+          efforts: [low, high, max]
+          defaultLevel: max
+        compat:
+          reasoningContentField: reasoning_content
+          supportsReasoningEffort: true # probe: gateway chấp nhận reasoning_effort
+          supportsReasoningParams: true
+          thinkingFormat: openai
+          maxTokensField: max_completion_tokens  # probe: chấp nhận max_completion_tokens
