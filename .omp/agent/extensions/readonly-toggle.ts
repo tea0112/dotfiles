@@ -46,7 +46,7 @@ export default function readonlyToggleExtension(pi: ExtensionAPI) {
 		`^\\s*((powershell|pwsh)(\\.exe)?\\s+(-[a-zA-Z0-9:]+\\s+)*['"]?\\s*(&\\s*\\{\\s*)?)?(` +
 		`git\\s+(status|diff|log|show|branch|remote|tag|rev-parse)|` +
 		`cargo\\s+(check|test)|npm\\s+test|pnpm\\s+test|bun\\s+test|go\\s+test|pytest|tsc(\\s+--noEmit)?|` +
-		`ls|cat|head|tail|wc|grep|find|which|file|ps|uptime|uname|curl|jq|diff|stat|rg|fd|tree|bat|type|dir|echo|printenv|env|less|more|findstr|where|` +
+		`ls|cat|head|tail|wc|grep|sed|awk|find|which|file|ps|uptime|uname|curl|jq|diff|stat|rg|fd|tree|bat|type|dir|echo|printenv|env|less|more|findstr|where|`
 		`${PWSH_READ_CMDS}|${WIN_READ_TOOLS}` +
 		`)\\b`,
 		"i",
@@ -54,7 +54,7 @@ export default function readonlyToggleExtension(pi: ExtensionAPI) {
 
 	// Regex for explicit dangerous bash commands, file mutations, and mutating PowerShell cmdlets
 	const DANGEROUS_BASH_PATTERN =
-		/(\b(rm|mv|cp|mkdir|touch|chmod|chown|unlink|truncate|sed\s+-i|git\s+(commit|push|merge|rebase|reset|checkout\s+-b|restore|clean|stash\s+(drop|pop))|npm\s+(install|i|uninstall|update)|pnpm\s+(add|remove|install)|bun\s+(add|remove|install)|cargo\s+(add|install)|pip\s+install|apt(-get)?\s+install|(Remove|Set|New|Rename|Clear|Reset)-[a-z0-9]+|Stop-Process|Stop-Service|Restart-Service|Restart-Computer|Out-File|del|erase|rd|rmdir|ni|sc|ac|clc|rni|spps)\b|[>]{1,2}|\|\s*tee\b)/i;
+		/(\b(rm|mv|cp|mkdir|touch|chmod|chown|unlink|truncate|sed\s+(-[a-zA-Z]*i|--in-place)|git\s+(commit|push|merge|rebase|reset|checkout\s+-b|restore|clean|stash\s+(drop|pop))|npm\s+(install|i|uninstall|update)|pnpm\s+(add|remove|install)|bun\s+(add|remove|install)|cargo\s+(add|install)|pip\s+install|apt(-get)?\s+install|(Remove|Set|New|Rename|Clear|Reset)-[a-z0-9]+|Stop-Process|Stop-Service|Restart-Service|Restart-Computer|Out-File|del|erase|rd|rmdir|ni|sc|ac|clc|rni|spps)\b|[>]{1,2}|\|\s*tee\b)/i;
 
 	const updateUI = (ctx: ExtensionContext) => {
 		if (isReadOnly) {
