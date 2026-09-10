@@ -46,11 +46,10 @@ export default function readonlyToggleExtension(pi: ExtensionAPI) {
 	const WIN_READ_TOOLS =
 		"tasklist|netstat|ipconfig|systeminfo|whoami|hostname|fc|comp|attrib|reg\\s+query|sc\\s+query|net\\s+(user|localgroup|share|start|view)";
 
-	// Regex for definitely safe bash / powershell / windows commands
 	// Supports direct execution or wrapper: powershell -Command "Get-Process"
 	const SAFE_BASH_PATTERN = new RegExp(
 		`^\\s*((powershell|pwsh)(\\.exe)?\\s+(-[a-zA-Z0-9:]+\\s+)*['"]?\\s*(&\\s*\\{\\s*)?)?(` +
-		`git\\s+(status|diff|log|show|branch|remote|tag|rev-parse)|` +
+		`git\\s+(status|diff|log|show|branch|remote|tag|rev-parse|fetch|ls-remote)|` +
 		`cargo\\s+(check|test)|npm\\s+test|pnpm\\s+test|bun\\s+test|go\\s+test|pytest|tsc(\\s+--noEmit)?|` +
 		`strings|cut|paste|sort|uniq|tr|column|base64|xargs|` +
 		`unzip|zipinfo|jar|tar|` +
