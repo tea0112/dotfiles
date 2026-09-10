@@ -1,7 +1,7 @@
 import type { ExtensionAPI, ExtensionContext, ToolCallEvent } from "@oh-my-pi/pi-coding-agent";
 
 export default function readonlyToggleExtension(pi: ExtensionAPI) {
-	let isReadOnly = false;
+	let isReadOnly = true;
 
 	// Hard blocked write/execute tools in Read-Only mode
 	const BLOCKED_TOOLS: Record<string, true> = {
@@ -32,14 +32,29 @@ export default function readonlyToggleExtension(pi: ExtensionAPI) {
 		"patch",
 	];
 
-	// Regex for definitely safe read-only bash commands
-	// e.g. git status, git diff, git log, ls, cat, head, tail, grep, find, wc, etc.
-	const SAFE_BASH_PATTERN =
-		/^\s*(git\s+(status|diff|log|show|branch|remote|tag|rev-parse)|cargo\s+(check|test)|npm\s+test|pnpm\s+test|bun\s+test|go\s+test|pytest|tsc(\s+--noEmit)?|ls|cat|head|tail|wc|grep|find|which|file|ps|uptime|uname|curl|jq|diff|stat)\b/i;
+	// Safe PowerShell cmdlets & aliases for inspection/reading
+	const PWSH_READ_CMDS =
+		"(Get|Test|Select|Format|Measure|Compare|Sort|Group|Show|Find)-[a-z0-9]+|Out-(String|Host|Null|Default|GridView)|Write-(Output|Host|Information|Verbose)|gc|gci|gi|gp|gcm|gsv|gps|gl|ghy|gal|gmo|gv|gcim|gwmi|sls|ft|fl|fw|pwd|select|measure|compare|sort|group";
 
-	// Regex for explicit dangerous bash commands and file mutations
+	// Safe Windows inspection commands
+	const WIN_READ_TOOLS =
+		"tasklist|netstat|ipconfig|systeminfo|whoami|hostname|fc|comp|attrib|reg\\s+query|sc\\s+query|net\\s+(user|localgroup|share|start|view)";
+
+	// Regex for definitely safe read-only bash / powershell / windows commands
+	// Supports direct execution or wrapper: powershell -Command "Get-Process"
+	const SAFE_BASH_PATTERN = new RegExp(
+		`^\\s*((powershell|pwsh)(\\.exe)?\\s+(-[a-zA-Z0-9:]+\\s+)*['"]?\\s*(&\\s*\\{\\s*)?)?(` +
+		`git\\s+(status|diff|log|show|branch|remote|tag|rev-parse)|` +
+		`cargo\\s+(check|test)|npm\\s+test|pnpm\\s+test|bun\\s+test|go\\s+test|pytest|tsc(\\s+--noEmit)?|` +
+		`ls|cat|head|tail|wc|grep|find|which|file|ps|uptime|uname|curl|jq|diff|stat|rg|fd|tree|bat|type|dir|echo|printenv|env|less|more|findstr|where|` +
+		`${PWSH_READ_CMDS}|${WIN_READ_TOOLS}` +
+		`)\\b`,
+		"i",
+	);
+
+	// Regex for explicit dangerous bash commands, file mutations, and mutating PowerShell cmdlets
 	const DANGEROUS_BASH_PATTERN =
-		/(\b(rm|mv|cp|mkdir|touch|chmod|chown|unlink|truncate|sed\s+-i|git\s+(commit|push|merge|rebase|reset|checkout\s+-b|restore|clean|stash\s+(drop|pop))|npm\s+(install|i|uninstall|update)|pnpm\s+(add|remove|install)|bun\s+(add|remove|install)|cargo\s+(add|install)|pip\s+install|apt(-get)?\s+install)\b|[>]{1,2}|\|\s*tee\b)/i;
+		/(\b(rm|mv|cp|mkdir|touch|chmod|chown|unlink|truncate|sed\s+-i|git\s+(commit|push|merge|rebase|reset|checkout\s+-b|restore|clean|stash\s+(drop|pop))|npm\s+(install|i|uninstall|update)|pnpm\s+(add|remove|install)|bun\s+(add|remove|install)|cargo\s+(add|install)|pip\s+install|apt(-get)?\s+install|(Remove|Set|New|Rename|Clear|Reset)-[a-z0-9]+|Stop-Process|Stop-Service|Restart-Service|Restart-Computer|Out-File|del|erase|rd|rmdir|ni|sc|ac|clc|rni|spps)\b|[>]{1,2}|\|\s*tee\b)/i;
 
 	const updateUI = (ctx: ExtensionContext) => {
 		if (isReadOnly) {
