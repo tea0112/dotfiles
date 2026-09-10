@@ -46,7 +46,7 @@ export default function readonlyToggleExtension(pi: ExtensionAPI) {
 		`^\\s*((powershell|pwsh)(\\.exe)?\\s+(-[a-zA-Z0-9:]+\\s+)*['"]?\\s*(&\\s*\\{\\s*)?)?(` +
 		`git\\s+(status|diff|log|show|branch|remote|tag|rev-parse)|` +
 		`cargo\\s+(check|test)|npm\\s+test|pnpm\\s+test|bun\\s+test|go\\s+test|pytest|tsc(\\s+--noEmit)?|` +
-		`ls|cat|head|tail|wc|grep|sed|awk|find|which|file|ps|uptime|uname|curl|jq|diff|stat|rg|fd|tree|bat|type|dir|echo|printenv|env|less|more|findstr|where|`
+		`ls|cat|head|tail|wc|grep|sed|awk|find|which|file|ps|uptime|uname|curl|jq|diff|stat|rg|fd|tree|bat|type|dir|echo|printenv|env|less|more|findstr|where|` +
 		`${PWSH_READ_CMDS}|${WIN_READ_TOOLS}` +
 		`)\\b`,
 		"i",
