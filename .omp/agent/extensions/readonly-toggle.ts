@@ -4,6 +4,8 @@ import { completeSimple } from "@oh-my-pi/pi-ai";
 
 export default function readonlyToggleExtension(pi: ExtensionAPI) {
 	let isReadOnly = true;
+	const sessionAllowedDockerContainers = new Set<string>();
+
 	const sessionAllowedCommands = new Set<string>();
 	let sessionAllowNewFiles = false;
 
@@ -330,6 +332,7 @@ export default function readonlyToggleExtension(pi: ExtensionAPI) {
 	// 3. Hiển thị trạng thái khi bắt đầu session mới
 	pi.on("session_start", async (_event, ctx) => {
 		sessionAllowedCommands.clear();
+		sessionAllowedDockerContainers.clear();
 		sessionAllowNewFiles = false;
 		if (isReadOnly) {
 			ctx.ui.setStatus("readonly-mode", "🔒 READ-ONLY");
@@ -436,6 +439,11 @@ export default function readonlyToggleExtension(pi: ExtensionAPI) {
 			if (sessionAllowedCommands.has(command) || sessionAllowedCommands.has(coreCommand)) {
 				return;
 			}
+			// docker exec vào 1 container đã duyệt trong session -> cho qua luôn
+			const dockerMatch = command.match(/^docker\s+exec\s+(\S+)\s+/i);
+			if (dockerMatch && sessionAllowedDockerContainers.has(dockerMatch[1])) {
+				return;
+			}
 
 			// Nếu là lệnh an toàn (hỗ trợ pipeline |, chuỗi &&, ;, subshell $(...), unzip, touch, mkdir) -> cho chạy
 			if (isSafeBashCommand(command)) {
@@ -480,6 +488,8 @@ export default function readonlyToggleExtension(pi: ExtensionAPI) {
 				if (choice === "Cho phép trong session này") {
 					sessionAllowedCommands.add(command);
 					if (coreCommand) sessionAllowedCommands.add(coreCommand);
+					const container = command.match(/^docker\s+exec\s+(\S+)\s+/i);
+					if (container) sessionAllowedDockerContainers.add(container[1]);
 					return;
 				}
 				if (choice === "Cho phép 1 lần") {
