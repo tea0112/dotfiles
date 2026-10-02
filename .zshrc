@@ -224,6 +224,7 @@ export BUN_INSTALL="$HOME/.bun"
 export GOPATH=$HOME/go
 
 export PATH=$PATH:~/.local/bin:~/.cargo/bin:$HOME/.local/share/coursier/bin
+export PATH="$PATH:$HOME/.opencode/bin"
 export PATH=$PATH:/usr/sbin
 export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:$HOME/.local/share/nvim/mason/bin

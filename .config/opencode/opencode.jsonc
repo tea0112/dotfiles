@@ -23,37 +23,66 @@
     }
   },
   "providers": {
-     "netgate": {
-       "name": "netGate",
-       "package": "@opencode-ai/ai/providers/openai-compatible",
-       "settings": {
-         "baseURL": "{env:AI_GATEWAY_BASE_URL}", // https://net.vnpt.vn/gateway/v1
-         "apiKey": "{env:AI_GATEWAY_API_KEY}"    // sk-...
-       },
-       "models": {
-         "minimax-m3-custom": {
-           "modelID": "MiniMax/MiniMax-M3",
-           "capabilities": {
-             "tools": true,
-             "input": ["text", "image"],
-             "output": ["text"]
-           },
-           "limit": {
-             "context": 1000000,
-             "output": 65536
-           }
-         }
-       }
+    "netgate": {
+      "name": "netGate",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "http://127.0.0.1:8317/v1", // CLIProxyAPI local — 2 netmind keys, 429 failover
+        "apiKey": "{env:CLIPROXY_ACCESS_KEY}" // proxy access key (access.api-keys trong cliproxyapi config)
+      },
+      "models": {
+        "glm-5.3-flash": {
+          "modelID": "glm-5.3-flash",
+          "name": "GLM 5.3 Flash",
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "limit": {
+            "context": 262144,
+            "output": 65536
+          },
+          "cost": {
+            "input": 0.075,
+            "output": 0.25,
+            "cache": { "read": 0.015, "write": 0 }
+          },
+          "settings": { "reasoningEffort": "max" },
+          "variants": [
+            { "id": "low", "settings": { "reasoningEffort": "low" } },
+            { "id": "high", "settings": { "reasoningEffort": "high" } },
+            { "id": "max", "settings": { "reasoningEffort": "max" } }
+          ],
+          "compatibility": {
+            "reasoningField": "reasoning_content"
+          }
+        },
+        "minimax-m3": {
+          "modelID": "minimax-m3",
+          "name": "MiniMax M3",
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "limit": {
+            "context": 1000000,
+            "output": 65536
+          },
+          "cost": {
+            "input": 0.3,
+            "output": 1.2,
+            "cache": { "read": 0.06, "write": 0 }
+          },
+          "compatibility": {
+            "reasoningField": "reasoning_content"
+          }
+        }
+      }
     }
   },
-  "compaction": {
-    "auto": true,
-    "buffer": 5000,
-    "keep": {
-      "tokens": 600000
-    }
-  },
-  "model": "netgate/minimax-m3-custom",
+  "model": "netgate/glm-5.3-flash",
   "websearch": {
     "provider": "random"
   }
