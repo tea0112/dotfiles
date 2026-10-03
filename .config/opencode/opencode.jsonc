@@ -27,7 +27,7 @@
       "name": "netGate",
       "package": "@opencode/ai/providers/openai-compatible",
       "settings": {
-        "baseURL": "http://127.0.0.1:8318/v1", // SSE normalizer → CLIProxyAPI :8317 (2 netmind keys, 429 failover)
+        "baseURL": "http://127.0.0.1:8317/v1", // CLIProxyAPI local — 2 netmind keys, 429 failover
         "apiKey": "{env:CLIPROXY_ACCESS_KEY}" // proxy access key (access.api-keys trong cliproxyapi config)
       },
       "models": {
